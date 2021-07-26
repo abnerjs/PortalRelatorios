@@ -1,20 +1,17 @@
 import React from 'react'
-import './Canvas.css'
-import Button from '../components/Button'
-import Title from '../components/Title'
-import Input from '../components/Input'
-import Carousel from '../components/Carousel';
-import mobile1 from '../assets/carousel/1-mobile.png'
-import desktop1 from '../assets/carousel/1-desktop.png'
-import mobile2 from '../assets/carousel/2-mobile.png'
-import desktop2 from '../assets/carousel/2-desktop.png'
-import mobile3 from '../assets/carousel/3-mobile.png'
-import desktop3 from '../assets/carousel/3-desktop.png'
+import './Left.css'
+import Carousel from '../../components/Carousel';
+import mobile1 from '../../assets/carousel/1-mobile.png'
+import desktop1 from '../../assets/carousel/1-desktop.png'
+import mobile2 from '../../assets/carousel/2-mobile.png'
+import desktop2 from '../../assets/carousel/2-desktop.png'
+import mobile3 from '../../assets/carousel/3-mobile.png'
+import desktop3 from '../../assets/carousel/3-desktop.png'
+import Title from '../../components/Title'
 
-const Canvas = props => {
+const Left = props => {
     return (
-        <div className="Canvas">
-            <div className="left">
+        <div className="left">
                 <div className="iconified">
                     <svg width="49" height="52" viewBox="0 0 49 52" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M40.1402 0.0815792C40.0943 0.11655 40.0598 0.641115 40.0598 1.23562C40.0598 2.52954 40.255 2.40132 37.9927 2.49457C35.7879 2.57617 34.8577 2.786 32.8825 3.60198C30.8728 4.45294 29.357 5.51373 27.6918 7.23896C26.555 8.43962 25.6707 9.73355 24.9358 11.2956C23.8907 13.4987 23.4773 15.6669 23.5462 18.5346L23.5807 19.9917L26.5205 20.0849C28.3234 20.1316 29.5752 20.1316 29.7474 20.0616C30.0345 19.9567 30.0345 19.9451 30.1034 18.045C30.1723 15.97 30.2986 15.3289 30.8843 14.1399C32.0786 11.7036 33.5485 10.398 36.0979 9.50041C36.9133 9.20898 37.1889 9.17401 38.5095 9.16236L40.0024 9.1507L40.0368 10.2814C40.0598 11.179 40.1057 11.4238 40.2321 11.4238C40.4273 11.4238 40.9555 11.1091 43.0111 9.78018C43.8494 9.24396 45.1356 8.41631 45.8821 7.93838C46.6285 7.4721 47.6391 6.83096 48.1329 6.51623C49.2353 5.80515 49.2583 5.64195 48.3625 5.12905C47.9951 4.91922 47.4438 4.58117 47.1223 4.37134C46.2266 3.77684 40.2895 -1.90735e-05 40.2435 -1.90735e-05C40.2206 -1.90735e-05 40.1746 0.0349522 40.1402 0.0815792Z" fill="#23ACE6" />
@@ -57,23 +54,7 @@ const Canvas = props => {
                     </div>
                 </Carousel>
             </div>
-            <div className="right">
-                <form className="form" action="">
-
-
-                    <Title content="Recuperação de senha" primaryColor />
-                    <p>Insira algum dado em que sua conta esteja associada</p>
-                    <Input secondary placeholder="Matrícula, CPF, CNPJ ou email" />
-                    <Button content="ENVIAR" />
-                    <Button secondary content="CANCELAR" />
-                    <h4 className="hint">
-                        Caso não tenha acesso a essa informação, entre em
-                        contato com um administrador do sistema.
-                    </h4>
-                </form>
-            </div>
-        </div>
     )
 }
 
-export default Canvas;
+export default Left

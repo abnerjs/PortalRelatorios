@@ -3,7 +3,7 @@ import './Input.css'
 
 const Input = props => {
     return (
-        <input type="text" className={`Input ${props.secondary ? ' secondary' : ''}`}
+        <input type={props.type ? props.type : ''} className={`Input ${props.secondary ? ' secondary' : ''}`}
             style={{
                 height: props.height ? props.height : 50 + "px"
             }}

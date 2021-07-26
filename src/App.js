@@ -1,11 +1,13 @@
 import './App.css';
-import { BrowserRouter } from 'react-router';
-import Canvas from './pages/Canvas';
+import { BrowserRouter as Router } from 'react-router-dom';
+import Main from './pages/login/Main';
 
 function App() {
   return (
     <div className="App">
-        <Canvas />
+      <Router>
+        <Main />
+      </Router>
     </div>
   );
 }
