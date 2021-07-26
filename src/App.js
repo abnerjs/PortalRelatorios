@@ -1,9 +1,11 @@
-import logo from './logo.svg';
 import './App.css';
+import { BrowserRouter } from 'react-router';
+import Canvas from './pages/Canvas';
 
 function App() {
   return (
     <div className="App">
+        <Canvas />
     </div>
   );
 }

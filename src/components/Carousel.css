@@ -1,0 +1,68 @@
+.Carousel {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    margin-top: 50px;
+}
+
+.Carousel .item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.Carousel > .item > .images {
+    position: relative;
+    margin-bottom: 50px;
+    height: 35vh;
+    width: 100%;
+}
+
+.Carousel > .item > .images img {
+    filter: drop-shadow(0px 2px 4px rgba(0,0,0,0.25));
+    position: absolute;
+}
+
+.Carousel > .item > .images img:first-child {
+    height: 90%;
+    right: 50%;
+}
+
+.Carousel > .item > .images img:last-child {
+    height: 45%;
+    right: 25%;
+    top: 55%;
+}
+
+.Carousel .item h2 {
+    font-weight: var(--bold);
+    color: #196F94;
+    margin-bottom: 0;
+}
+
+.Carousel .item p {
+    width: 80%;
+    font-weight: var(--semiBold);
+    color: #AAAAAA;
+    height: 80px;
+}
+
+.Carousel .controllers button {
+    height: 3px;
+    background-color: #CCC;
+    border: none;
+    width: 100px;
+    margin: 10px;
+    cursor: pointer;
+    transition: all ease 0.2s;
+}
+
+.Carousel .controllers button.active {
+    background-color: var(--primaryColor);
+}
+
+.Carousel .controllers button:not(.active):hover {
+    background-color: #aaa;
+}

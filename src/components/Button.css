@@ -1,0 +1,17 @@
+.Button {
+    width: 100%;
+    border: none;
+    color: white;
+    font-weight: var(--extraBold);
+    border-radius: 4px;
+    font-size: 16px;
+    margin-top: 10px;
+}
+
+.Button.primary {
+    background-color: var(--primaryColor);
+}
+
+.Button.secondary {
+    background-color: var(--primary50);
+}
