@@ -6,6 +6,7 @@
     border-radius: 4px;
     font-size: 16px;
     margin-top: 10px;
+    cursor: pointer;
 }
 
 .Button.primary {
