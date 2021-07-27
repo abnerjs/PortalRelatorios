@@ -1,15 +1,29 @@
-import './App.css';
-import { BrowserRouter as Router } from 'react-router-dom';
-import Main from './pages/login/Main';
+import './App.css'
+import { BrowserRouter as Router } from 'react-router-dom'
+import Main from './pages/login/Main'
+import { connect } from 'react-redux'
+import Dashboard from './pages/Dashboard'
 
-function App() {
+function whichMain(logged) {
+  return (logged) ? <Dashboard /> : <Main />
+}
+
+const App = props => {
   return (
     <div className="App">
       <Router>
-        <Main />
+        {whichMain(props.logged)}
       </Router>
     </div>
   );
 }
 
-export default App;
+const mapStateToProps = state => {
+  return {
+      logged: state.logged.status,
+  }
+}
+
+export default connect(
+  mapStateToProps
+)(App)

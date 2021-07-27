@@ -1,6 +1,5 @@
-import React, { useState, useEffect, useMemo } from 'react'
+import React, { useState, useEffect } from 'react'
 import './Carousel.css'
-import { CSSTransition } from 'react-transition-group';
 
 
 const Carousel = props => {
