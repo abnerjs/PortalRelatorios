@@ -2,6 +2,10 @@
     font-weight: var(--semiBold);
 }
 
+.Confirmation .VerifyCodeInput {
+    margin-bottom: 10px;
+}
+
 .Confirmation .VerifyCodeInput, .Confirmation .VerifyCodeInput div {
     width: 100% !important;
     border: none;

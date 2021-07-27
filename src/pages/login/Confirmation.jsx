@@ -14,7 +14,7 @@ const Confirmation = props => {
                 <span>r●●●●●●●●@gmail.com</span>
             </div>
             <ReactCodeInput fields={6} className="VerifyCodeInput" autoFocus={true}/>
-            <Button content="CONFIRMAR" />
+            <Link to='/change-password'><Button content="CONFIRMAR" /></Link>
             <Link to='/'><Button secondary content="CANCELAR" /></Link>
             <h4 className="hint">
                 Caso não tenha acesso a esse email, entre em
