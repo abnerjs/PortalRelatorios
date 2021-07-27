@@ -8,7 +8,7 @@ import desktop2 from '../../assets/carousel/2-desktop.png'
 import mobile3 from '../../assets/carousel/3-mobile.png'
 import desktop3 from '../../assets/carousel/3-desktop.png'
 import Title from '../../components/Title'
-import DatamobIcon from '../../assets/carousel/DatamobIcon';
+import DatamobIcon from '../../assets/DatamobIcon'
 
 const Left = props => {
     return (

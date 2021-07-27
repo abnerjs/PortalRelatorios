@@ -1,0 +1,46 @@
+.Menu {
+    background-color: #ECECF6;
+    width: 60px;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.Menu .logo {
+    width: 60px;
+    height: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 40px;
+}
+
+.Menu .links {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-top: 100px;
+}
+
+.menuButton {
+    width: 60px;
+    height: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.menuButton svg {
+    font-size: 25px;
+    color: #AAA;
+}
+
+.menuButton.active {
+    border-right: 2px solid var(--primaryColor);
+    width: 58px;
+}
+
+.menuButton.active svg {
+    color: var(--primaryColor);
+}
