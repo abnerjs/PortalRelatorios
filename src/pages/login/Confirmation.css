@@ -1,3 +1,31 @@
 .Confirmation .recoveryinfo span {
     font-weight: var(--semiBold);
 }
+
+.Confirmation .VerifyCodeInput, .Confirmation .VerifyCodeInput div {
+    width: 100% !important;
+    border: none;
+    display: flex;
+    justify-content: space-between;
+}
+
+.Confirmation .VerifyCodeInput input {
+    width: calc(100% / 6 - 10px) !important;
+    font-family: 'Montserrat', sans-serif !important;
+    color: black !important;
+    font-size: 36px !important;
+    outline: none !important;
+    border: none !important;
+    line-height: 80px !important;
+    border-radius: 0 !important;
+    border-bottom: 3px solid #ccc !important;
+    caret-color: var(--primaryColor) !important;
+}
+
+.Confirmation .VerifyCodeInput input:last-child {
+    margin: 0 !important;
+}
+
+.Confirmation .VerifyCodeInput input:focus {
+    border-bottom: 3px solid var(--primaryColor) !important;
+}

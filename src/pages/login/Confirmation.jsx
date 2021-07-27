@@ -2,7 +2,7 @@ import React from 'react'
 import './Confirmation.css'
 import Button from '../../components/Button'
 import Title from '../../components/Title'
-import VerifyCodeInput from '../../components/VerifyCodeInput'
+import ReactCodeInput from 'react-verification-code-input';
 import { Link } from 'react-router-dom'
 
 const Confirmation = props => {
@@ -13,7 +13,7 @@ const Confirmation = props => {
                 <p>Um código foi enviado para:</p>
                 <span>r●●●●●●●●@gmail.com</span>
             </div>
-            <VerifyCodeInput />
+            <ReactCodeInput fields={6} className="VerifyCodeInput" autoFocus={true}/>
             <Button content="CONFIRMAR" />
             <Link to='/'><Button secondary content="CANCELAR" /></Link>
             <h4 className="hint">
