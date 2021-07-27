@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect, useMemo } from 'react'
 import './Carousel.css'
 import { CSSTransition } from 'react-transition-group';
 
@@ -14,6 +14,13 @@ const Carousel = props => {
             ></button>
         )
     }
+
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            setCarouselIndex((carouselIndex + 1) % 3)
+        }, 7000)
+        return () => clearTimeout(timer)
+    }, [carouselIndex])
 
     return (
         <div className="Carousel">
