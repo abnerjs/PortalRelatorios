@@ -1,0 +1,25 @@
+.VerifyCodeInput {
+    display: flex;
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.VerifyCodeInput input {
+    width: calc((100% / 6) - 10px);
+    height: 50px;
+    font-size: 36px;
+    border: none;
+    border-bottom: 3px solid #ccc;
+    outline: none;
+    margin-right: 10px;
+    text-align: center;
+    transition: all ease 0.2s;
+}
+
+.VerifyCodeInput input:focus {
+    border-bottom: 3px solid var(--primaryColor);
+}
+
+.VerifyCodeInput input:last-child {
+    margin-right: 0;
+}

@@ -4,6 +4,7 @@ import Left from './Left'
 import { Switch, Route } from 'react-router'
 import Login from './Login'
 import Recovery from './Recovery'
+import Confirmation from './Confirmation'
 
 const Canvas = props => {
     return (
@@ -13,6 +14,9 @@ const Canvas = props => {
                 <Switch>
                     <Route path='/recovery'>
                         <Recovery />
+                    </Route>
+                    <Route path='/confirmation'>
+                        <Confirmation />
                     </Route>
                     <Route path='/'>
                         <Login />
