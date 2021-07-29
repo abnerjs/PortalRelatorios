@@ -2,7 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import DatamobIcon from '../assets/DatamobIcon'
 import './Menu.css'
-import { InlineIcon as Icon } from '@iconify/react';
+import { Icon } from '@iconify/react';
 
 const Menu = props => {
     return (

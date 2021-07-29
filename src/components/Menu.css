@@ -43,10 +43,12 @@
 
 .menuButton.active svg {
     color: var(--primaryColor);
+    margin-left: 2px;
 }
 
 .menuButton:hover:not(.active) svg{
     color: var(--primary50);
+    margin-left: 2px;
 }
 
 .menuButton:hover:not(.active) {
