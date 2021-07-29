@@ -44,3 +44,16 @@
 .menuButton.active svg {
     color: var(--primaryColor);
 }
+
+.menuButton:hover:not(.active) svg{
+    color: var(--primary50);
+}
+
+.menuButton:hover:not(.active) {
+    border-right: 2px solid var(--primary50);
+    width: 58px;
+}
+
+.menuButton:hover {
+    cursor: pointer;
+}
