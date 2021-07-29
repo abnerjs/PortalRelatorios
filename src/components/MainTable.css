@@ -1,0 +1,10 @@
+.MainTable {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.row .MainTable:first-child {
+    margin-right: 50px;
+}

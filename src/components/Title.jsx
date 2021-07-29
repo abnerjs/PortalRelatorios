@@ -3,7 +3,7 @@ import './Title.css'
 
 const Title = props => {
     return (
-        <div className={`Title ${props.primaryColor ? 'primary' : ''}`}>
+        <div className={`Title${props.primaryColor ? ' primary' : ''}${props.subsection ? ' subsection' : ''}`}>
             {props.content}
         </div>
     )

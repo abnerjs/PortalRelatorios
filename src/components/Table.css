@@ -1,0 +1,45 @@
+.Table {
+    width: 100%;
+    height: 100%;
+    margin-top: 20px;
+    flex: 1;
+    overflow: auto;
+    max-height: calc(100vh - 375px);
+}
+
+.Table .row {
+    width: 100%;
+    display: flex;
+    height: 40px;
+    margin: 0;
+    border-radius: 8px;
+}
+
+.Table .row:hover {
+    background-color: #e5e5e5;
+}
+
+.Table .row .textual {
+    flex: 1;
+    display: flex;
+    font-size: 12px;
+    margin-left: 20px;
+}
+
+.Table .row .textual .regname {
+    flex: 1;
+}
+
+.Table .row button.reg {
+    background-color: var(--primaryColor);
+    border: none;
+    cursor: pointer;
+    height: 20px;
+    width: 100px;
+    margin-left: 20px;
+    margin-right: 20px;
+    color: white;
+    font-weight: var(--semiBold);
+    border-radius: 8px;
+}
+

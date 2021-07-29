@@ -1,6 +1,38 @@
 .Dashboard {
     width: 100%;
     height: 100%;
-    min-height: 100vh;
     background-color: var(--bgColor);
+    display: flex;
+}
+
+.Dashboard .content {
+    margin: 40px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.Dashboard .row {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.Dashboard .cards {
+    display: flex;
+}
+
+.Dashboard .cards > div:not(:last-child) {
+    margin-right: 10px;
+}
+
+.Dashboard .row .comp {
+    flex: 1;
+    text-align: right;
+}
+
+.Dashboard .tables {
+    flex: 1;
+    align-items: flex-start;
 }

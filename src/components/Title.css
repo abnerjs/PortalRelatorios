@@ -8,3 +8,7 @@
 .Title.primary {
     color: var(--primaryColor)
 }
+
+.Title.subsection {
+    font-size: 20px;
+}
