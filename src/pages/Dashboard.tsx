@@ -7,7 +7,7 @@ import Subtitle from '../components/Subtitle'
 import Title from '../components/Title'
 import './Dashboard.css'
 
-const Dashboard = props => {
+const Dashboard = () => {
     return (
         <div className="Dashboard">
             <Menu />

@@ -4,11 +4,11 @@ import Main from './pages/login/Main'
 import { connect } from 'react-redux'
 import Dashboard from './pages/Dashboard'
 
-function whichMain(logged) {
+function whichMain(logged: boolean) {
   return (logged) ? <Dashboard /> : <Main />
 }
 
-const App = props => {
+const App: React.FC = (props: any) => {
   return (
     <div className="App">
       <Router>
@@ -18,7 +18,7 @@ const App = props => {
   );
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state: any) => {
   return {
       logged: state.logged.status,
   }
