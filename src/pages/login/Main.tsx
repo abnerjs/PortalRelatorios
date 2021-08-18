@@ -7,7 +7,7 @@ import Recovery from './Recovery'
 import Confirmation from './Confirmation'
 import NewPassword from './NewPassword'
 
-const Canvas = props => {
+const Canvas: React.FC = (props: any) => {
     return (
         <div className="Canvas">
             <Left/>

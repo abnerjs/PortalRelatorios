@@ -6,7 +6,7 @@ import Input from '../../components/Input'
 import Checkbox from '../../components/Checkbox'
 import { Link } from 'react-router-dom'
 
-const Login = props => {
+const Login: React.FC = (props: any) => {
     return (
         <form className="form Login" action="">
             <Title content="Acessar" primaryColor />

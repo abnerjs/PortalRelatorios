@@ -5,7 +5,7 @@ import Title from '../../components/Title'
 import Input from '../../components/Input'
 import { Link } from 'react-router-dom'
 
-const NewPassword = props => {
+const NewPassword: React.FC = (props: any) => {
     return (
         <form className="form NewPassword" action="">
             <Title content="Recuperação de senha" primaryColor />

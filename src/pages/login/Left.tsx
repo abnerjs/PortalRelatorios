@@ -10,7 +10,7 @@ import desktop3 from '../../assets/carousel/3-desktop.png'
 import Title from '../../components/Title'
 import DatamobIcon from '../../assets/DatamobIcon'
 
-const Left = props => {
+const Left: React.FC = (props: any) => {
     return (
         <div className="left">
                 <div className="iconified">

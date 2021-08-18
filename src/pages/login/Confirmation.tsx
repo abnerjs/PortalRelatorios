@@ -5,7 +5,7 @@ import Title from '../../components/Title'
 import ReactCodeInput from 'react-verification-code-input';
 import { Link } from 'react-router-dom'
 
-const Confirmation = props => {
+const Confirmation: React.FC = (props: any) => {
     return (
         <form className="form Confirmation" action="">
             <Title content="Recuperação de senha" primaryColor />
