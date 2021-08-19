@@ -1,7 +1,13 @@
 import React from 'react'
 import './Button.css'
 
-const Button = props => {
+type Props = {
+    secondary?: any,
+    height?: number,
+    content?: string
+}
+
+const Button = (props: Props) => {
     return (
         <button className={`Button ${props.secondary ? "secondary" : "primary"}`}
             style={{

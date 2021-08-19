@@ -14,7 +14,7 @@ const Left: React.FC = (props: any) => {
     return (
         <div className="left">
                 <div className="iconified">
-                    <DatamobIcon width='49' height='52' />
+                    <DatamobIcon width={49} height={52} />
                     <Title content="PORTAL DE RELATÓRIOS" primaryColor />
                 </div>
                 <Carousel>

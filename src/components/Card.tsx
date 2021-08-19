@@ -2,7 +2,7 @@ import React from 'react'
 import './Card.css'
 import { Icon } from '@iconify/react';
 
-const Card = props => {
+const Card = (props: {date: string, reg: string}) => {
     return (
         <div className="Card">
             <Icon icon="fluent:document-bullet-list-20-regular" />

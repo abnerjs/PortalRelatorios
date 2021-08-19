@@ -1,12 +1,15 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect} from 'react'
 import './Carousel.css'
 
+type Props = {
+    children: React.ReactChild[];
+}
 
-const Carousel = props => {
+const Carousel: React.FC<Props> = ({children}: Props) => {
     const [carouselIndex, setCarouselIndex] = useState(0)
 
     var arr = []
-    for (let i = 0; i < props.children.length; i++) {
+    for (let i = 0; i < children.length; i++) {
         arr.push(
             <button className={`controller${carouselIndex === i ? ' active' : ''}`}
                 onClick={() => setCarouselIndex(i)}
@@ -23,7 +26,7 @@ const Carousel = props => {
 
     return (
         <div className="Carousel">
-            {props.children[carouselIndex]}
+            {children[carouselIndex]}
             <div className="controllers">
                 {arr}
             </div>
