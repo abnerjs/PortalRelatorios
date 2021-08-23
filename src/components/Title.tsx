@@ -2,9 +2,9 @@ import React from 'react'
 import './Title.css'
 
 type Props = {
-    primaryColor?: any
-    subsection?: any
-    content?: string
+    primaryColor?: any;
+    subsection?: any;
+    content?: string;
 }
 
 const Title = (props: Props) => {

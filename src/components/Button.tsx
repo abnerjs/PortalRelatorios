@@ -2,9 +2,9 @@ import React from 'react'
 import './Button.css'
 
 type Props = {
-    secondary?: any,
-    height?: number,
-    content?: string
+    secondary?: any;
+    height?: number;
+    content?: string;
 }
 
 const Button = (props: Props) => {

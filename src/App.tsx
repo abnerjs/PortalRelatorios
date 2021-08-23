@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 import Dashboard from './pages/Dashboard'
 
 function whichMain(logged: boolean) {
-  return (logged) ? <Dashboard /> : <Main />
+  return (logged) ? <Dashboard /> : <Main />;
 }
 
 const App: React.FC = (props: any) => {

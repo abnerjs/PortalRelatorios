@@ -2,7 +2,7 @@ import React from 'react'
 import './Table.css'
 
 function rows(numrows: number) {
-    let arr = []
+    let arr = [];
     for (let index = 0; index < numrows; index++) {
         arr.push(
             <div className="row">
@@ -18,7 +18,7 @@ function rows(numrows: number) {
                     ABRIR
                 </button>
             </div>
-        )
+        );
     }
 
     return arr

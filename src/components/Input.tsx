@@ -2,16 +2,16 @@ import React from 'react'
 import './Input.css'
 
 type Props = {
-    type?: string
-    secondary?: any
-    error?: any
-    height?: number
-    placeholder?: string
+    type?: string;
+    secondary?: any;
+    error?: any;
+    height?: number;
+    placeholder?: string;
 }
 
 const Input = (props: Props) => {
     const handleFocus = (e: React.ChangeEvent<HTMLInputElement>) => {
-        e.target.classList.remove("error")
+        e.target.classList.remove("error");
     }
 
     return (
