@@ -1,8 +1,8 @@
 import React from 'react'
 
 type Props = {
-    width: number,
-    height: number
+    width?: number,
+    height?: number
 }
 
 const DatamobIcon = (props: Props) => {

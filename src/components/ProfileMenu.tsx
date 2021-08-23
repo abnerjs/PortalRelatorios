@@ -2,7 +2,7 @@ import React from 'react'
 import './ProfileMenu.css'
 import { Icon } from '@iconify/react';
 
-const ProfileMenu = props => {
+const ProfileMenu = () => {
     return (
         <div className="ProfileMenu">
             <div className="image">

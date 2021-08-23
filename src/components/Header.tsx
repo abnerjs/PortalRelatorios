@@ -1,13 +1,13 @@
 import React from 'react'
 import './Header.css'
-import Title from '../components/Title'
-import Subtitle from '../components/Subtitle'
+import Title from './Title'
+import Subtitle from './Subtitle'
 import ProfileMenu from './ProfileMenu'
 
-const Header = props => {
+const Header = (props: {title: any}) => {
     return (
         <div className="Header">
-            <Title content="Início" />
+            <Title content={props.title} />
             <div className="right">
                 <div className="acesso">
                     <Subtitle content="Último acesso" />

@@ -1,7 +1,7 @@
 import React from 'react'
 import './Table.css'
 
-function rows(numrows) {
+function rows(numrows: number) {
     let arr = []
     for (let index = 0; index < numrows; index++) {
         arr.push(
@@ -24,7 +24,7 @@ function rows(numrows) {
     return arr
 }
 
-const Table = props => {
+const Table = () => {
     return (
         <div className="Table">
             {rows(25)}

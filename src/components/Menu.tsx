@@ -4,7 +4,7 @@ import DatamobIcon from '../assets/DatamobIcon'
 import './Menu.css'
 import { Icon } from '@iconify/react';
 
-const Menu = props => {
+const Menu = () => {
     return (
         <div className="Menu">
             <Link to='/'>

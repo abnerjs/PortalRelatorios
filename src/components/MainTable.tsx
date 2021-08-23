@@ -4,7 +4,7 @@ import Subtitle from './Subtitle'
 import Table from './Table'
 import Title from './Title'
 
-const MainTable = props => {
+const MainTable = (props: {title: string}) => {
     return (
         <div className="MainTable">
             <Title subsection content={props.title} />
