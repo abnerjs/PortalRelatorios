@@ -24,3 +24,9 @@
     border: 2px dashed var(--primary50);
     color: var(--primary50);
 }
+
+.CRUDButton.active {
+    border: none;
+    background-color: var(--primaryColor);
+    color: white;
+}
