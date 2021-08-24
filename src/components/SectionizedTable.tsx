@@ -1,5 +1,6 @@
 import { Icon } from '@iconify/react';
 import React, { useState } from 'react'
+import CRUDButton from './CRUDButton';
 import Input from './Input';
 import './SectionizedTable.css'
 
@@ -20,6 +21,7 @@ const SectionizedTable = () => {
                 <Input placeholder={tipoUsuario === 'interno'? 'Nome, matrícula ou e-mail' : 'Nome, CPF, CPNJ ou e-mail'} iconified />
                 <Icon icon="fluent:search-12-regular" width={25} className="icon" />
             </div>
+            <CRUDButton content="novo usuário" />
         </div>
     );
 }

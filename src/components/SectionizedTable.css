@@ -54,14 +54,14 @@
 }
 
 .SectionizedTable .search {
-    width: 550px;
+    width: 500px;
     margin: 0 20px;
 }
 
 .SectionizedTable .search .icon {
     position: absolute;
-    margin-top: -47px;
-    margin-left: 12px;
+    margin-top: 22px;
+    margin-left: -488px;
     color: #aaa;
     transition: all ease 0.3s;
 }

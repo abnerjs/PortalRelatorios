@@ -20,7 +20,8 @@ const Input = (props: Props) => {
             className={`Input${props.secondary ? ' secondary' : ''}${props.error ? ' error' : ''}`}
             style={{
                 height: props.height ? props.height : 50 + "px",
-                padding: props.iconified ? '0 25px 0 45px' : '0 25px'
+                padding: props.iconified ? '0 25px 0 45px' : '0 25px',
+                width: props.iconified ? 'calc(100% - 70px)' : 'calc(100% - 50px)'
             }}
             placeholder={props.placeholder}
             onFocus={handleFocus}

@@ -1,0 +1,26 @@
+.CRUDButton {
+    height: 40px;
+    width: 500px;
+    margin: 0 20px;
+    border: 2px dashed #aaa;
+    border-radius: 4px;
+    color: #AAA;
+    text-transform: uppercase;
+    font-family: 'Montserrat';
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: transparent;
+    transition: all ease 0.3s;
+    cursor: pointer;
+}
+
+.CRUDButton .icon {
+    margin-right: 10px;
+}
+
+.CRUDButton:hover:not(.active) {
+    border: 2px dashed var(--primary50);
+    color: var(--primary50);
+}
