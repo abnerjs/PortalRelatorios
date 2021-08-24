@@ -12,9 +12,10 @@
     flex-direction: column;
 }
 
-.Usuarios .row {
+.Usuarios .content > .row {
     width: 100%;
+    height: calc(100% - 80px);
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     margin-top: 20px;
 }
