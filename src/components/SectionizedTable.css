@@ -1,0 +1,61 @@
+.SectionizedTable {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    /*align-items: center;*/
+}
+
+.SectionizedTable .tabs {
+    width: 350px;
+    height: 40px;
+    display: flex;
+    border-bottom: 2px solid #CCCCCC;
+    cursor: pointer;
+}
+
+.SectionizedTable .tabs .option {
+    width: 50%;
+    text-align: center;
+    line-height: 40px;
+    font-size: 14pt;
+    color: #aaa;
+}
+
+.SectionizedTable .tabs .option::selection {
+    background: none;
+}
+
+.SectionizedTable .tabs .option.active {
+    color: var(--primaryColor);
+}
+
+.SectionizedTable .tabs .selector {
+    height: 2px;
+    width: 175px;
+    background-color: var(--primaryColor);
+    position: absolute;
+    margin-top: 40px;
+    transition: all ease 0.4s;
+}
+
+.SectionizedTable .tabs .selector.active {
+    margin-left: 175px;
+}
+
+.SectionizedTable .search {
+    width: 550px;
+    margin: 0 20px;
+}
+
+.SectionizedTable .search .icon {
+    position: absolute;
+    margin-top: -47px;
+    margin-left: 12px;
+    color: #aaa;
+    transition: all ease 0.3s;
+}
+
+.SectionizedTable .search .Input:focus ~ .icon {
+    color: var(--primaryColor) !important;
+}

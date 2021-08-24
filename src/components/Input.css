@@ -7,6 +7,15 @@
     outline: none;
     margin: 10px 0;
     font-family: 'Montserrat', sans-serif;
+    transition: all ease 0.3s;
+}
+
+.Input::placeholder {
+    color: #aaa;
+}
+
+.Input:focus::placeholder {
+    color: var(--primaryColor);
 }
 
 .Input.error::placeholder {

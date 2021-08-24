@@ -2,7 +2,6 @@ import React from 'react'
 import Card from '../components/Card'
 import Header from '../components/Header'
 import MainTable from '../components/MainTable'
-import Menu from '../components/Menu'
 import Subtitle from '../components/Subtitle'
 import Title from '../components/Title'
 import './Dashboard.css'
@@ -10,7 +9,6 @@ import './Dashboard.css'
 const Dashboard = () => {
     return (
         <div className="Dashboard">
-            <Menu />
             <div className="content">
                 <div className="head">
                     <Header title="Início" />

@@ -2,10 +2,10 @@ import './App.css'
 import { BrowserRouter as Router } from 'react-router-dom'
 import Main from './pages/login/Main'
 import { connect } from 'react-redux'
-import Dashboard from './pages/Dashboard'
+import {default as MainHome} from './pages/Main'
 
 function whichMain(logged: boolean) {
-  return (logged) ? <Dashboard /> : <Main />;
+  return (logged) ? <MainHome /> : <Main />;
 }
 
 const App: React.FC = (props: any) => {
