@@ -18,6 +18,11 @@
     justify-content: center;
 }
 
+.ProfileMenu .collapseToggle {
+    display: flex;
+    align-items: center;
+}
+
 .ProfileMenu div.image::before {
     content: "MC";
 }
@@ -31,14 +36,17 @@
     border-radius: 16px;
     background-color: white;
     display: flex;
-    display: none;
+    visibility: hidden;
+    opacity: 0;
     flex-direction: column; 
     align-items: center;
     justify-content: center;
+    transition: all ease 0.2s;
 }
 
 .ProfileMenu .menuCollapse.active {
-    display: flex;
+    visibility: visible;
+    opacity: 1;
 }
 
 .ProfileMenu .menuCollapse div {
@@ -46,12 +54,17 @@
     display: flex;
     align-items: center;
     font-weight: var(--medium);
+    font-size: 10pt;
     width: 100%;
 }
 
 .ProfileMenu .menuCollapse div.item p {
     width: 100%;
     text-align: center;
+}
+
+.ProfileMenu .menuCollapse div.item p::selection {
+    background: none;
 }
 
 .ProfileMenu .menuCollapse div.item:last-child p {

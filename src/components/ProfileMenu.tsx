@@ -1,21 +1,33 @@
-import React from 'react'
-import './ProfileMenu.css'
-import { Icon } from '@iconify/react';
+import React, { useRef, useState } from "react";
+import "./ProfileMenu.css";
+import { Icon } from "@iconify/react";
+import useOutsideClick from "src/hooks/useOutsideClick";
 
 const ProfileMenu = () => {
-    return (
-        <div className="ProfileMenu">
-            <div className="image">
+  const [collapsed, setCollapsed] = useState(false);
+  const ref = useRef(null);
 
-            </div>
-            <Icon icon="fluent:chevron-down-20-filled" />
+  useOutsideClick(ref, () => {
+      setCollapsed(false);
+  });
 
-            <div className="menuCollapse">
-                <div className="item"><p>MEU PERFIL</p></div>
-                <div className="item"><p>SAIR</p></div>
-            </div>
+  return (
+    <div className="ProfileMenu" ref={ref}>
+      <div className="collapseToggle" onClick={() => setCollapsed(!collapsed)}>
+        <div className="image"></div>
+        <Icon icon="fluent:chevron-down-20-filled" />
+      </div>
+
+      <div className={`menuCollapse${collapsed ? " active" : ""}`}>
+        <div className="item">
+          <p>MEU PERFIL</p>
         </div>
-    )
-}
+        <div className="item">
+          <p>SAIR</p>
+        </div>
+      </div>
+    </div>
+  );
+};
 
-export default ProfileMenu
+export default ProfileMenu;
