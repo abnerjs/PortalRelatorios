@@ -20,6 +20,7 @@
     line-height: 40px;
     font-size: 14pt;
     color: #aaa;
+    transition: color ease 0.3s;
 }
 
 .SectionizedTable .tabs .option::selection {
@@ -28,6 +29,10 @@
 
 .SectionizedTable .tabs .option.active {
     color: var(--primaryColor);
+}
+
+.SectionizedTable .tabs .option:hover:not(.active) {
+    color: var(--primary50);
 }
 
 .SectionizedTable .tabs .selector {
@@ -41,6 +46,11 @@
 
 .SectionizedTable .tabs .selector.active {
     margin-left: 175px;
+}
+
+.SectionizedTable .tabs .option:hover:not(.active) {
+    border-bottom: 2px solid var(--primary50);
+    margin-bottom: -2px;
 }
 
 .SectionizedTable .search {

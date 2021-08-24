@@ -17,7 +17,7 @@ const SectionizedTable = () => {
                 <div className={`selector${tipoUsuario === 'externo'? ' active' : ''}`}></div>
             </div>
             <div className="search">
-                <Input placeholder={tipoUsuario === 'interno'? 'Nome, matrícula ou email' : 'Nome, CPF, CPNJ ou e-mail'} iconified />
+                <Input placeholder={tipoUsuario === 'interno'? 'Nome, matrícula ou e-mail' : 'Nome, CPF, CPNJ ou e-mail'} iconified />
                 <Icon icon="fluent:search-12-regular" width={25} className="icon" />
             </div>
         </div>
