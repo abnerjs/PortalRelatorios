@@ -1,10 +1,26 @@
 import { Icon } from "@iconify/react";
-import React from "react";
+import React, { useState } from "react";
 import Button from "./Button";
 import "./FormUser.css";
 import Input from "./Input";
 
+function getInitialsFromName(s: string) {
+    console.log(s)
+    var arr: string[];
+    arr = s.trim().split(' ');
+    var aux: string = '';
+    aux += arr[0].charAt(0);
+    
+
+    if(arr.length > 1)
+        aux += arr[arr.length - 1].charAt(0);
+    
+    return aux;
+}
+
 const FormUser = () => {
+    const [initial, setInitial] = useState('')
+
     return (
         <form className="FormUser">
             <div className="sectionImage">
@@ -20,7 +36,7 @@ const FormUser = () => {
                                 }}
                             ></div>
                         */}
-                        <div className="initial">RL</div>
+                        <div className={`initial${initial !== '' ? ' active':''}`}>{initial}</div>
                         <Icon
                             icon="fluent:person-16-filled"
                             width={120}
@@ -29,7 +45,9 @@ const FormUser = () => {
                     </div>
                 </div>
                 <div className="inputs">
-                    <Input placeholder="Nome" />
+                    <Input placeholder="Nome"
+                        onchange={(e: any) => {setInitial(getInitialsFromName(e.target.value))}}
+                    />
                     <Input placeholder="Matrícula" />
                 </div>
             </div>

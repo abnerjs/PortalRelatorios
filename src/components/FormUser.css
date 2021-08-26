@@ -13,7 +13,7 @@
     border-radius: 50%;
     background-color: #E5E5E5;
     transition: all ease 0.2s;
-    cursor: pointer;
+    /*cursor: pointer;*/
     overflow: hidden;
     display: flex;
     align-items: center;
@@ -38,7 +38,7 @@
 }
 
 .FormUser .sectionImage .image .img .initial {
-    width: 120px;
+    width: 120px !important;
     height: 120px;
     display: flex;
     align-items: center;
@@ -50,6 +50,7 @@
     transition: opacity ease 0.2s;
     opacity: 0;
     margin-left: -120px;
+    text-transform: uppercase;
 }
 
 .FormUser .sectionImage .image .img .initial.active {
@@ -68,9 +69,9 @@
     display: flex;
 }
 
-.FormUser .sectionImage .image:hover .img {
+/*.FormUser .sectionImage .image:hover .img {
     filter: brightness(60%);
-}
+}*/
 
 .FormUser .sectionImage .image:hover svg {
     /*display: none;*/
@@ -88,9 +89,9 @@
     color: white;
 }
 
-.FormUser .sectionImage .image .text::after {
+/*.FormUser .sectionImage .image .text::after {
     content: 'Selecione uma imagem';
-}
+}*/
 
 .FormUser .sectionImage .image:hover .text {
     opacity: 1;

@@ -8,6 +8,7 @@ type Props = {
     height?: number;
     placeholder?: string;
     iconified?: any;
+    onchange?: any;
 }
 
 const Input = (props: Props) => {
@@ -25,6 +26,7 @@ const Input = (props: Props) => {
             }}
             placeholder={props.placeholder}
             onFocus={handleFocus}
+            onChange={props.onchange}
         />
     )
 }
