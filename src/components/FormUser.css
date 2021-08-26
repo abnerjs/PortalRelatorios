@@ -21,12 +21,15 @@
 }
 
 .FormUser .sectionImage .image .picture {
-    width: 120px;
+    width: 120px !important;
     height: 120px;
     display: flex;
     align-items: center;
     justify-content: center;
     overflow: auto;
+    transition: opacity ease 0.2s;
+    opacity: 0;
+    margin-left: -120px;
 }
 
 .FormUser .sectionImage .image svg {
@@ -51,6 +54,12 @@
 
 .FormUser .sectionImage .image .img .initial.active {
     opacity: 1;
+    margin: 0;
+}
+
+.FormUser .sectionImage .image .img .picture.active {
+    opacity: 1;
+    margin: 0;
 }
 
 .FormUser .sectionImage .image .img {

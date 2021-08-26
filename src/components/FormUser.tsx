@@ -9,9 +9,17 @@ const FormUser = () => {
         <form className="FormUser">
             <div className="sectionImage">
                 <div className="image">
-                    <div className="picture"></div>
                     <div className="text"></div>
                     <div className="img">
+                        {/*
+                            <div
+                                className="picture"
+                                style={{
+                                    backgroundImage:
+                                        "url(https://picsum.photos/200)",
+                                }}
+                            ></div>
+                        */}
                         <div className="initial">RL</div>
                         <Icon
                             icon="fluent:person-16-filled"
