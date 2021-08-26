@@ -1,0 +1,105 @@
+.FormUser {
+    width: 500px;
+    margin: 0 auto;
+}
+
+.FormUser .sectionImage {
+    display: flex;
+}
+
+.FormUser .sectionImage .image {
+    margin: 10px 20px 10px 0;
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background-color: #E5E5E5;
+    transition: all ease 0.2s;
+    cursor: pointer;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.FormUser .sectionImage .image .picture {
+    width: 120px;
+    height: 120px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: auto;
+}
+
+.FormUser .sectionImage .image svg {
+    transform: translateY(30px);
+    color: #AAA;
+}
+
+.FormUser .sectionImage .image .img .initial {
+    width: 120px;
+    height: 120px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 52px;
+    background-color: #1878a1;
+    font-weight: var(--medium);
+    transition: opacity ease 0.2s;
+    opacity: 0;
+    margin-left: -120px;
+}
+
+.FormUser .sectionImage .image .img .initial.active {
+    opacity: 1;
+}
+
+.FormUser .sectionImage .image .img {
+    background-color: #E5E5E5;
+    transition: all ease 0.2s;
+    display: flex;
+}
+
+.FormUser .sectionImage .image:hover .img {
+    filter: brightness(60%);
+}
+
+.FormUser .sectionImage .image:hover svg {
+    /*display: none;*/
+    z-index: 1;
+}
+
+.FormUser .sectionImage .image .text {
+    position: absolute;
+    z-index: 2;
+    text-align: center;
+    padding: 20px;
+    font-weight: var(--medium);
+    width: 80px;
+    opacity: 0;
+    color: white;
+}
+
+.FormUser .sectionImage .image .text::after {
+    content: 'Selecione uma imagem';
+}
+
+.FormUser .sectionImage .image:hover .text {
+    opacity: 1;
+}
+
+.FormUser .sectionImage .inputs {
+    width: 360px;
+}
+
+.FormUser .buttons {
+    display: flex;
+}
+
+.FormUser .buttons .Button:first-child {
+    margin-right: 10px;
+}
+
+.FormUser .buttons .Button:last-child {
+    margin-left: 10px;
+}

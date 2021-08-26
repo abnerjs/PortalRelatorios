@@ -1,4 +1,5 @@
 import React from "react";
+import FormUser from "src/components/FormUser";
 import Header from "src/components/Header";
 import SectionizedTable from "src/components/SectionizedTable";
 import Subtitle from "src/components/Subtitle";
@@ -15,6 +16,7 @@ const Usuarios = () => {
 
         <div className="row">
           <SectionizedTable />
+          <FormUser />
         </div>
       </div>
     </div>
