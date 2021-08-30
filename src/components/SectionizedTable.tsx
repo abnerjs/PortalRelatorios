@@ -34,11 +34,17 @@ function rows(rowsNum: number) {
     return arr;
 }
 
-const SectionizedTable = () => {
+type Props = {
+    setFormOpened: Function;
+    isFormOpened: boolean;
+};
+
+const SectionizedTable = (props: Props) => {
     const [tipoUsuario, setTipoUsuario] = useState("interno");
+    
     return (
-        <div className="SectionizedTable">
-            <div className="tabs">
+        <div className={`SectionizedTable${props.isFormOpened?'':' formInvi'}`}>
+            <div className={`tabs${props.isFormOpened?'':' middle'}`}>
                 <div
                     className={`option${
                         tipoUsuario === "interno" ? " active" : ""
@@ -76,7 +82,7 @@ const SectionizedTable = () => {
                     className="icon"
                 />
             </div>
-            <CRUDButton content="novo usuário" />
+            <CRUDButton setFormOpened={props.setFormOpened} isFormOpened={props.isFormOpened} content="novo usuário" />
             <div className="rows">{rows(25)}</div>
         </div>
     );

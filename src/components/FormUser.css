@@ -1,5 +1,11 @@
 .FormUser {
     width: 500px;
+    transition: all ease 0.5s;
+}
+
+.FormUser.invi {
+    opacity: 0;
+    transform: translateX(800px);
 }
 
 .FormUser .sectionImage {

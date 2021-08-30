@@ -2,7 +2,13 @@
     display: flex;
     flex-direction: column;
     max-height: 100%;
+    transition: all ease 0.5s;
     /*align-items: center;*/
+}
+
+.SectionizedTable.formInvi {
+    width: 100%;
+    margin-left: 32.5%;
 }
 
 .SectionizedTable .tabs {
@@ -16,8 +22,7 @@
 }
 
 .SectionizedTable .tabs.middle {
-    margin-left: 100%;
-    transform: translateX(-137.5%);
+    margin-left: 100px;
 }
 
 .SectionizedTable .tabs .option {

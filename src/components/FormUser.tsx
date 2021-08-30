@@ -5,7 +5,6 @@ import "./FormUser.css";
 import Input from "./Input";
 
 function getInitialsFromName(s: string) {
-    console.log(s)
     var arr: string[];
     arr = s.trim().split(' ');
     var aux: string = '';
@@ -18,11 +17,20 @@ function getInitialsFromName(s: string) {
     return aux;
 }
 
-const FormUser = () => {
+type Props = {
+    visible: boolean;
+    setFormOpened: Function;
+};
+
+const FormUser = (props: Props) => {
     const [initial, setInitial] = useState('')
 
+    function handleSubmit(e: any) {
+        e.preventDefault();
+    }
+
     return (
-        <form className="FormUser">
+        <form className={`FormUser${props.visible?'':' invi'}`} onSubmit={handleSubmit}>
             <div className="sectionImage">
                 <div className="image">
                     <div className="text"></div>
@@ -56,7 +64,7 @@ const FormUser = () => {
             <Input type="password" placeholder="Repita a senha" />
             <div className="buttons">
                 <Button content="SALVAR" />
-                <Button secondary content="CANCELAR" />
+                <Button secondary valueOpenForm={false} setFormOpened={props.setFormOpened} content="CANCELAR" />
             </div>
         </form>
     );

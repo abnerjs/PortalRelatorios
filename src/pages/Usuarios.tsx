@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import FormUser from "src/components/FormUser";
 import Header from "src/components/Header";
 import SectionizedTable from "src/components/SectionizedTable";
@@ -6,6 +6,8 @@ import Subtitle from "src/components/Subtitle";
 import "./Usuarios.css";
 
 const Usuarios = () => {
+  const [isFormOpened, setFormOpened] = useState(false)
+
   return (
     <div className="Usuarios">
       <div className="content">
@@ -15,8 +17,8 @@ const Usuarios = () => {
         </div>
 
         <div className="row">
-          <SectionizedTable />
-          <FormUser />
+          <SectionizedTable isFormOpened={isFormOpened} setFormOpened={setFormOpened} />
+          <FormUser setFormOpened={setFormOpened} visible={isFormOpened} />
         </div>
       </div>
     </div>
