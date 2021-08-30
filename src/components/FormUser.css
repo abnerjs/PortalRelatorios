@@ -1,6 +1,12 @@
 .FormUser {
     width: 500px;
     transition: all ease 0.5s;
+    max-height: 100%;
+    overflow: auto;
+}
+
+.FormUser::-webkit-scrollbar {
+    display: none;
 }
 
 .FormUser.invi {

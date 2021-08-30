@@ -1,0 +1,46 @@
+.Select {
+    width: calc(100% - 50px);
+    background-color: white;
+    padding: 0 25px;
+    height: 50px;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    outline: none;
+    margin: 10px 0;
+    font-family: "Montserrat", sans-serif;
+    transition: all ease 0.3s;
+    appearance: none;
+    cursor: pointer;
+}
+
+.Select .controller {
+    display: flex;
+    align-items: center;
+}
+
+.Select .placeholder {
+    height: 50px;
+    width: calc(100% - 30px);
+    line-height: 50px;
+    color: #aaa;
+}
+
+.SelectWrapper {
+    color: #aaa;
+    transform: translateX(15px);
+    transition: transform ease 0.3s;
+    cursor: pointer;
+}
+
+.Select .options {
+    display: none;
+}
+
+.Select.active {
+    height: 500px;
+}
+
+.SelectWrapper.active {
+    transform: rotate(90deg) translateY(-15px);
+}

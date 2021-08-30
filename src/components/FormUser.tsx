@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import Button from "./Button";
 import "./FormUser.css";
 import Input from "./Input";
+import Select from "./Select";
 
 function getInitialsFromName(s: string) {
     var arr: string[];
@@ -24,6 +25,8 @@ type Props = {
 
 const FormUser = (props: Props) => {
     const [initial, setInitial] = useState('')
+
+    const arr: string[] = ['teste1','teste2','teste3','teste4']
 
     function handleSubmit(e: any) {
         e.preventDefault();
@@ -60,6 +63,7 @@ const FormUser = (props: Props) => {
                 </div>
             </div>
             <Input type="email" placeholder="E-mail" />
+            <Select placeholder='Selecione o perfil' options={arr} />
             <Input type="password" placeholder="Senha" />
             <Input type="password" placeholder="Repita a senha" />
             <div className="buttons">
