@@ -2,6 +2,7 @@ import { Icon } from "@iconify/react";
 import React, { useState } from "react";
 import { ReactNode } from "react";
 import "./Select.css";
+import SelectButton from "./SelectButton";
 
 type Props = {
     options?: string[];
@@ -29,6 +30,9 @@ const Select: React.FC<Props> = (props: Props) => {
         >
             <div className="controller">
                 <div className="placeholder">{props.placeholder}</div>
+                <div className="newprofile">
+                    <SelectButton active={active} content='Novo perfil' />
+                </div>
                 <Icon
                     icon="fluent:chevron-right-16-filled"
                     width={25}

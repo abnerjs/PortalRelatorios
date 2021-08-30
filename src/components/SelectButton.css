@@ -1,0 +1,33 @@
+.SelectButton {
+    position: absolute;
+    opacity: 0;
+    height: 30px;
+    width: 420px;
+    margin-top: -15px;
+    transform: translateX(-100%);
+    border: 2px dashed #aaa;
+    border-radius: 4px;
+    color: #AAA;
+    text-transform: uppercase;
+    font-family: 'Montserrat';
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: white;
+    transition: all ease 0.3s;
+    cursor: pointer;
+}
+
+.SelectButton.visible {
+    opacity: 1;
+}
+
+.SelectButton .icon {
+    margin-right: 10px;
+}
+
+.SelectButton:hover {
+    border: 2px dashed var(--primary50);
+    color: var(--primary50);
+}
