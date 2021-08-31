@@ -12,12 +12,14 @@ type Props = {
     children: React.ReactChild[];
 };
 
-function makeOptions(s: string[], placeholder: string) {
+function makeOptions(s: string[], placeholder: string, setActive: Function) {
     let arr: ReactNode[] = [];
     for (let index = 0; index < s.length; index++) {
-        arr.push(<div className="option">{s[index]}</div>);
-        arr.push(<div className="option">{s[index]}</div>);
-        arr.push(<div className="option">{s[index]}</div>);
+        arr.push(<div className="option"
+            onClick={() => setActive(false)}
+        >
+            {s[index]}
+        </div>);
     }
 
     return arr;
@@ -33,10 +35,13 @@ const Select: React.FC<Props> = (props: Props) => {
         setFormActive(false);
     });
 
+    function handleSubmit() {
+    }
+
     return (
         <div
             className={`Select${active ? " active" : ""}`}
-            onClick={() => {
+            onClick={active?handleSubmit:() => {
                 setActive(true);
             }}
             ref={ref}
@@ -68,7 +73,7 @@ const Select: React.FC<Props> = (props: Props) => {
                         }}
                     >
                         {props.options
-                            ? makeOptions(props.options, props.placeholder)
+                            ? makeOptions(props.options, props.placeholder, setActive)
                             : ""}
                     </div>
                 </div>
