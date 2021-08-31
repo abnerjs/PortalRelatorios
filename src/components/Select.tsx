@@ -1,18 +1,22 @@
 import { Icon } from "@iconify/react";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { ReactNode } from "react";
+import useOutsideClick from "src/hooks/useOutsideClick";
 import "./Select.css";
 import SelectButton from "./SelectButton";
 
 type Props = {
     options?: string[];
     placeholder: string;
+    children: React.ReactChild[];
 };
 
 function makeOptions(s: string[], placeholder: string) {
     let arr: ReactNode[] = [];
     for (let index = 0; index < s.length; index++) {
-        arr.push(<div>{s[index]}</div>);
+        arr.push(<div className="option">{s[index]}</div>);
+        arr.push(<div className="option">{s[index]}</div>);
+        arr.push(<div className="option">{s[index]}</div>);
     }
 
     return arr;
@@ -20,29 +24,49 @@ function makeOptions(s: string[], placeholder: string) {
 
 const Select: React.FC<Props> = (props: Props) => {
     const [active, setActive] = useState(false);
+    const ref = useRef(null);
+    const [formActive, setFormActive] = useState(false)
+
+    useOutsideClick(ref, () => {
+        setActive(false);
+        setFormActive(false);
+    });
 
     return (
         <div
             className={`Select${active ? " active" : ""}`}
             onClick={() => {
-                setActive(!active);
+                setActive(true);
             }}
+            ref={ref}
         >
-            <div className="controller">
-                <div className="placeholder">{props.placeholder}</div>
-                <div className="newprofile">
-                    <SelectButton active={active} content='Novo perfil' />
+            <div className="cardsController">
+                <div className={`mainSection${formActive?' inactive':''}`}>
+                    <div className="controller">
+                        <div className="newprofile">
+                            <SelectButton
+                                active={active}
+                                content="Novo perfil"
+                                onclick={active?setFormActive:setActive}
+                            />
+                        </div>
+                        <div className="placeholder">{props.placeholder}</div>
+                        <Icon
+                            icon="fluent:chevron-right-16-filled"
+                            width={25}
+                            className={`SelectWrapper${
+                                active ? " active" : ""
+                            }`}
+                        />
+                    </div>
+                    <div className="options">
+                        {props.options
+                            ? makeOptions(props.options, props.placeholder)
+                            : ""}
+                    </div>
                 </div>
-                <Icon
-                    icon="fluent:chevron-right-16-filled"
-                    width={25}
-                    className={`SelectWrapper${active ? " active" : ""}`}
-                />
-            </div>
-            <div className="options">
-                {props.options
-                    ? makeOptions(props.options, props.placeholder)
-                    : ""}
+
+                <div className="form">{props.children}</div>
             </div>
         </div>
     );

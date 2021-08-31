@@ -63,7 +63,13 @@ const FormUser = (props: Props) => {
                 </div>
             </div>
             <Input type="email" placeholder="E-mail" />
-            <Select placeholder='Selecione o perfil' options={arr} />
+            <Select placeholder='Selecione o perfil' options={arr}>
+                <Input placeholder='Descrição do perfil' secondary />
+                <div className="teste">
+                    <div></div>
+                </div>
+                <div>blabala</div>
+            </Select>
             <Input type="password" placeholder="Senha" />
             <Input type="password" placeholder="Repita a senha" />
             <div className="buttons">

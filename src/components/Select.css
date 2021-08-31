@@ -12,6 +12,30 @@
     transition: all ease 0.3s;
     appearance: none;
     cursor: pointer;
+    overflow: hidden;
+}
+
+.Select .cardsController {
+    width: 925px;
+    display: flex;
+}
+
+.Select .form {
+    width: 450px !important;
+    transform: translateX(50px);
+}
+
+.Select .mainSection {
+    width: 450px !important;
+    transition: all ease 0.4s;
+}
+
+.Select .mainSection.inactive {
+    margin-left: -500px;
+}
+
+.Select.active {
+    height: 300px;
 }
 
 .Select .controller {
@@ -26,6 +50,11 @@
     color: #aaa;
 }
 
+.Select .newprofile {
+    height: 50px;
+    position: relative;
+}
+
 .SelectWrapper {
     color: #aaa;
     transform: translateX(15px);
@@ -34,13 +63,41 @@
 }
 
 .Select .options {
-    display: none;
+    margin-top: 10px;
+    height: 230px;
+    margin-bottom: 10px;
+    overflow: auto;
 }
 
-.Select.active {
-    height: 500px;
+::-webkit-scrollbar {
+    width: 10px;
+    background-color: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: rgba(0,0,0,0.1);
+    border-radius: 5px;
+}
+
+.Select .options .option {
+    height: 40px;
+    line-height: 40px;
+    padding: 0 15px;
+    border-radius: 8px;
+}
+
+.Select .options .option:hover {
+    background-color: var(--bgColor);
+}
+
+.Select:not(.active) .options {
+    display: none;
 }
 
 .SelectWrapper.active {
     transform: rotate(90deg) translateY(-15px);
+}
+
+.Select .placeholder::selection, .Select .SelectButton::selection, .Select .options .option::selection {
+    background: none;
 }

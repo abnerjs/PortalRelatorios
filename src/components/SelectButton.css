@@ -3,8 +3,7 @@
     opacity: 0;
     height: 30px;
     width: 420px;
-    margin-top: -15px;
-    transform: translateX(-100%);
+    margin-top: 15px;
     border: 2px dashed #aaa;
     border-radius: 4px;
     color: #AAA;
