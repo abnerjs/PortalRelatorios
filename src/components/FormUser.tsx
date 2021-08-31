@@ -89,10 +89,6 @@ const FormUser = (props: Props) => {
                     content="Upload de arquivos"
                 />
                 <Title width={18} content="Tipos de arquivos" />
-                <div className="buttons">
-                    <Button content="SALVAR" />
-                    <Button content="CANCELAR" secondary />
-                </div>
             </Select>
             <Input type="password" placeholder="Senha" />
             <Input type="password" placeholder="Repita a senha" />

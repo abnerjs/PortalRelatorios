@@ -6,6 +6,7 @@ type Props = {
     height?: number;
     content?: string;
     setFormOpened?: Function;
+    setFalse?: Function
     valueOpenForm?: boolean;
 }
 
@@ -17,6 +18,7 @@ const Button = (props: Props) => {
             }}
             onClick={() => {
                 if(props.setFormOpened){props.setFormOpened(false)}
+                if(props.setFalse){props.setFalse(false)}
             }}
         >
             {props.content}
