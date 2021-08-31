@@ -12,7 +12,7 @@ const Login: React.FC = (props: any) => {
             <Title content="Acessar" primaryColor />
             <Input secondary placeholder="Matrícula, CPF, CNPJ ou email" />
             <Input secondary type="password" placeholder="Senha" />
-            <Checkbox content='Manter conectado' />
+            <Checkbox flexEnd medium id='checkbox' content='Manter conectado' />
             <Button content="ENTRAR" />
             <Link className='forgot' to="/recovery">Esqueceu a senha?</Link>
         </form>

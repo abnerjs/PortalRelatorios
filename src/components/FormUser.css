@@ -5,10 +5,6 @@
     overflow: auto;
 }
 
-.FormUser::-webkit-scrollbar {
-    display: none;
-}
-
 .FormUser.invi {
     opacity: 0;
     transform: translateX(800px);

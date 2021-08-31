@@ -59,7 +59,11 @@ const Select: React.FC<Props> = (props: Props) => {
                             }`}
                         />
                     </div>
-                    <div className="options">
+                    <div className="options"
+                        style= {{
+                            height: (props.children.length-1)*29+70 + 'px'
+                        }}
+                    >
                         {props.options
                             ? makeOptions(props.options, props.placeholder)
                             : ""}

@@ -1,8 +1,6 @@
 .Checkbox {
     color: #aaa;
-    font-weight: var(--medium);
     display: flex;
-    justify-content: flex-end;
     margin: 10px 0;
 }
 
