@@ -6,7 +6,6 @@ import { Icon } from "@iconify/react";
 
 const Menu = () => {
     const [active, setActive] = useState(window.location.pathname);
-    console.log('teste' + window.location.pathname + active);
 
     return (
         <div className="Menu">

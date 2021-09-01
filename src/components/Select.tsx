@@ -10,13 +10,18 @@ type Props = {
     options?: string[];
     placeholder: string;
     children: React.ReactChild[];
+    selected: string;
+    setSelected: Function;
 };
 
-function makeOptions(s: string[], placeholder: string, setActive: Function) {
+function makeOptions(s: string[], setPlaceholder: Function, setActive: Function) {
     let arr: ReactNode[] = [];
     for (let index = 0; index < s.length; index++) {
         arr.push(<div className="option"
-            onClick={() => setActive(false)}
+            onClick={() => {
+                setActive(false);
+                setPlaceholder(s[index]);
+            }}
         >
             {s[index]}
         </div>);
@@ -56,7 +61,7 @@ const Select: React.FC<Props> = (props: Props) => {
                                 onclick={active ? setFormActive : setActive}
                             />
                         </div>
-                        <div className="placeholder">{props.placeholder}</div>
+                        <div className={`placeholder${props.selected!==''?' selected':''}`}>{props.selected!==''?props.selected:props.placeholder}</div>
                         <Icon
                             icon="fluent:chevron-right-16-filled"
                             width={25}
@@ -73,7 +78,7 @@ const Select: React.FC<Props> = (props: Props) => {
                         }}
                     >
                         {props.options
-                            ? makeOptions(props.options, props.placeholder, setActive)
+                            ? makeOptions(props.options, props.setSelected, setActive)
                             : ""}
                     </div>
                 </div>

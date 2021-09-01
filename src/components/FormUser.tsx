@@ -25,6 +25,7 @@ type Props = {
 
 const FormUser = (props: Props) => {
     const [initial, setInitial] = useState("");
+    const [selected, setSelected] = useState('')
 
     const arr: string[] = ["teste1", "teste2", "teste3", "teste4"];
 
@@ -75,7 +76,11 @@ const FormUser = (props: Props) => {
                 </div>
             </div>
             <Input type="email" placeholder="E-mail" />
-            <Select placeholder="Selecione o perfil" options={arr}>
+            <Select placeholder="Selecione o perfil"
+                options={arr}
+                selected={selected}
+                setSelected={setSelected}
+            >
                 <Input placeholder="Descrição do perfil" secondary />
                 <Checkbox
                     uppercase
@@ -99,6 +104,7 @@ const FormUser = (props: Props) => {
                     valueOpenForm={false}
                     setFormOpened={props.setFormOpened}
                     content="CANCELAR"
+                    setSelectSelected={setSelected}
                 />
             </div>
         </form>

@@ -55,6 +55,10 @@
     color: #aaa;
 }
 
+.Select .placeholder.selected {
+    color: black;
+}
+
 .Select .newprofile {
     height: 50px;
     position: relative;
