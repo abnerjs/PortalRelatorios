@@ -14,17 +14,41 @@ type Props = {
     setSelected: Function;
 };
 
-function makeOptions(s: string[], setPlaceholder: Function, setActive: Function) {
+function makeOptions(
+    s: string[],
+    setPlaceholder: Function,
+    setActive: Function,
+    placeholder: string,
+    defaultPlaceholder: string
+) {
     let arr: ReactNode[] = [];
+
+    if (placeholder !== "") {
+        arr.push(
+            <div
+                className="option default"
+                onClick={() => {
+                    setActive(false);
+                    setPlaceholder('');
+                }}
+            >
+                {defaultPlaceholder}
+            </div>
+        );
+    }
+
     for (let index = 0; index < s.length; index++) {
-        arr.push(<div className="option"
-            onClick={() => {
-                setActive(false);
-                setPlaceholder(s[index]);
-            }}
-        >
-            {s[index]}
-        </div>);
+        arr.push(
+            <div
+                className="option"
+                onClick={() => {
+                    setActive(false);
+                    setPlaceholder(s[index]);
+                }}
+            >
+                {s[index]}
+            </div>
+        );
     }
 
     return arr;
@@ -40,15 +64,19 @@ const Select: React.FC<Props> = (props: Props) => {
         setFormActive(false);
     });
 
-    function handleSubmit() {
-    }
+    function handleSubmit() {}
+    console.log(props.selected)
 
     return (
         <div
             className={`Select${active ? " active" : ""}`}
-            onClick={active?handleSubmit:() => {
-                setActive(true);
-            }}
+            onClick={
+                active
+                    ? handleSubmit
+                    : () => {
+                          setActive(true);
+                      }
+            }
             ref={ref}
         >
             <div className="cardsController">
@@ -61,7 +89,17 @@ const Select: React.FC<Props> = (props: Props) => {
                                 onclick={active ? setFormActive : setActive}
                             />
                         </div>
-                        <div className={`placeholder${props.selected!==''?' selected':''}`}>{props.selected!==''?props.selected:props.placeholder}</div>
+                        <div
+                            className={`placeholder${
+                                props.selected !== '' ? " selected" : ""
+                            }`}
+                        >
+                            {
+                                props.selected !== ""
+                                ? props.selected
+                                : props.placeholder
+                            }
+                        </div>
                         <Icon
                             icon="fluent:chevron-right-16-filled"
                             width={25}
@@ -78,7 +116,13 @@ const Select: React.FC<Props> = (props: Props) => {
                         }}
                     >
                         {props.options
-                            ? makeOptions(props.options, props.setSelected, setActive)
+                            ? makeOptions(
+                                  props.options,
+                                  props.setSelected,
+                                  setActive,
+                                  props.selected,
+                                  props.placeholder
+                              )
                             : ""}
                     </div>
                 </div>
@@ -87,10 +131,13 @@ const Select: React.FC<Props> = (props: Props) => {
                     {props.children}
 
                     <div className="buttons">
-                        <Button content="SALVAR"
+                        <Button
+                            content="SALVAR"
                             setFormOpened={setFormActive}
                         />
-                        <Button content="CANCELAR" secondary
+                        <Button
+                            content="CANCELAR"
+                            secondary
                             setFalse={setFormActive}
                         />
                     </div>

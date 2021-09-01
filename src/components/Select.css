@@ -92,6 +92,11 @@
     line-height: 40px;
     padding: 0 15px;
     border-radius: 8px;
+    font-weight: var(--medium);
+}
+
+.Select .options .option.default {
+    color: #aaa;
 }
 
 .Select .options .option:hover {
