@@ -32,4 +32,33 @@
 
 .Input:focus {
     box-shadow: inset 0 0 1px 1px var(--primaryColor);
-}   
+}
+
+.SectionizedTable .search .icon {
+    position: absolute;
+    margin-top: 22px;
+    margin-left: 10px;
+    color: #aaa;
+    transition: all ease 0.3s;
+}
+
+.SectionizedTable .search .icon.active {
+    color: var(--primaryColor) !important;
+}
+
+.form-group .label {
+    position: absolute;
+    margin-top: 25px;
+    margin-left: 25px;
+    color: #aaa;
+    transition: all ease 0.3s;
+    transform-origin: top left;
+}
+
+.form-group .label.iconified {
+    margin-left: 45px;
+}
+
+.form-group .label.focused, .form-group .label.hasContent {
+    transform: scale(0.8) translateX(-10px) translateY(-15px);
+}

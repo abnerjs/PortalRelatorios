@@ -69,18 +69,6 @@
     margin: 0 20px;
 }
 
-.SectionizedTable .search .icon {
-    position: absolute;
-    margin-top: 22px;
-    margin-left: -488px;
-    color: #aaa;
-    transition: all ease 0.3s;
-}
-
-.SectionizedTable .search .Input:focus ~ .icon {
-    color: var(--primaryColor) !important;
-}
-
 .SectionizedTable .rows {
     height: 100%;
     width: 560px;

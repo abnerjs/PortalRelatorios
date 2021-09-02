@@ -9,7 +9,8 @@ type Props = {
     setFalse?: Function;
     valueOpenForm?: boolean;
     placeholder?: string;
-    setSelectSelected?: Function
+    setSelectSelected?: Function;
+    setUserSelected?: Function;
 };
 
 const Button = (props: Props) => {
@@ -28,6 +29,9 @@ const Button = (props: Props) => {
                 }
                 if (props.setSelectSelected) {
                     props.setSelectSelected('');
+                }
+                if (props.setUserSelected) {
+                    props.setUserSelected(-1);
                 }
             }}
         >

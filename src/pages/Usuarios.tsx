@@ -6,7 +6,10 @@ import Subtitle from "src/components/Subtitle";
 import "./Usuarios.css";
 
 const Usuarios = () => {
-  const [isFormOpened, setFormOpened] = useState(false)
+  const [isFormOpened, setFormOpened] = useState(false);
+  //const [userSelected, setUserSelected] = useState(undefined)
+  const [userSelected, setUserSelected] = useState(-1);
+  const [newUserSection, setNewUserSection] = useState(false);
 
   return (
     <div className="Usuarios">
@@ -17,8 +20,8 @@ const Usuarios = () => {
         </div>
 
         <div className="row">
-          <SectionizedTable isFormOpened={isFormOpened} setFormOpened={setFormOpened} />
-          <FormUser setFormOpened={setFormOpened} visible={isFormOpened} />
+          <SectionizedTable setNewUserSection={setNewUserSection} newUserSection={newUserSection} userSelected={userSelected} setUserSelected={setUserSelected} isFormOpened={isFormOpened} setFormOpened={setFormOpened} />
+          <FormUser setNewUserSection={setNewUserSection} userSelected={userSelected} setUserSelected={setUserSelected} setFormOpened={setFormOpened} visible={isFormOpened} />
         </div>
       </div>
     </div>

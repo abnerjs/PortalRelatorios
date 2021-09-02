@@ -21,11 +21,14 @@ function getInitialsFromName(s: string) {
 type Props = {
     visible: boolean;
     setFormOpened: Function;
+    userSelected?: any;
+    setUserSelected: Function;
+    setNewUserSection?: Function;
 };
 
 const FormUser = (props: Props) => {
     const [initial, setInitial] = useState("");
-    const [selected, setSelected] = useState('')
+    const [selected, setSelected] = useState('');
 
     const arr: string[] = ["teste1", "teste2", "teste3", "teste4"];
 
@@ -105,6 +108,7 @@ const FormUser = (props: Props) => {
                     setFormOpened={props.setFormOpened}
                     content="CANCELAR"
                     setSelectSelected={setSelected}
+                    setUserSelected={props.setUserSelected}
                 />
             </div>
         </form>

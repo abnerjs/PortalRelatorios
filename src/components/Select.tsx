@@ -65,7 +65,6 @@ const Select: React.FC<Props> = (props: Props) => {
     });
 
     function handleSubmit() {}
-    console.log(props.selected)
 
     return (
         <div

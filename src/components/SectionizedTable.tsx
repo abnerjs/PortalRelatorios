@@ -4,12 +4,24 @@ import CRUDButton from "./CRUDButton";
 import Input from "./Input";
 import "./SectionizedTable.css";
 
-function rows(rowsNum: number) {
+function rows(
+    rowsNum: number,
+    searchText: string,
+    setFormOpened: Function,
+    indexSelected: number,
+    setIndexSelected: Function
+) {
     let arr: any[] = [];
 
     for (let index = 0; index < rowsNum; index++) {
         arr.push(
-            <div className="row">
+            <div
+                className={`row${indexSelected === index ? " selected" : ""}`}
+                onClick={() => {
+                    setFormOpened(true);
+                    setIndexSelected(index);
+                }}
+            >
                 {
                     //se o usuario tiver foto, mostra ela, se não, mostra as iniciais
                     //arr[index].img? <img src="" alt="" /> : <div className="img"></div>
@@ -37,14 +49,23 @@ function rows(rowsNum: number) {
 type Props = {
     setFormOpened: Function;
     isFormOpened: boolean;
+    setUserSelected: Function;
+    userSelected?: any;
+    setNewUserSection: Function;
+    newUserSection?: boolean;
 };
 
 const SectionizedTable = (props: Props) => {
     const [tipoUsuario, setTipoUsuario] = useState("interno");
-    
+    const [searchText, setSearchText] = useState("");
+
     return (
-        <div className={`SectionizedTable${props.isFormOpened?'':' formInvi'}`}>
-            <div className={`tabs${props.isFormOpened?'':' middle'}`}>
+        <div
+            className={`SectionizedTable${
+                props.isFormOpened ? "" : " formInvi"
+            }`}
+        >
+            <div className={`tabs${props.isFormOpened ? "" : " middle"}`}>
                 <div
                     className={`option${
                         tipoUsuario === "interno" ? " active" : ""
@@ -75,15 +96,26 @@ const SectionizedTable = (props: Props) => {
                             : "Nome, CPF, CPNJ ou e-mail"
                     }
                     iconified
-                />
-                <Icon
                     icon="fluent:search-12-regular"
-                    width={25}
-                    className="icon"
+                    changeSearch={setSearchText}
                 />
             </div>
-            <CRUDButton setFormOpened={props.setFormOpened} isFormOpened={props.isFormOpened} content="novo usuário" />
-            <div className="rows">{rows(25)}</div>
+            <CRUDButton
+                newUserSection={props.newUserSection}
+                setNewUserSection={props.setNewUserSection}
+                setFormOpened={props.setFormOpened}
+                isFormOpened={props.isFormOpened}
+                content="novo usuário"
+            />
+            <div className="rows">
+                {rows(
+                    25,
+                    searchText,
+                    props.setFormOpened,
+                    props.userSelected,
+                    props.setUserSelected
+                )}
+            </div>
         </div>
     );
 };
