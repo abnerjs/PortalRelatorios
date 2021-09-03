@@ -64,16 +64,32 @@ const Select: React.FC<Props> = (props: Props) => {
         setFormActive(false);
     });
 
-    function handleSubmit() {}
+    function handleForm(e: any) {
+        e.stopPropagation();
+    }
 
     return (
         <div
             className={`Select${active ? " active" : ""}`}
-            onClick={
+            onFocus={
                 active
-                    ? handleSubmit
+                    ? handleForm
                     : () => {
                           setActive(true);
+                      }
+            }
+            onMouseUp={
+                active
+                    ? handleForm
+                    : () => {
+                          setActive(true);
+                      }
+            }
+            onBlur={
+                active
+                    ? handleForm
+                    : () => {
+                          setActive(false);
                       }
             }
             ref={ref}
@@ -131,10 +147,12 @@ const Select: React.FC<Props> = (props: Props) => {
 
                     <div className="buttons">
                         <Button
+                            tabIndex={-1}
                             content="SALVAR"
                             setFormOpened={setFormActive}
                         />
                         <Button
+                            tabIndex={-1}
                             content="CANCELAR"
                             secondary
                             setFalse={setFormActive}

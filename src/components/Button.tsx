@@ -11,11 +11,12 @@ type Props = {
     placeholder?: string;
     setSelectSelected?: Function;
     setUserSelected?: Function;
+    tabIndex?: number;
 };
 
 const Button = (props: Props) => {
     return (
-        <button
+        <button tabIndex={props.tabIndex}
             className={`Button ${props.secondary ? "secondary" : "primary"}`}
             style={{
                 height: props.height ? props.height : 50 + "px",

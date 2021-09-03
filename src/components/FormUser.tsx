@@ -7,17 +7,6 @@ import Input from "./Input";
 import Select from "./Select";
 import Title from "./Title";
 
-function getInitialsFromName(s: string) {
-    var arr: string[];
-    arr = s.trim().split(" ");
-    var aux: string = "";
-    aux += arr[0].charAt(0);
-
-    if (arr.length > 1) aux += arr[arr.length - 1].charAt(0);
-
-    return aux;
-}
-
 type Props = {
     visible: boolean;
     setFormOpened: Function;
@@ -71,9 +60,7 @@ const FormUser = (props: Props) => {
                 <div className="inputs">
                     <Input
                         placeholder="Nome"
-                        onchange={(e: any) => {
-                            setInitial(getInitialsFromName(e.target.value));
-                        }}
+                        onchange={setInitial}
                     />
                     <Input placeholder="Matrícula" />
                 </div>
@@ -84,7 +71,7 @@ const FormUser = (props: Props) => {
                 selected={selected}
                 setSelected={setSelected}
             >
-                <Input placeholder="Descrição do perfil" secondary />
+                <Input tabIndex={-1} placeholder="Descrição do perfil" secondary />
                 <Checkbox
                     uppercase
                     id="usuarios"

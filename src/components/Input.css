@@ -62,3 +62,8 @@
 .form-group .label.focused, .form-group .label.hasContent {
     transform: scale(0.8) translateX(-10px) translateY(-15px);
 }
+
+.label.hasContent ~ .Input, .label.focused ~ .Input {
+    height: 40px !important;
+    padding-top: 10px !important;
+}

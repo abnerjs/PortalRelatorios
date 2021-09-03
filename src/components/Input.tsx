@@ -2,6 +2,17 @@ import { Icon } from "@iconify/react";
 import React, { useState } from "react";
 import "./Input.css";
 
+function getInitialsFromName(s: string) {
+    var arr: string[];
+    arr = s.trim().split(" ");
+    var aux: string = "";
+    aux += arr[0].charAt(0);
+
+    if (arr.length > 1) aux += arr[arr.length - 1].charAt(0);
+
+    return aux;
+}
+
 type Props = {
     type?: string;
     secondary?: any;
@@ -12,6 +23,7 @@ type Props = {
     onchange?: Function;
     changeSearch?: Function;
     icon?: string;
+    tabIndex?: number;
 };
 
 function setIcon(b: boolean, focused: boolean, icon?: string) {
@@ -36,9 +48,9 @@ const Input = (props: Props) => {
     };
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        if (props.onchange) props.onchange();
+        if (props.onchange) {props.onchange(getInitialsFromName(e.target.value))};
         (e.target.value!=='') ? setHasContent(true) : setHasContent(false);
-        if (props.changeSearch) props.changeSearch(e.target.value);
+        if (props.changeSearch) {props.changeSearch(e.target.value)};
     };
 
     return (
@@ -47,6 +59,7 @@ const Input = (props: Props) => {
             <label className="group">
                 <div className={`label${props.iconified?' iconified':''}${focused?' focused':''}${hasContent?' hasContent':''}`}>{props.placeholder}</div>
                 <input
+                    tabIndex={props.tabIndex}
                     type={props.type ? props.type : "text"}
                     className={`Input${props.secondary ? " secondary" : ""}${
                         props.error ? " error" : ""
