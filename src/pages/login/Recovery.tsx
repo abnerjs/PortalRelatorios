@@ -12,7 +12,7 @@ const Recovery: React.FC = (props: any) => {
             <div className="recoveryinfo">
                 <p>Insira algum dado em que sua conta esteja associada</p>
             </div>
-            <Input secondary placeholder="Matrícula, CPF, CNPJ ou email" />
+            <Input id="login" secondary placeholder="Matrícula, CPF, CNPJ ou email" />
             <Link to='/confirmation'><Button content="ENVIAR" /></Link>
             <Link to='/'><Button secondary content="CANCELAR" /></Link>
             <h4 className="hint">

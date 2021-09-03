@@ -9,8 +9,8 @@ const NewPassword: React.FC = (props: any) => {
     return (
         <form className="form NewPassword" action="">
             <Title content="Recuperação de senha" primaryColor />
-            <Input secondary type="password" placeholder="Nova senha" />
-            <Input secondary type="password" placeholder="Confirmar senha" error />
+            <Input id="senha" secondary type="password" placeholder="Nova senha" />
+            <Input id="c-senha" secondary type="password" placeholder="Confirmar senha" error />
             <Link to='/'><Button content="SALVAR" /></Link>
             <Link to='/'><Button secondary content="CANCELAR" /></Link>
         </form>

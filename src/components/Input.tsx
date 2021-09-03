@@ -24,6 +24,7 @@ type Props = {
     changeSearch?: Function;
     icon?: string;
     tabIndex?: number;
+    id: string;
 };
 
 function setIcon(b: boolean, focused: boolean, icon?: string) {
@@ -59,6 +60,8 @@ const Input = (props: Props) => {
             <label className="group">
                 <div className={`label${props.iconified?' iconified':''}${focused?' focused':''}${hasContent?' hasContent':''}`}>{props.placeholder}</div>
                 <input
+                    id={props.id}
+                    name={props.id}
                     tabIndex={props.tabIndex}
                     type={props.type ? props.type : "text"}
                     className={`Input${props.secondary ? " secondary" : ""}${

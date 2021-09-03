@@ -90,6 +90,7 @@ const SectionizedTable = (props: Props) => {
             </div>
             <div className="search">
                 <Input
+                    id="searchField"
                     placeholder={
                         tipoUsuario === "interno"
                             ? "Nome, matrícula ou e-mail"
