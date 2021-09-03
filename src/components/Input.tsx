@@ -25,6 +25,7 @@ type Props = {
     icon?: string;
     tabIndex?: number;
     id: string;
+    notAutoFocus?: any;
 };
 
 function setIcon(b: boolean, focused: boolean, icon?: string) {

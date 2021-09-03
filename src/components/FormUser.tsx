@@ -59,20 +59,21 @@ const FormUser = (props: Props) => {
                 </div>
                 <div className="inputs">
                     <Input
+                        tabIndex={props.visible?0:-1}
                         id="nome"
                         placeholder="Nome"
                         onchange={setInitial}
                     />
-                    <Input id="matricula" placeholder="Matrícula" />
+                    <Input tabIndex={props.visible?0:-1} id="matricula" placeholder="Matrícula" />
                 </div>
             </div>
-            <Input id="email" type="email" placeholder="E-mail" />
+            <Input tabIndex={props.visible?0:-1} id="email" type="email" placeholder="E-mail" />
             <Select placeholder="Selecione o perfil"
                 options={arr}
                 selected={selected}
                 setSelected={setSelected}
             >
-                <Input id="perfil" tabIndex={-1} placeholder="Descrição do perfil" secondary />
+                <Input notAutoFocus id="perfil" tabIndex={-1} placeholder="Descrição do perfil" secondary />
                 <Checkbox
                     uppercase
                     id="usuarios"
@@ -86,8 +87,8 @@ const FormUser = (props: Props) => {
                 />
                 <Title width={18} content="Tipos de arquivos" />
             </Select>
-            <Input id="senha" type="password" placeholder="Senha" />
-            <Input id="r-senha" type="password" placeholder="Repita a senha" />
+            <Input tabIndex={props.visible?0:-1} id="senha" type="password" placeholder="Senha" />
+            <Input tabIndex={props.visible?0:-1} id="r-senha" type="password" placeholder="Repita a senha" />
             <div className="buttons">
                 <Button content="SALVAR" />
                 <Button

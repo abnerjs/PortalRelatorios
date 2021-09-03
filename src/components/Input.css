@@ -63,6 +63,10 @@
     transform: scale(0.8) translateX(-10px) translateY(-15px);
 }
 
+.label.focused {
+    color: var(--primaryColor);
+}
+
 .label.hasContent ~ .Input, .label.focused ~ .Input {
     height: 40px !important;
     padding-top: 10px !important;
