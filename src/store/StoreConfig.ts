@@ -1,15 +1,15 @@
-import { combineReducers, createStore } from "redux"
+import { combineReducers, createStore } from 'redux';
 
 const reducers = combineReducers({
-    logged: function (state, action) {
-        return {
-            status: true,
-        }
-    },
-})
+  logged: function (state, action) {
+    return {
+      status: true,
+    };
+  },
+});
 
 function StoreConfig() {
-    return createStore(reducers);
+  return createStore(reducers);
 }
 
-export default StoreConfig
+export default StoreConfig;

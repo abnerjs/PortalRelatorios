@@ -3,8 +3,8 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import { Provider } from 'react-redux'
-import StoreConfig from './store/StoreConfig'
+import { Provider } from 'react-redux';
+import StoreConfig from './store/StoreConfig';
 
 const store = StoreConfig();
 
