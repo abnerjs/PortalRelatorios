@@ -1,18 +1,18 @@
-import React from 'react'
-import './MainTable.css'
-import Subtitle from './Subtitle'
-import Table from './Table'
-import Title from './Title'
+import React from 'react';
+import './MainTable.css';
+import Subtitle from './Subtitle';
+import Table from './Table';
+import Title from './Title';
 
-const MainTable = (props: {title: string}) => {
-    return (
-        <div className="MainTable">
-            <Title subsection content={props.title} />
-            <Subtitle content="Tudo o que você não viu desde o seu último acesso" />
+const MainTable = (props: { title: string }) => {
+  return (
+    <div className="MainTable">
+      <Title subsection content={props.title} />
+      <Subtitle content="Tudo o que você não viu desde o seu último acesso" />
 
-            <Table />
-        </div>
-    )
-}
+      <Table />
+    </div>
+  );
+};
 
-export default MainTable
+export default MainTable;

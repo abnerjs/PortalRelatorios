@@ -1,9 +1,9 @@
-import React, { useState } from "react";
-import FormUser from "src/components/FormUser";
-import Header from "src/components/Header";
-import SectionizedTable from "src/components/SectionizedTable";
-import Subtitle from "src/components/Subtitle";
-import "./Usuarios.css";
+import React, { useState } from 'react';
+import FormUser from 'src/components/FormUser';
+import Header from 'src/components/Header';
+import SectionizedTable from 'src/components/SectionizedTable';
+import Subtitle from 'src/components/Subtitle';
+import './Usuarios.css';
 
 const Usuarios = () => {
   const [isFormOpened, setFormOpened] = useState(false);
@@ -20,8 +20,21 @@ const Usuarios = () => {
         </div>
 
         <div className="row">
-          <SectionizedTable setNewUserSection={setNewUserSection} newUserSection={newUserSection} userSelected={userSelected} setUserSelected={setUserSelected} isFormOpened={isFormOpened} setFormOpened={setFormOpened} />
-          <FormUser setNewUserSection={setNewUserSection} userSelected={userSelected} setUserSelected={setUserSelected} setFormOpened={setFormOpened} visible={isFormOpened} />
+          <SectionizedTable
+            setNewUserSection={setNewUserSection}
+            newUserSection={newUserSection}
+            userSelected={userSelected}
+            setUserSelected={setUserSelected}
+            isFormOpened={isFormOpened}
+            setFormOpened={setFormOpened}
+          />
+          <FormUser
+            setNewUserSection={setNewUserSection}
+            userSelected={userSelected}
+            setUserSelected={setUserSelected}
+            setFormOpened={setFormOpened}
+            visible={isFormOpened}
+          />
         </div>
       </div>
     </div>

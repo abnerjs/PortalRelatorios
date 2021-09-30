@@ -1,20 +1,36 @@
-import React from 'react'
-import './NewPassword.css'
-import Button from '../../components/Button'
-import Title from '../../components/Title'
-import Input from '../../components/Input'
-import { Link } from 'react-router-dom'
+import React from 'react';
+import './NewPassword.css';
+import Button from '../../components/Button';
+import Title from '../../components/Title';
+import Input from '../../components/Input';
+import { Link } from 'react-router-dom';
 
 const NewPassword: React.FC = (props: any) => {
-    return (
-        <form className="form NewPassword" action="">
-            <Title content="Recuperação de senha" primaryColor />
-            <Input id="senha" secondary type="password" placeholder="Nova senha" />
-            <Input id="c-senha" secondary type="password" placeholder="Confirmar senha" error />
-            <Link to='/'><Button content="SALVAR" /></Link>
-            <Link to='/'><Button secondary content="CANCELAR" /></Link>
-        </form>
-    )
-}
+  return (
+    <form className="form NewPassword" action="">
+      <Title content="Recuperação de senha" primaryColor />
+      <Input
+        autoFocus
+        id="senha"
+        secondary
+        type="password"
+        placeholder="Nova senha"
+      />
+      <Input
+        id="c-senha"
+        secondary
+        type="password"
+        placeholder="Confirmar senha"
+        error
+      />
+      <Link to="/">
+        <Button content="SALVAR" />
+      </Link>
+      <Link to="/">
+        <Button secondary content="CANCELAR" />
+      </Link>
+    </form>
+  );
+};
 
-export default NewPassword
+export default NewPassword;
