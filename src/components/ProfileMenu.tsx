@@ -2,6 +2,8 @@ import React, { useRef, useState } from 'react';
 import './ProfileMenu.css';
 import { Icon } from '@iconify/react';
 import useOutsideClick from 'src/hooks/useOutsideClick';
+import { Avatar } from '@mui/material';
+import { getInitialsFromString, stringToColor } from 'src/utils/StringUtils';
 
 const ProfileMenu = () => {
   const [collapsed, setCollapsed] = useState(false);
@@ -14,7 +16,10 @@ const ProfileMenu = () => {
   return (
     <div className="ProfileMenu" ref={ref}>
       <div className="collapseToggle" onClick={() => setCollapsed(!collapsed)}>
-        <div className="image"></div>
+        <Avatar
+          sx={{ bgcolor: stringToColor('Abner José da Silva') }}
+          children={getInitialsFromString('Abner José da Silva')}
+        />
         <Icon icon="fluent:chevron-down-20-filled" />
       </div>
 
