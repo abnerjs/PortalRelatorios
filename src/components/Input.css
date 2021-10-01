@@ -34,18 +34,6 @@
     box-shadow: inset 0 0 1px 1px var(--primaryColor);
 }
 
-.SectionizedTable .search .icon {
-    position: absolute;
-    margin-top: 22px;
-    margin-left: 10px;
-    color: #aaa;
-    transition: all ease 0.3s;
-}
-
-.SectionizedTable .search .icon.active {
-    color: var(--primaryColor) !important;
-}
-
 .form-group .label {
     position: absolute;
     margin-top: 25px;

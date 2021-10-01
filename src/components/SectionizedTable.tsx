@@ -1,7 +1,7 @@
 import { Icon } from '@iconify/react';
+import { TextField } from '@mui/material';
 import React, { useState } from 'react';
 import CRUDButton from './CRUDButton';
-import Input from './Input';
 import './SectionizedTable.css';
 
 function rows(
@@ -58,6 +58,11 @@ type Props = {
 const SectionizedTable = (props: Props) => {
   const [tipoUsuario, setTipoUsuario] = useState('interno');
   const [searchText, setSearchText] = useState('');
+  const [focused, setFocused] = useState(false);
+
+  const handleChangeSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchText(event.target.value);
+  };
 
   return (
     <div className={`SectionizedTable${props.isFormOpened ? '' : ' formInvi'}`}>
@@ -79,17 +84,29 @@ const SectionizedTable = (props: Props) => {
         ></div>
       </div>
       <div className="search">
-        <Input
-          autoFocus
-          id="searchField"
-          placeholder={
+        <Icon
+          icon="fluent:search-12-regular"
+          width={25}
+          className={`icon${focused ? ' active' : ''}`}
+        />
+        <TextField
+          id="nome"
+          onChange={handleChangeSearch}
+          onFocus={() => setFocused(true)}
+          onBlur={() => setFocused(false)}
+          fullWidth
+          className="iconified"
+          color="primary"
+          label={
             tipoUsuario === 'interno'
               ? 'Nome, matrícula ou e-mail'
               : 'Nome, CPF, CPNJ ou e-mail'
           }
-          iconified
-          icon="fluent:search-12-regular"
-          changeSearch={setSearchText}
+          InputProps={{
+            disableUnderline: true,
+          }}
+          variant="filled"
+          margin="normal"
         />
       </div>
       <CRUDButton
