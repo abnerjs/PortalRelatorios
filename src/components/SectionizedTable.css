@@ -129,3 +129,16 @@
 .SectionizedTable .rows .row .header .icon {
     margin-left: 10px;
 }
+
+.SectionizedTable .search .icon {
+    position: absolute;
+    margin-top: 31.5px;
+    margin-left: 10px;
+    color: #aaa;
+    transition: all ease 0.3s;
+    z-index: 1;
+}
+
+.SectionizedTable .search .icon.active {
+    color: var(--primaryColor) !important;
+}
