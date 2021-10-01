@@ -8,7 +8,7 @@
     border-radius: 4px;
     font-size: 16px;
     outline: none;
-    margin: 10px 0;
+    margin-bottom: 20px;
     font-family: "Montserrat", sans-serif;
     transition: max-height linear 0.3s;
     cursor: pointer;
@@ -46,6 +46,23 @@
 .Select .controller {
     display: flex;
     align-items: center;
+}
+
+.Select .controller .header {
+    display: flex;
+    position: absolute;
+    height: 50px;
+    padding: 0 25px;
+    width: 450px !important;
+    opacity: 1;
+    transform: translateX(-25px);
+    align-items: center;
+    transition: opacity 0s ease 0.3s;
+}
+
+.Select .controller .header.active {
+    opacity: 0;
+    visibility: hidden;
 }
 
 .Select .placeholder {

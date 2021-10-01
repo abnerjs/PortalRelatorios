@@ -110,13 +110,7 @@
 }
 
 .FormUser .buttons {
-    display: flex;
-}
-
-.FormUser .buttons .Button:first-child {
-    margin-right: 10px;
-}
-
-.FormUser .buttons .Button:last-child {
-    margin-left: 10px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 20px;
 }

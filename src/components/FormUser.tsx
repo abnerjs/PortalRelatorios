@@ -1,10 +1,8 @@
 import { Icon } from '@iconify/react';
+import { Button, TextField } from '@mui/material';
 import React, { useState } from 'react';
-import Button from './Button';
 import Checkbox from './Checkbox';
 import './FormUser.css';
-import Input from './Input';
-import MultivaloredInput from './MultivaloredInput';
 import Select from './Select';
 import Title from './Title';
 
@@ -19,6 +17,16 @@ type Props = {
 const FormUser = (props: Props) => {
   const [initial, setInitial] = useState('');
   const [selected, setSelected] = useState('');
+
+  const handleChangeNome = (event: React.ChangeEvent<HTMLInputElement>) => {
+    var arr: string[];
+    arr = event.target.value.trim().split(' ');
+    var aux: string = '';
+    aux += arr[0].charAt(0);
+
+    if (arr.length > 1) aux += arr[arr.length - 1].charAt(0);
+    setInitial(aux);
+  };
 
   const arr: string[] = ['teste1', 'teste2', 'teste3', 'teste4'];
 
@@ -51,65 +59,119 @@ const FormUser = (props: Props) => {
           </div>
         </div>
         <div className="inputs">
-          <Input
-            tabIndex={props.visible ? 0 : -1}
+          <TextField
             id="nome"
-            placeholder="Nome"
-            onchange={setInitial}
+            onChange={handleChangeNome}
+            fullWidth
+            color="primary"
+            label="Nome"
+            InputProps={{
+              disableUnderline: true,
+              inputProps: { tabIndex: props.visible ? 0 : -1 },
+            }}
+            variant="filled"
           />
-          <Input
-            tabIndex={props.visible ? 0 : -1}
+          <TextField
             id="matricula"
-            placeholder="Matrícula"
+            fullWidth
+            color="primary"
+            label="Matrícula"
+            InputProps={{
+              disableUnderline: true,
+              inputProps: { tabIndex: props.visible ? 0 : -1 },
+            }}
+            variant="filled"
           />
         </div>
       </div>
-      <Input
-        tabIndex={props.visible ? 0 : -1}
+      <TextField
         id="email"
+        fullWidth
+        color="primary"
+        label="E-mail"
         type="email"
-        placeholder="E-mail"
+        InputProps={{
+          disableUnderline: true,
+          inputProps: { tabIndex: props.visible ? 0 : -1 },
+        }}
+        variant="filled"
       />
       <Select
         placeholder="Selecione o perfil"
         options={arr}
         selected={selected}
+        tabIndex={props.visible ? 0 : -1}
         setSelected={setSelected}
       >
-        <Input
+        <TextField
           id="perfil"
-          tabIndex={-1}
-          placeholder="Descrição do perfil"
-          secondary
+          fullWidth
+          color="primary"
+          className="secondary"
+          label="Descrição do perfil"
+          InputProps={{
+            disableUnderline: true,
+            inputProps: { tabIndex: -1 },
+            style: { marginTop: '20px' },
+          }}
+          InputLabelProps={{
+            style: { marginTop: '20px' },
+          }}
+          variant="filled"
         />
         <Checkbox uppercase id="usuarios" content="Cadastro de usuários" />
         <Checkbox uppercase id="logs" content="Acesso aos logs" />
         <Checkbox uppercase id="arquivos" content="Upload de arquivos" />
         <Title width={18} content="Tipos de arquivos" />
       </Select>
-      <MultivaloredInput id="fornecedores" placeholder="Fornecedores" />
-      <Input
-        tabIndex={props.visible ? 0 : -1}
+      <TextField
         id="senha"
+        fullWidth
+        color="primary"
+        label="Senha"
         type="password"
-        placeholder="Senha"
+        InputProps={{
+          disableUnderline: true,
+          inputProps: { tabIndex: props.visible ? 0 : -1 },
+        }}
+        variant="filled"
       />
-      <Input
-        tabIndex={props.visible ? 0 : -1}
+      <TextField
         id="r-senha"
+        fullWidth
+        color="primary"
+        label="Repita a senha"
         type="password"
-        placeholder="Repita a senha"
+        InputProps={{
+          disableUnderline: true,
+          inputProps: { tabIndex: props.visible ? 0 : -1 },
+        }}
+        variant="filled"
       />
       <div className="buttons">
-        <Button content="SALVAR" />
         <Button
-          secondary
-          valueOpenForm={false}
-          setFormOpened={props.setFormOpened}
-          content="CANCELAR"
-          setSelectSelected={setSelected}
-          setUserSelected={props.setUserSelected}
-        />
+          tabIndex={props.visible ? 0 : -1}
+          variant="contained"
+          onClick={() => {
+            setSelected('');
+            props.setUserSelected(-1);
+            props.setFormOpened(false);
+          }}
+        >
+          SALVAR
+        </Button>
+        <Button
+          tabIndex={props.visible ? 0 : -1}
+          variant="contained"
+          onClick={() => {
+            setSelected('');
+            props.setUserSelected(-1);
+            props.setFormOpened(false);
+          }}
+          className="secondary"
+        >
+          CANCELAR
+        </Button>
       </div>
     </form>
   );

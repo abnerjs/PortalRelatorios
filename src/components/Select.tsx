@@ -1,8 +1,8 @@
 import { Icon } from '@iconify/react';
+import { Button } from '@mui/material';
 import React, { useRef, useState } from 'react';
 import { ReactNode } from 'react';
 import useOutsideClick from 'src/hooks/useOutsideClick';
-import Button from './Button';
 import './Select.css';
 import SelectButton from './SelectButton';
 
@@ -12,6 +12,7 @@ type Props = {
   children: React.ReactChild[];
   selected: string;
   setSelected: Function;
+  tabIndex: number;
 };
 
 function makeOptions(
@@ -28,8 +29,8 @@ function makeOptions(
       <div
         className="option default"
         onClick={() => {
-          setActive(false);
           setPlaceholder('');
+          setActive(false);
         }}
       >
         {defaultPlaceholder}
@@ -42,8 +43,8 @@ function makeOptions(
       <div
         className="option"
         onClick={() => {
-          setActive(false);
           setPlaceholder(s[index]);
+          setActive(false);
         }}
       >
         {s[index]}
@@ -64,34 +65,15 @@ const Select: React.FC<Props> = (props: Props) => {
     setFormActive(false);
   });
 
-  function handleForm(e: any) {
-    e.stopPropagation();
-  }
-
   return (
     <div
       className={`Select${active ? ' active' : ''}`}
-      onFocus={
-        active
-          ? handleForm
-          : () => {
-              setActive(true);
-            }
-      }
-      onMouseUp={
-        active
-          ? handleForm
-          : () => {
-              setActive(true);
-            }
-      }
-      onBlur={
-        active
-          ? handleForm
-          : () => {
-              setActive(false);
-            }
-      }
+      onFocus={() => {
+        setActive(true);
+      }}
+      onBlur={() => {
+        if (!formActive) setActive(false);
+      }}
       ref={ref}
     >
       <div className="cardsController">
@@ -99,23 +81,31 @@ const Select: React.FC<Props> = (props: Props) => {
           <div className="controller">
             <div className="newprofile">
               <SelectButton
+                tabIndex={props.tabIndex}
                 active={active}
                 content="Novo perfil"
-                onclick={active ? setFormActive : setActive}
+                onclick={active ? setFormActive : () => {}}
               />
             </div>
             <div
-              className={`placeholder${
-                props.selected !== '' ? ' selected' : ''
-              }`}
+              className={`header${active ? ' active' : ''}`}
+              onClick={() => {
+                if (!formActive && !active) setActive(true);
+              }}
             >
-              {props.selected !== '' ? props.selected : props.placeholder}
+              <div
+                className={`placeholder${
+                  props.selected !== '' ? ' selected' : ''
+                }`}
+              >
+                {props.selected !== '' ? props.selected : props.placeholder}
+              </div>
+              <Icon
+                icon="fluent:chevron-right-16-filled"
+                width={25}
+                className={`SelectWrapper${active ? ' active' : ''}`}
+              />
             </div>
-            <Icon
-              icon="fluent:chevron-right-16-filled"
-              width={25}
-              className={`SelectWrapper${active ? ' active' : ''}`}
-            />
           </div>
           <div
             className="options"
@@ -140,16 +130,20 @@ const Select: React.FC<Props> = (props: Props) => {
 
           <div className="buttons">
             <Button
-              tabIndex={-1}
-              content="SALVAR"
-              setFormOpened={setFormActive}
-            />
+              tabIndex={active && formActive ? 0 : -1}
+              variant="contained"
+              onClick={() => setFormActive(false)}
+            >
+              SALVAR
+            </Button>
             <Button
-              tabIndex={-1}
-              content="CANCELAR"
-              secondary
-              setFalse={setFormActive}
-            />
+              tabIndex={active && formActive ? 0 : -1}
+              variant="contained"
+              onClick={() => setFormActive(false)}
+              className="secondary"
+            >
+              CANCELAR
+            </Button>
           </div>
         </div>
       </div>
