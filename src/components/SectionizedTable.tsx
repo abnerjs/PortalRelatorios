@@ -1,6 +1,7 @@
 import { Icon } from '@iconify/react';
-import { TextField } from '@mui/material';
+import { Avatar, TextField } from '@mui/material';
 import React, { useState } from 'react';
+import { getInitialsFromString, stringToColor } from 'src/utils/StringUtils';
 import CRUDButton from './CRUDButton';
 import './SectionizedTable.css';
 
@@ -27,9 +28,16 @@ function rows(
           //arr[index].img? <img src="" alt="" /> : <div className="img"></div>
         }
         <div className="header">
-          <div className="image">
-            <div className="img">AS</div>
-          </div>
+          <Avatar
+            sx={{ bgcolor: stringToColor('Abner José da Silva') }}
+            children={getInitialsFromString('Abner José da Silva')}
+            style={{
+              width: '33px',
+              height: '33px',
+              margin: '0 10px 0 0',
+              fontWeight: 400,
+            }}
+          />
           <div className="nome">Abner José da Silva</div>
           <div className="matricula">1020305</div>
           <div className="email">abner@datamob.com.br</div>

@@ -1,6 +1,7 @@
 import { Icon } from '@iconify/react';
 import { Button, TextField } from '@mui/material';
 import React, { useState } from 'react';
+import { getInitialsFromString } from 'src/utils/StringUtils';
 import Checkbox from './Checkbox';
 import './FormUser.css';
 import Select from './Select';
@@ -17,16 +18,6 @@ type Props = {
 const FormUser = (props: Props) => {
   const [initial, setInitial] = useState('');
   const [selected, setSelected] = useState('');
-
-  const handleChangeNome = (event: React.ChangeEvent<HTMLInputElement>) => {
-    var arr: string[];
-    arr = event.target.value.trim().split(' ');
-    var aux: string = '';
-    aux += arr[0].charAt(0);
-
-    if (arr.length > 1) aux += arr[arr.length - 1].charAt(0);
-    setInitial(aux);
-  };
 
   const arr: string[] = ['teste1', 'teste2', 'teste3', 'teste4'];
 
@@ -61,7 +52,9 @@ const FormUser = (props: Props) => {
         <div className="inputs">
           <TextField
             id="nome"
-            onChange={handleChangeNome}
+            onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+              setInitial(getInitialsFromString(event.target.value))
+            }
             fullWidth
             color="primary"
             label="Nome"
