@@ -6,13 +6,19 @@ type Props = {
   content: string;
   active: boolean;
   onclick: Function;
+  tabIndex: number;
 };
 
 const SelectButton = (props: Props) => {
   return (
     <button
       className={`SelectButton${props.active ? ' visible' : ''}`}
-      onMouseDown={() => props.onclick(true)}
+      onMouseDown={() => {
+        if (props.active) {
+          props.onclick(true);
+        }
+      }}
+      tabIndex={props.tabIndex}
     >
       <Icon icon="fluent:add-16-regular" width={25} className="icon" />
       {props.content}

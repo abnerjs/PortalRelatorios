@@ -1,4 +1,5 @@
 import './App.css';
+import './basic/Styles/customComponents.css';
 import { BrowserRouter as Router } from 'react-router-dom';
 import Main from './pages/login/Main';
 import { connect } from 'react-redux';

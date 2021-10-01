@@ -5,7 +5,6 @@ type Props = {
   secondary?: any;
   height?: number;
   content?: string;
-  setFormOpened?: Function;
   setFalse?: Function;
   valueOpenForm?: boolean;
   placeholder?: string;
@@ -23,9 +22,6 @@ const Button = (props: Props) => {
         height: props.height ? props.height : 50 + 'px',
       }}
       onClick={() => {
-        if (props.setFormOpened) {
-          props.setFormOpened(false);
-        }
         if (props.setFalse) {
           props.setFalse(false);
         }
