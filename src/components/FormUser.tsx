@@ -128,6 +128,17 @@ const FormUser = (props: Props) => {
         id="senha"
         fullWidth
         color="primary"
+        label="Nome de usuário"
+        InputProps={{
+          disableUnderline: true,
+          inputProps: { tabIndex: props.visible ? 0 : -1 },
+        }}
+        variant="filled"
+      />
+      <TextField
+        id="senha"
+        fullWidth
+        color="primary"
         label="Senha"
         type="password"
         InputProps={{

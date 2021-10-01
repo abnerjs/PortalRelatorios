@@ -46,6 +46,7 @@
 .Select .controller {
     display: flex;
     align-items: center;
+    position: relative;
 }
 
 .Select .controller .header {
