@@ -11,6 +11,13 @@ const Usuarios = () => {
   const [userSelected, setUserSelected] = useState(-1);
   const [newUserSection, setNewUserSection] = useState(false);
 
+  const handleOpenForm = (value: boolean) => {
+    setFormOpened(value);
+    setTimeout(() => {
+      document.getElementById("nome")?.focus();
+    }, 300);
+  }
+
   return (
     <div className="Usuarios">
       <div className="content">
@@ -26,7 +33,7 @@ const Usuarios = () => {
             userSelected={userSelected}
             setUserSelected={setUserSelected}
             isFormOpened={isFormOpened}
-            setFormOpened={setFormOpened}
+            setFormOpened={handleOpenForm}
           />
           <FormUser
             setNewUserSection={setNewUserSection}
