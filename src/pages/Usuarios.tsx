@@ -10,6 +10,7 @@ const Usuarios = () => {
   //const [userSelected, setUserSelected] = useState(undefined)
   const [userSelected, setUserSelected] = useState(-1);
   const [newUserSection, setNewUserSection] = useState(false);
+  const [tipoUsuario, setTipoUsuario] = useState('interno');
 
   const handleOpenForm = (value: boolean) => {
     setFormOpened(value);
@@ -34,6 +35,8 @@ const Usuarios = () => {
             setUserSelected={setUserSelected}
             isFormOpened={isFormOpened}
             setFormOpened={handleOpenForm}
+            tipoUsuario={tipoUsuario}
+            setTipoUsuario={setTipoUsuario}
           />
           <FormUser
             setNewUserSection={setNewUserSection}
@@ -41,6 +44,8 @@ const Usuarios = () => {
             setUserSelected={setUserSelected}
             setFormOpened={setFormOpened}
             visible={isFormOpened}
+            tipoUsuario={tipoUsuario}
+            setTipoUsuario={setTipoUsuario}
           />
         </div>
       </div>
