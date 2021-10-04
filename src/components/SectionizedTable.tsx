@@ -1,5 +1,5 @@
 import { Icon } from '@iconify/react';
-import { Avatar, TextField } from '@mui/material';
+import { Avatar, Button, TextField } from '@mui/material';
 import React, { useState } from 'react';
 import { getInitialsFromString, stringToColor } from 'src/utils/StringUtils';
 import CRUDButton from './CRUDButton';
@@ -19,14 +19,9 @@ function rows(
       <div
         className={`row${indexSelected === index ? ' selected' : ''}`}
         onClick={() => {
-          setFormOpened(true);
-          setIndexSelected(index);
+          if (indexSelected !== index) setIndexSelected(index);
         }}
       >
-        {
-          //se o usuario tiver foto, mostra ela, se não, mostra as iniciais
-          //arr[index].img? <img src="" alt="" /> : <div className="img"></div>
-        }
         <div className="header">
           <Avatar
             sx={{ bgcolor: stringToColor('Abner José da Silva') }}
@@ -46,6 +41,27 @@ function rows(
             width={16}
             className="icon"
           />
+        </div>
+        <div className="buttons">
+          <Button
+            tabIndex={indexSelected === index ? 0 : -1}
+            variant="contained"
+            onClick={() => {
+              setFormOpened(true);
+            }}
+          >
+            ALTERAR
+          </Button>
+          <Button
+            tabIndex={indexSelected === index ? 0 : -1}
+            variant="contained"
+            className="errorColor"
+            onClick={() => {
+              //some function
+            }}
+          >
+            DELETAR
+          </Button>
         </div>
       </div>
     );
@@ -98,7 +114,8 @@ const SectionizedTable = (props: Props) => {
           className={`icon${focused ? ' active' : ''}`}
         />
         <TextField
-          id="nome"
+          id="searchbar"
+          autoComplete="none"
           onChange={handleChangeSearch}
           onFocus={() => setFocused(true)}
           onBlur={() => setFocused(false)}

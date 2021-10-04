@@ -45,6 +45,10 @@
   box-shadow: none !important;
 }
 
+.MuiButton-root.errorColor {
+  background-color: var(--errorColor) !important;
+}
+
 .MuiButton-root.secondary {
   background-color: var(--primary50) !important;
 }
