@@ -7,23 +7,98 @@ import './FormUser.css';
 import Select from './Select';
 import Title from './Title';
 
+const mask = (v: string) => {
+  console.log(v);
+
+  v = v.replace(/\D/g, '');
+
+  if (v.length <= 11) {
+    v = v.replace(/(\d{3})(\d)/, '$1.$2');
+    v = v.replace(/(\d{3})(\d)/, '$1.$2');
+    v = v.replace(/(\d{3})(\d{1,2})$/, '$1-$2');
+  } else {
+    v = v.replace(/^(\d{2})(\d)/, '$1.$2');
+    v = v.replace(/^(\d{2})\.(\d{3})(\d)/, '$1.$2.$3');
+    v = v.replace(/\.(\d{3})(\d)/, '.$1/$2');
+    v = v.replace(/(\d{4})(\d)/, '$1-$2');
+  }
+
+  return v;
+};
+
+const renderIfTipoUsuario = (
+  tipoUsuario: string,
+  cpfCnpj: string,
+  visible: boolean,
+  handleChangeCpfCnpj: any
+) => {
+  if (tipoUsuario === 'interno') {
+    return (
+      <TextField
+        id="matricula"
+        autoComplete="none"
+        fullWidth
+        color="primary"
+        defaultValue=""
+        label="Matrícula"
+        InputProps={{
+          disableUnderline: true,
+          inputProps: {
+            tabIndex: visible ? 0 : -1,
+          },
+        }}
+        variant="filled"
+      />
+    );
+  } else {
+    return (
+      <TextField
+        id="cpfCnpjExterno"
+        autoComplete="none"
+        fullWidth
+        color="primary"
+        value={cpfCnpj}
+        label={'CPF/CNPJ'}
+        onChange={handleChangeCpfCnpj}
+        InputProps={{
+          disableUnderline: true,
+          inputProps: {
+            tabIndex: visible ? 0 : -1,
+            maxLength: 18,
+          },
+        }}
+        variant="filled"
+      />
+    );
+  }
+};
+
 type Props = {
   visible: boolean;
   setFormOpened: Function;
   userSelected?: any;
   setUserSelected: Function;
   setNewUserSection?: Function;
+  tipoUsuario: string;
+  setTipoUsuario: Function;
 };
 
 const FormUser = (props: Props) => {
   const [initial, setInitial] = useState('');
   const [selected, setSelected] = useState('');
+  const [cpfCnpj, setCpfCnpj] = useState('');
 
   const arr: string[] = ['teste1', 'teste2', 'teste3', 'teste4'];
 
   function handleSubmit(e: any) {
     e.preventDefault();
   }
+
+  const handleChangeCpfCnpj = (e: any) => {
+    const { value } = e.target;
+
+    setCpfCnpj(mask(value));
+  };
 
   return (
     <form
@@ -65,19 +140,34 @@ const FormUser = (props: Props) => {
             }}
             variant="filled"
           />
-          <TextField
-            id="matricula"
-            fullWidth
-            color="primary"
-            label="Matrícula"
-            InputProps={{
-              disableUnderline: true,
-              inputProps: { tabIndex: props.visible ? 0 : -1 },
-            }}
-            variant="filled"
-          />
+          {renderIfTipoUsuario(
+            props.tipoUsuario,
+            cpfCnpj,
+            props.visible,
+            handleChangeCpfCnpj
+          )}
         </div>
       </div>
+      <TextField
+        id="cpfInterno"
+        fullWidth
+        label="CPF"
+        onChange={handleChangeCpfCnpj}
+        value={props.tipoUsuario === 'interno' ? cpfCnpj : ''}
+        autoComplete="none"
+        type="text"
+        style={{
+          display: props.tipoUsuario === 'interno' ? 'block' : 'none',
+        }}
+        InputProps={{
+          disableUnderline: true,
+          inputProps: {
+            tabIndex: props.visible ? 0 : -1,
+            maxLength: 18,
+          },
+        }}
+        variant="filled"
+      />
       <TextField
         id="email"
         fullWidth
@@ -120,7 +210,7 @@ const FormUser = (props: Props) => {
         <Title width={18} content="Tipos de arquivos" />
       </Select>
       <TextField
-        id="senha"
+        id="login"
         fullWidth
         color="primary"
         label="Nome de usuário"
@@ -164,8 +254,9 @@ const FormUser = (props: Props) => {
             props.setUserSelected(-1);
             props.setFormOpened(false);
           }}
+          className="secondary"
         >
-          SALVAR
+          CANCELAR
         </Button>
         <Button
           tabIndex={props.visible ? 0 : -1}
@@ -175,9 +266,8 @@ const FormUser = (props: Props) => {
             props.setUserSelected(-1);
             props.setFormOpened(false);
           }}
-          className="secondary"
         >
-          CANCELAR
+          SALVAR
         </Button>
       </div>
     </form>

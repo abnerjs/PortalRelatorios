@@ -144,6 +144,7 @@
 .SectionizedTable .rows .row .header .email, .SectionizedTable .rows .row .header .matricula{
     flex: 1;
     text-align: end;
+    margin-right: 15px;
 }
 
 .SectionizedTable .rows .row .header .icon {
@@ -166,4 +167,42 @@
 
 .SectionizedTable .search .icon.active {
     color: var(--primaryColor) !important;
+}
+
+.modal-confirm-delete {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 400px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 24;
+    padding: 50px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.modal-confirm-delete #transition-modal-title {
+    color: #aaa;
+    font-weight: var(--semiBold);
+    font-size: 14px;
+    margin-bottom: 30px;
+}
+
+.modal-confirm-delete .userInfo p {
+    height: 30px;
+    line-height: 30px;
+    padding: 0 15px;
+    border-radius: 4px;
+    margin: 10px;
+    font-weight: 500;
+}
+
+.modal-confirm-delete .buttons {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 20px;
+    margin-top: 20px;
 }
