@@ -52,3 +52,20 @@
 .MuiButton-root.secondary {
   background-color: var(--primary50) !important;
 }
+
+.MuiFormControlLabel-root .MuiTypography-root {
+  transition: all ease 0.2s;
+  color: #aaa;
+}
+
+.MuiFormControlLabel-root .Mui-checked ~ .MuiTypography-root {
+  color: var(--primaryColor);
+}
+
+.MuiFormControlLabel-root .MuiCheckbox-root .MuiSvgIcon-root {
+  color: #aaa;
+}
+
+.MuiFormControlLabel-root .MuiCheckbox-root.Mui-checked .MuiSvgIcon-root {
+  color: var(--primaryColor);
+}

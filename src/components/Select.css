@@ -28,6 +28,8 @@
 
 .Select .form {
     width: calc(50% - 50px) !important;
+    display: flex;
+    flex-direction: column;
     padding: 0 25px;
     height: 100%;
     padding-bottom: 20px;

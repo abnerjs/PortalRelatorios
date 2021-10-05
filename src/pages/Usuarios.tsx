@@ -4,13 +4,14 @@ import {
   Backdrop,
   Box,
   Button,
+  Checkbox,
   Fade,
+  FormControlLabel,
   Modal,
   TextField,
   Typography,
 } from '@mui/material';
 import React, { useState } from 'react';
-import Checkbox from 'src/components/Checkbox';
 import Header from 'src/components/Header';
 import Select from 'src/components/Select';
 import Subtitle from 'src/components/Subtitle';
@@ -476,13 +477,9 @@ const Usuarios = () => {
                 }}
                 variant="filled"
               />
-              <Checkbox
-                uppercase
-                id="usuarios"
-                content="Cadastro de usuários"
-              />
-              <Checkbox uppercase id="logs" content="Acesso aos logs" />
-              <Checkbox uppercase id="arquivos" content="Upload de arquivos" />
+              <FormControlLabel control={<Checkbox />} label={"Cadastro de usuários".toUpperCase()} />
+              <FormControlLabel control={<Checkbox />} label={"Acesso aos logs".toUpperCase()} />
+              <FormControlLabel control={<Checkbox />} label={"Upload de arquivos".toUpperCase()} />
               <Title width={18} content="Tipos de arquivos" />
             </Select>
             <TextField
