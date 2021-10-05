@@ -2,7 +2,8 @@
     width: 500px;
     transition: all ease 0.3s;
     max-height: 100%;
-    overflow: auto;
+    padding: 0 25px;
+    overflow-y: overlay;
 }
 
 .FormUser.invi {

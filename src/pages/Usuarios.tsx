@@ -46,7 +46,7 @@ function rows(
 ) {
   let arr: any[] = [];
 
-  lstUsuarios.map((user, index) => {
+  lstUsuarios.forEach((user, index) => {
     arr.push(
       <div
         className={`row${indexSelected === index ? ' selected' : ''}`}

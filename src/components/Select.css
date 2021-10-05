@@ -1,7 +1,6 @@
 .Select {
-    width: calc(100% - 50px);
+    width: 100%;
     background-color: white;
-    padding: 0 25px;
     max-height: 56px;
     height: 0%;
     border: none;
@@ -11,8 +10,8 @@
     margin-bottom: 20px;
     font-family: "Montserrat", sans-serif;
     transition: max-height linear 0.3s;
-    cursor: pointer;
     overflow: hidden;
+    position: relative;
 }
 
 .Select.active {
@@ -21,21 +20,21 @@
 }
 
 .Select .cardsController {
-    width: 925px;
+    width: 1000px;
     display: flex;
     align-items: flex-start;
     height: min-content;
 }
 
 .Select .form {
-    width: 450px !important;
+    width: calc(50% - 50px) !important;
+    padding: 0 25px;
     height: 100%;
     padding-bottom: 20px;
-    transform: translateX(50px);
 }
 
 .Select .mainSection {
-    width: 450px !important;
+    width: calc(50%) !important;
     transition: all ease 0.4s;
 }
 
@@ -45,25 +44,21 @@
 
 .Select .controller {
     display: flex;
+    flex-direction: column;
     align-items: center;
     position: relative;
+    width: 100%;
 }
 
 .Select .controller .header {
     display: flex;
-    position: absolute;
     height: 56px;
     padding: 0 25px;
-    width: 450px !important;
+    width: calc(100% - 50px) !important;
     opacity: 1;
-    transform: translateX(-25px);
     align-items: center;
     transition: opacity 0s ease 0.3s;
-}
-
-.Select .controller .header.active {
-    opacity: 0;
-    visibility: hidden;
+    cursor: pointer;
 }
 
 .Select .placeholder {
@@ -78,8 +73,9 @@
 }
 
 .Select .newprofile {
-    height: 56px;
-    position: relative;
+    height: 45px;
+    width: 450px;
+    margin: 0 25px;
 }
 
 .SelectWrapper {
@@ -92,17 +88,9 @@
 .Select .options {
     margin-top: 10px;
     margin-bottom: 10px;
+    width: 450px;
+    padding: 0 25px;
     overflow: auto;
-}
-
-::-webkit-scrollbar {
-    width: 10px;
-    background-color: transparent;
-}
-
-::-webkit-scrollbar-thumb {
-    background-color: rgba(0,0,0,0.1);
-    border-radius: 5px;
 }
 
 .Select .options .option {
@@ -111,6 +99,7 @@
     padding: 0 15px;
     border-radius: 8px;
     font-weight: var(--medium);
+    cursor: pointer;
 }
 
 .Select .options .option.default {

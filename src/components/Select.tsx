@@ -79,18 +79,11 @@ const Select: React.FC<Props> = (props: Props) => {
       <div className="cardsController">
         <div className={`mainSection${formActive ? ' inactive' : ''}`}>
           <div className="controller">
-            <div className="newprofile">
-              <SelectButton
-                tabIndex={props.tabIndex}
-                active={active}
-                content="Novo perfil"
-                onclick={active ? setFormActive : () => {}}
-              />
-            </div>
             <div
               className={`header${active ? ' active' : ''}`}
-              onClick={() => {
-                if (!formActive && !active) setActive(true);
+              onClick={(e: any) => {
+                setActive(!active);
+                e.stopPropagation();
               }}
             >
               <div
@@ -106,12 +99,18 @@ const Select: React.FC<Props> = (props: Props) => {
                 className={`SelectWrapper${active ? ' active' : ''}`}
               />
             </div>
+
+            <div className="newprofile">
+              <SelectButton
+                tabIndex={props.tabIndex}
+                active={active}
+                content="Novo perfil"
+                onclick={active ? setFormActive : () => {}}
+              />
+            </div>
           </div>
           <div
             className="options"
-            style={{
-              height: (props.children.length - 1) * 29 + 70 + 'px',
-            }}
           >
             {props.options
               ? makeOptions(
