@@ -5,18 +5,37 @@ import Title from '../../components/Title';
 import Input from '../../components/Input';
 import Checkbox from '../../components/Checkbox';
 import { Link } from 'react-router-dom';
+import { TextField } from '@mui/material';
 
 const Login: React.FC = (props: any) => {
   return (
     <form className="form Login" action="">
       <Title content="Acessar" primaryColor />
-      <Input
+      <TextField
         autoFocus
         id="login"
-        secondary
-        placeholder="Matrícula, CPF, CNPJ ou email"
+        fullWidth
+        color="primary"
+        label="Nome de usuário"
+        className="secondary"
+        InputProps={{
+          disableUnderline: true,
+        }}
+        variant="filled"
       />
-      <Input id="senha" secondary type="password" placeholder="Senha" />
+      <TextField
+        autoFocus
+        id="senha"
+        fullWidth
+        color="primary"
+        label="Senha"
+        type="password"
+        className="secondary"
+        InputProps={{
+          disableUnderline: true,
+        }}
+        variant="filled"
+      />
       <Checkbox flexEnd medium id="checkbox" content="Manter conectado" />
       <Button content="ENTRAR" />
       <Link className="forgot" to="/recovery">

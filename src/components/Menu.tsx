@@ -44,6 +44,14 @@ const Menu = () => {
         </Link>
         <Link to="/usuarios">
           <div
+            className={`menuButton` + (active === '/perfis' ? ' active' : '')}
+            onClick={() => setActive('/usuarios')}
+          >
+            <Icon icon="fluent:briefcase-20-regular" />
+          </div>
+        </Link>
+        <Link to="/usuarios">
+          <div
             className={`menuButton` + (active === '/logs' ? ' active' : '')}
             onClick={() => setActive('/usuarios')}
           >
