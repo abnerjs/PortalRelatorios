@@ -1,6 +1,6 @@
 .FormUser {
     width: 500px;
-    transition: all ease 0.5s;
+    transition: all ease 0.3s;
     max-height: 100%;
     overflow: auto;
 }
