@@ -6,6 +6,7 @@
     "@emotion/react": "^11.4.1",
     "@emotion/styled": "^11.3.0",
     "@iconify/react": "^3.0.1",
+    "@mui/icons-material": "^5.0.1",
     "@mui/material": "^5.0.2",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
@@ -14,7 +15,8 @@
     "react-router": "^5.2.1",
     "react-router-dom": "^5.3.0",
     "react-scripts": "^4.0.3",
-    "react-verification-code-input": "^1.2.9"
+    "react-verification-code-input": "^1.2.9",
+    "redux": "^4.1.1"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -41,9 +43,12 @@
     ]
   },
   "devDependencies": {
+    "@types/node": "^14.17.21",
     "@types/react": "^17.0.27",
     "@types/react-dom": "^17.0.9",
     "@types/react-input-mask": "^3.0.1",
+    "@types/react-redux": "^7.1.18",
+    "@types/react-router": "^5.1.16",
     "@types/react-router-dom": "^5.3.0",
     "typescript": "^4.4.3"
   }
