@@ -18,6 +18,6 @@
     justify-content: center;
 }
 
-.Header .Subtitle {
+.Header .MuiTypography-root.MuiTypography-subtitle1 {
     text-align: right;
 }
