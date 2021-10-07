@@ -64,7 +64,7 @@
   transition: all ease 0.3s;
 }
 
-.MuiButton-root.tertiary:hover:not(.Mui-focusVisible) {
+.MuiButton-root.tertiary:hover:not(.Mui-focusVisible):not(.active) {
   border-color: var(--primary50) !important;
   color: var(--primary50) !important;
 }
