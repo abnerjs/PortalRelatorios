@@ -8,6 +8,7 @@ import {
   Fade,
   FormControlLabel,
   Modal,
+  Switch,
   TextField,
   Typography,
 } from '@mui/material';
@@ -20,6 +21,7 @@ import './Usuarios.css';
 import './FormUser.css';
 import './SectionizedTable.css';
 import jsonFile from 'src/testing/fakeData/users.json';
+import DmIconifiedSwitch from 'src/components/DmIconifiedSwitch/DmIconifiedSwitch';
 
 interface Usuario {
   idRelUsuario: number;
@@ -191,7 +193,7 @@ const Usuarios = () => {
     setFormOpened(value);
     setTimeout(() => {
       document.getElementById('nome')?.focus();
-    }, 301);
+    }, 400);
   };
 
   const arr: string[] = ['teste1', 'teste2', 'teste3', 'teste4'];
@@ -223,7 +225,9 @@ const Usuarios = () => {
       <div className="content">
         <div className="head">
           <Header title="Usuários" />
-          <Typography variant="subtitle1">Todos os usuários do sistema</Typography>
+          <Typography variant="subtitle1">
+            Todos os usuários do sistema
+          </Typography>
         </div>
 
         <div className="row">
@@ -487,21 +491,24 @@ const Usuarios = () => {
                 }}
                 variant="filled"
               />
+              <div className="userSectionCheckboxes">
+                <FormControlLabel
+                  control={<Checkbox tabIndex={isFormOpened ? 0 : -1} />}
+                  label={'Cadastro de usuários'.toUpperCase()}
+                  tabIndex={-1}
+                />
+                <DmIconifiedSwitch tabIndex={-1} />
+              </div>
               <FormControlLabel
-              control={<Checkbox tabIndex= {isFormOpened ? 0 : -1} />}
-              label={'Cadastro de usuários'.toUpperCase()}
-              tabIndex= {isFormOpened ? 0 : -1}
-            />
-            <FormControlLabel
-              control={<Checkbox tabIndex= {isFormOpened ? 0 : -1} />}
-              label={'Acesso aos logs'.toUpperCase()}
-              tabIndex= {isFormOpened ? 0 : -1}
-            />
-            <FormControlLabel
-              control={<Checkbox tabIndex= {isFormOpened ? 0 : -1} />}
-              label={'Upload de arquivos'.toUpperCase()}
-              tabIndex= {isFormOpened ? 0 : -1}
-            />
+                control={<Checkbox tabIndex={isFormOpened ? 0 : -1} />}
+                label={'Acesso aos logs'.toUpperCase()}
+                tabIndex={-1}
+              />
+              <FormControlLabel
+                control={<Checkbox tabIndex={isFormOpened ? 0 : -1} />}
+                label={'Upload de arquivos'.toUpperCase()}
+                tabIndex={-1}
+              />
               <Title width={18} content="Tipos de arquivos" />
             </Select>
             <TextField

@@ -16,6 +16,7 @@ import Title from 'src/components/Title';
 import './Usuarios.css';
 import './FormUser.css';
 import './SectionizedTable.css';
+import DmIconifiedSwitch from 'src/components/DmIconifiedSwitch/DmIconifiedSwitch';
 
 function rows(
   searchText: string,
@@ -80,7 +81,7 @@ const Perfis = () => {
     setFormOpened(value);
     setTimeout(() => {
       document.getElementById('descricao')?.focus();
-    }, 301);
+    }, 400);
   };
 
   function handleSubmit(e: any) {
@@ -98,7 +99,9 @@ const Perfis = () => {
       <div className="content">
         <div className="head">
           <Header title="Perfis" />
-          <Typography variant="subtitle1">Todos os perfis do sistema</Typography>
+          <Typography variant="subtitle1">
+            Todos os perfis do sistema
+          </Typography>
         </div>
 
         <div className="row">
@@ -244,11 +247,14 @@ const Perfis = () => {
               }}
               variant="filled"
             />
-            <FormControlLabel
-              control={<Checkbox tabIndex={isFormOpened ? 0 : -1} />}
-              label={'Cadastro de usuários'.toUpperCase()}
-              tabIndex={isFormOpened ? 0 : -1}
-            />
+            <div className="userSectionCheckboxes">
+              <FormControlLabel
+                control={<Checkbox tabIndex={isFormOpened ? 0 : -1} />}
+                label={'Cadastro de usuários'.toUpperCase()}
+                tabIndex={isFormOpened ? 0 : -1}
+              />
+              <DmIconifiedSwitch tabIndex={-1} />
+            </div>
             <FormControlLabel
               control={<Checkbox tabIndex={isFormOpened ? 0 : -1} />}
               label={'Acesso aos logs'.toUpperCase()}
