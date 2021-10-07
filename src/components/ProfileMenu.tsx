@@ -3,7 +3,7 @@ import './ProfileMenu.css';
 import { Icon } from '@iconify/react';
 import useOutsideClick from 'src/hooks/useOutsideClick';
 import { Avatar } from '@mui/material';
-import { getInitialsFromString  } from 'src/utils/StringUtils';
+import { getInitialsFromString } from 'src/utils/StringUtils';
 
 const ProfileMenu = () => {
   const [collapsed, setCollapsed] = useState(false);
@@ -17,7 +17,7 @@ const ProfileMenu = () => {
     <div className="ProfileMenu" ref={ref}>
       <div className="collapseToggle" onClick={() => setCollapsed(!collapsed)}>
         <Avatar
-          sx={{ bgcolor: "#1878a1" }}
+          sx={{ bgcolor: '#1878a1' }}
           children={getInitialsFromString('Abner José da Silva')}
           style={{
             fontSize: '12pt',

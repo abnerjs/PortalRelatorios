@@ -1,3 +1,4 @@
+/*TEXTFIELD --------------------------------*/
 .MuiInputBase-root {
   background-color: white !important;
   border-radius: 4px !important;
@@ -35,6 +36,7 @@
   box-shadow: inset 0 0 2px 1px var(--primary50);
 }
 
+/*BUTTON --------------------------------*/
 .MuiButton-root {
   background-color: var(--primaryColor) !important;
   font-size: 16px !important;
@@ -53,6 +55,32 @@
   background-color: var(--primary50) !important;
 }
 
+.MuiButton-root.tertiary {
+  background-color: transparent !important;
+  color: #aaa;
+  font-weight: var(--regular) !important;
+  border: 2px dashed #aaa;
+  height: 32px;
+  transition: all ease 0.3s;
+}
+
+.MuiButton-root.tertiary:hover:not(.Mui-focusVisible) {
+  border-color: var(--primary50) !important;
+  color: var(--primary50) !important;
+}
+
+.MuiButton-root.tertiary.Mui-focusVisible:not(.active) {
+  border-color: var(--primary50) !important;
+  color: var(--primary50) !important;
+}
+
+.MuiButton-root.tertiary.active {
+  background-color: var(--primaryColor) !important;
+  color: white !important;
+  border: none;
+}
+
+/*CHECKBOX --------------------------------*/
 .MuiFormControlLabel-root .MuiTypography-root {
   transition: all ease 0.2s;
   color: #aaa;
@@ -68,4 +96,16 @@
 
 .MuiFormControlLabel-root .MuiCheckbox-root.Mui-checked .MuiSvgIcon-root {
   color: var(--primaryColor);
+}
+
+/*TYPOGRAPHY --------------------------------*/
+.MuiTypography-root.MuiTypography-subtitle1 {
+  font-size: 12px;
+  color: #AAA;
+}
+
+.MuiTypography-root.MuiTypography-h5 {
+  font-weight: var(--extraBold);
+  margin-bottom: 10px;
+  color: #272727;
 }

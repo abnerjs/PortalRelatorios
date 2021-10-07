@@ -14,13 +14,11 @@ import {
 import React, { useState } from 'react';
 import Header from 'src/components/Header';
 import Select from 'src/components/Select';
-import Subtitle from 'src/components/Subtitle';
 import Title from 'src/components/Title';
 import { getInitialsFromString } from 'src/utils/StringUtils';
 import './Usuarios.css';
 import './FormUser.css';
 import './SectionizedTable.css';
-import CRUDButton from 'src/components/CRUDButton';
 import jsonFile from 'src/testing/fakeData/users.json';
 
 interface Usuario {
@@ -225,7 +223,7 @@ const Usuarios = () => {
       <div className="content">
         <div className="head">
           <Header title="Usuários" />
-          <Subtitle content="Todos os usuários no sistema" />
+          <Typography variant="subtitle1">Todos os usuários do sistema</Typography>
         </div>
 
         <div className="row">
@@ -284,13 +282,25 @@ const Usuarios = () => {
                 margin="normal"
               />
             </div>
-            <CRUDButton
-              newUserSection={newUserSection}
-              setNewUserSection={setNewUserSection}
-              setFormOpened={handleOpenForm}
-              isFormOpened={isFormOpened}
-              content="novo usuário"
-            />
+            <Button
+              variant="contained"
+              onClick={() => {
+                handleOpenForm(true);
+                setNewUserSection(true);
+              }}
+              className={`tertiary${
+                isFormOpened && newUserSection ? ' active' : ''
+              }`}
+              startIcon={
+                <Icon
+                  icon="fluent:add-16-regular"
+                  width={25}
+                  className={`icon${focused ? ' active' : ''}`}
+                />
+              }
+            >
+              NOVO PERFIL
+            </Button>
             <div className="rows">
               {rows(
                 searchText,
@@ -477,9 +487,21 @@ const Usuarios = () => {
                 }}
                 variant="filled"
               />
-              <FormControlLabel control={<Checkbox />} label={"Cadastro de usuários".toUpperCase()} />
-              <FormControlLabel control={<Checkbox />} label={"Acesso aos logs".toUpperCase()} />
-              <FormControlLabel control={<Checkbox />} label={"Upload de arquivos".toUpperCase()} />
+              <FormControlLabel
+              control={<Checkbox tabIndex= {isFormOpened ? 0 : -1} />}
+              label={'Cadastro de usuários'.toUpperCase()}
+              tabIndex= {isFormOpened ? 0 : -1}
+            />
+            <FormControlLabel
+              control={<Checkbox tabIndex= {isFormOpened ? 0 : -1} />}
+              label={'Acesso aos logs'.toUpperCase()}
+              tabIndex= {isFormOpened ? 0 : -1}
+            />
+            <FormControlLabel
+              control={<Checkbox tabIndex= {isFormOpened ? 0 : -1} />}
+              label={'Upload de arquivos'.toUpperCase()}
+              tabIndex= {isFormOpened ? 0 : -1}
+            />
               <Title width={18} content="Tipos de arquivos" />
             </Select>
             <TextField

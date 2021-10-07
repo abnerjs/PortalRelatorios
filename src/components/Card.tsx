@@ -6,7 +6,7 @@ const Card = (props: { date: string; reg: string }) => {
   return (
     <div className="Card">
       <Icon icon="fluent:document-bullet-list-20-regular" />
-      <p className="date"> {props.date} </p>
+      <p className="date">{props.date}</p>
       <h2 className="nameReg">{props.reg}</h2>
     </div>
   );

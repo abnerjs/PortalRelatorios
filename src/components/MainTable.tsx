@@ -1,14 +1,13 @@
+import { Typography } from '@mui/material';
 import React from 'react';
 import './MainTable.css';
-import Subtitle from './Subtitle';
 import Table from './Table';
-import Title from './Title';
 
 const MainTable = (props: { title: string }) => {
   return (
     <div className="MainTable">
-      <Title subsection content={props.title} />
-      <Subtitle content="Tudo o que você não viu desde o seu último acesso" />
+      <Typography variant="h5">{props.title}</Typography>
+      <Typography variant="subtitle1">Tudo o que você não viu desde o seu último acesso</Typography>
 
       <Table />
     </div>

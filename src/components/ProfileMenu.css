@@ -23,16 +23,12 @@
     align-items: center;
 }
 
-.ProfileMenu div.image::before {
-    content: "MC";
-}
-
 .ProfileMenu .menuCollapse {
     position: absolute;
     right: 40px;
     top: 90px;  
     width: 250px;
-    height: 100px;
+    padding: 10px 0;
     border-radius: 16px;
     background-color: white;
     display: flex;
