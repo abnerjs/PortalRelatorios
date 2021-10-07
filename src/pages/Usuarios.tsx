@@ -314,7 +314,7 @@ const Usuarios = () => {
             <div className="rows">
               {rows(
                 searchText,
-                setFormOpened,
+                handleOpenForm,
                 rowSelected,
                 setRowSelected,
                 setOpen,
