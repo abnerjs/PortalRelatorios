@@ -8,7 +8,6 @@ import {
   Fade,
   FormControlLabel,
   Modal,
-  Switch,
   TextField,
   Typography,
 } from '@mui/material';
@@ -43,20 +42,25 @@ function rows(
   setIndexSelected: Function,
   setOpen: Function,
   setUsuarioSelecionado: Function,
-  lstUsuarios: Array<Usuario>
+  lstUsuarios: Array<Usuario>,
+  setNewUserSection: Function
 ) {
   let arr: any[] = [];
 
   lstUsuarios.forEach((user, index) => {
     arr.push(
-      <div
-        className={`row${indexSelected === index ? ' selected' : ''}`}
-        onClick={() => {
-          if (indexSelected !== index) setIndexSelected(index);
-          if (indexSelected !== index) setUsuarioSelecionado(user);
-        }}
-      >
-        <div className="header">
+      <div className={`row${indexSelected === index ? ' selected' : ''}`}>
+        <div
+          className="header"
+          onClick={() => {
+            if (indexSelected !== index) {
+              setIndexSelected(index);
+              setUsuarioSelecionado(user);
+            } else {
+              setIndexSelected(-1);
+            }
+          }}
+        >
           <Avatar
             sx={{ bgcolor: '#1878a1' }}
             children={getInitialsFromString(user.desNome)}
@@ -83,6 +87,7 @@ function rows(
             variant="contained"
             onClick={() => {
               setFormOpened(true);
+              setNewUserSection(false);
             }}
           >
             ALTERAR
@@ -178,7 +183,7 @@ const renderIfTipoUsuario = (
 
 const Usuarios = () => {
   const [isFormOpened, setFormOpened] = useState(false);
-  const [userSelected, setUserSelected] = useState(-1);
+  const [rowSelected, setRowSelected] = useState(-1);
   const [newUserSection, setNewUserSection] = useState(false);
   const [tipoUsuario, setTipoUsuario] = useState('interno');
   const [initial, setInitial] = useState('');
@@ -291,6 +296,7 @@ const Usuarios = () => {
               onClick={() => {
                 handleOpenForm(true);
                 setNewUserSection(true);
+                setRowSelected(-1);
               }}
               className={`tertiary${
                 isFormOpened && newUserSection ? ' active' : ''
@@ -309,11 +315,12 @@ const Usuarios = () => {
               {rows(
                 searchText,
                 setFormOpened,
-                userSelected,
-                setUserSelected,
+                rowSelected,
+                setRowSelected,
                 setOpen,
                 setUsuarioSelecionado,
-                jsonFile
+                jsonFile,
+                setNewUserSection
               )}
             </div>
             <Modal
@@ -553,7 +560,7 @@ const Usuarios = () => {
                 variant="contained"
                 onClick={() => {
                   setSelected('');
-                  setUserSelected(-1);
+                  setRowSelected(-1);
                   setFormOpened(false);
                 }}
                 className="secondary"
@@ -565,7 +572,7 @@ const Usuarios = () => {
                 variant="contained"
                 onClick={() => {
                   setSelected('');
-                  setUserSelected(-1);
+                  setRowSelected(-1);
                   setFormOpened(false);
                 }}
               >
