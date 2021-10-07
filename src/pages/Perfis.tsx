@@ -23,7 +23,8 @@ function rows(
   setFormOpened: Function,
   indexSelected: number,
   setIndexSelected: Function,
-  setOpen: Function
+  setOpen: Function,
+  setNewUserSection: Function,
 ) {
   let arr: any[] = [];
 
@@ -34,7 +35,9 @@ function rows(
           className="header"
           onClick={() => {
             if (indexSelected !== index) setIndexSelected(index);
-            else setIndexSelected(-1);
+            else {
+              setIndexSelected(-1);
+            };
           }}
         >
           <div className="nome">Descrição do perfil</div>
@@ -50,6 +53,7 @@ function rows(
             variant="contained"
             onClick={() => {
               setFormOpened(true);
+              setNewUserSection(false);
             }}
           >
             ALTERAR
@@ -155,7 +159,8 @@ const Perfis = () => {
                 setFormOpened,
                 rowSelected,
                 setRowSelected,
-                setOpen
+                setOpen,
+                setNewUserSection
               )}
             </div>
             <Modal
