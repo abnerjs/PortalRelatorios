@@ -4,8 +4,15 @@
     max-height: 100%;
     padding: 0 25px;
     overflow-y: overlay;
+}
+
+.FormUser .userSectionCheckboxes {
     display: flex;
-    flex-direction: column;
+    align-items: center;
+}
+
+.FormUser .MuiFormControlLabel-root {
+    width: 100%;
 }
 
 .FormUser.invi {
