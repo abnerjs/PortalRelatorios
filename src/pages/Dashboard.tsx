@@ -1,9 +1,8 @@
+import { Typography } from '@mui/material';
 import React from 'react';
 import Card from '../components/Card';
 import Header from '../components/Header';
 import MainTable from '../components/MainTable';
-import Subtitle from '../components/Subtitle';
-import Title from '../components/Title';
 import './Dashboard.css';
 
 const Dashboard = () => {
@@ -12,7 +11,9 @@ const Dashboard = () => {
       <div className="content">
         <div className="head">
           <Header title="Início" />
-          <Subtitle content="Últimos relatórios acessados" />
+          <Typography variant="subtitle1">
+            Últimos relatórios acessados
+          </Typography>
         </div>
         <div className="row">
           <div className="cards">
@@ -23,9 +24,9 @@ const Dashboard = () => {
             <Card reg="Nome do registro" date="02/05/2021" />
           </div>
           <div className="comp">
-            <Title content="Nome da empresa" />
-            <Subtitle content="contact@corporation.com" />
-            <Subtitle content="(16) 98765-4321" />
+            <Typography variant="h5">Nome da empresa</Typography>
+            <Typography variant="subtitle1">contact@corporation.com</Typography>
+            <Typography variant="subtitle1">(16) 98765-4321</Typography>
           </div>
         </div>
         <div className="row tables">

@@ -2,7 +2,6 @@ import React from 'react';
 import './Login.css';
 import Button from '../../components/Button';
 import Title from '../../components/Title';
-import Input from '../../components/Input';
 import Checkbox from '../../components/Checkbox';
 import { Link } from 'react-router-dom';
 import { TextField } from '@mui/material';

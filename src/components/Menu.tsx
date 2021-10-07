@@ -42,10 +42,10 @@ const Menu = () => {
             <Icon icon="fluent:person-20-regular" />
           </div>
         </Link>
-        <Link to="/usuarios">
+        <Link to="/perfis">
           <div
             className={`menuButton` + (active === '/perfis' ? ' active' : '')}
-            onClick={() => setActive('/usuarios')}
+            onClick={() => setActive('/perfis')}
           >
             <Icon icon="fluent:briefcase-20-regular" />
           </div>
