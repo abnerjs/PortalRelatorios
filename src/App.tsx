@@ -4,6 +4,7 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import Main from './pages/login/Main';
 import { connect } from 'react-redux';
 import { default as MainHome } from './pages/Main';
+import { AppState } from './store';
 
 function whichMain(logged: boolean) {
   return logged ? <MainHome /> : <Main />;
@@ -17,9 +18,9 @@ const App: React.FC = (props: any) => {
   );
 };
 
-const mapStateToProps = (state: any) => {
+const mapStateToProps = (state: AppState) => {
   return {
-    logged: state.logged.status,
+    logged: state.session.authenticated,
   };
 };
 
