@@ -156,7 +156,7 @@ const Perfis = () => {
             <div className="rows">
               {rows(
                 searchText,
-                setFormOpened,
+                handleOpenForm,
                 rowSelected,
                 setRowSelected,
                 setOpen,
