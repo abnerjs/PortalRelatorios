@@ -1,4 +1,4 @@
-import 'src/pages/login/Login.css';
+import 'src/pages/Login/Routes/Form/Styles/index.css';
 
 import React from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
