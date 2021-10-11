@@ -1,45 +1,82 @@
+import 'src/pages/login/Login.css';
+
 import React from 'react';
-import './Login.css';
-import Button from '../../components/Button';
-import Title from '../../components/Title';
-import Checkbox from '../../components/Checkbox';
+import { SubmitHandler, useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
+import Joi from 'joi';
+
+import { joiResolver } from '@hookform/resolvers/joi';
 import { TextField } from '@mui/material';
 
-const Login: React.FC = (props: any) => {
+import Title from 'src/components/Title';
+import Button from 'src/components/Button';
+import Checkbox from 'src/components/Checkbox';
+import { useAppDispatch } from 'src/store';
+import { loginRequest } from 'src/store/ducks/login';
+
+interface FormInputs {
+  desLogin: string;
+  desSenha: string;
+}
+
+const schema = Joi.object({
+  desLogin: Joi.string().required(),
+  desSenha: Joi.string().required(),
+});
+
+const Login: React.FC = () => {
+  const dispatch = useAppDispatch();
+
+  const { register, handleSubmit, formState } = useForm<FormInputs>({
+    resolver: joiResolver(schema),
+  });
+
+  const onSubmit: SubmitHandler<FormInputs> = (data) => {
+    dispatch(loginRequest(data));
+  };
+
   return (
-    <form className="form Login" action="">
+    <form
+      className="Login form"
+      onSubmit={handleSubmit(onSubmit)}
+      autoComplete="off"
+    >
       <Title content="Acessar" primaryColor />
       <TextField
+        id="desLogin"
         autoFocus
-        id="login"
         fullWidth
-        color="primary"
         label="Nome de usuário"
+        color="primary"
+        variant="filled"
         className="secondary"
         InputProps={{
           disableUnderline: true,
         }}
-        variant="filled"
+        error={!!formState.errors.desLogin}
+        {...register('desLogin')}
       />
       <TextField
-        autoFocus
-        id="senha"
+        id="desSenha"
         fullWidth
-        color="primary"
         label="Senha"
-        type="password"
+        color="primary"
+        variant="filled"
         className="secondary"
+        type="password"
         InputProps={{
           disableUnderline: true,
         }}
-        variant="filled"
+        error={!!formState.errors.desSenha}
+        {...register('desSenha')}
       />
-      <Checkbox flexEnd medium id="checkbox" content="Manter conectado" />
+      {/* <Checkbox flexEnd medium id="checkbox" content="Manter conectado" /> */}
       <Button content="ENTRAR" />
-      <Link className="forgot" to="/recovery">
-        Esqueceu a senha?
-      </Link>
+      {/*
+        <Link className="forgot" to="/recovery">
+          Esqueceu a senha?
+        </Link> 
+      */}
     </form>
   );
 };
