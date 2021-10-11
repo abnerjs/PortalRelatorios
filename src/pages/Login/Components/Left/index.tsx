@@ -1,14 +1,17 @@
+import 'src/pages/Login/Components/Left/Styles/index.css';
+
 import React from 'react';
-import './Left.css';
-import Carousel from '../../components/Carousel';
-import mobile1 from '../../assets/carousel/1-mobile.png';
-import desktop1 from '../../assets/carousel/1-desktop.png';
-import mobile2 from '../../assets/carousel/2-mobile.png';
-import desktop2 from '../../assets/carousel/2-desktop.png';
-import mobile3 from '../../assets/carousel/3-mobile.png';
-import desktop3 from '../../assets/carousel/3-desktop.png';
-import Title from '../../components/Title';
-import DatamobIcon from '../../assets/DatamobIcon';
+
+import DatamobIcon from 'src/assets/DatamobIcon';
+import desktop1 from 'src/assets/carousel/1-desktop.png';
+import desktop2 from 'src/assets/carousel/2-desktop.png';
+import desktop3 from 'src/assets/carousel/3-desktop.png';
+import mobile1 from 'src/assets/carousel/1-mobile.png';
+import mobile2 from 'src/assets/carousel/2-mobile.png';
+import mobile3 from 'src/assets/carousel/3-mobile.png';
+
+import Carousel from 'src/components/Carousel';
+import Title from 'src/components/Title';
 
 const Left: React.FC = (props: any) => {
   return (
