@@ -3,9 +3,9 @@ import 'src/pages/Login/Routes/Form/Styles/index.css';
 import React from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
-import Joi from 'joi';
+import * as Yup from 'yup';
 
-import { joiResolver } from '@hookform/resolvers/joi';
+import { yupResolver } from '@hookform/resolvers/yup';
 import { TextField } from '@mui/material';
 
 import Title from 'src/components/Title';
@@ -19,16 +19,16 @@ interface FormInputs {
   desSenha: string;
 }
 
-const schema = Joi.object({
-  desLogin: Joi.string().required(),
-  desSenha: Joi.string().required(),
+const schema = Yup.object({
+  desLogin: Yup.string().required(),
+  desSenha: Yup.string().required(),
 });
 
 const Login: React.FC = () => {
   const dispatch = useAppDispatch();
 
   const { register, handleSubmit, formState } = useForm<FormInputs>({
-    resolver: joiResolver(schema),
+    resolver: yupResolver(schema),
   });
 
   const onSubmit: SubmitHandler<FormInputs> = (data) => {
