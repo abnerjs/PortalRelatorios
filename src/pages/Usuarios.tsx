@@ -8,6 +8,8 @@ import {
   Fade,
   FormControlLabel,
   Modal,
+  Tab,
+  Tabs,
   TextField,
   Typography,
 } from '@mui/material';
@@ -194,6 +196,10 @@ const Usuarios = () => {
   const [focused, setFocused] = useState(false);
   const [usuarioSelecionado, setUsuarioSelecionado] = useState<Usuario>();
 
+  const handleChangeInternoExterno = (event: React.SyntheticEvent, newValue: string) => {
+    setTipoUsuario(newValue);
+  };
+
   const handleOpenForm = (value: boolean) => {
     setFormOpened(value);
     setTimeout(() => {
@@ -237,33 +243,15 @@ const Usuarios = () => {
 
         <div className="row">
           <div className={`SectionizedTable${isFormOpened ? '' : ' formInvi'}`}>
-            <div className={`tabs${isFormOpened ? '' : ' middle'}`}>
-              <div
-                className={`option${
-                  tipoUsuario === 'interno' ? ' active' : ''
-                }`}
-                onClick={() => {
-                  setTipoUsuario('interno');
-                }}
-              >
-                INTERNO
-              </div>
-              <div
-                className={`option${
-                  tipoUsuario === 'externo' ? ' active' : ''
-                }`}
-                onClick={() => {
-                  setTipoUsuario('externo');
-                }}
-              >
-                EXTERNO
-              </div>
-              <div
-                className={`selector${
-                  tipoUsuario === 'externo' ? ' active' : ''
-                }`}
-              ></div>
-            </div>
+            <Tabs
+              className={`tabs${isFormOpened ? '' : ' middle'}`}
+              value={tipoUsuario}
+              onChange={handleChangeInternoExterno}
+              aria-label="Form section controller"
+            >
+              <Tab disableRipple value="interno" label="interno" />
+              <Tab disableRipple value="externo" label="externo" />
+            </Tabs>
             <div className="search">
               <Icon
                 icon="fluent:search-12-regular"
