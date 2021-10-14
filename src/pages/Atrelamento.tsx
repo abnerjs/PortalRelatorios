@@ -2,13 +2,7 @@ import { Icon } from '@iconify/react';
 import {
   Autocomplete,
   Avatar,
-  Backdrop,
-  Box,
   Button,
-  Checkbox,
-  Fade,
-  FormControlLabel,
-  Modal,
   Tab,
   Tabs,
   TextField,
@@ -16,8 +10,6 @@ import {
 } from '@mui/material';
 import React, { useState } from 'react';
 import Header from 'src/components/Header';
-import Select from 'src/components/Select';
-import Title from 'src/components/Title';
 import { getInitialsFromString } from 'src/utils/StringUtils';
 import './Usuarios.css';
 import './FormUser.css';
@@ -98,7 +90,6 @@ const Atrelamento = () => {
   const [isFormOpened, setFormOpened] = useState(false);
   const [rowSelected, setRowSelected] = useState(-1);
   const [tipoUsuario, setTipoUsuario] = useState('interno');
-  const [selected, setSelected] = useState('');
   const [searchText, setSearchText] = useState('');
   const [focused, setFocused] = useState(false);
   const [usuarioSelecionado, setUsuarioSelecionado] = useState<Usuario>();
@@ -238,7 +229,6 @@ const Atrelamento = () => {
                 tabIndex={isFormOpened ? 0 : -1}
                 variant="contained"
                 onClick={() => {
-                  setSelected('');
                   setRowSelected(-1);
                   setFormOpened(false);
                 }}
@@ -250,7 +240,6 @@ const Atrelamento = () => {
                 tabIndex={isFormOpened ? 0 : -1}
                 variant="contained"
                 onClick={() => {
-                  setSelected('');
                   setRowSelected(-1);
                   setFormOpened(false);
                 }}
@@ -266,22 +255,6 @@ const Atrelamento = () => {
 };
 
 export default Atrelamento;
-
-function AutocompleteCustomTags(
-  selectedMovies: { title: string; year: number }[]
-) {
-  let arr: Array<any> = [];
-  top100Films.map((movie, index) => {
-    arr.push(
-      <FormControlLabel
-        label={movie.title}
-        control={<Checkbox checked={selectedMovies.includes(movie)} />}
-      />
-    );
-  });
-
-  return <div className="AutocompleteCustomTags">{arr}</div>;
-}
 
 const top100Films = [
   { title: 'The Shawshank Redemption', year: 1994 },

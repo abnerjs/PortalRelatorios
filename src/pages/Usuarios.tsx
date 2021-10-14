@@ -1,5 +1,6 @@
 import { Icon } from '@iconify/react';
 import {
+  Autocomplete,
   Avatar,
   Backdrop,
   Box,
@@ -195,8 +196,14 @@ const Usuarios = () => {
   const [searchText, setSearchText] = useState('');
   const [focused, setFocused] = useState(false);
   const [usuarioSelecionado, setUsuarioSelecionado] = useState<Usuario>();
+  const [autocompleteValue, setAutocompleteValue] = React.useState<
+    string | null
+  >(null);
 
-  const handleChangeInternoExterno = (event: React.SyntheticEvent, newValue: string) => {
+  const handleChangeInternoExterno = (
+    event: React.SyntheticEvent,
+    newValue: string
+  ) => {
     setTipoUsuario(newValue);
   };
 
@@ -463,6 +470,35 @@ const Usuarios = () => {
               }}
               variant="filled"
             />
+
+            <Autocomplete
+              fullWidth
+              blurOnSelect
+              clearOnBlur
+              selectOnFocus
+              handleHomeEndKeys
+              disableCloseOnSelect
+              options={options}
+              getOptionLabel={(option) => option}
+              filterSelectedOptions
+              value={autocompleteValue}
+              onChange={(event: any, newValue: string | null) => {
+                setAutocompleteValue(newValue);
+              }}
+              renderInput={(params: any) => (
+                <TextField
+                  {...params}
+                  label="Selecione o perfil"
+                  variant="filled"
+                  InputProps={{
+                    ...params.InputProps,
+                    disableUnderline: true,
+                    inputProps: { tabIndex: isFormOpened ? 0 : -1 },
+                  }}
+                />
+              )}
+            />
+
             <Select
               placeholder="Selecione o perfil"
               options={arr}
@@ -575,3 +611,12 @@ const Usuarios = () => {
 };
 
 export default Usuarios;
+
+const options = [
+  'Option 1',
+  'Option 2',
+  'Option 3',
+  'Option 4',
+  'Option 5',
+  'Option 6',
+];
