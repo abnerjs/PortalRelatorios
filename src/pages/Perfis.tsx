@@ -1,5 +1,6 @@
 import { Icon } from '@iconify/react';
 import {
+  Autocomplete,
   Backdrop,
   Box,
   Button,
@@ -24,7 +25,7 @@ function rows(
   indexSelected: number,
   setIndexSelected: Function,
   setOpen: Function,
-  setNewUserSection: Function,
+  setNewUserSection: Function
 ) {
   let arr: any[] = [];
 
@@ -37,7 +38,7 @@ function rows(
             if (indexSelected !== index) setIndexSelected(index);
             else {
               setIndexSelected(-1);
-            };
+            }
           }}
         >
           <div className="nome">Descrição do perfil</div>
@@ -252,6 +253,7 @@ const Perfis = () => {
               }}
               variant="filled"
             />
+
             <div className="userSectionCheckboxes">
               <FormControlLabel
                 control={<Checkbox tabIndex={isFormOpened ? 0 : -1} />}
