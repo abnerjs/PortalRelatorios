@@ -5,6 +5,7 @@ import Menu from 'src/components/Menu';
 import Dashboard from './Dashboard';
 import Usuarios from './Usuarios';
 import Perfis from './Perfis';
+import Atrelamento from './Atrelamento';
 
 const Main = () => {
   return (
@@ -17,6 +18,9 @@ const Main = () => {
         </Route>
         <Route path="/perfis">
           <Perfis />
+        </Route>
+        <Route path="/atrelamento">
+          <Atrelamento />
         </Route>
         <Route path="/">
           <Dashboard />

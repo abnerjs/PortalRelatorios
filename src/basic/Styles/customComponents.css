@@ -130,3 +130,28 @@
 .MuiDrawer-paper .MuiListItemText-root.active {
   color: var(--primaryColor);
 }
+
+/*TABS -----------------------------------------*/
+
+.MuiTabs-root {
+  width: 350px;
+  margin-bottom: 16px;
+}
+
+.MuiTabs-root .MuiButtonBase-root {
+  width: 175px;
+  color: #aaa;
+  border-bottom: 2px solid #ddd;
+  font-size: 12pt;
+  font-weight: var(--regular);
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.MuiTabs-root .MuiButtonBase-root.Mui-selected {
+  color: var(--primaryColor);
+}
+
+.MuiTabs-root .MuiTabs-indicator {
+  transition: all ease 0.4s;
+}

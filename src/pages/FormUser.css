@@ -1,90 +1,90 @@
 .FormUser {
-    width: 500px;
-    transition: all ease 0.3s;
-    max-height: 100%;
-    padding: 0 25px;
-    overflow-y: overlay;
+  width: 500px;
+  transition: all ease 0.3s;
+  max-height: 100%;
+  padding: 0 25px;
+  overflow-y: overlay;
 }
 
 .FormUser .userSectionCheckboxes {
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
 }
 
 .FormUser > .MuiFormControlLabel-root {
-    width: 100%;
+  width: 100%;
 }
 
 .FormUser.invi {
-    opacity: 0;
-    transform: translateX(800px);
+  opacity: 0;
+  transform: translateX(800px);
 }
 
 .FormUser .sectionImage {
-    display: flex;
+  display: flex;
 }
 
 .FormUser .sectionImage .image {
-    margin: 10px 20px 10px 0;
-    width: 120px;
-    height: 120px;
-    border-radius: 50%;
-    background-color: #E5E5E5;
-    transition: all ease 0.2s;
-    /*cursor: pointer;*/
-    overflow: hidden;
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
+  margin: 10px 20px 10px 0;
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background-color: #e5e5e5;
+  transition: all ease 0.2s;
+  /*cursor: pointer;*/
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
 }
 
 .FormUser .sectionImage .image .picture {
-    width: 120px !important;
-    height: 120px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: auto;
-    transition: opacity ease 0.2s;
-    opacity: 0;
-    margin-left: -120px;
+  width: 120px !important;
+  height: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: auto;
+  transition: opacity ease 0.2s;
+  opacity: 0;
+  margin-left: -120px;
 }
 
 .FormUser .sectionImage .image svg {
-    transform: translateY(30px);
-    color: #AAA;
+  transform: translateY(30px);
+  color: #aaa;
 }
 
 .FormUser .sectionImage .image .img .initial {
-    width: 120px !important;
-    height: 120px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    font-size: 52px;
-    background-color: #1878a1;
-    font-weight: var(--medium);
-    transition: opacity ease 0.2s;
-    opacity: 0;
-    margin-left: -120px;
-    text-transform: uppercase;
+  width: 120px !important;
+  height: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 52px;
+  background-color: #1878a1;
+  font-weight: var(--medium);
+  transition: opacity ease 0.2s;
+  opacity: 0;
+  margin-left: -120px;
+  text-transform: uppercase;
 }
 
 .FormUser .sectionImage .image .img .initial.active {
-    opacity: 1;
-    margin: 0;
+  opacity: 1;
+  margin: 0;
 }
 
 .FormUser .sectionImage .image .img .picture.active {
-    opacity: 1;
-    margin: 0;
+  opacity: 1;
+  margin: 0;
 }
 
 .FormUser .sectionImage .image .img {
-    background-color: #E5E5E5;
-    transition: all ease 0.2s;
-    display: flex;
+  background-color: #e5e5e5;
+  transition: all ease 0.2s;
+  display: flex;
 }
 
 /*.FormUser .sectionImage .image:hover .img {
@@ -92,19 +92,19 @@
 }*/
 
 .FormUser .sectionImage .image:hover svg {
-    /*display: none;*/
-    z-index: 1;
+  /*display: none;*/
+  z-index: 1;
 }
 
 .FormUser .sectionImage .image .text {
-    position: absolute;
-    z-index: 2;
-    text-align: center;
-    padding: 20px;
-    font-weight: var(--medium);
-    width: 80px;
-    opacity: 0;
-    color: white;
+  position: absolute;
+  z-index: 2;
+  text-align: center;
+  padding: 20px;
+  font-weight: var(--medium);
+  width: 80px;
+  opacity: 0;
+  color: white;
 }
 
 /*.FormUser .sectionImage .image .text::after {
@@ -112,15 +112,59 @@
 }*/
 
 .FormUser .sectionImage .image:hover .text {
-    opacity: 1;
+  opacity: 1;
 }
 
 .FormUser .sectionImage .inputs {
-    width: 360px;
+  width: 360px;
 }
 
 .FormUser .buttons {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    column-gap: 20px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 20px;
+}
+
+.FormUser.flexGrow {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.flexAutocomplete {
+  display: flex;
+  flex-direction: column;
+}
+
+.FormUser.flexGrow .MuiAutocomplete-popper {
+  position: relative !important;
+  transform: none !important;
+  display: flex;
+  flex: 1;
+  margin-bottom: 20px !important;
+  width: 100% !important;
+  overflow: auto;
+}
+
+.FormUser.flexGrow .MuiAutocomplete-paper {
+  display: flex;
+  background-color: transparent;
+  width: 100%;
+}
+
+.FormUser.flexGrow .MuiInputBase-root .MuiChip-root {
+  max-width: 320px;
+}
+
+.FormUser.flexGrow .MuiAutocomplete-listbox {
+  max-height: none !important;
+  flex: 1;
+}
+
+.FormUser.flexGrow .MuiAutocomplete-endAdornment {
+  display: none;
+}
+
+.FormUser.flexGrow .MuiAutocomplete-option {
+  border-radius: 8px;
 }
