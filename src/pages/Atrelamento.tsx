@@ -1,4 +1,4 @@
-import { Icon } from '@iconify/react';
+import { getIcon, Icon, loadIcons } from '@iconify/react';
 import {
   Autocomplete,
   Avatar,
@@ -8,7 +8,8 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { renderToString } from 'react-dom/server';
 import Header from 'src/components/Header';
 import { getInitialsFromString } from 'src/utils/StringUtils';
 import './Usuarios.css';
@@ -16,6 +17,17 @@ import './FormUser.css';
 import './SectionizedTable.css';
 import jsonFile from 'src/testing/fakeData/users.json';
 import DmIconifiedSwitch from 'src/components/DmIconifiedSwitch/DmIconifiedSwitch';
+
+const loadIcon = (iconName: string) => {
+  let icon: any;
+  loadIcons([iconName], (loaded, missing, pending, unsubscribe) => {
+    if (loaded.length) {
+      console.log(getIcon(iconName));
+      return;
+    }
+  });
+  return icon;
+};
 
 interface Usuario {
   idRelUsuario: number;
@@ -39,6 +51,17 @@ function rows(
   lstUsuarios: Array<Usuario>
 ) {
   let arr: any[] = [];
+
+  const loadIcon = (iconName: string) => {
+    let icon: any;
+    loadIcons([iconName], (loaded, missing, pending, unsubscribe) => {
+      if (loaded.length) {
+        console.log(getIcon(iconName));
+        return;
+      }
+    });
+    return icon;
+  };
 
   lstUsuarios.forEach((user, index) => {
     arr.push(
@@ -73,10 +96,10 @@ function rows(
           />
           <div className="nome">{user.desNome}</div>
           <div className="matricula">{user.codColaborador}</div>
-
           <DmIconifiedSwitch
             tabIndex={-1}
             onClick={(e) => e.stopPropagation()}
+            noIcon
           />
         </div>
       </div>
@@ -96,11 +119,17 @@ const Atrelamento = () => {
 
   const [tabsForm, setTabsForm] = React.useState('forn');
 
-  const handleChangeFormTabsFornecedoresPrestadores = (event: React.SyntheticEvent, newValue: string) => {
+  const handleChangeFormTabsFornecedoresPrestadores = (
+    event: React.SyntheticEvent,
+    newValue: string
+  ) => {
     setTabsForm(newValue);
   };
 
-  const handleChangeInternoExterno = (event: React.SyntheticEvent, newValue: string) => {
+  const handleChangeInternoExterno = (
+    event: React.SyntheticEvent,
+    newValue: string
+  ) => {
     setTipoUsuario(newValue);
   };
 
@@ -211,6 +240,7 @@ const Atrelamento = () => {
               limitTags={1}
               options={arr}
               filterSelectedOptions
+              ChipProps={{size: `small`}}
               renderInput={(params: any) => (
                 <TextField
                   {...params}
