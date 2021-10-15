@@ -110,6 +110,12 @@
   color: #272727;
 }
 
+.MuiTypography-root.MuiTypography-h6 {
+  font-weight: var(--extraBold);
+  margin-bottom: 10px;
+  color: #272727;
+}
+
 /*DRAWER ---------------------------------------*/
 .MuiDrawer-paper {
   margin-left: 60px;
