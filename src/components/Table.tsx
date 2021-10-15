@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import './Table.css';
 
 function rows(numrows: number) {
@@ -10,7 +11,9 @@ function rows(numrows: number) {
           <div className="regname">Nome do registro</div>
           <div className="date">26/01/2019 17:50</div>
         </div>
-        <button className="reg">ABRIR</button>
+        <Link to="/demonstrativo">
+            <button className="reg">ABRIR</button>
+        </Link>
       </div>
     );
   }
