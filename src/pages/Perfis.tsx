@@ -1,6 +1,5 @@
 import { Icon } from '@iconify/react';
 import {
-  Autocomplete,
   Backdrop,
   Box,
   Button,
