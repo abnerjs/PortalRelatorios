@@ -196,9 +196,11 @@ const Usuarios = () => {
   const [searchText, setSearchText] = useState('');
   const [focused, setFocused] = useState(false);
   const [usuarioSelecionado, setUsuarioSelecionado] = useState<Usuario>();
-  const [autocompleteValue, setAutocompleteValue] = React.useState<
-    string | null
-  >(null);
+  const [autocompleteValue, setAutocompleteValue] = React.useState<{
+    code: string;
+    label: string;
+    phone: string;
+  } | null>(null);
 
   const handleChangeInternoExterno = (
     event: React.SyntheticEvent,
@@ -476,13 +478,16 @@ const Usuarios = () => {
               blurOnSelect
               clearOnBlur
               selectOnFocus
+              className={isFormOpened ? '' : 'noTabIndexable'}
               handleHomeEndKeys
               disableCloseOnSelect
-              options={options}
-              getOptionLabel={(option) => option}
-              filterSelectedOptions
+              options={countries}
+              getOptionLabel={(option) => option.label}
               value={autocompleteValue}
-              onChange={(event: any, newValue: string | null) => {
+              onChange={(
+                event: any,
+                newValue: { code: string; label: string; phone: string } | null
+              ) => {
                 setAutocompleteValue(newValue);
               }}
               renderInput={(params: any) => (
@@ -493,7 +498,6 @@ const Usuarios = () => {
                   InputProps={{
                     ...params.InputProps,
                     disableUnderline: true,
-                    inputProps: { tabIndex: isFormOpened ? 0 : -1 },
                   }}
                 />
               )}
@@ -612,11 +616,12 @@ const Usuarios = () => {
 
 export default Usuarios;
 
-const options = [
-  'Option 1',
-  'Option 2',
-  'Option 3',
-  'Option 4',
-  'Option 5',
-  'Option 6',
+const countries = [
+  { code: 'AD', label: 'Andorra', phone: '376' },
+  { code: 'AE', label: 'United Arab Emirates', phone: '971' },
+  { code: 'AF', label: 'Afghanistan', phone: '93' },
+  { code: 'AG', label: 'Antigua and Barbuda', phone: '1-268' },
+  { code: 'AI', label: 'Anguilla', phone: '1-264' },
+  { code: 'AL', label: 'Albania', phone: '355' },
+  { code: 'AM', label: 'Armenia', phone: '374' },
 ];

@@ -155,3 +155,7 @@
 .MuiTabs-root .MuiTabs-indicator {
   transition: all ease 0.4s;
 }
+
+.MuiAutocomplete-root.noTabIndexable input {
+  display: none;
+}
