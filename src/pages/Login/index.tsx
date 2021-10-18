@@ -1,13 +1,15 @@
-import React from 'react';
-import './Main.css';
-import Left from './Left';
-import { Switch, Route } from 'react-router';
-import Login from './Login';
-import Recovery from './Recovery';
-import Confirmation from './Confirmation';
-import NewPassword from './NewPassword';
+import 'src/pages/Login/Styles/index.css';
 
-const Canvas: React.FC = (props: any) => {
+import React from 'react';
+import { Switch, Route } from 'react-router';
+
+import Left from 'src/pages/Login/Components/Left';
+import Confirmation from 'src/pages/Login/Routes/Confirmation';
+import Form from 'src/pages/Login/Routes/Form';
+import NewPassword from 'src/pages/Login/Routes/NewPassword';
+import Recovery from 'src/pages/Login/Routes/Recovery';
+
+const Canvas: React.FC = () => {
   return (
     <div className="Canvas">
       <Left />
@@ -23,7 +25,7 @@ const Canvas: React.FC = (props: any) => {
             <NewPassword />
           </Route>
           <Route path="/">
-            <Login />
+            <Form />
           </Route>
         </Switch>
       </div>
