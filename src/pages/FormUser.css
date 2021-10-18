@@ -11,7 +11,7 @@
   align-items: center;
 }
 
-.FormUser > .MuiFormControlLabel-root {
+.FormUser>.MuiFormControlLabel-root {
   width: 100%;
 }
 
@@ -123,17 +123,13 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
   column-gap: 20px;
+  margin-top: 20px;
 }
 
 .FormUser.flexGrow {
   display: flex;
   flex-direction: column;
   height: 100%;
-}
-
-.flexAutocomplete {
-  display: flex;
-  flex-direction: column;
 }
 
 .FormUser.flexGrow .MuiAutocomplete-popper {
@@ -150,6 +146,10 @@
   display: flex;
   background-color: transparent;
   width: 100%;
+}
+
+.FormUser .MuiAutocomplete-root .MuiFilledInput-root .MuiFilledInput-input {
+  padding: 6px 4px 8px 12px !important;
 }
 
 .FormUser.flexGrow .MuiInputBase-root .MuiChip-root {
