@@ -17,9 +17,11 @@ import DatePicker from '@mui/lab/DatePicker';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import Header from 'src/components/Header';
 import './Usuarios.css';
+import './Demonstrativo.css';
 import './FormUser.css';
 import './SectionizedTable.css';
 import { DateRange, DateRangePicker } from '@mui/lab';
+import pdf from 'src/testing/basic.pdf';
 
 const localeMap = {
   en: enLocale,
@@ -75,7 +77,7 @@ const Demonstrativo = () => {
   }
 
   return (
-    <div className="Usuarios">
+    <div className="Usuarios Demonstrativo">
       <div className="content">
         <div className="head">
           <Header title="Demonstrativo X" />
@@ -209,8 +211,7 @@ const Demonstrativo = () => {
                 />
               )}
             />
-            
-            
+
             <div className="buttons">
               <Button variant="contained" className="secondary">
                 VOLTAR
@@ -218,6 +219,14 @@ const Demonstrativo = () => {
               <Button variant="contained">GERAR</Button>
             </div>
           </form>
+          <div className="pdf">
+            <embed
+              width="100%"
+              height="100%"
+              src={pdf}
+              type="application/pdf"
+            />
+          </div>
         </div>
       </div>
     </div>

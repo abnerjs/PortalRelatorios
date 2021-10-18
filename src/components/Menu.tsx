@@ -10,17 +10,16 @@ const Menu = () => {
   const [state, setState] = React.useState(false);
 
   const toggleDrawer =
-    (open: boolean) =>
-      (event: React.KeyboardEvent | React.MouseEvent) => {
-        if (
-          event.type === 'keydown' &&
-          ((event as React.KeyboardEvent).key === 'Tab' ||
-            (event as React.KeyboardEvent).key === 'Shift')
-        )
-          return;
+    (open: boolean) => (event: React.KeyboardEvent | React.MouseEvent) => {
+      if (
+        event.type === 'keydown' &&
+        ((event as React.KeyboardEvent).key === 'Tab' ||
+          (event as React.KeyboardEvent).key === 'Shift')
+      )
+        return;
 
-        setState(open);
-      };
+      setState(open);
+    };
 
   const list = () => (
     <Box
@@ -30,13 +29,47 @@ const Menu = () => {
       onKeyDown={toggleDrawer(false)}
     >
       <List>
-        {['Usuários', 'Empresas', 'Perfis', 'Atrelamento'].map((text, index) => (
-          <Link to={'/' + text.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, "")}>
-            <ListItem button key={text} onClick={() => setActive('/' + text.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, ""))} >
-              <ListItemText primary={text} className={active === '/' + text.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, "") ? 'active' : ''} />
-            </ListItem>
-          </Link>
-        ))}
+        {['Usuários', 'Empresas', 'Perfis', 'Atrelamento'].map(
+          (text, index) => (
+            <Link
+              to={
+                '/' +
+                text
+                  .toLowerCase()
+                  .normalize('NFD')
+                  .replace(/[\u0300-\u036f]/g, '')
+              }
+            >
+              <ListItem
+                button
+                key={text}
+                onClick={() =>
+                  setActive(
+                    '/' +
+                      text
+                        .toLowerCase()
+                        .normalize('NFD')
+                        .replace(/[\u0300-\u036f]/g, '')
+                  )
+                }
+              >
+                <ListItemText
+                  primary={text}
+                  className={
+                    active ===
+                    '/' +
+                      text
+                        .toLowerCase()
+                        .normalize('NFD')
+                        .replace(/[\u0300-\u036f]/g, '')
+                      ? 'active'
+                      : ''
+                  }
+                />
+              </ListItem>
+            </Link>
+          )
+        )}
       </List>
     </Box>
   );
@@ -52,8 +85,10 @@ const Menu = () => {
       <div className="links">
         <Link to="/">
           <div
-            className={`menuButton` + (active === '/' ? ' active' : '')}
-            onClick={() => setActive('/')}
+            className={
+              `menuButton` + (window.location.pathname === '/' ? ' active' : '')
+            }
+            onClick={() => setState(false)}
           >
             <Icon icon="fluent:home-16-regular" />
           </div>
@@ -61,24 +96,39 @@ const Menu = () => {
         <Link to="/documentos">
           <div
             className={
-              `menuButton` + (active === '/documentos' ? ' active' : '')
+              `menuButton` +
+              (window.location.pathname === '/documentos' ||
+              window.location.pathname == '/demonstrativo'
+                ? ' active'
+                : '')
             }
-            onClick={() => setActive('/documentos')}
+            onClick={() => setState(false)}
           >
             <Icon icon="fluent:document-bullet-list-20-regular" />
           </div>
         </Link>
         <div
-          className={`menuButton` + (active === '/usuarios' || active === '/perfis' || active === '/empresas' || active === '/atrelamento' ? ' active' : '')}
-          onClick={() => setState(true)}
+          className={
+            `menuButton` +
+            (window.location.pathname === '/usuarios' ||
+            window.location.pathname === '/perfis' ||
+            window.location.pathname === '/empresas' ||
+            window.location.pathname === '/atrelamento'
+              ? ' active'
+              : '')
+          }
+          onClick={() => setState(!state)}
         >
           <Icon icon="fluent:person-20-regular" />
         </div>
         <Link to="/usuarios">
           <div
-            className={`menuButton` + (active === '/logs' ? ' active' : '')}
+            className={
+              `menuButton` +
+              (window.location.pathname === '/logs' ? ' active' : '')
+            }
             onClick={() => {
-              setActive('/usuarios');
+              setState(false);
             }}
           >
             <Icon icon="fluent:notebook-24-regular" />
@@ -86,14 +136,9 @@ const Menu = () => {
         </Link>
       </div>
 
-      <Drawer
-        anchor="left"
-        open={state}
-        onClose={toggleDrawer(false)}
-      >
+      <Drawer anchor="left" open={state} onClose={toggleDrawer(false)}>
         {list()}
       </Drawer>
-
     </div>
   );
 };
