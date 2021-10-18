@@ -15,8 +15,8 @@ const menuItens = [
     link: '/usuarios',
   },
   {
-    label: 'Vínculo de Usuários',
-    link: '/vinculo-usuarios',
+    label: 'Atrelamento',
+    link: '/atrelamento',
   },
 ]
 
