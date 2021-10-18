@@ -14,6 +14,7 @@
 .SectionizedTable .tabs {
   transition: all ease 1s;
   margin-left: 0;
+  margin-bottom: 0;
 }
 
 .SectionizedTable .tabs .MuiButtonBase-root {
@@ -92,6 +93,10 @@
   margin-right: 10px;
 }
 
+.SectionizedTable .rows .row .buttons .Mui-disabled {
+    color: rgba(0, 0, 0, 0.50) !important;
+}
+
 .SectionizedTable .rows .row:not(.selected):hover {
   background-color: rgba(255, 255, 255, 0.5);
 }
@@ -160,7 +165,7 @@
   color: #aaa;
   font-weight: var(--semiBold);
   font-size: 14px;
-  margin-bottom: 30px;
+  margin-bottom: 10px;
 }
 
 .modal-confirm-delete .userInfo p {

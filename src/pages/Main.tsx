@@ -4,7 +4,7 @@ import { Route, Switch } from 'react-router';
 import Menu from 'src/components/Menu';
 import Dashboard from './Dashboard';
 import Usuarios from './Usuarios';
-import Perfis from './Perfis';
+import Perfis from './Cadastros/Perfis';
 import Atrelamento from './Atrelamento';
 import Demonstrativo from './Desmonstrativo';
 
