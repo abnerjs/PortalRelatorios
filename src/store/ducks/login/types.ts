@@ -1,5 +1,6 @@
 export interface SessionState {
   user: UserLogin | null;
+  objetos: Array<Objeto>;
   authenticated: boolean;
 }
 

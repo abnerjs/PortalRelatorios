@@ -1,6 +1,8 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 
 import {
+  Objeto,
+  Sistema,
   UserLogin,
   SessionState,
   LoginRequest,
@@ -11,8 +13,21 @@ const user = (jsonUser ? JSON.parse(jsonUser) : null) as UserLogin;
 
 const initialState: SessionState = {
   user: user,
+  objetos: getObjetos(user?.lstSistemas ?? []),
   authenticated: user !== null,
 };
+
+function getObjetos(lstSistemas: Array<Sistema>): Array<Objeto> {
+  const objetos: Array<Objeto> = [];
+
+  lstSistemas?.forEach((sistema) =>
+    sistema.lstTiposObjetos?.forEach((tipoObjeto) =>
+      tipoObjeto.lstObjetos?.forEach((objeto) => objetos.push(objeto))
+    )
+  );
+
+  return objetos;
+}
 
 export const sessionSlice = createSlice({
   name: 'session',
@@ -21,6 +36,7 @@ export const sessionSlice = createSlice({
     loginRequest: (state, action: PayloadAction<LoginRequest>) => {},
     loginSuccess: (state, action: PayloadAction<UserLogin>) => {
       state.user = action.payload;
+      state.objetos = getObjetos(action.payload.lstSistemas);
       state.authenticated = true;
 
       const jsonUser = JSON.stringify(action.payload);
