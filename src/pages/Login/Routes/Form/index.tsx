@@ -37,9 +37,10 @@ const Login: React.FC = () => {
 
   return (
     <form
-      className="Login form"
-      onSubmit={handleSubmit(onSubmit)}
+      noValidate
       autoComplete="off"
+      onSubmit={handleSubmit(onSubmit)}
+      className="Login form"
     >
       <Title content="Acessar" primaryColor />
       <TextField
@@ -48,6 +49,7 @@ const Login: React.FC = () => {
         fullWidth
         label="Nome de usuário"
         color="primary"
+        margin="dense"
         variant="filled"
         className="secondary"
         InputProps={{
@@ -61,6 +63,7 @@ const Login: React.FC = () => {
         fullWidth
         label="Senha"
         color="primary"
+        margin="dense"
         variant="filled"
         className="secondary"
         type="password"
