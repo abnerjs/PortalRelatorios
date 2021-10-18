@@ -1,9 +1,11 @@
+import 'src/pages/Login/Routes/NewPassword/Styles/index.css';
+
 import React from 'react';
-import './NewPassword.css';
-import Button from '../../components/Button';
-import Title from '../../components/Title';
-import Input from '../../components/Input';
 import { Link } from 'react-router-dom';
+
+import Button from 'src/components/Button';
+import Input from 'src/components/Input';
+import Title from 'src/components/Title';
 
 const NewPassword: React.FC = (props: any) => {
   return (

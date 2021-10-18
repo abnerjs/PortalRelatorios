@@ -1,9 +1,11 @@
+import 'src/pages/Login/Routes/Confirmation/Styles/index.css';
+
 import React from 'react';
-import './Confirmation.css';
-import Button from '../../components/Button';
-import Title from '../../components/Title';
-import ReactCodeInput from 'react-verification-code-input';
 import { Link } from 'react-router-dom';
+import ReactCodeInput from 'react-verification-code-input';
+
+import Button from 'src/components/Button';
+import Title from 'src/components/Title';
 
 const Confirmation: React.FC = (props: any) => {
   return (
