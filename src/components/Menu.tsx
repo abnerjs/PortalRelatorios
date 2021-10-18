@@ -30,7 +30,7 @@ const Menu = () => {
       onKeyDown={toggleDrawer(false)}
     >
       <List>
-        {['Usuários', 'Empresas', 'Perfis', 'Atrelamento'].map((text, index) => (
+        {['Usuários', 'Empresas', 'Perfis'].map((text, index) => (
           <Link to={'/' + text.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, "")}>
             <ListItem button key={text} onClick={() => setActive('/' + text.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, ""))} >
               <ListItemText primary={text} className={active === '/' + text.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, "") ? 'active' : ''} />
@@ -69,7 +69,7 @@ const Menu = () => {
           </div>
         </Link>
         <div
-          className={`menuButton` + (active === '/usuarios' || active === '/perfis' || active === '/empresas' || active === '/atrelamento' ? ' active' : '')}
+          className={`menuButton` + (active === '/usuarios' || active === '/perfis' || active === '/empresas' ? ' active' : '')}
           onClick={() => setState(true)}
         >
           <Icon icon="fluent:person-20-regular" />
