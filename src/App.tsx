@@ -7,7 +7,7 @@ import { default as MainHome } from './pages/Main';
 import { AppState } from './store';
 
 function whichMain(logged: boolean) {
-  return logged ? <MainHome /> : <MainHome />;
+  return logged ? <Main /> : <Main />;
 }
 
 const App: React.FC = (props: any) => {
