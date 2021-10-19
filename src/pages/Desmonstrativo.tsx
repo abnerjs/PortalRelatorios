@@ -104,14 +104,16 @@ const Demonstrativo = () => {
                     <TextField
                       {...startProps}
                       variant="filled"
+                      margin="dense"
                       InputProps={{
                         disableUnderline: true,
                       }}
                     />
-                    <Box sx={{ mx: '10px' }}></Box>
+                    <Box sx={{ mx: '6px' }}></Box>
                     <TextField
                       {...endProps}
                       variant="filled"
+                      margin="dense"
                       InputProps={{
                         disableUnderline: true,
                       }}
@@ -137,6 +139,7 @@ const Demonstrativo = () => {
                   {...params}
                   label="Fornecedores"
                   variant="filled"
+                  margin="dense"
                   InputProps={{
                     ...params.InputProps,
                     disableUnderline: true,
@@ -161,6 +164,7 @@ const Demonstrativo = () => {
                   {...params}
                   label="Prestadores"
                   variant="filled"
+                  margin="dense"
                   InputProps={{
                     ...params.InputProps,
                     disableUnderline: true,
@@ -185,6 +189,7 @@ const Demonstrativo = () => {
                   {...params}
                   label="Fazendas"
                   variant="filled"
+                  margin="dense"
                   InputProps={{
                     ...params.InputProps,
                     disableUnderline: true,
@@ -204,6 +209,7 @@ const Demonstrativo = () => {
                   {...params}
                   label="Recurso"
                   variant="filled"
+                  margin="dense"
                   InputProps={{
                     ...params.InputProps,
                     disableUnderline: true,
@@ -219,7 +225,7 @@ const Demonstrativo = () => {
               <Button variant="contained">GERAR</Button>
             </div>
           </form>
-          <div className="pdf">
+          <div className="pdf" style={{display: 'none'}}>
             <embed
               width="100%"
               height="100%"
