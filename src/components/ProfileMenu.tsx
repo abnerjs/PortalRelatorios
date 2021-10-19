@@ -5,7 +5,16 @@ import useOutsideClick from 'src/hooks/useOutsideClick';
 import { Avatar } from '@mui/material';
 import { getInitialsFromString } from 'src/utils/StringUtils';
 
-const ProfileMenu = () => {
+import { useAppSelector } from 'src/store';
+
+interface ProfileMenuProps {
+  onClickProfile?: React.MouseEventHandler<HTMLDivElement> | undefined;
+  onLogout?: React.MouseEventHandler<HTMLDivElement> | undefined;
+}
+
+const ProfileMenu = (props: ProfileMenuProps) => {
+  const user = useAppSelector((state) => state.session.user);
+
   const [collapsed, setCollapsed] = useState(false);
   const ref = useRef(null);
 
@@ -18,7 +27,7 @@ const ProfileMenu = () => {
       <div className="collapseToggle" onClick={() => setCollapsed(!collapsed)}>
         <Avatar
           sx={{ bgcolor: '#1878a1' }}
-          children={getInitialsFromString('Abner José da Silva')}
+          children={getInitialsFromString(user?.nomUsuario || '')}
           style={{
             fontSize: '12pt',
             margin: '0 10px 0 0',
@@ -29,10 +38,12 @@ const ProfileMenu = () => {
       </div>
 
       <div className={`menuCollapse${collapsed ? ' active' : ''}`}>
-        <div className="item">
-          <p>MEU PERFIL</p>
-        </div>
-        <div className="item">
+        {/* 
+          <div className="item" onClick={props.onClickProfile}>
+            <p>MEU PERFIL</p>
+          </div> 
+        */}
+        <div className="item" onClick={props.onLogout}>
           <p>SAIR</p>
         </div>
       </div>

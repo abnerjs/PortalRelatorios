@@ -1,13 +1,41 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import DatamobIcon from '../assets/DatamobIcon';
 import './Menu.css';
 import { Icon } from '@iconify/react';
 import { Box, Drawer, List, ListItem, ListItemText } from '@mui/material';
 
+import { useAppSelector } from 'src/store';
+
+const menuItens = [
+  {
+    label: 'Perfis',
+    link: '/perfis',
+    api: 'Perfis',
+  },
+  {
+    label: 'Usuários',
+    link: '/usuarios',
+    api: 'Usuarios',
+  },
+  {
+    label: 'Atrelamento',
+    link: '/atrelamento',
+    api: 'Atrelamento',
+  },
+];
+
 const Menu = () => {
-  const [active, setActive] = useState(window.location.pathname);
+  const objetos = useAppSelector((state) => state.session.objetos);
   const [state, setState] = React.useState(false);
+
+  const buildMenu = () => {
+    return menuItens.filter((menu) =>
+      objetos.find(
+        (objeto) => objeto.nomPagina.toLowerCase() === menu.api.toLowerCase()
+      )
+    );
+  };
 
   const toggleDrawer =
     (open: boolean) => (event: React.KeyboardEvent | React.MouseEvent) => {
@@ -15,11 +43,14 @@ const Menu = () => {
         event.type === 'keydown' &&
         ((event as React.KeyboardEvent).key === 'Tab' ||
           (event as React.KeyboardEvent).key === 'Shift')
-      )
+      ) {
         return;
+      }
 
       setState(open);
     };
+
+  const location = useLocation();
 
   const list = () => (
     <Box
@@ -29,47 +60,16 @@ const Menu = () => {
       onKeyDown={toggleDrawer(false)}
     >
       <List>
-        {['Usuários', 'Empresas', 'Perfis', 'Atrelamento'].map(
-          (text, index) => (
-            <Link
-              to={
-                '/' +
-                text
-                  .toLowerCase()
-                  .normalize('NFD')
-                  .replace(/[\u0300-\u036f]/g, '')
-              }
-            >
-              <ListItem
-                button
-                key={text}
-                onClick={() =>
-                  setActive(
-                    '/' +
-                      text
-                        .toLowerCase()
-                        .normalize('NFD')
-                        .replace(/[\u0300-\u036f]/g, '')
-                  )
-                }
-              >
-                <ListItemText
-                  primary={text}
-                  className={
-                    active ===
-                    '/' +
-                      text
-                        .toLowerCase()
-                        .normalize('NFD')
-                        .replace(/[\u0300-\u036f]/g, '')
-                      ? 'active'
-                      : ''
-                  }
-                />
-              </ListItem>
-            </Link>
-          )
-        )}
+        {buildMenu().map((text, index) => (
+          <Link to={text.link} key={`submenu-${index}`}>
+            <ListItem button key={text.link}>
+              <ListItemText
+                primary={text.label}
+                className={location.pathname === text.link ? 'active' : ''}
+              />
+            </ListItem>
+          </Link>
+        ))}
       </List>
     </Box>
   );
@@ -77,7 +77,7 @@ const Menu = () => {
   return (
     <div className="Menu">
       <Link to="/">
-        <div className="logo">
+        <div className="logo" onClick={() => setState(false)}>
           <DatamobIcon width={39} />
         </div>
       </Link>
@@ -86,57 +86,65 @@ const Menu = () => {
         <Link to="/">
           <div
             className={
-              `menuButton` + (window.location.pathname === '/' ? ' active' : '')
+              `menuButton` + (location.pathname === '/' ? ' active' : '')
             }
             onClick={() => setState(false)}
           >
             <Icon icon="fluent:home-16-regular" />
           </div>
         </Link>
-        <Link to="/documentos">
+        {objetos.findIndex(
+          (objeto) => objeto.nomPagina.toLowerCase() === 'relatorios'
+        ) !== -1 && (
+          <Link to="/relatorios">
+            <div
+              className={
+                `menuButton` +
+                (location.pathname === '/relatorios' ? ' active' : '')
+              }
+              onClick={() => setState(false)}
+            >
+              <Icon icon="fluent:document-bullet-list-20-regular" />
+            </div>
+          </Link>
+        )}
+        {objetos.findIndex(
+          (t) => menuItens.findIndex((x) => x.api === t.nomPagina) !== -1
+        ) !== -1 && (
           <div
             className={
               `menuButton` +
-              (window.location.pathname === '/documentos' ||
-              window.location.pathname == '/demonstrativo'
+              (menuItens.findIndex(
+                (item) => item.link === location.pathname
+              ) !== -1
                 ? ' active'
                 : '')
             }
-            onClick={() => setState(false)}
+            onClick={() => setState((state) => !state)}
           >
-            <Icon icon="fluent:document-bullet-list-20-regular" />
+            <Icon icon="fluent:person-20-regular" />
           </div>
-        </Link>
-        <div
-          className={
-            `menuButton` +
-            (window.location.pathname === '/usuarios' ||
-            window.location.pathname === '/perfis' ||
-            window.location.pathname === '/empresas' ||
-            window.location.pathname === '/atrelamento'
-              ? ' active'
-              : '')
-          }
-          onClick={() => setState(!state)}
-        >
-          <Icon icon="fluent:person-20-regular" />
-        </div>
-        <Link to="/usuarios">
-          <div
-            className={
-              `menuButton` +
-              (window.location.pathname === '/logs' ? ' active' : '')
-            }
-            onClick={() => {
-              setState(false);
-            }}
-          >
-            <Icon icon="fluent:notebook-24-regular" />
-          </div>
-        </Link>
+        )}
+        {/*
+          <Link to="/usuarios">
+            <div
+              className={`menuButton` + (location.pathname === '/logs' ? ' active' : '')}
+              onClick={() => {
+                setActive('/usuarios');
+              }}
+            >
+              <Icon icon="fluent:notebook-24-regular" />
+            </div>
+          </Link>
+        */}
       </div>
 
-      <Drawer anchor="left" open={state} onClose={toggleDrawer(false)}>
+      <Drawer
+        anchor="left"
+        open={state}
+        onClose={toggleDrawer(false)}
+        PaperProps={{ style: { justifyContent: 'flex-start' } }}
+      >
         {list()}
       </Drawer>
     </div>

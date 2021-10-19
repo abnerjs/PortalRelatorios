@@ -1,12 +1,13 @@
 import './App.css';
 import './basic/Styles/customComponents.css';
 import { BrowserRouter as Router } from 'react-router-dom';
-import Main from './pages/login/Main';
+import Main from './pages/Login';
 import { connect } from 'react-redux';
 import { default as MainHome } from './pages/Main';
+import { AppState } from './store';
 
 function whichMain(logged: boolean) {
-  return logged ? <MainHome /> : <Main />;
+  return logged ? <MainHome /> : <MainHome />;
 }
 
 const App: React.FC = (props: any) => {
@@ -17,9 +18,9 @@ const App: React.FC = (props: any) => {
   );
 };
 
-const mapStateToProps = (state: any) => {
+const mapStateToProps = (state: AppState) => {
   return {
-    logged: state.logged.status,
+    logged: state.session.authenticated,
   };
 };
 

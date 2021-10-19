@@ -2,7 +2,6 @@
 .MuiInputBase-root {
   background-color: white !important;
   border-radius: 4px !important;
-  margin-bottom: 20px;
   transition: all ease 0.2s !important;
 }
 
@@ -19,7 +18,7 @@
 }
 
 .iconified .MuiInputLabel-root {
-  margin-left: 30px;
+  margin-left: 32px;
 }
 
 .iconified .MuiInputBase-input {
@@ -34,6 +33,13 @@
 
 .MuiInputBase-root.Mui-focused {
   box-shadow: inset 0 0 2px 1px var(--primary50);
+}
+
+/*HELPERTEXT --------------------------------*/
+.MuiFormHelperText-root {
+  margin: 0 !important;
+  font-size: 0.7rem !important;
+  font-style: italic !important;
 }
 
 /*BUTTON --------------------------------*/
