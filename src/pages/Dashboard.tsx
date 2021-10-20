@@ -2,7 +2,7 @@ import { Typography } from '@mui/material';
 import React from 'react';
 import Card from '../components/Card';
 import Header from '../components/Header';
-import MainTable from '../components/MainTable';
+import Table from '../components/Table';
 import './Dashboard.css';
 
 const Dashboard = () => {
@@ -30,8 +30,8 @@ const Dashboard = () => {
           </div>
         </div>
         <div className="row tables">
-          <MainTable title="Novos arquivos" subtitle="Tudo o que você não viu desde o seu último acesso" />
-          <MainTable title="Últimas atualizações" subtitle="Tudo o que você não viu desde o seu último acesso" />
+          <Table arr={[]} title="Novos arquivos" subtitle="Tudo o que você não viu desde o seu último acesso" />
+          <Table arr={[]} title="Últimas atualizações" subtitle="Tudo o que você não viu desde o seu último acesso" />
         </div>
       </div>
     </div>
