@@ -8,6 +8,7 @@ import Perfis from './Cadastros/Perfis';
 import Atrelamento from './Atrelamento';
 import Demonstrativo from './Relatorios';
 import RelPreExtrato from './Relatorios/Routes/RelPreExtrato';
+import RelPreCombustivel from './Relatorios/Routes/RelPreCombustivel';
 
 const Main = () => {
   return (
@@ -29,6 +30,9 @@ const Main = () => {
         </Route>
         <Route path="/relpreextrato">
           <RelPreExtrato />
+        </Route>
+        <Route path="/relprecombustivel">
+          <RelPreCombustivel />
         </Route>
         <Route path="/">
           <Dashboard />
