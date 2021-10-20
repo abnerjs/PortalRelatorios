@@ -168,6 +168,16 @@
   transition: all ease 0.4s;
 }
 
+/*AUTOCOMPLETE ------------------------------*/
+
 .MuiAutocomplete-root.noTabIndexable input {
   display: none;
+}
+
+.MuiAutocomplete-root.displayNone {
+  display: none;
+}
+
+.MuiAutocomplete-root.displayNone + .MuiAutocomplete-popper {
+  display: none !important;
 }

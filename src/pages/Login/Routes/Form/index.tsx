@@ -6,10 +6,9 @@ import { Link } from 'react-router-dom';
 import * as Yup from 'yup';
 
 import { yupResolver } from '@hookform/resolvers/yup';
-import { TextField } from '@mui/material';
+import { Button, TextField } from '@mui/material';
 
 import Title from 'src/components/Title';
-import Button from 'src/components/Button';
 import Checkbox from 'src/components/Checkbox';
 import { useAppDispatch } from 'src/store';
 import { loginRequest } from 'src/store/ducks/login';
@@ -74,7 +73,9 @@ const Login: React.FC = () => {
         {...register('desSenha')}
       />
       {/* <Checkbox flexEnd medium id="checkbox" content="Manter conectado" /> */}
-      <Button content="ENTRAR" />
+      <Button variant="contained" type="submit" style={{ marginTop: 8 }}>
+        ENTRAR
+      </Button>
       {/*
         <Link className="forgot" to="/recovery">
           Esqueceu a senha?

@@ -3,7 +3,7 @@
   transition: all ease 0.3s;
   max-height: 100%;
   padding: 0 25px;
-  overflow-y: overlay;
+  overflow-y: auto;
 }
 
 .FormUser .userSectionCheckboxes {
