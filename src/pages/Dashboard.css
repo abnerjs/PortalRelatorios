@@ -32,7 +32,9 @@
     text-align: right;
 }
 
-.Dashboard .tables {
-    flex: 1;
+.Dashboard .row.tables {
     align-items: flex-start;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    height: 100%;
 }
