@@ -7,6 +7,7 @@ import Usuarios from './Cadastros/Usuarios';
 import Perfis from './Cadastros/Perfis';
 import VinculosUsuarios from './Cadastros/VinculosUsuarios';
 import Demonstrativo from './Desmonstrativo';
+import Documentos from './Documentos';
 
 const Main = () => {
   return (
@@ -22,6 +23,9 @@ const Main = () => {
         </Route>
         <Route path="/vinculos-usuarios">
           <VinculosUsuarios />
+        </Route>
+        <Route path="/documentos">
+          <Documentos />
         </Route>
         <Route path="/demonstrativo">
           <Demonstrativo />
