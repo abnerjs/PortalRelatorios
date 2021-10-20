@@ -1,8 +1,10 @@
 import { Typography } from '@mui/material';
 import React from 'react';
 import Header from '../components/Header';
-import MainTable from '../components/MainTable';
+import Table from '../components/Table';
 import './Dashboard.css';
+
+
 
 const Documentos = () => {
   return (
@@ -15,8 +17,8 @@ const Documentos = () => {
           </Typography>
         </div>
         <div className="row tables">
-          <MainTable title="Para prestadores" />
-          <MainTable title="Para fornecedores" />
+          <Table arr={[]} title="Para prestadores" />
+          <Table arr={[]} title="Para fornecedores" />
         </div>
       </div>
     </div>
