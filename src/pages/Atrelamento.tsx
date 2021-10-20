@@ -120,7 +120,7 @@ const Atrelamento = () => {
   /**
    * let arrayDeletar = arrayAntigo.filter(x => !arrayNovo.includes(x));
    * let arrayCriar = arrayNovo.filter(x => !arrayAntigo.includes(x));
-   */
+  */
 
   const [tabsForm, setTabsForm] = React.useState('forn');
 
