@@ -9,6 +9,7 @@ import Atrelamento from './Atrelamento';
 import Demonstrativo from './Relatorios';
 import RelPreExtrato from './Relatorios/Routes/RelPreExtrato';
 import RelPreCombustivel from './Relatorios/Routes/RelPreCombustivel';
+import RelPreProducao from './Relatorios/Routes/RelPreProducao';
 
 const Main = () => {
   return (
@@ -33,6 +34,9 @@ const Main = () => {
         </Route>
         <Route path="/relprecombustivel">
           <RelPreCombustivel />
+        </Route>
+        <Route path="/relpreproducao">
+          <RelPreProducao />
         </Route>
         <Route path="/">
           <Dashboard />
