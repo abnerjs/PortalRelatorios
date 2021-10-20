@@ -231,7 +231,7 @@ const Atrelamento = () => {
               multiple
               open={true}
               disableListWrap={true}
-              className={`displayNone`}
+              className={tabsForm == 'forn' ? '' : 'displayNone'}
               disablePortal
               fullWidth
               clearOnBlur
@@ -256,6 +256,7 @@ const Atrelamento = () => {
               multiple
               open={true}
               disableListWrap={true}
+              className={tabsForm == 'prest' ? '' : 'displayNone'}
               disablePortal
               fullWidth
               clearOnBlur
