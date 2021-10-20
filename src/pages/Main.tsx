@@ -12,6 +12,7 @@ import RelPreCombustivel from './Relatorios/Routes/RelPreCombustivel';
 import RelPreProducao from './Relatorios/Routes/RelPreProducao';
 import RelPreRecurso from './Relatorios/Routes/RelPreRecurso';
 import RelForPagamento from './Relatorios/Routes/RelForPagamento';
+import RelForCarregamento from './Relatorios/Routes/RelForCarregamento';
 
 const Main = () => {
   return (
@@ -45,6 +46,9 @@ const Main = () => {
         </Route>
         <Route path="/relforpagamento">
           <RelForPagamento />
+        </Route>
+        <Route path="/relforcarregamento">
+          <RelForCarregamento />
         </Route>
         <Route path="/">
           <Dashboard />
