@@ -6,7 +6,8 @@ import Dashboard from './Dashboard';
 import Usuarios from './Cadastros/Usuarios';
 import Perfis from './Cadastros/Perfis';
 import Atrelamento from './Atrelamento';
-import Demonstrativo from './Desmonstrativo';
+import Demonstrativo from './Relatorios';
+import RelPreExtrato from './Relatorios/Routes/RelPreExtrato';
 
 const Main = () => {
   return (
@@ -23,8 +24,11 @@ const Main = () => {
         <Route path="/atrelamento">
           <Atrelamento />
         </Route>
-        <Route path="/demonstrativo">
+        <Route path="/relatorios">
           <Demonstrativo />
+        </Route>
+        <Route path="/relpreextrato">
+          <RelPreExtrato />
         </Route>
         <Route path="/">
           <Dashboard />
