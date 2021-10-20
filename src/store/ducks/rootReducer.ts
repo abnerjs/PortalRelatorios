@@ -1,6 +1,7 @@
 import { combineReducers } from '@reduxjs/toolkit';
 
 import { sessionSlice } from 'src/store/ducks/login';
+import { fazendasSlice } from 'src/store/ducks/fazendas';
 import { objetosSlice } from 'src/store/ducks/objetos';
 import { perfisSlice } from 'src/store/ducks/perfis';
 import { relatoriosSlice } from 'src/store/ducks/relatorios';
@@ -8,6 +9,7 @@ import { tiposRecursosSlice } from 'src/store/ducks/tiposRecursos';
 import { usuariosSlice } from 'src/store/ducks/usuarios';
 
 const rootReducer = combineReducers({
+  fazendas: fazendasSlice.reducer,
   objetos: objetosSlice.reducer,
   perfis: perfisSlice.reducer,
   relatorios: relatoriosSlice.reducer,
