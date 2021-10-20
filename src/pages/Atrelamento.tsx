@@ -231,6 +231,7 @@ const Atrelamento = () => {
               multiple
               open={true}
               disableListWrap={true}
+              className={`displayNone`}
               disablePortal
               fullWidth
               clearOnBlur
@@ -240,11 +241,35 @@ const Atrelamento = () => {
               limitTags={1}
               options={arr}
               filterSelectedOptions
-              ChipProps={{size: `small`}}
+              ChipProps={{ size: `small` }}
               renderInput={(params: any) => (
                 <TextField
                   {...params}
                   label="Fornecedores"
+                  variant="filled"
+                  InputProps={{ ...params.InputProps, disableUnderline: true }}
+                />
+              )}
+            />
+
+            <Autocomplete
+              multiple
+              open={true}
+              disableListWrap={true}
+              disablePortal
+              fullWidth
+              clearOnBlur
+              selectOnFocus
+              handleHomeEndKeys
+              disableCloseOnSelect
+              limitTags={1}
+              options={arr}
+              filterSelectedOptions
+              ChipProps={{ size: `small` }}
+              renderInput={(params: any) => (
+                <TextField
+                  {...params}
+                  label="Prestadores"
                   variant="filled"
                   InputProps={{ ...params.InputProps, disableUnderline: true }}
                 />
