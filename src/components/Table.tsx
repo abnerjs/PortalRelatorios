@@ -8,7 +8,7 @@ function rows(numrows: number) {
     arr.push(
       <div className="row">
         <div className="textual">
-          <div className="regname">Nome do registro</div>
+          <div className="regname">Nome do registro{index}</div>
           <div className="date">26/01/2019 17:50</div>
         </div>
         <Link to="/demonstrativo">

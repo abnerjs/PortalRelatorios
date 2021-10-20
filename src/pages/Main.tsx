@@ -7,6 +7,7 @@ import Usuarios from './Cadastros/Usuarios';
 import Perfis from './Cadastros/Perfis';
 import Atrelamento from './Atrelamento';
 import Demonstrativo from './Desmonstrativo';
+import Documentos from './Documentos';
 
 const Main = () => {
   return (
@@ -19,6 +20,9 @@ const Main = () => {
         </Route>
         <Route path="/perfis">
           <Perfis />
+        </Route>
+        <Route path="/documentos">
+          <Documentos />
         </Route>
         <Route path="/atrelamento">
           <Atrelamento />

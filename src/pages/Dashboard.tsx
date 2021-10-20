@@ -30,8 +30,8 @@ const Dashboard = () => {
           </div>
         </div>
         <div className="row tables">
-          <MainTable title="Novos arquivos" />
-          <MainTable title="Últimas atualizações" />
+          <MainTable title="Novos arquivos" subtitle="Tudo o que você não viu desde o seu último acesso" />
+          <MainTable title="Últimas atualizações" subtitle="Tudo o que você não viu desde o seu último acesso" />
         </div>
       </div>
     </div>

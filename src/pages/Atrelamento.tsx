@@ -117,6 +117,11 @@ const Atrelamento = () => {
   const [focused, setFocused] = useState(false);
   const [usuarioSelecionado, setUsuarioSelecionado] = useState<Usuario>();
 
+  /**
+   * let arrayDeletar = arrayAntigo.filter(x => !arrayNovo.includes(x));
+   * let arrayCriar = arrayNovo.filter(x => !arrayAntigo.includes(x));
+   */
+
   const [tabsForm, setTabsForm] = React.useState('forn');
 
   const handleChangeFormTabsFornecedoresPrestadores = (
@@ -231,7 +236,7 @@ const Atrelamento = () => {
               multiple
               open={true}
               disableListWrap={true}
-              className={tabsForm == 'forn' ? '' : 'displayNone'}
+              className={tabsForm === 'forn' ? '' : 'displayNone'}
               disablePortal
               fullWidth
               clearOnBlur
@@ -256,7 +261,7 @@ const Atrelamento = () => {
               multiple
               open={true}
               disableListWrap={true}
-              className={tabsForm == 'prest' ? '' : 'displayNone'}
+              className={tabsForm === 'prest' ? '' : 'displayNone'}
               disablePortal
               fullWidth
               clearOnBlur
