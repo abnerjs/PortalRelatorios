@@ -7,9 +7,9 @@ export interface UsuariosFornecedoresState {
 }
 
 export interface UsuarioFornecedor {
-  idRelUsuario: number;
-  desNome: string;
-  codFornecedor: number;
-  desFornecedor: string;
-  flgAtivo: string;
+  idRelUsuario?: number;
+  desNome?: string;
+  codFornecedor?: number;
+  desFornecedor?: string;
+  flgAtivo?: string;
 }

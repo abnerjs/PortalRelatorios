@@ -7,9 +7,9 @@ export interface UsuariosPrestadoresState {
 }
 
 export interface UsuarioPrestador {
-  idRelUsuario: number;
-  desNome: string;
-  codPrestador: number;
-  nomPrestador: string;
-  flgAtivo: string;
+  idRelUsuario?: number;
+  desNome?: string;
+  codPrestador?: number;
+  nomPrestador?: string;
+  flgAtivo?: string;
 }
