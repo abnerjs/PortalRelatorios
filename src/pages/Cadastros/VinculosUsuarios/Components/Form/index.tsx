@@ -8,14 +8,30 @@ import { Button, Tab, Tabs, TextField } from '@mui/material';
 import Autocomplete from '@mui/material/Autocomplete';
 import CheckIcon from '@mui/icons-material/Check';
 
+import {
+  ListboxComponent,
+  StyledPopper,
+} from 'src/pages/Cadastros/VinculosUsuarios/Components/Autocomplete';
+
 import { useAppSelector, useAppDispatch } from 'src/store';
+import { TipoFiltro } from 'src/store/ducks/base/types';
+
 import { fornecedoresGetFilterRequest } from 'src/store/ducks/fornecedores';
 import { prestadoresGetFilterRequest } from 'src/store/ducks/prestadores';
-import { ListboxComponent, StyledPopper } from '../Autocomplete';
 import { Usuario } from 'src/store/ducks/usuarios/types';
-import { usuariosFornecedoresGetRequest } from 'src/store/ducks/usuariosFornecedores';
-import { usuariosPrestadoresGetRequest } from 'src/store/ducks/usuariosPrestadores';
-import { TipoFiltro } from 'src/store/ducks/base/types';
+
+import {
+  usuariosFornecedoresGetRequest,
+  usuariosFornecedoresPostRequest,
+  usuariosFornecedoresDeleteRequest,
+} from 'src/store/ducks/usuariosFornecedores';
+import {
+  usuariosPrestadoresGetRequest,
+  usuariosPrestadoresPostRequest,
+  usuariosPrestadoresDeleteRequest,
+} from 'src/store/ducks/usuariosPrestadores';
+import { UsuarioFornecedor } from 'src/store/ducks/usuariosFornecedores/types';
+import { UsuarioPrestador } from 'src/store/ducks/usuariosPrestadores/types';
 
 interface FormProps {
   data: Usuario | null;
@@ -31,20 +47,27 @@ const Form: React.FC<FormProps> = ({
   onCancel,
 }: FormProps) => {
   const [tabsForm, setTabsForm] = useState('forn');
-  const [fornecedoresData, setFornecedoresData] = useState<TipoFiltro[]>([]);
-  const [prestadoresData, setPrestadoresData] = useState<TipoFiltro[]>([]);
+  const [fornecedores, setFornecedores] = useState<TipoFiltro[]>([]);
+  const [prestadores, setPrestadores] = useState<TipoFiltro[]>([]);
+
+  const [fornecedoresAntigos, setFornecedoresAntigos] = useState<TipoFiltro[]>(
+    []
+  );
+  const [prestadoresAntigos, setPrestadoresAntigos] = useState<TipoFiltro[]>(
+    []
+  );
 
   const dispatch = useAppDispatch();
-  const fornecedores = useAppSelector((state) => state.fornecedores.filterList);
-  const prestadores = useAppSelector((state) => state.prestadores.filterList);
 
-  const fornecedoresSelecionados = useAppSelector(
-    (state) => state.usuariosFornecedores.data
+  const lstFornecedores = useAppSelector(
+    (state) => state.fornecedores.filterList
+  );
+  const lstPrestadores = useAppSelector(
+    (state) => state.prestadores.filterList
   );
 
-  const prestadoresSelecionados = useAppSelector(
-    (state) => state.usuariosPrestadores.data
-  );
+  const fornAux = useAppSelector((state) => state.usuariosFornecedores.data);
+  const prestAux = useAppSelector((state) => state.usuariosPrestadores.data);
 
   const handleChangeTabs = (event: React.SyntheticEvent, newValue: string) => {
     setTabsForm(newValue);
@@ -52,10 +75,66 @@ const Form: React.FC<FormProps> = ({
 
   function handleSubmit(e: any) {
     e.preventDefault();
+
+    if (data) {
+      const deleteForn = fornecedoresAntigos.filter(
+        (x) => !fornecedores.includes(x)
+      );
+      const createForn = fornecedores.filter(
+        (x) => !fornecedoresAntigos.includes(x)
+      );
+
+      const deletePrest = prestadoresAntigos.filter(
+        (x) => !prestadores.includes(x)
+      );
+      const createPrest = prestadores.filter(
+        (x) => !prestadoresAntigos.includes(x)
+      );
+
+      deleteForn.forEach((item) => {
+        const usuForn: UsuarioFornecedor = {
+          idRelUsuario: data.idRelUsuario,
+          codFornecedor: parseInt(item.codigo),
+        };
+
+        dispatch(usuariosFornecedoresDeleteRequest(usuForn));
+      });
+
+      createForn.forEach((item) => {
+        const usuForn: UsuarioFornecedor = {
+          idRelUsuario: data.idRelUsuario,
+          codFornecedor: parseInt(item.codigo),
+          flgAtivo: 'S',
+        };
+
+        dispatch(usuariosFornecedoresPostRequest(usuForn));
+      });
+
+      deletePrest.forEach((item) => {
+        const usuPrest: UsuarioPrestador = {
+          idRelUsuario: data.idRelUsuario,
+          codPrestador: parseInt(item.codigo),
+        };
+
+        dispatch(usuariosPrestadoresDeleteRequest(usuPrest));
+      });
+
+      createPrest.forEach((item) => {
+        const usuPrest: UsuarioPrestador = {
+          idRelUsuario: data.idRelUsuario,
+          codPrestador: parseInt(item.codigo),
+          flgAtivo: 'S',
+        };
+
+        dispatch(usuariosPrestadoresPostRequest(usuPrest));
+      });
+
+      onSuccess();
+    }
   }
 
   useEffect(() => {
-    const newValue = fornecedoresSelecionados.map((item) => {
+    const newValue = fornAux.map((item) => {
       const tipoFiltro: TipoFiltro = {
         codigo: `${item.codFornecedor}`,
         descricao: `${item.codFornecedor} - ${item.desFornecedor}`,
@@ -65,11 +144,12 @@ const Form: React.FC<FormProps> = ({
       return tipoFiltro;
     });
 
-    setFornecedoresData(newValue);
-  }, [fornecedoresSelecionados]);
+    setFornecedores(newValue);
+    setFornecedoresAntigos(newValue);
+  }, [fornAux]);
 
   useEffect(() => {
-    const newValue = prestadoresSelecionados.map((item) => {
+    const newValue = prestAux.map((item) => {
       const tipoFiltro: TipoFiltro = {
         codigo: `${item.codPrestador}`,
         descricao: `${item.codPrestador} - ${item.nomPrestador}`,
@@ -79,8 +159,9 @@ const Form: React.FC<FormProps> = ({
       return tipoFiltro;
     });
 
-    setPrestadoresData(newValue);
-  }, [prestadoresSelecionados]);
+    setPrestadores(newValue);
+    setPrestadoresAntigos(newValue);
+  }, [prestAux]);
 
   useEffect(() => {
     dispatch(fornecedoresGetFilterRequest());
@@ -98,6 +179,16 @@ const Form: React.FC<FormProps> = ({
     }
   }, [data, dispatch]);
 
+  useEffect(() => {
+    if (!data) {
+      setFornecedores([]);
+      setFornecedoresAntigos([]);
+      setPrestadores([]);
+      setPrestadoresAntigos([]);
+      setTabsForm('forn');
+    }
+  }, [data, dispatch]);
+
   return (
     <form
       className={`FormUser flexGrow${isFormOpened ? '' : ' invi'}`}
@@ -111,7 +202,6 @@ const Form: React.FC<FormProps> = ({
         <Tab disableRipple value="forn" label="Fornecedores" />
         <Tab disableRipple value="prest" label="Prestadores" />
       </Tabs>
-
       <Autocomplete
         multiple
         open={true}
@@ -124,11 +214,12 @@ const Form: React.FC<FormProps> = ({
         disableCloseOnSelect
         PopperComponent={StyledPopper}
         ListboxComponent={ListboxComponent}
-        options={fornecedores}
+        options={lstFornecedores}
         getOptionLabel={(option) => option.descricao}
-        // limitTags={1}
-        // ChipProps={{ size: 'small' }}
-        renderTags={() => undefined}
+        limitTags={1}
+        ChipProps={{ size: 'small' }}
+        className={tabsForm === 'forn' ? '' : 'displayNone'}
+        // renderTags={() => undefined}
         renderOption={(props, option, state) => {
           return [
             props,
@@ -157,11 +248,10 @@ const Form: React.FC<FormProps> = ({
             InputLabelProps={{ shrink: undefined }}
           />
         )}
-        value={fornecedoresData}
-        onChange={(_, data) => setFornecedoresData(data)}
+        value={fornecedores}
+        onChange={(_, data) => setFornecedores(data)}
         isOptionEqualToValue={(option, value) => option.codigo === value.codigo}
       />
-
       <Autocomplete
         multiple
         open={true}
@@ -174,11 +264,12 @@ const Form: React.FC<FormProps> = ({
         disableCloseOnSelect
         PopperComponent={StyledPopper}
         ListboxComponent={ListboxComponent}
-        options={prestadores}
+        options={lstPrestadores}
         getOptionLabel={(option) => option.descricao}
-        // limitTags={1}
-        // ChipProps={{ size: 'small' }}
-        renderTags={() => undefined}
+        limitTags={1}
+        ChipProps={{ size: 'small' }}
+        className={tabsForm === 'prest' ? '' : 'displayNone'}
+        // renderTags={() => undefined}
         renderOption={(props, option, state) => {
           return [
             props,
@@ -207,11 +298,10 @@ const Form: React.FC<FormProps> = ({
             InputLabelProps={{ shrink: undefined }}
           />
         )}
-        value={prestadoresData}
-        onChange={(_, data) => setPrestadoresData(data)}
+        value={prestadores}
+        onChange={(_, data) => setPrestadores(data)}
         isOptionEqualToValue={(option, value) => option.codigo === value.codigo}
       />
-
       <div className="buttons">
         <Button
           onClick={onCancel}
