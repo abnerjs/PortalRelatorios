@@ -97,7 +97,7 @@ const defaultValues: Usuario = {
   desSenha: '',
   desCpfCnpj: '',
   codColaborador: '',
-  flgTipo: '',
+  flgTipo: 'I',
   flgAtivo: 'S',
 };
 
