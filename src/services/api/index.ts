@@ -4,7 +4,7 @@ import store from 'src/store';
 import { logout } from 'src/store/ducks/login';
 
 const api = axios.create({
-  baseURL: 'http://datamob.servehttp.com:8080/Ester/Relatorios/ApiRest/api',
+  baseURL: 'http://datamob.servehttp.com:8080/Ester/ApiRestRelatorio/api',
 });
 
 api.interceptors.request.use(
