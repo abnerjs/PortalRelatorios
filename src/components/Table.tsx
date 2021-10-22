@@ -9,6 +9,24 @@ type Props = {
   arr: Array<any>;
 };
 
+function rows() {
+  let arr = [];
+  for (let index = 0; index < 25; index++) {
+    arr.push(
+      <div className="row" key={index}>
+        <div className="textual">
+          <div className="regname">Nome do registro</div>
+          <div className="date">26/01/2019 17:50</div>
+        </div>
+        <Link to="/demonstrativo">
+          <button className="reg">ABRIR</button>
+        </Link>
+      </div>
+    );
+  }
+  return arr;
+}
+
 const Table = (props: Props) => {
   const subtitle = props.subtitle ? (
     <Typography variant="subtitle1">
@@ -22,7 +40,9 @@ const Table = (props: Props) => {
       {subtitle}
 
       <div className="principalContent">
-        {props.arr.map((doc, index) => <div className="row" key={index}>
+        <div className="scrollable">
+          {props.arr.map((doc, index) => (
+            <div className="row" key={index}>
               <div className="textual">
                 <div className="regname">Nome do registro</div>
                 <div className="date">26/01/2019 17:50</div>
@@ -30,7 +50,9 @@ const Table = (props: Props) => {
               <Link to="/demonstrativo">
                 <button className="reg">ABRIR</button>
               </Link>
-            </div>)}
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );

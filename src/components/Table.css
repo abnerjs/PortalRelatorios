@@ -1,8 +1,23 @@
 .Table {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    height: 100%;
+    position: relative;
+}
+
+.principalContent {
     width: 100%;
-    flex-grow: 1;
-    max-height: calc(100vh - 375px);
-    overflow-y: auto;
+    height: 100%;
+    overflow: auto !important;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+.scrollable {
+    position: absolute;
+    width: 100%;
 }
 
 .Table .row {
