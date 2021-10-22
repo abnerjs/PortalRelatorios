@@ -100,7 +100,16 @@ const Menu = () => {
             <div
               className={
                 `menuButton` +
-                (location.pathname === '/relatorios' ? ' active' : '')
+                (location.pathname === '/relatorios' ||
+                location.pathname === '/relpreproducao' ||
+                location.pathname === '/relprecombustivel' ||
+                location.pathname === '/relpreextrato' ||
+                location.pathname === '/relprerecurso' ||
+                location.pathname === '/relforcarregamento' ||
+                location.pathname === '/relforpagamento' ||
+                location.pathname === '/relforcanaentregue'
+                  ? ' active'
+                  : '')
               }
               onClick={() => setState(false)}
             >
