@@ -73,7 +73,7 @@ const Login: React.FC = () => {
         {...register('desSenha')}
       />
       {/* <Checkbox flexEnd medium id="checkbox" content="Manter conectado" /> */}
-      <Button variant="contained" style={{marginTop: 8}}>
+      <Button variant="contained" type="submit" style={{ marginTop: 8 }}>
         ENTRAR
       </Button>
       {/*

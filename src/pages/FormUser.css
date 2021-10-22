@@ -146,6 +146,7 @@
   display: flex;
   background-color: transparent;
   width: 100%;
+  box-shadow: none;
 }
 
 .FormUser .MuiAutocomplete-root .MuiFilledInput-root .MuiFilledInput-input {
@@ -157,8 +158,9 @@
 }
 
 .FormUser.flexGrow .MuiAutocomplete-listbox {
-  max-height: none !important;
   flex: 1;
+  max-height: none !important;
+  padding-right: 5px;
 }
 
 .FormUser.flexGrow .MuiAutocomplete-endAdornment {
