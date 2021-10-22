@@ -1,3 +1,8 @@
+import 'src/pages/Usuarios.css';
+import 'src/pages/Relatorios/Styles/index.css';
+import 'src/pages/FormUser.css';
+import 'src/pages/SectionizedTable.css';
+
 import React, { useState } from 'react';
 import brLocale from 'date-fns/locale/pt-BR';
 import ruLocale from 'date-fns/locale/ru';
@@ -16,10 +21,6 @@ import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import DatePicker from '@mui/lab/DatePicker';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import Header from 'src/components/Header';
-import './Usuarios.css';
-import './Demonstrativo.css';
-import './FormUser.css';
-import './SectionizedTable.css';
 import { DateRange, DateRangePicker } from '@mui/lab';
 import pdf from 'src/testing/basic.pdf';
 
@@ -227,7 +228,7 @@ const Demonstrativo = () => {
               <Button variant="contained">GERAR</Button>
             </div>
           </form>
-          <div className="pdf" style={{display: 'none'}}>
+          <div className="pdf" style={{ display: 'none' }}>
             <embed
               width="100%"
               height="100%"
