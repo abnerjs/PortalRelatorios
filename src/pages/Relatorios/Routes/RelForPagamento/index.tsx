@@ -25,7 +25,7 @@ import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import Header from 'src/components/Header';
 import { useAppDispatch, useAppSelector } from 'src/store';
 import { TipoFiltro } from 'src/store/ducks/base/types';
-import { fornecedoresGetFilterRequest } from 'src/store/ducks/fornecedores';
+import { usuariosFornecedoresGetFilterRequest } from 'src/store/ducks/usuariosFornecedores';
 import { relatoriosDownloadRequest } from 'src/store/ducks/relatorios';
 
 interface FormProps {
@@ -53,7 +53,7 @@ const RelForPagamento = () => {
   const [fornecedores, setFornecedores] = useState<TipoFiltro[]>([]);
 
   const dispatch = useAppDispatch();
-  const forn = useAppSelector((state) => state.fornecedores.filterList);
+  const forn = useAppSelector((state) => state.usuariosFornecedores.filterList);
   // const pdf = useAppSelector((state) => state.relatorios.data);
   const history = useHistory();
 
@@ -82,7 +82,7 @@ const RelForPagamento = () => {
   };
 
   useEffect(() => {
-    dispatch(fornecedoresGetFilterRequest());
+    dispatch(usuariosFornecedoresGetFilterRequest());
   }, [dispatch]);
 
   return (

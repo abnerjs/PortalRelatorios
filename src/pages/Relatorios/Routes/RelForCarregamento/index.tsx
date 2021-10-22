@@ -26,7 +26,7 @@ import Header from 'src/components/Header';
 import { useAppDispatch, useAppSelector } from 'src/store';
 import { TipoFiltro } from 'src/store/ducks/base/types';
 import { fazendasGetFilterRequest } from 'src/store/ducks/fazendas';
-import { fornecedoresGetFilterRequest } from 'src/store/ducks/fornecedores';
+import { usuariosFornecedoresGetFilterRequest } from 'src/store/ducks/usuariosFornecedores';
 import { relatoriosDownloadRequest } from 'src/store/ducks/relatorios';
 
 interface FormProps {
@@ -58,7 +58,7 @@ const RelForCarregamento = () => {
   const [fornecedores, setFornecedores] = useState<TipoFiltro[]>([]);
 
   const dispatch = useAppDispatch();
-  const forn = useAppSelector((state) => state.fornecedores.filterList);
+  const forn = useAppSelector((state) => state.usuariosFornecedores.filterList);
   const faz = useAppSelector((state) => state.fazendas.filterList);
   // const pdf = useAppSelector((state) => state.relatorios.data);
   const history = useHistory();
@@ -89,16 +89,19 @@ const RelForCarregamento = () => {
   };
 
   useEffect(() => {
-    dispatch(fornecedoresGetFilterRequest());
+    dispatch(usuariosFornecedoresGetFilterRequest());
   }, [dispatch]);
 
   useEffect(() => {
-    const fornec = fornecedores.map((x) => x.codigo).join(',');
-    const query = `?lstCodFornecedores=${fornec}`;
+    if (fornecedores.length !== 0) {
+      const fornec = fornecedores.map((x) => x.codigo).join(',');
+      const query = `?lstCodFornecedores=${fornec}`;
+
+      dispatch(fazendasGetFilterRequest(query));
+    }
 
     setFazendas([]);
     setValue('lstCodFazendas', '');
-    dispatch(fazendasGetFilterRequest(query));
   }, [dispatch, setValue, fornecedores]);
 
   return (
@@ -207,7 +210,7 @@ const RelForCarregamento = () => {
               clearText="Limpar"
               loadingText="Carregando"
               noOptionsText="Sem opções"
-              options={faz}
+              options={fornecedores.length === 0 ? [] : faz}
               limitTags={1}
               ChipProps={{ size: `small` }}
               getOptionLabel={(option) => option.descricao}
