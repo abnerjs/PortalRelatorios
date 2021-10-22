@@ -5,7 +5,7 @@ import Menu from 'src/components/Menu';
 import Dashboard from './Dashboard';
 import Usuarios from './Cadastros/Usuarios';
 import Perfis from './Cadastros/Perfis';
-import Atrelamento from './Atrelamento';
+import VinculosUsuarios from './Cadastros/VinculosUsuarios';
 import Demonstrativo from './Desmonstrativo';
 import Documentos from './Documentos';
 
@@ -21,11 +21,11 @@ const Main = () => {
         <Route path="/perfis">
           <Perfis />
         </Route>
+        <Route path="/vinculos-usuarios">
+          <VinculosUsuarios />
+        </Route>
         <Route path="/documentos">
           <Documentos />
-        </Route>
-        <Route path="/atrelamento">
-          <Atrelamento />
         </Route>
         <Route path="/demonstrativo">
           <Demonstrativo />
