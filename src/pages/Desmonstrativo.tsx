@@ -105,6 +105,7 @@ const Demonstrativo = () => {
                       {...startProps}
                       variant="filled"
                       margin="dense"
+                      fullWidth
                       InputProps={{
                         disableUnderline: true,
                       }}
@@ -114,6 +115,7 @@ const Demonstrativo = () => {
                       {...endProps}
                       variant="filled"
                       margin="dense"
+                      fullWidth
                       InputProps={{
                         disableUnderline: true,
                       }}
