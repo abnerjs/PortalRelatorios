@@ -12,6 +12,7 @@ const Carousel: React.FC<Props> = ({ children }: Props) => {
   for (let i = 0; i < children.length; i++) {
     arr.push(
       <button
+        key={`carousel-item-${i}`}
         className={`controller${carouselIndex === i ? ' active' : ''}`}
         onClick={() => setCarouselIndex(i)}
       ></button>
