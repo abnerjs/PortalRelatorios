@@ -1,31 +1,19 @@
-import { Typography } from '@mui/material';
+import './Table.css';
+
 import React from 'react';
 import { Link } from 'react-router-dom';
-import './Table.css';
+import { Typography } from '@mui/material';
+
+export type LinkProps = {
+  name: string;
+  linkTo: string;
+};
 
 type Props = {
   title: string;
   subtitle?: string;
-  arr: Array<any>;
+  arr: Array<LinkProps>;
 };
-
-function rows() {
-  let arr = [];
-  for (let index = 0; index < 25; index++) {
-    arr.push(
-      <div className="row" key={index}>
-        <div className="textual">
-          <div className="regname">Nome do registro</div>
-          <div className="date">26/01/2019 17:50</div>
-        </div>
-        <Link to="/demonstrativo">
-          <button className="reg">ABRIR</button>
-        </Link>
-      </div>
-    );
-  }
-  return arr;
-}
 
 const Table = (props: Props) => {
   const subtitle = props.subtitle ? (
@@ -38,21 +26,17 @@ const Table = (props: Props) => {
     <div className="Table">
       <Typography variant="h5">{props.title}</Typography>
       {subtitle}
-
       <div className="principalContent">
-        <div className="scrollable">
-          {props.arr.map((doc, index) => (
-            <div className="row" key={index}>
-              <div className="textual">
-                <div className="regname">Nome do registro</div>
-                <div className="date">26/01/2019 17:50</div>
-              </div>
-              <Link to="/demonstrativo">
-                <button className="reg">ABRIR</button>
-              </Link>
+        {props.arr.map((doc, index) => (
+          <div className="row" key={index}>
+            <div className="textual">
+              <div className="regname">{doc.name}</div>
             </div>
-          ))}
-        </div>
+            <Link to={doc.linkTo}>
+              <button className="reg">ABRIR</button>
+            </Link>
+          </div>
+        ))}
       </div>
     </div>
   );
