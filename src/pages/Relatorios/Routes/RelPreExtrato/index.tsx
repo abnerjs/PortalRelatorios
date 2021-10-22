@@ -25,7 +25,7 @@ import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import Header from 'src/components/Header';
 import { useAppDispatch, useAppSelector } from 'src/store';
 import { TipoFiltro } from 'src/store/ducks/base/types';
-import { prestadoresGetFilterRequest } from 'src/store/ducks/prestadores';
+import { usuariosPrestadoresGetFilterRequest } from 'src/store/ducks/usuariosPrestadores';
 import { relatoriosDownloadRequest } from 'src/store/ducks/relatorios';
 
 interface FormProps {
@@ -53,7 +53,7 @@ const RelPreExtrato = () => {
   const [prestadores, setPrestadores] = useState<TipoFiltro[]>([]);
 
   const dispatch = useAppDispatch();
-  const prest = useAppSelector((state) => state.prestadores.filterList);
+  const prest = useAppSelector((state) => state.usuariosPrestadores.filterList);
   // const pdf = useAppSelector((state) => state.relatorios.data);
   const history = useHistory();
 
@@ -82,7 +82,7 @@ const RelPreExtrato = () => {
   };
 
   useEffect(() => {
-    dispatch(prestadoresGetFilterRequest());
+    dispatch(usuariosPrestadoresGetFilterRequest());
   }, [dispatch]);
 
   return (
