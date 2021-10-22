@@ -2,7 +2,7 @@ import 'src/pages/Login/Routes/Form/Styles/index.css';
 
 import React from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import * as Yup from 'yup';
 
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -24,6 +24,7 @@ const schema = Yup.object({
 });
 
 const Login: React.FC = () => {
+  const history = useHistory();
   const dispatch = useAppDispatch();
 
   const { register, handleSubmit, formState } = useForm<FormInputs>({
@@ -31,6 +32,7 @@ const Login: React.FC = () => {
   });
 
   const onSubmit: SubmitHandler<FormInputs> = (data) => {
+    history.push('/');
     dispatch(loginRequest(data));
   };
 
