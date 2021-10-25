@@ -119,6 +119,7 @@ const RelForPagamento = () => {
                       {...startProps}
                       margin="dense"
                       variant="filled"
+                      fullWidth
                       InputProps={{ disableUnderline: true }}
                       error={!!formState.errors.dtaInicio}
                       helperText={formState.errors.dtaInicio?.message}
@@ -128,6 +129,7 @@ const RelForPagamento = () => {
                       {...endProps}
                       margin="dense"
                       variant="filled"
+                      fullWidth
                       InputProps={{ disableUnderline: true }}
                       error={!!formState.errors.dtaFim}
                       helperText={formState.errors.dtaFim?.message}

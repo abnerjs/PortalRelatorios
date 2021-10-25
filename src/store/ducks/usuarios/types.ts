@@ -4,6 +4,7 @@ export interface UsuariosState {
   data: Array<Usuario>;
   filterList: Array<TipoFiltro>;
   pagination?: InfoPaginacao;
+  loading: boolean;
 }
 
 export interface Usuario {

@@ -148,6 +148,7 @@
 .MuiTabs-root {
   width: 350px;
   margin-bottom: 16px;
+  height: 48px !important;
 }
 
 .MuiTabs-root .MuiButtonBase-root {

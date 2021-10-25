@@ -138,6 +138,7 @@ const RelForCarregamento = () => {
                       {...startProps}
                       margin="dense"
                       variant="filled"
+                      fullWidth
                       InputProps={{ disableUnderline: true }}
                       error={!!formState.errors.dtaInicio}
                       helperText={formState.errors.dtaInicio?.message}
@@ -147,6 +148,7 @@ const RelForCarregamento = () => {
                       {...endProps}
                       margin="dense"
                       variant="filled"
+                      fullWidth
                       InputProps={{ disableUnderline: true }}
                       error={!!formState.errors.dtaFim}
                       helperText={formState.errors.dtaFim?.message}

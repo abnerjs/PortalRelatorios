@@ -8,6 +8,7 @@ const initialState: UsuariosState = {
   data: [],
   filterList: [],
   pagination: Paginacao.getValoresPadrao(),
+  loading: false,
 };
 
 export const usuariosSlice = createSlice({
@@ -17,13 +18,16 @@ export const usuariosSlice = createSlice({
     usuariosGetRequest: (
       state,
       action: PayloadAction<string | undefined>
-    ) => {},
+    ) => {
+      state.loading = true;
+    },
     usuariosGetSuccess: (
       state,
       action: PayloadAction<RespostaApi<Usuario>>
     ) => {
       state.data = action.payload.dados;
       state.pagination = action.payload.paginacao;
+      state.loading = false;
     },
     usuariosGetFilterRequest: (
       state,

@@ -10,6 +10,7 @@ import {
   Button,
   Fade,
   Modal,
+  Skeleton,
   Tab,
   Tabs,
   TextField,
@@ -48,6 +49,7 @@ const Usuarios = () => {
 
   const dispatch = useAppDispatch();
   const usuarios = useAppSelector((state) => state.usuarios.data);
+  const loading = useAppSelector((state) => state.usuarios.loading);
 
   const handleChangeSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
     handlePesquisa('filtroPadrao', event.target.value);
@@ -181,20 +183,24 @@ const Usuarios = () => {
             >
               NOVO USUÁRIO
             </Button>
-            <div className="rows">
-              {usuarios.map((item, index) => (
-                <Row
-                  key={`usuario-${index}`}
-                  data={item}
-                  index={index}
-                  indexSelected={rowSelected}
-                  handleFormOpen={handleFormOpen}
-                  handleModalOpen={setModalOpen}
-                  handleIndexSelected={setRowSelected}
-                  handleChangeFlgAtivo={handleUpdate}
-                  isFormOpened={isFormOpened}
-                />
-              ))}
+            <div className="rows" style={{overflow:'hidden'}}>
+              {loading ? (
+                loadingUsersRows()
+              ) : (
+                usuarios.map((item, index) => (
+                  <Row
+                    key={`usuario-${index}`}
+                    data={item}
+                    index={index}
+                    indexSelected={rowSelected}
+                    handleFormOpen={handleFormOpen}
+                    handleModalOpen={setModalOpen}
+                    handleIndexSelected={setRowSelected}
+                    handleChangeFlgAtivo={handleUpdate}
+                    isFormOpened={isFormOpened}
+                  />
+                ))
+              )}
             </div>
             <Modal
               open={isModalOpen}
@@ -257,3 +263,33 @@ const Usuarios = () => {
 };
 
 export default Usuarios;
+
+const loadingUsersRows = () => {
+  let arr = [];
+
+  for (let i = 0; i < 25; i++) {
+    arr.push(
+      <div className={`row`}>
+        <div className="header">
+          <Skeleton
+            animation="wave"
+            variant="circular"
+            width={36}
+            height={36}
+            style={{marginRight:'10px'}}
+          />
+          <Typography component="div" variant="body1" className="email">
+            <Skeleton animation="wave" />
+          </Typography>
+          <Icon
+            icon="fluent:chevron-right-16-filled"
+            width={16}
+            className="icon"
+          />
+        </div>
+      </div>
+    );
+  }
+
+  return arr;
+};
