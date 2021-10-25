@@ -27,16 +27,18 @@ const Table = (props: Props) => {
       <Typography variant="h5">{props.title}</Typography>
       {subtitle}
       <div className="principalContent">
-        {props.arr.map((doc, index) => (
-          <div className="row" key={index}>
-            <div className="textual">
-              <div className="regname">{doc.name}</div>
+        <div className="scrollable">
+          {props.arr.map((doc, index) => (
+            <div className="row" key={index}>
+              <div className="textual">
+                <div className="regname">{doc.name}</div>
+              </div>
+              <Link to={doc.linkTo}>
+                <button className="reg">ABRIR</button>
+              </Link>
             </div>
-            <Link to={doc.linkTo}>
-              <button className="reg">ABRIR</button>
-            </Link>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
     </div>
   );
