@@ -8,16 +8,20 @@ const initialState: PerfisState = {
   data: [],
   filterList: [],
   pagination: Paginacao.getValoresPadrao(),
+  loading: false,
 };
 
 export const perfisSlice = createSlice({
   name: 'perfis',
   initialState: initialState,
   reducers: {
-    perfisGetRequest: (state, action: PayloadAction<string | undefined>) => {},
+    perfisGetRequest: (state, action: PayloadAction<string | undefined>) => {
+      state.loading = true;
+    },
     perfisGetSuccess: (state, action: PayloadAction<RespostaApi<Perfil>>) => {
       state.data = action.payload.dados;
       state.pagination = action.payload.paginacao;
+      state.loading = false;
     },
     perfisGetFilterRequest: (
       state,

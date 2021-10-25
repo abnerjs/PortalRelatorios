@@ -4,7 +4,7 @@ import 'src/pages/SectionizedTable.css';
 
 import React, { useEffect, useState } from 'react';
 import { Icon } from '@iconify/react';
-import { Tab, Tabs, TextField, Typography } from '@mui/material';
+import { Skeleton, Tab, Tabs, TextField, Typography } from '@mui/material';
 
 import Header from 'src/components/Header';
 import { usePesquisa } from 'src/hooks/usePesquisa';
@@ -27,6 +27,7 @@ const VinculosUsuarios = () => {
 
   const dispatch = useAppDispatch();
   const usuarios = useAppSelector((state) => state.usuarios.data);
+  const loading = useAppSelector((state) => state.usuarios.loading);
 
   const handleChangeFlgTipo = (
     event: React.SyntheticEvent,
@@ -117,16 +118,21 @@ const VinculosUsuarios = () => {
                 }}
               />
             </div>
-            <div className="rows forprestadores">
-              {usuarios.map((item, index) => (
-                <Row
-                  key={`usuario-${index}`}
-                  data={item}
-                  index={index}
-                  indexSelected={rowSelected}
-                  handleIndexSelected={handleIndexSelected}
-                />
-              ))}
+            <div
+              className="rows forprestadores"
+              style={{ overflow: loading ? 'hidden' : 'auto' }}
+            >
+              {loading
+                ? loadingUsersRows()
+                : usuarios.map((item, index) => (
+                    <Row
+                      key={`usuario-${index}`}
+                      data={item}
+                      index={index}
+                      indexSelected={rowSelected}
+                      handleIndexSelected={handleIndexSelected}
+                    />
+                  ))}
             </div>
           </div>
           <Form
@@ -142,3 +148,28 @@ const VinculosUsuarios = () => {
 };
 
 export default VinculosUsuarios;
+
+const loadingUsersRows = () => {
+  let arr = [];
+
+  for (let i = 0; i < 25; i++) {
+    arr.push(
+      <div className={`row`}>
+        <div className="header">
+          <Skeleton
+            animation="wave"
+            variant="circular"
+            width={36}
+            height={36}
+            style={{ marginRight: '10px' }}
+          />
+          <Typography component="div" variant="body1" className="email">
+            <Skeleton animation="wave" />
+          </Typography>
+        </div>
+      </div>
+    );
+  }
+
+  return arr;
+};
