@@ -10,6 +10,7 @@ import {
   Button,
   Fade,
   Modal,
+  Skeleton,
   TextField,
   Typography,
 } from '@mui/material';
@@ -40,6 +41,7 @@ const Perfis = () => {
 
   const dispatch = useAppDispatch();
   const perfis = useAppSelector((state) => state.perfis.data);
+  const loading = useAppSelector((state) => state.perfis.loading);
 
   const handleChangeSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
     handlePesquisa('filtroPadrao', event.target.value);
@@ -143,8 +145,12 @@ const Perfis = () => {
             >
               NOVO PERFIL
             </Button>
-            <div className="rows">
-              {perfis.map((item, index) => (
+            <div className="rows"
+              style={{ overflow: loading ? 'hidden' : 'auto' }}
+            >
+              {loading
+                ? loadingProfilesRows()
+                : perfis.map((item, index) => (
                 <Row
                   key={`perfil-${index}`}
                   data={item}
@@ -218,3 +224,26 @@ const Perfis = () => {
 };
 
 export default Perfis;
+
+const loadingProfilesRows = () => {
+  let arr = [];
+
+  for (let i = 0; i < 25; i++) {
+    arr.push(
+      <div className={`row`}>
+        <div className="header">
+          <Typography component="div" variant="body1" className="email">
+            <Skeleton animation="wave" />
+          </Typography>
+          <Icon
+            icon="fluent:chevron-right-16-filled"
+            width={16}
+            className="icon"
+          />
+        </div>
+      </div>
+    );
+  }
+
+  return arr;
+};

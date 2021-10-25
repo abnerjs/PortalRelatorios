@@ -183,24 +183,25 @@ const Usuarios = () => {
             >
               NOVO USUÁRIO
             </Button>
-            <div className="rows" style={{overflow:'hidden'}}>
-              {loading ? (
-                loadingUsersRows()
-              ) : (
-                usuarios.map((item, index) => (
-                  <Row
-                    key={`usuario-${index}`}
-                    data={item}
-                    index={index}
-                    indexSelected={rowSelected}
-                    handleFormOpen={handleFormOpen}
-                    handleModalOpen={setModalOpen}
-                    handleIndexSelected={setRowSelected}
-                    handleChangeFlgAtivo={handleUpdate}
-                    isFormOpened={isFormOpened}
-                  />
-                ))
-              )}
+            <div
+              className="rows"
+              style={{ overflow: loading ? 'hidden' : 'auto' }}
+            >
+              {loading
+                ? loadingUsersRows()
+                : usuarios.map((item, index) => (
+                    <Row
+                      key={`usuario-${index}`}
+                      data={item}
+                      index={index}
+                      indexSelected={rowSelected}
+                      handleFormOpen={handleFormOpen}
+                      handleModalOpen={setModalOpen}
+                      handleIndexSelected={setRowSelected}
+                      handleChangeFlgAtivo={handleUpdate}
+                      isFormOpened={isFormOpened}
+                    />
+                  ))}
             </div>
             <Modal
               open={isModalOpen}
@@ -276,7 +277,7 @@ const loadingUsersRows = () => {
             variant="circular"
             width={36}
             height={36}
-            style={{marginRight:'10px'}}
+            style={{ marginRight: '10px' }}
           />
           <Typography component="div" variant="body1" className="email">
             <Skeleton animation="wave" />
