@@ -11,6 +11,7 @@ import {
   usuariosPostRequest,
   usuariosPutRequest,
   usuariosDeleteRequest,
+  usuariosGetError,
 } from 'src/store/ducks/usuarios';
 import { Usuario } from 'src/store/ducks/usuarios/types';
 
@@ -24,7 +25,9 @@ export function* sendGetRequest(action: ReturnType<typeof usuariosGetRequest>) {
     );
 
     yield put(usuariosGetSuccess(response.data));
-  } catch (error) {}
+  } catch (error: any) {
+    yield put(usuariosGetError(error));
+  }
 }
 
 export function* sendGetFilterRequest(

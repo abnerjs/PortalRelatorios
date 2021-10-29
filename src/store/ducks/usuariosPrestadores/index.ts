@@ -11,6 +11,7 @@ const initialState: UsuariosPrestadoresState = {
   data: [],
   filterList: [],
   pagination: Paginacao.getValoresPadrao(),
+  error: undefined,
 };
 
 export const usuariosPrestadoresSlice = createSlice({
@@ -20,13 +21,19 @@ export const usuariosPrestadoresSlice = createSlice({
     usuariosPrestadoresGetRequest: (
       state,
       action: PayloadAction<string | undefined>
-    ) => {},
+    ) => {
+      state.error = undefined;
+    },
     usuariosPrestadoresGetSuccess: (
       state,
       action: PayloadAction<RespostaApi<UsuarioPrestador>>
     ) => {
       state.data = action.payload.dados;
       state.pagination = action.payload.paginacao;
+      state.error = undefined;
+    },
+    usuariosPrestadoresGetError: (state, action: PayloadAction<string>) => {
+      state.error = action.payload;
     },
     usuariosPrestadoresGetFilterRequest: (
       state,
@@ -56,6 +63,7 @@ export const usuariosPrestadoresSlice = createSlice({
 export const {
   usuariosPrestadoresGetRequest,
   usuariosPrestadoresGetSuccess,
+  usuariosPrestadoresGetError,
   usuariosPrestadoresGetFilterRequest,
   usuariosPrestadoresGetFilterSuccess,
   usuariosPrestadoresPostRequest,

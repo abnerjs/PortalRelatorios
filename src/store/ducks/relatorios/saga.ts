@@ -3,6 +3,7 @@ import { all, call, put, takeLatest } from 'redux-saga/effects';
 
 import api from 'src/services/api';
 import {
+  relatoriosDownloadError,
   relatoriosDownloadRequest,
   relatoriosDownloadSuccess,
 } from 'src/store/ducks/relatorios';
@@ -50,20 +51,20 @@ export function* sendDownloadRequest(
 
     const response: AxiosResponse<Blob> = yield call(
       api.get,
-      `${action.payload.url}/${query}`,
+      `${action.payload.url}${query}`,
       {
         responseType: 'blob',
       }
     );
-
     const fileName = getFileNameFromHeader(response.headers);
     const blobURL = URL.createObjectURL(response.data);
 
     downloadFile(response.data, fileName, 'pdf');
-    global.window.open(blobURL);
 
     yield put(relatoriosDownloadSuccess(blobURL));
-  } catch (error) {}
+  } catch (error: any) {
+    yield put(relatoriosDownloadError(error));
+  }
 }
 
 export default all([

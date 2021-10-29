@@ -4,6 +4,7 @@ export interface UsuariosPrestadoresState {
   data: Array<UsuarioPrestador>;
   filterList: Array<TipoFiltro>;
   pagination?: InfoPaginacao;
+  error?: string;
 }
 
 export interface UsuarioPrestador {

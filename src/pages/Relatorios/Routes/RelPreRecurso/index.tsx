@@ -12,9 +12,13 @@ import { format } from 'date-fns';
 import brLocale from 'date-fns/locale/pt-BR';
 import { yupResolver } from '@hookform/resolvers/yup';
 import {
+  Alert,
   Autocomplete,
   Box,
   Button,
+  CircularProgress,
+  Collapse,
+  IconButton,
   TextField,
   Typography,
 } from '@mui/material';
@@ -28,6 +32,7 @@ import { TipoFiltro } from 'src/store/ducks/base/types';
 import { relatoriosDownloadRequest } from 'src/store/ducks/relatorios';
 import { tiposRecursosGetFilterRequest } from 'src/store/ducks/tiposRecursos';
 import { usuariosPrestadoresGetFilterRequest } from 'src/store/ducks/usuariosPrestadores';
+import { Icon } from '@iconify/react';
 
 interface FormProps {
   dtaInicio: Date | null;
@@ -56,11 +61,13 @@ const RelPreRecurso = () => {
   const [date, setDate] = useState<DateRange<Date>>([null, null]);
   const [tipoRecurso, setTipoRecurso] = useState<TipoFiltro | null>(null);
   const [prestadores, setPrestadores] = useState<TipoFiltro[]>([]);
-
   const dispatch = useAppDispatch();
   const prest = useAppSelector((state) => state.usuariosPrestadores.filterList);
   const tipRec = useAppSelector((state) => state.tiposRecursos.filterList);
-  // const pdf = useAppSelector((state) => state.relatorios.data);
+  const pdf = useAppSelector((state) => state.relatorios.data);
+  const pdfError = useAppSelector((state) => state.relatorios.error);
+  const isLoading = useAppSelector((state) => state.relatorios.loading);
+  const [isErrorCollapseOpened, setErrorCollapseOpened] = useState(false);
   const history = useHistory();
 
   const { handleSubmit, setValue, formState } = useForm<FormProps>({
@@ -85,6 +92,9 @@ const RelPreRecurso = () => {
           query: query,
         })
       );
+
+      if(pdf) global.window.open(pdf);
+      else setErrorCollapseOpened(true);
     }
   };
 
@@ -107,6 +117,26 @@ const RelPreRecurso = () => {
             className={`FormUser`}
           >
             <Typography variant="h6">Filtrar documento</Typography>
+            <Collapse in={pdfError !== undefined && isErrorCollapseOpened}>
+              <Alert
+                severity="error"
+                action={
+                  <IconButton
+                    aria-label="close"
+                    color="inherit"
+                    size="small"
+                    onClick={() => {
+                      setErrorCollapseOpened(false);
+                    }}
+                  >
+                    <Icon icon="fluent:dismiss-20-regular" />
+                  </IconButton>
+                }
+                sx={{ mb: 2 }}
+              >
+                {pdfError}
+              </Alert>
+            </Collapse>
             <LocalizationProvider
               dateAdapter={AdapterDateFns}
               locale={brLocale}
@@ -227,9 +257,29 @@ const RelPreRecurso = () => {
               >
                 VOLTAR
               </Button>
-              <Button variant="contained" type="submit">
-                GERAR
-              </Button>
+              <Box sx={{ m: 0, position: 'relative' }}>
+                <Button
+                  variant="contained"
+                  disabled={(formState.isSubmitting || isLoading)}
+                  type="submit"
+                  className={(formState.isSubmitting || isLoading) ? 'secondary' : ''}
+                >
+                  GERAR
+                </Button>
+                {(formState.isSubmitting || isLoading) && (
+                  <CircularProgress
+                    size={24}
+                    sx={{
+                      color: '#23ACE6',
+                      position: 'absolute',
+                      top: '50%',
+                      left: '50%',
+                      marginTop: '-12px',
+                      marginLeft: '-12px',
+                    }}
+                  />
+                )}
+              </Box>
             </div>
           </form>
           {/*

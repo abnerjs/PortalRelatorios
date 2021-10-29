@@ -1,17 +1,19 @@
 import 'src/pages/Login/Routes/Form/Styles/index.css';
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { Link, useHistory } from 'react-router-dom';
 import * as Yup from 'yup';
 
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Button, TextField } from '@mui/material';
+import { Alert, Button, CircularProgress, Collapse, IconButton, TextField } from '@mui/material';
 
 import Title from 'src/components/Title';
 import Checkbox from 'src/components/Checkbox';
-import { useAppDispatch } from 'src/store';
+import { useAppDispatch, useAppSelector } from 'src/store';
 import { loginRequest } from 'src/store/ducks/login';
+import { Icon } from '@iconify/react';
+import { Box } from '@mui/system';
 
 interface FormInputs {
   desLogin: string;
@@ -26,6 +28,9 @@ const schema = Yup.object({
 const Login: React.FC = () => {
   const history = useHistory();
   const dispatch = useAppDispatch();
+  const loginError = useAppSelector((state) => state.session.error);
+  const isLoading = useAppSelector((state) => state.session.loading);
+  const [isErrorCollapseOpened, setErrorCollapseOpened] = useState(false);
 
   const { register, handleSubmit, formState } = useForm<FormInputs>({
     resolver: yupResolver(schema),
@@ -34,7 +39,13 @@ const Login: React.FC = () => {
   const onSubmit: SubmitHandler<FormInputs> = (data) => {
     history.push('/');
     dispatch(loginRequest(data));
+
+    if (loginError) setErrorCollapseOpened(true);
   };
+
+  useEffect(() => {
+    if (loginError) setErrorCollapseOpened(true);
+  }, [loginError]);
 
   return (
     <form
@@ -44,6 +55,26 @@ const Login: React.FC = () => {
       className="Login form"
     >
       <Title content="Acessar" primaryColor />
+      <Collapse in={loginError !== undefined && isErrorCollapseOpened}>
+        <Alert
+          severity="error"
+          action={
+            <IconButton
+              aria-label="close"
+              color="inherit"
+              size="small"
+              onClick={() => {
+                setErrorCollapseOpened(false);
+              }}
+            >
+              <Icon icon="fluent:dismiss-20-regular" />
+            </IconButton>
+          }
+          sx={{ mb: 2 }}
+        >
+          {loginError}
+        </Alert>
+      </Collapse>
       <TextField
         id="desLogin"
         autoFocus
@@ -75,9 +106,30 @@ const Login: React.FC = () => {
         {...register('desSenha')}
       />
       {/* <Checkbox flexEnd medium id="checkbox" content="Manter conectado" /> */}
-      <Button variant="contained" type="submit" style={{ marginTop: 8 }}>
-        ENTRAR
-      </Button>
+      <Box sx={{ m: 0, position: 'relative' }}>
+        <Button
+          variant="contained"
+          disabled={(formState.isSubmitting || isLoading)}
+          type="submit"
+          className={(formState.isSubmitting || isLoading) ? 'secondary' : ''}
+          style={{ marginTop: 8 }}
+        >
+          ENTRAR
+        </Button>
+        {(formState.isSubmitting || isLoading) && (
+          <CircularProgress
+            size={24}
+            sx={{
+              color: '#23ACE6',
+              position: 'absolute',
+              top: '50%',
+              left: '50%',
+              marginTop: '-12px',
+              marginLeft: '-12px',
+            }}
+          />
+        )}
+      </Box>
       {/*
         <Link className="forgot" to="/recovery">
           Esqueceu a senha?

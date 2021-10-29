@@ -11,6 +11,7 @@ import {
   usuariosPrestadoresPostRequest,
   usuariosPrestadoresPutRequest,
   usuariosPrestadoresDeleteRequest,
+  usuariosPrestadoresGetError,
 } from 'src/store/ducks/usuariosPrestadores';
 import { UsuarioPrestador } from 'src/store/ducks/usuariosPrestadores/types';
 
@@ -26,7 +27,9 @@ export function* sendGetRequest(
     );
 
     yield put(usuariosPrestadoresGetSuccess(response.data));
-  } catch (error) {}
+  } catch (error: any) {
+    yield put(usuariosPrestadoresGetError(error));
+  }
 }
 
 export function* sendGetFilterRequest(

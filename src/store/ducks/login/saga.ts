@@ -3,7 +3,7 @@ import { all, call, debounce, put } from 'redux-saga/effects';
 
 import api from 'src/services/api';
 import { UserLogin } from 'src/store/ducks/login/types';
-import { loginRequest, loginSuccess } from 'src/store/ducks/login';
+import { loginError, loginRequest, loginSuccess } from 'src/store/ducks/login';
 
 export function* sendLoginRequest(action: ReturnType<typeof loginRequest>) {
   try {
@@ -24,7 +24,9 @@ export function* sendLoginRequest(action: ReturnType<typeof loginRequest>) {
     );
 
     yield put(loginSuccess(response.data));
-  } catch (error) {}
+  } catch (error: any) {
+    yield put(loginError(error));
+  }
 }
 
 export default all([debounce(500, loginRequest.type, sendLoginRequest)]);

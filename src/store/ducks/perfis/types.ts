@@ -5,6 +5,7 @@ export interface PerfisState {
   filterList: Array<TipoFiltro>;
   pagination?: InfoPaginacao;
   loading: boolean;
+  error?: string;
 }
 
 export interface Perfil {

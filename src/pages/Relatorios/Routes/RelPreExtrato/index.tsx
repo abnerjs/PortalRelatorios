@@ -17,6 +17,10 @@ import {
   Button,
   TextField,
   Typography,
+  CircularProgress,
+  Collapse,
+  Alert,
+  IconButton,
 } from '@mui/material';
 import { DateRange, DateRangePicker } from '@mui/lab';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
@@ -27,6 +31,7 @@ import { useAppDispatch, useAppSelector } from 'src/store';
 import { TipoFiltro } from 'src/store/ducks/base/types';
 import { usuariosPrestadoresGetFilterRequest } from 'src/store/ducks/usuariosPrestadores';
 import { relatoriosDownloadRequest } from 'src/store/ducks/relatorios';
+import { Icon } from '@iconify/react';
 
 interface FormProps {
   dtaInicio: Date | null;
@@ -54,8 +59,11 @@ const RelPreExtrato = () => {
 
   const dispatch = useAppDispatch();
   const prest = useAppSelector((state) => state.usuariosPrestadores.filterList);
-  // const pdf = useAppSelector((state) => state.relatorios.data);
+  const pdf = useAppSelector((state) => state.relatorios.data);
+  const pdfError = useAppSelector((state) => state.relatorios.error);
+  const isLoading = useAppSelector((state) => state.relatorios.loading);
   const history = useHistory();
+  const [isErrorCollapseOpened, setErrorCollapseOpened] = useState(false);
 
   const { handleSubmit, setValue, formState } = useForm<FormProps>({
     resolver: yupResolver(schema),
@@ -76,8 +84,11 @@ const RelPreExtrato = () => {
         relatoriosDownloadRequest({
           url: 'RelPreExtrato/v1/downloadRelPreExtrato',
           query: query,
-        })
+        }),
       );
+
+      if(pdf) global.window.open(pdf);
+      else setErrorCollapseOpened(true);
     }
   };
 
@@ -99,6 +110,26 @@ const RelPreExtrato = () => {
             className={`FormUser`}
           >
             <Typography variant="h6">Filtrar documento</Typography>
+            <Collapse in={pdfError !== undefined && isErrorCollapseOpened}>
+              <Alert
+                severity="error"
+                action={
+                  <IconButton
+                    aria-label="close"
+                    color="inherit"
+                    size="small"
+                    onClick={() => {
+                      setErrorCollapseOpened(false);
+                    }}
+                  >
+                    <Icon icon="fluent:dismiss-20-regular" />
+                  </IconButton>
+                }
+                sx={{ mb: 2 }}
+              >
+                {pdfError}
+              </Alert>
+            </Collapse>
             <LocalizationProvider
               dateAdapter={AdapterDateFns}
               locale={brLocale}
@@ -186,9 +217,29 @@ const RelPreExtrato = () => {
               >
                 VOLTAR
               </Button>
-              <Button variant="contained" type="submit">
-                GERAR
-              </Button>
+              <Box sx={{ m: 0, position: 'relative' }}>
+                <Button
+                  variant="contained"
+                  disabled={(formState.isSubmitting || isLoading)}
+                  type="submit"
+                  className={(formState.isSubmitting || isLoading) ? 'secondary' : ''}
+                >
+                  GERAR
+                </Button>
+                {(formState.isSubmitting || isLoading) && (
+                  <CircularProgress
+                    size={24}
+                    sx={{
+                      color: '#23ACE6',
+                      position: 'absolute',
+                      top: '50%',
+                      left: '50%',
+                      marginTop: '-12px',
+                      marginLeft: '-12px',
+                    }}
+                  />
+                )}
+              </Box>
             </div>
           </form>
           {/*

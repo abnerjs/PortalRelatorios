@@ -5,6 +5,7 @@ import { RespostaApi, TipoFiltro } from 'src/store/ducks/base/types';
 
 const initialState: ObjetosState = {
   filterList: [],
+  error: undefined,
 };
 
 export const objetosSlice = createSlice({
@@ -14,17 +15,23 @@ export const objetosSlice = createSlice({
     objetosGetFilterRequest: (
       state,
       action: PayloadAction<string | undefined>
-    ) => {},
+    ) => {
+      state.error = undefined;
+    },
     objetosGetFilterSuccess: (
       state,
       action: PayloadAction<RespostaApi<TipoFiltro>>
     ) => {
       state.filterList = action.payload.dados;
+      state.error = undefined;
+    },
+    objetosGetFilterError: (state, action: PayloadAction<string>) => {
+      state.error = action.payload;
     },
   },
 });
 
-export const { objetosGetFilterRequest, objetosGetFilterSuccess } =
+export const { objetosGetFilterRequest, objetosGetFilterSuccess, objetosGetFilterError } =
   objetosSlice.actions;
 
 export default objetosSlice.reducer;

@@ -9,6 +9,7 @@ const initialState: UsuariosState = {
   filterList: [],
   pagination: Paginacao.getValoresPadrao(),
   loading: false,
+  error: undefined,
 };
 
 export const usuariosSlice = createSlice({
@@ -20,6 +21,7 @@ export const usuariosSlice = createSlice({
       action: PayloadAction<string | undefined>
     ) => {
       state.loading = true;
+      state.error = undefined;
     },
     usuariosGetSuccess: (
       state,
@@ -28,6 +30,10 @@ export const usuariosSlice = createSlice({
       state.data = action.payload.dados;
       state.pagination = action.payload.paginacao;
       state.loading = false;
+      state.error = undefined;
+    },
+    usuariosGetError: (state, action: PayloadAction<string>) => {
+      state.error = action.payload;
     },
     usuariosGetFilterRequest: (
       state,
@@ -48,6 +54,7 @@ export const usuariosSlice = createSlice({
 export const {
   usuariosGetRequest,
   usuariosGetSuccess,
+  usuariosGetError,
   usuariosGetFilterRequest,
   usuariosGetFilterSuccess,
   usuariosPostRequest,
