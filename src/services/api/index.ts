@@ -22,7 +22,11 @@ api.interceptors.request.use(
     return request;
   },
   (error) => {
-    return Promise.reject(error);
+    if (error.request) {
+      console.log(error.request);
+      return Promise.reject('Erro: ' + error.request);
+    }
+    return Promise.reject('Erro: ' + error.message);
   }
 );
 
@@ -38,7 +42,14 @@ api.interceptors.response.use(
     return response;
   },
   (error) => {
-    return Promise.reject(error);
+    if(error.request?.responseType === 'blob' && error.response?.data) {
+      const blob = error.response.data as Blob;
+      return blob.text().then((text) => Promise.reject('Erro: ' + text));
+    }
+    if (error.response?.data) {
+      return Promise.reject('Erro: ' + error.response.data);
+    }
+    return Promise.reject('Erro: ' + error.message);
   }
 );
 

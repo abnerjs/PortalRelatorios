@@ -4,6 +4,7 @@ import { all, call, put, takeLatest } from 'redux-saga/effects';
 import api from 'src/services/api';
 import { RespostaApi, TipoFiltro } from 'src/store/ducks/base/types';
 import {
+  fornecedoresGetFilterError,
   fornecedoresGetFilterRequest,
   fornecedoresGetFilterSuccess,
 } from 'src/store/ducks/fornecedores';
@@ -20,7 +21,9 @@ export function* sendGetFilterRequest(
     );
 
     yield put(fornecedoresGetFilterSuccess(response.data));
-  } catch (error) {}
+  } catch (error: any) {
+    yield put(fornecedoresGetFilterError(error));
+  }
 }
 
 export default all([

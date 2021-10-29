@@ -35,6 +35,10 @@
   box-shadow: inset 0 0 2px 1px var(--primary50);
 }
 
+.MuiInputBase-root.Mui-error {
+  box-shadow: inset 0 0 2px 1px var(--errorColor);
+}
+
 /*HELPERTEXT --------------------------------*/
 .MuiFormHelperText-root {
   margin: 0 !important;
@@ -51,6 +55,11 @@
   border-radius: 4px !important;
   height: 50px;
   box-shadow: none !important;
+  color: white;
+}
+
+.MuiBox-root .MuiButton-root.Mui-disabled {
+  color: white !important;
 }
 
 .MuiButton-root.errorColor {

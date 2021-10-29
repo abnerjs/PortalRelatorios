@@ -15,6 +15,8 @@ const initialState: SessionState = {
   user: user,
   objetos: getObjetos(user?.lstSistemas ?? []),
   authenticated: user !== null,
+  error: undefined,
+  loading: false,
 };
 
 function getObjetos(lstSistemas: Array<Sistema>): Array<Objeto> {
@@ -33,7 +35,10 @@ export const sessionSlice = createSlice({
   name: 'session',
   initialState: initialState,
   reducers: {
-    loginRequest: (state, action: PayloadAction<LoginRequest>) => {},
+    loginRequest: (state, action: PayloadAction<LoginRequest>) => {
+      state.error = undefined;
+      state.loading = true;
+    },
     loginSuccess: (state, action: PayloadAction<UserLogin>) => {
       state.user = action.payload;
       state.objetos = getObjetos(action.payload.lstSistemas);
@@ -41,16 +46,24 @@ export const sessionSlice = createSlice({
 
       const jsonUser = JSON.stringify(action.payload);
       global.window.localStorage.setItem('dm_pr_relatorios_user', jsonUser);
+      state.error = undefined;
+      state.loading = false;
+    },
+    loginError: (state, action: PayloadAction<string>) => {
+      state.error = action.payload;
+      state.loading = false;
     },
     logout: (state) => {
       state.user = null;
       state.authenticated = false;
+      state.error = undefined;
+      state.loading = false;
 
       global.window.localStorage.removeItem('dm_pr_relatorios_user');
     },
   },
 });
 
-export const { loginRequest, loginSuccess, logout } = sessionSlice.actions;
+export const { loginRequest, loginSuccess, loginError, logout } = sessionSlice.actions;
 
 export default sessionSlice.reducer;

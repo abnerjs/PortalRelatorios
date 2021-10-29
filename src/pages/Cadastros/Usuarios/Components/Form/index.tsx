@@ -1,10 +1,21 @@
 import React, { useEffect, useState } from 'react';
 import { SubmitHandler, Controller, useForm } from 'react-hook-form';
+import { ErrorMessage } from '@hookform/error-message';
 import * as Yup from 'yup';
 
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Icon } from '@iconify/react';
-import { Autocomplete, Button, debounce, TextField } from '@mui/material';
+import {
+  Alert,
+  Autocomplete,
+  Box,
+  Button,
+  CircularProgress,
+  Collapse,
+  debounce,
+  IconButton,
+  TextField,
+} from '@mui/material';
 
 import { useAppSelector, useAppDispatch } from 'src/store';
 import { TipoFiltro } from 'src/store/ducks/base/types';
@@ -183,6 +194,30 @@ const Form: React.FC<FormProps> = ({
       onSubmit={handleSubmit(onSubmit)}
       className={`FormUser${isFormOpened ? '' : ' invi'}`}
     >
+      <ErrorMessage
+        errors={formState.errors}
+        name="singleErrorInput"
+        render={({ message }: any) => (
+          <Collapse in={!formState.isSubmitSuccessful}>
+            <Alert
+              severity="error"
+              action={
+                <IconButton
+                  aria-label="close"
+                  color="inherit"
+                  size="small"
+                  onClick={() => {}}
+                >
+                  <Icon icon="fluent:dismiss-20-regular" />
+                </IconButton>
+              }
+              sx={{ mb: 2 }}
+            >
+              {message}
+            </Alert>
+          </Collapse>
+        )}
+      />
       <div className="sectionImage">
         <div className="image">
           <div className="text"></div>
@@ -404,13 +439,31 @@ const Form: React.FC<FormProps> = ({
         >
           CANCELAR
         </Button>
-        <Button
-          tabIndex={isFormOpened ? 0 : -1}
-          variant="contained"
-          type="submit"
-        >
-          SALVAR
-        </Button>
+
+        <Box sx={{ m: 0, position: 'relative' }}>
+          <Button
+            variant="contained"
+            tabIndex={isFormOpened ? 0 : -1}
+            disabled={formState.isSubmitting}
+            type="submit"
+            className={formState.isSubmitting ? 'secondary' : ''}
+          >
+            SALVAR
+          </Button>
+          {formState.isSubmitting && (
+            <CircularProgress
+              size={24}
+              sx={{
+                color: '#23ACE6',
+                position: 'absolute',
+                top: '50%',
+                left: '50%',
+                marginTop: '-12px',
+                marginLeft: '-12px',
+              }}
+            />
+          )}
+        </Box>
       </div>
     </form>
   );

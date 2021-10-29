@@ -6,6 +6,7 @@ import { RespostaApi, TipoFiltro } from 'src/store/ducks/base/types';
 import {
   perfisGetRequest,
   perfisGetSuccess,
+  perfisGetError,
   perfisGetFilterRequest,
   perfisGetFilterSuccess,
   perfisPostRequest,
@@ -24,7 +25,9 @@ export function* sendGetRequest(action: ReturnType<typeof perfisGetRequest>) {
     );
 
     yield put(perfisGetSuccess(response.data));
-  } catch (error) {}
+  } catch (error: any) {
+    yield put(perfisGetError(error));
+  }
 }
 
 export function* sendGetFilterRequest(
@@ -39,7 +42,7 @@ export function* sendGetFilterRequest(
     );
 
     yield put(perfisGetFilterSuccess(response.data));
-  } catch (error) {}
+  } catch (error: any) {}
 }
 
 export function* sendPostRequest(action: ReturnType<typeof perfisPostRequest>) {

@@ -5,6 +5,7 @@ import { PrestadoresState } from 'src/store/ducks/prestadores/types';
 
 const initialState: PrestadoresState = {
   filterList: [],
+  error: undefined,
 };
 
 export const prestadoresSlice = createSlice({
@@ -14,17 +15,23 @@ export const prestadoresSlice = createSlice({
     prestadoresGetFilterRequest: (
       state,
       action: PayloadAction<string | undefined>
-    ) => {},
+    ) => {
+      state.error = undefined;
+    },
     prestadoresGetFilterSuccess: (
       state,
       action: PayloadAction<RespostaApi<TipoFiltro>>
     ) => {
       state.filterList = action.payload.dados;
+      state.error = undefined;
+    },
+    prestadoresGetFilterError: (state, action: PayloadAction<string>) => {
+      state.error = action.payload;
     },
   },
 });
 
-export const { prestadoresGetFilterRequest, prestadoresGetFilterSuccess } =
+export const { prestadoresGetFilterRequest, prestadoresGetFilterSuccess, prestadoresGetFilterError } =
   prestadoresSlice.actions;
 
 export default prestadoresSlice.reducer;

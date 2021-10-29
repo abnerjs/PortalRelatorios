@@ -9,6 +9,7 @@ const initialState: PerfisState = {
   filterList: [],
   pagination: Paginacao.getValoresPadrao(),
   loading: false,
+  error: undefined,
 };
 
 export const perfisSlice = createSlice({
@@ -17,10 +18,16 @@ export const perfisSlice = createSlice({
   reducers: {
     perfisGetRequest: (state, action: PayloadAction<string | undefined>) => {
       state.loading = true;
+      state.error = undefined;
     },
     perfisGetSuccess: (state, action: PayloadAction<RespostaApi<Perfil>>) => {
       state.data = action.payload.dados;
       state.pagination = action.payload.paginacao;
+      state.loading = false;
+      state.error = undefined;
+    },
+    perfisGetError: (state, action: PayloadAction<string>) => {
+      state.error = action.payload;
       state.loading = false;
     },
     perfisGetFilterRequest: (
@@ -42,6 +49,7 @@ export const perfisSlice = createSlice({
 export const {
   perfisGetRequest,
   perfisGetSuccess,
+  perfisGetError,
   perfisGetFilterRequest,
   perfisGetFilterSuccess,
   perfisPostRequest,
