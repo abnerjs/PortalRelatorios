@@ -6,6 +6,8 @@ export interface UsuariosState {
   pagination?: InfoPaginacao;
   loading: boolean;
   error?: string;
+  operationLoading: boolean;
+  operationError?: string;
 }
 
 export interface Usuario {

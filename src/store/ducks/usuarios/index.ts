@@ -10,6 +10,8 @@ const initialState: UsuariosState = {
   pagination: Paginacao.getValoresPadrao(),
   loading: false,
   error: undefined,
+  operationLoading: false,
+  operationError: undefined,
 };
 
 export const usuariosSlice = createSlice({
@@ -45,9 +47,23 @@ export const usuariosSlice = createSlice({
     ) => {
       state.filterList = action.payload.dados;
     },
-    usuariosPostRequest: (state, action: PayloadAction<Usuario>) => {},
-    usuariosPutRequest: (state, action: PayloadAction<Usuario>) => {},
-    usuariosDeleteRequest: (state, action: PayloadAction<Usuario>) => {},
+    usuariosPostRequest: (state, action: PayloadAction<Usuario>) => {
+      state.operationLoading = true;
+    },
+    usuariosPutRequest: (state, action: PayloadAction<Usuario>) => {
+      state.operationLoading = true;
+    },
+    usuariosDeleteRequest: (state, action: PayloadAction<Usuario>) => {
+      state.operationLoading = true;
+    },
+    usuariosOperationSuccess: (state) => {
+      state.operationError = undefined;
+      state.operationLoading = false;
+    },
+    usuariosOperationError: (state, action: PayloadAction<string>) => {
+      state.operationError = action.payload;
+      state.operationLoading = false;
+    },
   },
 });
 
@@ -60,6 +76,8 @@ export const {
   usuariosPostRequest,
   usuariosPutRequest,
   usuariosDeleteRequest,
+  usuariosOperationSuccess,
+  usuariosOperationError,
 } = usuariosSlice.actions;
 
 export default usuariosSlice.reducer;
