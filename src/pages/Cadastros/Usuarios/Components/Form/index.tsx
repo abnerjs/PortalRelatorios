@@ -78,7 +78,7 @@ const schema = Yup.object({
     .transform((value) => value || null)
     .test({
       message: 'O campo deve conter 14 ou 18 caracteres!',
-      test: (value) => value?.length === 14 || value?.length === 18,
+      test: (value) => value?.length === 14 || value?.length === 18 || value === null,
     })
     .when('flgTipo', {
       is: (value: string) => value === 'I',
@@ -89,7 +89,8 @@ const schema = Yup.object({
           14,
           (params) => `O campo deve conter ${params.length} caracteres!`
         ),
-    }),
+    })
+    .notRequired(),
   codColaborador: Yup.string()
     .nullable()
     .default(null)
