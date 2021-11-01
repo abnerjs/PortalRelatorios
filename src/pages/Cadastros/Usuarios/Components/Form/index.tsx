@@ -78,7 +78,8 @@ const schema = Yup.object({
     .transform((value) => value || null)
     .test({
       message: 'O campo deve conter 14 ou 18 caracteres!',
-      test: (value) => value?.length === 14 || value?.length === 18 || value === null,
+      test: (value) =>
+        value?.length === 14 || value?.length === 18 || value === null,
     })
     .when('flgTipo', {
       is: (value: string) => value === 'I',
@@ -126,6 +127,9 @@ const Form: React.FC<FormProps> = ({
 
   const dispatch = useAppDispatch();
   const perfis = useAppSelector((state) => state.perfis.filterList);
+  const errors = useAppSelector((state) => state.usuarios.operationError);
+  const isLoading = useAppSelector((state) => state.usuarios.operationLoading);
+  const [isErrorCollapseOpened, setErrorCollapseOpened] = useState(false);
 
   const {
     clearErrors,
@@ -145,14 +149,24 @@ const Form: React.FC<FormProps> = ({
   }, 400);
 
   const onSubmit: SubmitHandler<Usuario> = (values) => {
-    if (data && data.idRelUsuario > 0) {
+    if(data && data.idRelUsuario > 0) {
       dispatch(usuariosPutRequest(values));
     } else {
       dispatch(usuariosPostRequest(values));
     }
 
-    onSuccess();
+    if(errors !== undefined) setErrorCollapseOpened(true);
   };
+
+  useEffect(() => {
+    if(errors === undefined) {
+      onSuccess();
+      setErrorCollapseOpened(false);
+    } else {
+      setErrorCollapseOpened(true);
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [errors]);
 
   useEffect(() => {
     dispatch(perfisGetFilterRequest());
@@ -195,30 +209,26 @@ const Form: React.FC<FormProps> = ({
       onSubmit={handleSubmit(onSubmit)}
       className={`FormUser${isFormOpened ? '' : ' invi'}`}
     >
-      <ErrorMessage
-        errors={formState.errors}
-        name="singleErrorInput"
-        render={({ message }: any) => (
-          <Collapse in={!formState.isSubmitSuccessful}>
-            <Alert
-              severity="error"
-              action={
-                <IconButton
-                  aria-label="close"
-                  color="inherit"
-                  size="small"
-                  onClick={() => {}}
-                >
-                  <Icon icon="fluent:dismiss-20-regular" />
-                </IconButton>
-              }
-              sx={{ mb: 2 }}
+      <Collapse in={errors !== undefined && isErrorCollapseOpened}>
+        <Alert
+          severity="error"
+          action={
+            <IconButton
+              aria-label="close"
+              color="inherit"
+              size="small"
+              onClick={() => {
+                setErrorCollapseOpened(false);
+              }}
             >
-              {message}
-            </Alert>
-          </Collapse>
-        )}
-      />
+              <Icon icon="fluent:dismiss-20-regular" />
+            </IconButton>
+          }
+          sx={{ mb: 2 }}
+        >
+          {errors}
+        </Alert>
+      </Collapse>
       <div className="sectionImage">
         <div className="image">
           <div className="text"></div>
@@ -433,7 +443,7 @@ const Form: React.FC<FormProps> = ({
       />
       <div className="buttons">
         <Button
-          onClick={onCancel}
+          onClick={() => {onCancel(); setErrorCollapseOpened(false)}}
           tabIndex={isFormOpened ? 0 : -1}
           variant="contained"
           className="secondary"
@@ -445,13 +455,13 @@ const Form: React.FC<FormProps> = ({
           <Button
             variant="contained"
             tabIndex={isFormOpened ? 0 : -1}
-            disabled={formState.isSubmitting}
+            disabled={(formState.isSubmitting || isLoading)}
             type="submit"
-            className={formState.isSubmitting ? 'secondary' : ''}
+            className={(formState.isSubmitting || isLoading) ? 'secondary' : ''}
           >
             SALVAR
           </Button>
-          {formState.isSubmitting && (
+          {(formState.isSubmitting || isLoading) && (
             <CircularProgress
               size={24}
               sx={{
