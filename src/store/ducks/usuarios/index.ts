@@ -10,12 +10,10 @@ const initialState: UsuariosState = {
   pagination: Paginacao.getValoresPadrao(),
   loading: false,
   error: undefined,
-  operationLoading: false,
   operationError: undefined,
-  operationSuccess: false,
+  operationState: 'idle',
   deleteError: undefined,
-  deleteLoading: false,
-  deleteSuccess: false,
+  deleteState: 'idle',
 };
 
 export const usuariosSlice = createSlice({
@@ -52,36 +50,29 @@ export const usuariosSlice = createSlice({
       state.filterList = action.payload.dados;
     },
     usuariosPostRequest: (state, action: PayloadAction<Usuario>) => {
-      state.operationLoading = true;
-      state.operationSuccess = false;
+      state.operationState = 'request';
     },
     usuariosPutRequest: (state, action: PayloadAction<Usuario>) => {
-      state.operationLoading = true;
-      state.operationSuccess = false;
+      state.operationState = 'request';
     },
     usuariosOperationSuccess: (state) => {
       state.operationError = undefined;
-      state.operationLoading = false;
-      state.operationSuccess = true;
+      state.operationState = 'success';
     },
     usuariosOperationError: (state, action: PayloadAction<string>) => {
       state.operationError = action.payload;
-      state.operationLoading = false;
-      state.operationSuccess = false;
+      state.operationState = 'error';
     },
     usuariosDeleteRequest: (state, action: PayloadAction<Usuario>) => {
-      state.deleteLoading = true;
-      state.deleteSuccess = false;
+      state.deleteState = 'request';
     },
     usuariosDeleteError: (state, action: PayloadAction<string>) => {
       state.deleteError = action.payload;
-      state.deleteLoading = false;
-      state.deleteSuccess = false;
+      state.deleteState = 'error';
     },
     usuariosDeleteSuccess: (state) => {
       state.deleteError = undefined;
-      state.deleteLoading = false;
-      state.deleteSuccess = true;
+      state.deleteState = 'success';
     },
   },
 });

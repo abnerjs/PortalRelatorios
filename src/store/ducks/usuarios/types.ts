@@ -6,12 +6,10 @@ export interface UsuariosState {
   pagination?: InfoPaginacao;
   loading: boolean;
   error?: string;
-  operationLoading: boolean;
   operationError?: string;
-  operationSuccess: boolean;
+  operationState?: string;
   deleteError?: string;
-  deleteLoading: boolean;
-  deleteSuccess: boolean;
+  deleteState?: string;
 }
 
 export interface Usuario {

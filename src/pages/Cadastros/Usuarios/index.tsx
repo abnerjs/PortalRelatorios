@@ -55,10 +55,9 @@ const Usuarios = () => {
   const usuarios = useAppSelector((state) => state.usuarios.data);
   const loading = useAppSelector((state) => state.usuarios.loading);
   const errors = useAppSelector((state) => state.usuarios.deleteError);
-  const isLoading = useAppSelector((state) => state.usuarios.deleteLoading);
-  const deleteSuccess = useAppSelector((state) => state.usuarios.deleteSuccess);
-  const operationSuccess = useAppSelector(
-    (state) => state.usuarios.operationSuccess
+  const deleteState = useAppSelector((state) => state.usuarios.deleteState);
+  const operationState = useAppSelector(
+    (state) => state.usuarios.operationState
   );
   const [isErrorCollapseOpened, setErrorCollapseOpened] = useState(false);
 
@@ -81,7 +80,7 @@ const Usuarios = () => {
   };
 
   useEffect(() => {
-    if (operationSuccess) {
+    if (operationState === 'success') {
       setUsuario(null);
       setRowSelected(-1);
       setFormOpened(false);
@@ -89,22 +88,26 @@ const Usuarios = () => {
 
       dispatch(usuariosGetRequest(pesquisa.toString()));
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [operationSuccess]);
-  
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [operationState]);
+
   useEffect(() => {
-    if (deleteSuccess) {
+    setErrorCollapseOpened(errors !== undefined);
+  }, [errors]);
+
+  useEffect(() => {
+    if (deleteState === 'success') {
       if (usuario?.idRelUsuario === usuarios[rowSelected]?.idRelUsuario) {
         setFormOpened(false);
       }
-  
+
       setModalOpen(false);
       setRowSelected(-1);
 
       dispatch(usuariosGetRequest(pesquisa.toString()));
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [deleteSuccess]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [deleteState]);
 
   const handleChangeFlgTipo = (
     event: React.SyntheticEvent,
@@ -280,14 +283,16 @@ const Usuarios = () => {
                     <Box sx={{ m: 0, position: 'relative' }}>
                       <Button
                         variant="contained"
-                        onClick={() => dispatch(usuariosDeleteRequest(usuarios[rowSelected]))}
-                        disabled={isLoading}
+                        onClick={() =>
+                          dispatch(usuariosDeleteRequest(usuarios[rowSelected]))
+                        }
+                        disabled={deleteState === 'request'}
                         type="submit"
-                        className={isLoading ? 'errorSecondary' : 'errorColor'}
+                        className={deleteState === 'request' ? 'errorSecondary' : 'errorColor'}
                       >
                         DELETAR
                       </Button>
-                      {isLoading && (
+                      {deleteState === 'request' && (
                         <CircularProgress
                           size={24}
                           sx={{
