@@ -137,6 +137,22 @@ const Usuarios = () => {
     dispatch(usuariosGetRequest(pesquisa.toString()));
   }, [pesquisa, dispatch]);
 
+  const isOverflown = (e: any) => {
+    return e.scrollWidth > e.clientWidth;
+  };
+
+  let arrElems = global.window.document.getElementsByClassName('textual');
+
+  for(let elem of arrElems) {
+    if (isOverflown(elem)) elem.classList.add('overflown');
+  }
+
+  useEffect(() => {
+    for(let elem of arrElems) {
+      if (isOverflown(elem)) elem.classList.add('overflown');
+    }
+  });
+
   return (
     <div className="Usuarios">
       <div className="content">
@@ -210,7 +226,6 @@ const Usuarios = () => {
                 ? loadingUsersRows()
                 : usuarios.map((item, index) => (
                     <Row
-                      key={`usuario-${index}`}
                       data={item}
                       index={index}
                       indexSelected={rowSelected}
@@ -339,7 +354,7 @@ const loadingUsersRows = () => {
             height={36}
             style={{ marginRight: '10px' }}
           />
-          <Typography component="div" variant="body1" className="email">
+          <Typography component="div" variant="body1" style={{flex: 1}}>
             <Skeleton animation="wave" />
           </Typography>
           <Icon

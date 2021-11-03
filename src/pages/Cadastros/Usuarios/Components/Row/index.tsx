@@ -38,7 +38,11 @@ const Row: React.FC<RowProps> = ({
     'N';
 
   return (
-    <div className={`row${indexSelected === index ? ' selected' : ''}`}>
+    <div
+      className={`row${indexSelected === index ? ' selected' : ''}`}
+      key={data.codColaborador}
+      id={'linha' + index}
+    >
       <div
         onClick={() =>
           handleIndexSelected(indexSelected !== index ? index : -1)
@@ -56,8 +60,12 @@ const Row: React.FC<RowProps> = ({
           }}
           children={getInitialsFromString(data.desNome)}
         />
-        <div className="nome">{data.desNome}</div>
-        <div className="email">{data.desEmail}</div>
+        <div
+          className="textual"
+        >
+          <div className="nome">{data.desNome}</div>
+          <div className="email">{data.desEmail}</div>
+        </div>
         <DmIconifiedSwitch
           noIcon
           value={data.flgAtivo === 'S' ? 'N' : 'S'}

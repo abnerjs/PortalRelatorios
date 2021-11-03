@@ -75,8 +75,8 @@ export function* sendDeleteRequest(
   try {
     const query = `?idRelUsuario=${action.payload.idRelUsuario}`;
     
-    yield put(usuariosDeleteSuccess());
     yield call(api.delete, `Usuarios/v1/${query}`);
+    yield put(usuariosDeleteSuccess());
   } catch (error: any) {
     yield put(usuariosDeleteError(error));
   }
