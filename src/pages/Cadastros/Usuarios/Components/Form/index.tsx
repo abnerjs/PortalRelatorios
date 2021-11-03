@@ -126,7 +126,9 @@ const Form: React.FC<FormProps> = ({
   const dispatch = useAppDispatch();
   const perfis = useAppSelector((state) => state.perfis.filterList);
   const errors = useAppSelector((state) => state.usuarios.operationError);
-  const isLoading = useAppSelector((state) => state.usuarios.operationLoading);
+  const operationState = useAppSelector(
+    (state) => state.usuarios.operationState
+  );
   const [isErrorCollapseOpened, setErrorCollapseOpened] = useState(false);
 
   const {
@@ -449,13 +451,17 @@ const Form: React.FC<FormProps> = ({
           <Button
             variant="contained"
             tabIndex={isFormOpened ? 0 : -1}
-            disabled={formState.isSubmitting || isLoading}
+            disabled={formState.isSubmitting || operationState === 'request'}
             type="submit"
-            className={formState.isSubmitting || isLoading ? 'secondary' : ''}
+            className={
+              formState.isSubmitting || operationState === 'request'
+                ? 'secondary'
+                : ''
+            }
           >
             SALVAR
           </Button>
-          {(formState.isSubmitting || isLoading) && (
+          {(formState.isSubmitting || operationState === 'request') && (
             <CircularProgress
               size={24}
               sx={{
