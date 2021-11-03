@@ -8,6 +8,10 @@ export interface UsuariosState {
   error?: string;
   operationLoading: boolean;
   operationError?: string;
+  operationSuccess: boolean;
+  deleteError?: string;
+  deleteLoading: boolean;
+  deleteSuccess: boolean;
 }
 
 export interface Usuario {

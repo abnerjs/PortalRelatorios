@@ -66,6 +66,10 @@
   background-color: var(--errorColor) !important;
 }
 
+.MuiButton-root.errorSecondary {
+  background-color: var(--error50) !important;
+}
+
 .MuiButton-root.secondary {
   background-color: var(--primary50) !important;
 }
