@@ -48,7 +48,6 @@ interface FormProps {
   data: Usuario | null;
   tipoUsuario: string;
   isFormOpened: boolean;
-  onSuccess(): void;
   onCancel(): void;
 }
 
@@ -118,7 +117,6 @@ const Form: React.FC<FormProps> = ({
   data,
   tipoUsuario,
   isFormOpened,
-  onSuccess,
   onCancel,
 }: FormProps) => {
   const [initials, setInitials] = useState('');
@@ -149,23 +147,16 @@ const Form: React.FC<FormProps> = ({
   }, 400);
 
   const onSubmit: SubmitHandler<Usuario> = (values) => {
-    if(data && data.idRelUsuario > 0) {
-      dispatch(usuariosPutRequest(values));
-    } else {
-      dispatch(usuariosPostRequest(values));
-    }
-
-    if(errors !== undefined) setErrorCollapseOpened(true);
+    dispatch(
+      data && data.idRelUsuario > 0
+        ? usuariosPutRequest(values)
+        : usuariosPostRequest(values)
+    );
+    if (errors !== undefined) setErrorCollapseOpened(true);
   };
 
   useEffect(() => {
-    if(errors === undefined) {
-      onSuccess();
-      setErrorCollapseOpened(false);
-    } else {
-      setErrorCollapseOpened(true);
-    }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    setErrorCollapseOpened(errors !== undefined);
   }, [errors]);
 
   useEffect(() => {
@@ -443,7 +434,10 @@ const Form: React.FC<FormProps> = ({
       />
       <div className="buttons">
         <Button
-          onClick={() => {onCancel(); setErrorCollapseOpened(false)}}
+          onClick={() => {
+            onCancel();
+            setErrorCollapseOpened(false);
+          }}
           tabIndex={isFormOpened ? 0 : -1}
           variant="contained"
           className="secondary"
@@ -455,9 +449,9 @@ const Form: React.FC<FormProps> = ({
           <Button
             variant="contained"
             tabIndex={isFormOpened ? 0 : -1}
-            disabled={(formState.isSubmitting || isLoading)}
+            disabled={formState.isSubmitting || isLoading}
             type="submit"
-            className={(formState.isSubmitting || isLoading) ? 'secondary' : ''}
+            className={formState.isSubmitting || isLoading ? 'secondary' : ''}
           >
             SALVAR
           </Button>

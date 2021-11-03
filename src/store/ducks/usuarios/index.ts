@@ -12,6 +12,10 @@ const initialState: UsuariosState = {
   error: undefined,
   operationLoading: false,
   operationError: undefined,
+  operationSuccess: false,
+  deleteError: undefined,
+  deleteLoading: false,
+  deleteSuccess: false,
 };
 
 export const usuariosSlice = createSlice({
@@ -49,20 +53,35 @@ export const usuariosSlice = createSlice({
     },
     usuariosPostRequest: (state, action: PayloadAction<Usuario>) => {
       state.operationLoading = true;
+      state.operationSuccess = false;
     },
     usuariosPutRequest: (state, action: PayloadAction<Usuario>) => {
       state.operationLoading = true;
-    },
-    usuariosDeleteRequest: (state, action: PayloadAction<Usuario>) => {
-      state.operationLoading = true;
+      state.operationSuccess = false;
     },
     usuariosOperationSuccess: (state) => {
       state.operationError = undefined;
       state.operationLoading = false;
+      state.operationSuccess = true;
     },
     usuariosOperationError: (state, action: PayloadAction<string>) => {
       state.operationError = action.payload;
       state.operationLoading = false;
+      state.operationSuccess = false;
+    },
+    usuariosDeleteRequest: (state, action: PayloadAction<Usuario>) => {
+      state.deleteLoading = true;
+      state.deleteSuccess = false;
+    },
+    usuariosDeleteError: (state, action: PayloadAction<string>) => {
+      state.deleteError = action.payload;
+      state.deleteLoading = false;
+      state.deleteSuccess = false;
+    },
+    usuariosDeleteSuccess: (state) => {
+      state.deleteError = undefined;
+      state.deleteLoading = false;
+      state.deleteSuccess = true;
     },
   },
 });
@@ -78,6 +97,8 @@ export const {
   usuariosDeleteRequest,
   usuariosOperationSuccess,
   usuariosOperationError,
+  usuariosDeleteSuccess,
+  usuariosDeleteError,
 } = usuariosSlice.actions;
 
 export default usuariosSlice.reducer;

@@ -5,10 +5,14 @@ import 'src/pages/SectionizedTable.css';
 import React, { useEffect, useState } from 'react';
 import { Icon } from '@iconify/react';
 import {
+  Alert,
   Backdrop,
   Box,
   Button,
+  CircularProgress,
+  Collapse,
   Fade,
+  IconButton,
   Modal,
   Skeleton,
   Tab,
@@ -50,6 +54,13 @@ const Usuarios = () => {
   const dispatch = useAppDispatch();
   const usuarios = useAppSelector((state) => state.usuarios.data);
   const loading = useAppSelector((state) => state.usuarios.loading);
+  const errors = useAppSelector((state) => state.usuarios.deleteError);
+  const isLoading = useAppSelector((state) => state.usuarios.deleteLoading);
+  const deleteSuccess = useAppSelector((state) => state.usuarios.deleteSuccess);
+  const operationSuccess = useAppSelector(
+    (state) => state.usuarios.operationSuccess
+  );
+  const [isErrorCollapseOpened, setErrorCollapseOpened] = useState(false);
 
   const handleChangeSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
     handlePesquisa('filtroPadrao', event.target.value);
@@ -69,6 +80,32 @@ const Usuarios = () => {
     }, 400);
   };
 
+  useEffect(() => {
+    if (operationSuccess) {
+      setUsuario(null);
+      setRowSelected(-1);
+      setFormOpened(false);
+      setNewUserSection(false);
+
+      dispatch(usuariosGetRequest(pesquisa.toString()));
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [operationSuccess]);
+  
+  useEffect(() => {
+    if (deleteSuccess) {
+      if (usuario?.idRelUsuario === usuarios[rowSelected]?.idRelUsuario) {
+        setFormOpened(false);
+      }
+  
+      setModalOpen(false);
+      setRowSelected(-1);
+
+      dispatch(usuariosGetRequest(pesquisa.toString()));
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [deleteSuccess]);
+
   const handleChangeFlgTipo = (
     event: React.SyntheticEvent,
     newValue: string
@@ -82,27 +119,6 @@ const Usuarios = () => {
     data.flgAtivo = flgAtivo;
 
     dispatch(usuariosPutRequest(data));
-    dispatch(usuariosGetRequest(pesquisa.toString()));
-  };
-
-  const handleDelete = () => {
-    if (usuario?.idRelUsuario === usuarios[rowSelected]?.idRelUsuario) {
-      setFormOpened(false);
-    }
-
-    setModalOpen(false);
-    setRowSelected(-1);
-
-    dispatch(usuariosDeleteRequest(usuarios[rowSelected]));
-    dispatch(usuariosGetRequest(pesquisa.toString()));
-  };
-
-  const onSuccess = () => {
-    setUsuario(null);
-    setRowSelected(-1);
-    setFormOpened(false);
-    setNewUserSection(false);
-
     dispatch(usuariosGetRequest(pesquisa.toString()));
   };
 
@@ -214,6 +230,26 @@ const Usuarios = () => {
             >
               <Fade in={isModalOpen}>
                 <Box className="modal-confirm-delete">
+                  <Collapse in={errors !== undefined && isErrorCollapseOpened}>
+                    <Alert
+                      severity="error"
+                      action={
+                        <IconButton
+                          aria-label="close"
+                          color="inherit"
+                          size="small"
+                          onClick={() => {
+                            setErrorCollapseOpened(false);
+                          }}
+                        >
+                          <Icon icon="fluent:dismiss-20-regular" />
+                        </IconButton>
+                      }
+                      sx={{ mb: 2 }}
+                    >
+                      {errors}
+                    </Alert>
+                  </Collapse>
                   <Typography id="transition-modal-title">
                     Tem certeza que quer deletar o usuário?
                   </Typography>
@@ -232,19 +268,39 @@ const Usuarios = () => {
                   />
                   <div className="buttons">
                     <Button
-                      onClick={() => setModalOpen(false)}
+                      onClick={() => {
+                        setModalOpen(false);
+                        setErrorCollapseOpened(false);
+                      }}
                       variant="contained"
                       className="secondary"
                     >
                       CANCELAR
                     </Button>
-                    <Button
-                      onClick={handleDelete}
-                      variant="contained"
-                      className="errorColor"
-                    >
-                      DELETAR
-                    </Button>
+                    <Box sx={{ m: 0, position: 'relative' }}>
+                      <Button
+                        variant="contained"
+                        onClick={() => dispatch(usuariosDeleteRequest(usuarios[rowSelected]))}
+                        disabled={isLoading}
+                        type="submit"
+                        className={isLoading ? 'errorSecondary' : 'errorColor'}
+                      >
+                        DELETAR
+                      </Button>
+                      {isLoading && (
+                        <CircularProgress
+                          size={24}
+                          sx={{
+                            color: '#23ACE6',
+                            position: 'absolute',
+                            top: '50%',
+                            left: '50%',
+                            marginTop: '-12px',
+                            marginLeft: '-12px',
+                          }}
+                        />
+                      )}
+                    </Box>
                   </div>
                 </Box>
               </Fade>
@@ -254,7 +310,6 @@ const Usuarios = () => {
             data={usuario}
             tipoUsuario={flgTipo}
             isFormOpened={isFormOpened}
-            onSuccess={onSuccess}
             onCancel={onCancel}
           />
         </div>

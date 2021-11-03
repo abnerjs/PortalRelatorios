@@ -13,6 +13,8 @@ import {
   usuariosDeleteRequest,
   usuariosOperationSuccess,
   usuariosOperationError,
+  usuariosDeleteSuccess,
+  usuariosDeleteError,
   usuariosGetError,
 } from 'src/store/ducks/usuarios';
 import { Usuario } from 'src/store/ducks/usuarios/types';
@@ -52,7 +54,7 @@ export function* sendPostRequest(
 ) {
   try {
     yield call(api.post, `Usuarios/v1/`, action.payload);
-    usuariosOperationSuccess();
+    yield put(usuariosOperationSuccess());
   } catch (error: any) {
     yield put(usuariosOperationError(error));
   }
@@ -61,7 +63,7 @@ export function* sendPostRequest(
 export function* sendPutRequest(action: ReturnType<typeof usuariosPutRequest>) {
   try {
     yield call(api.put, `Usuarios/v1/`, action.payload);
-    usuariosOperationSuccess();
+    yield put(usuariosOperationSuccess());
   } catch (error: any) {
     yield put(usuariosOperationError(error));
   }
@@ -73,10 +75,10 @@ export function* sendDeleteRequest(
   try {
     const query = `?idRelUsuario=${action.payload.idRelUsuario}`;
     
-    usuariosOperationSuccess();
+    yield put(usuariosDeleteSuccess());
     yield call(api.delete, `Usuarios/v1/${query}`);
   } catch (error: any) {
-    yield put(usuariosOperationError(error));
+    yield put(usuariosDeleteError(error));
   }
 }
 
