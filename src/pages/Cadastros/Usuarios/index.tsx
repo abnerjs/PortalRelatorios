@@ -80,6 +80,7 @@ const Usuarios = () => {
   };
 
   useEffect(() => {
+    console.log(operationState);
     if (operationState === 'success') {
       setUsuario(null);
       setRowSelected(-1);
@@ -87,13 +88,15 @@ const Usuarios = () => {
       setNewUserSection(false);
 
       dispatch(usuariosGetRequest(pesquisa.toString()));
+    } else if (operationState === 'cancel') {
+      setUsuario(null);
+      setRowSelected(-1);
+      setFormOpened(false);
+      setNewUserSection(false);
     }
+    setErrorCollapseOpened(errors !== undefined);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [operationState]);
-
-  useEffect(() => {
-    setErrorCollapseOpened(errors !== undefined);
-  }, [errors]);
 
   useEffect(() => {
     if (deleteState === 'success') {
@@ -123,13 +126,6 @@ const Usuarios = () => {
 
     dispatch(usuariosPutRequest(data));
     dispatch(usuariosGetRequest(pesquisa.toString()));
-  };
-
-  const onCancel = () => {
-    setUsuario(null);
-    setRowSelected(-1);
-    setFormOpened(false);
-    setNewUserSection(false);
   };
 
   useEffect(() => {
@@ -343,7 +339,6 @@ const Usuarios = () => {
             data={usuario}
             tipoUsuario={flgTipo}
             isFormOpened={isFormOpened}
-            onCancel={onCancel}
           />
         </div>
       </div>

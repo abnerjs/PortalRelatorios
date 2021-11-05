@@ -74,6 +74,14 @@ export const usuariosSlice = createSlice({
       state.deleteError = undefined;
       state.deleteState = 'success';
     },
+    usuariosCancelOperation: (state) => {
+      state.operationError = undefined;
+      state.operationState = 'cancel';
+    },
+    usuariosCancelDelete: (state) => {
+      state.operationError = undefined;
+      state.operationState = 'cancel';
+    },
   },
 });
 
@@ -90,6 +98,8 @@ export const {
   usuariosOperationError,
   usuariosDeleteSuccess,
   usuariosDeleteError,
+  usuariosCancelOperation,
+  usuariosCancelDelete,
 } = usuariosSlice.actions;
 
 export default usuariosSlice.reducer;
