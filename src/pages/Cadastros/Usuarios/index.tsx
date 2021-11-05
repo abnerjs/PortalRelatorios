@@ -30,6 +30,10 @@ import {
   usuariosGetRequest,
   usuariosPutRequest,
   usuariosDeleteRequest,
+  usuariosCancelOperation,
+  usuariosIdleOperation,
+  usuariosIdleDelete,
+  usuariosCancelDelete,
 } from 'src/store/ducks/usuarios';
 import { Usuario } from 'src/store/ducks/usuarios/types';
 
@@ -65,6 +69,10 @@ const Usuarios = () => {
     handlePesquisa('filtroPadrao', event.target.value);
   };
 
+  useEffect(() => {
+    dispatch(usuariosIdleOperation());
+  }, []);
+
   const handleFormOpen = (open: boolean, newUser: boolean) => {
     if (newUser) {
       setRowSelected(-1);
@@ -80,7 +88,6 @@ const Usuarios = () => {
   };
 
   useEffect(() => {
-    console.log(operationState);
     if (operationState === 'success') {
       setUsuario(null);
       setRowSelected(-1);
@@ -93,6 +100,7 @@ const Usuarios = () => {
       setRowSelected(-1);
       setFormOpened(false);
       setNewUserSection(false);
+      dispatch(usuariosIdleOperation());
     }
     setErrorCollapseOpened(errors !== undefined);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -109,6 +117,7 @@ const Usuarios = () => {
 
       dispatch(usuariosGetRequest(pesquisa.toString()));
     }
+    setErrorCollapseOpened(errors !== undefined);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [deleteState]);
 
@@ -152,7 +161,6 @@ const Usuarios = () => {
     setTimeout(() => {
       if (isOverflown(deleteModalElem))
         deleteModalElem.classList.add('overflown');
-      console.log(deleteModalElem)
     }, 505);
   // eslint-disable-next-line react-hooks/exhaustive-deps
   });
@@ -243,7 +251,13 @@ const Usuarios = () => {
             </div>
             <Modal
               open={isModalOpen}
-              onClose={() => setModalOpen(false)}
+              onClose={() => {
+                setModalOpen(false);
+                setErrorCollapseOpened(false);
+                setTimeout(() => {
+                  dispatch(usuariosCancelDelete());
+                }, 500);
+              }}
               closeAfterTransition
               keepMounted
               BackdropComponent={Backdrop}
@@ -294,6 +308,9 @@ const Usuarios = () => {
                       onClick={() => {
                         setModalOpen(false);
                         setErrorCollapseOpened(false);
+                        setTimeout(() => {
+                          dispatch(usuariosCancelDelete());
+                        }, 500);
                       }}
                       variant="contained"
                       className="secondary"
@@ -320,7 +337,7 @@ const Usuarios = () => {
                         <CircularProgress
                           size={24}
                           sx={{
-                            color: '#23ACE6',
+                            color: '#CA4539',
                             position: 'absolute',
                             top: '50%',
                             left: '50%',
