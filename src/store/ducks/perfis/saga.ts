@@ -12,6 +12,10 @@ import {
   perfisPostRequest,
   perfisPutRequest,
   perfisDeleteRequest,
+  perfisOperationSuccess,
+  perfisOperationError,
+  perfisDeleteSuccess,
+  perfisDeleteError,
 } from 'src/store/ducks/perfis';
 import { Perfil } from 'src/store/ducks/perfis/types';
 
@@ -48,13 +52,19 @@ export function* sendGetFilterRequest(
 export function* sendPostRequest(action: ReturnType<typeof perfisPostRequest>) {
   try {
     yield call(api.post, `Perfis/v1/`, action.payload);
-  } catch (error) {}
+    yield put(perfisOperationSuccess());
+  } catch (error: any) {
+    yield put(perfisOperationError(error));
+  }
 }
 
 export function* sendPutRequest(action: ReturnType<typeof perfisPutRequest>) {
   try {
     yield call(api.put, `Perfis/v1/`, action.payload);
-  } catch (error) {}
+    yield put(perfisOperationSuccess());
+  } catch (error: any) {
+    yield put(perfisOperationError(error));
+  }
 }
 
 export function* sendDeleteRequest(
@@ -64,7 +74,10 @@ export function* sendDeleteRequest(
     const query = `?idRelPerfil=${action.payload.idRelPerfil}`;
 
     yield call(api.delete, `Perfis/v1/${query}`);
-  } catch (error) {}
+    yield put(perfisDeleteSuccess());
+  } catch (error: any) {
+    yield put(perfisDeleteError(error));
+  }
 }
 
 export default all([

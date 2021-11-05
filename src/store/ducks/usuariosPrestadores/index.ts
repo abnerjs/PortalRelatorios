@@ -12,6 +12,11 @@ const initialState: UsuariosPrestadoresState = {
   filterList: [],
   pagination: Paginacao.getValoresPadrao(),
   error: undefined,
+  loading: false,
+  operationError: undefined,
+  operationState: 'idle',
+  deleteError: undefined,
+  deleteState: 'idle',
 };
 
 export const usuariosPrestadoresSlice = createSlice({
@@ -22,6 +27,7 @@ export const usuariosPrestadoresSlice = createSlice({
       state,
       action: PayloadAction<string | undefined>
     ) => {
+      state.loading = true;
       state.error = undefined;
     },
     usuariosPrestadoresGetSuccess: (
@@ -31,6 +37,7 @@ export const usuariosPrestadoresSlice = createSlice({
       state.data = action.payload.dados;
       state.pagination = action.payload.paginacao;
       state.error = undefined;
+      state.loading = false;
     },
     usuariosPrestadoresGetError: (state, action: PayloadAction<string>) => {
       state.error = action.payload;
@@ -48,15 +55,37 @@ export const usuariosPrestadoresSlice = createSlice({
     usuariosPrestadoresPostRequest: (
       state,
       action: PayloadAction<UsuarioPrestador>
-    ) => {},
+    ) => {
+      state.operationState = 'request';
+    },
     usuariosPrestadoresPutRequest: (
       state,
       action: PayloadAction<UsuarioPrestador>
-    ) => {},
+    ) => {
+      state.operationState = 'request';
+    },
     usuariosPrestadoresDeleteRequest: (
       state,
       action: PayloadAction<UsuarioPrestador>
-    ) => {},
+    ) => {
+      state.operationState = 'request';
+    },
+    usuariosPrestadoresOperationSuccess: (state) => {
+      state.operationError = undefined;
+      state.operationState = 'success';
+    },
+    usuariosPrestadoresOperationError: (state, action: PayloadAction<string>) => {
+      state.operationError = action.payload;
+      state.operationState = 'error';
+    },
+    usuariosPrestadoresDeleteError: (state, action: PayloadAction<string>) => {
+      state.deleteError = action.payload;
+      state.deleteState = 'error';
+    },
+    usuariosPrestadoresDeleteSuccess: (state) => {
+      state.deleteError = undefined;
+      state.deleteState = 'success';
+    },
   },
 });
 
@@ -69,6 +98,10 @@ export const {
   usuariosPrestadoresPostRequest,
   usuariosPrestadoresPutRequest,
   usuariosPrestadoresDeleteRequest,
+  usuariosPrestadoresOperationSuccess,
+  usuariosPrestadoresOperationError,
+  usuariosPrestadoresDeleteError,
+  usuariosPrestadoresDeleteSuccess,
 } = usuariosPrestadoresSlice.actions;
 
 export default usuariosPrestadoresSlice.reducer;

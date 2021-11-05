@@ -23,7 +23,6 @@ api.interceptors.request.use(
   },
   (error) => {
     if (error.request) {
-      console.log(error.request);
       return Promise.reject('Erro: ' + error.request);
     }
     return Promise.reject('Erro: ' + error.message);

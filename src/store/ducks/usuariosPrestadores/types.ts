@@ -5,6 +5,11 @@ export interface UsuariosPrestadoresState {
   filterList: Array<TipoFiltro>;
   pagination?: InfoPaginacao;
   error?: string;
+  loading: boolean;
+  operationError?: string;
+  operationState?: string;
+  deleteError?: string;
+  deleteState?: string;
 }
 
 export interface UsuarioPrestador {

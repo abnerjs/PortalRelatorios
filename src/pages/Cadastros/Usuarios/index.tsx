@@ -138,19 +138,27 @@ const Usuarios = () => {
   }, [pesquisa, dispatch]);
 
   const isOverflown = (e: any) => {
-    return e.scrollWidth > e.clientWidth;
+    return e?.scrollWidth > e?.clientWidth || e?.scrollHeight > e?.clientHeight;
   };
 
-  let arrElems = global.window.document.getElementsByClassName('textual');
-
-  for(let elem of arrElems) {
-    if (isOverflown(elem)) elem.classList.add('overflown');
-  }
+  let arrElems = document.getElementsByClassName('textual');
+  let deleteModalElem = document
+    .getElementsByClassName('userInfo')[0]
+    ?.getElementsByTagName('p')[0];
 
   useEffect(() => {
-    for(let elem of arrElems) {
+    for (let elem of arrElems) {
       if (isOverflown(elem)) elem.classList.add('overflown');
     }
+  });
+
+  useEffect(() => {
+    setTimeout(() => {
+      if (isOverflown(deleteModalElem))
+        deleteModalElem.classList.add('overflown');
+      console.log(deleteModalElem)
+    }, 505);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   });
 
   return (
@@ -241,6 +249,7 @@ const Usuarios = () => {
               open={isModalOpen}
               onClose={() => setModalOpen(false)}
               closeAfterTransition
+              keepMounted
               BackdropComponent={Backdrop}
               BackdropProps={{ timeout: 500 }}
               aria-labelledby="transition-modal-title"
@@ -303,7 +312,11 @@ const Usuarios = () => {
                         }
                         disabled={deleteState === 'request'}
                         type="submit"
-                        className={deleteState === 'request' ? 'errorSecondary' : 'errorColor'}
+                        className={
+                          deleteState === 'request'
+                            ? 'errorSecondary'
+                            : 'errorColor'
+                        }
                       >
                         DELETAR
                       </Button>
@@ -354,7 +367,7 @@ const loadingUsersRows = () => {
             height={36}
             style={{ marginRight: '10px' }}
           />
-          <Typography component="div" variant="body1" style={{flex: 1}}>
+          <Typography component="div" variant="body1" style={{ flex: 1 }}>
             <Skeleton animation="wave" />
           </Typography>
           <Icon

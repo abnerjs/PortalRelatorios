@@ -28,6 +28,17 @@ const VinculosUsuarios = () => {
   const dispatch = useAppDispatch();
   const usuarios = useAppSelector((state) => state.usuarios.data);
   const loading = useAppSelector((state) => state.usuarios.loading);
+  const ufErrors = useAppSelector((state) => state.usuariosFornecedores.deleteError);
+  const ufDeleteState = useAppSelector((state) => state.usuariosFornecedores.deleteState);
+  const ufOperationState = useAppSelector(
+    (state) => state.usuariosFornecedores.operationState
+  );
+  const upErrors = useAppSelector((state) => state.usuariosPrestadores.deleteError);
+  const upDeleteState = useAppSelector((state) => state.usuariosPrestadores.deleteState);
+  const upOperationState = useAppSelector(
+    (state) => state.usuariosPrestadores.operationState
+  );
+  const [isErrorCollapseOpened, setErrorCollapseOpened] = useState(false);
 
   const handleChangeFlgTipo = (
     event: React.SyntheticEvent,
@@ -47,13 +58,18 @@ const VinculosUsuarios = () => {
     handlePesquisa('filtroPadrao', event.target.value);
   };
 
-  const onSuccess = () => {
-    setUsuario(null);
-    setRowSelected(-1);
-    setFormOpened(false);
+  
 
-    dispatch(usuariosGetRequest(pesquisa.toString()));
-  };
+  useEffect(() => {
+    if (ufOperationState === 'success') {
+      setUsuario(null);
+      setRowSelected(-1);
+      setFormOpened(false);
+
+      dispatch(usuariosGetRequest(pesquisa.toString()));
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [ufOperationState]);
 
   const onCancel = () => {
     setUsuario(null);
@@ -65,6 +81,18 @@ const VinculosUsuarios = () => {
     setRowSelected(-1);
     dispatch(usuariosGetRequest(pesquisa.toString()));
   }, [pesquisa, dispatch]);
+
+  const isOverflown = (e: any) => {
+    return e?.scrollWidth > e?.clientWidth || e?.scrollHeight > e?.clientHeight;
+  };
+
+  let arrElems = document.getElementsByClassName('textual');
+
+  useEffect(() => {
+    for (let elem of arrElems) {
+      if (isOverflown(elem)) elem.classList.add('overflown');
+    }
+  });
 
   return (
     <div className="Usuarios">
@@ -138,7 +166,6 @@ const VinculosUsuarios = () => {
           <Form
             data={usuario}
             isFormOpened={isFormOpened}
-            onSuccess={onSuccess}
             onCancel={onCancel}
           />
         </div>
@@ -163,7 +190,7 @@ const loadingUsersRows = () => {
             height={36}
             style={{ marginRight: '10px' }}
           />
-          <Typography component="div" variant="body1" className="email">
+          <Typography component="div" variant="body1" style={{flex: 1}}>
             <Skeleton animation="wave" />
           </Typography>
         </div>

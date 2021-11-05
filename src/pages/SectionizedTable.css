@@ -120,7 +120,6 @@
 .SectionizedTable .rows .row .header .textual {
   flex: 1;
   display: flex;
-  max-width: 391px;
   margin-right: 15px;
   gap: 10px;
   justify-content: space-between;
@@ -142,7 +141,6 @@
 
 .SectionizedTable .rows .row .header .nome {
   white-space: nowrap;
-  max-width: 391px;
 }
 
 .SectionizedTable .rows .row .header .icon {
@@ -189,13 +187,30 @@
   margin-bottom: 10px;
 }
 
+.modal-confirm-delete .userInfo {
+  display: flex;
+  overflow: hidden;
+  max-height: 75px;
+}
+
 .modal-confirm-delete .userInfo p {
-  height: 30px;
   line-height: 30px;
   padding: 0 15px;
   border-radius: 4px;
   margin: 10px;
   font-weight: 500;
+  position: relative;
+}
+
+.modal-confirm-delete .userInfo p.overflown::after {
+  position: absolute;
+  content: "";
+  left: 0px;
+  top: 0px;
+  height: 100%;
+  width: 100%;
+  background: linear-gradient(transparent 30%, white 100%);
+  pointer-events: none;
 }
 
 .modal-confirm-delete .buttons {

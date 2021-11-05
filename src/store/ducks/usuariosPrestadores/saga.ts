@@ -12,6 +12,10 @@ import {
   usuariosPrestadoresPutRequest,
   usuariosPrestadoresDeleteRequest,
   usuariosPrestadoresGetError,
+  usuariosPrestadoresOperationSuccess,
+  usuariosPrestadoresOperationError,
+  usuariosPrestadoresDeleteError,
+  usuariosPrestadoresDeleteSuccess,
 } from 'src/store/ducks/usuariosPrestadores';
 import { UsuarioPrestador } from 'src/store/ducks/usuariosPrestadores/types';
 
@@ -52,7 +56,10 @@ export function* sendPostRequest(
 ) {
   try {
     yield call(api.post, `UsuariosPrestadores/v1/`, action.payload);
-  } catch (error) {}
+    yield put(usuariosPrestadoresOperationSuccess());
+  } catch (error: any) {
+    yield put(usuariosPrestadoresOperationError(error));
+  }
 }
 
 export function* sendPutRequest(
@@ -60,7 +67,10 @@ export function* sendPutRequest(
 ) {
   try {
     yield call(api.put, `UsuariosPrestadores/v1/`, action.payload);
-  } catch (error) {}
+    yield put(usuariosPrestadoresOperationSuccess());
+  } catch (error: any) {
+    yield put(usuariosPrestadoresOperationError(error));
+  }
 }
 
 export function* sendDeleteRequest(
@@ -72,7 +82,10 @@ export function* sendDeleteRequest(
     const query = `?idRelUsuario=${idRelUsuario}&codPrestador=${codPrestador}`;
 
     yield call(api.delete, `UsuariosPrestadores/v1/${query}`);
-  } catch (error) {}
+    yield put(usuariosPrestadoresDeleteSuccess());
+  } catch (error: any) {
+    yield put(usuariosPrestadoresDeleteError(error));
+  }
 }
 
 export default all([

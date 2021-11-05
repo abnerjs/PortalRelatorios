@@ -24,5 +24,5 @@ export function getInitialsFromString(string: string) {
 
   if (arr.length > 1) aux += arr[arr.length - 1].charAt(0);
 
-  return aux
+  return aux.toLocaleUpperCase()
 }
