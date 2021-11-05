@@ -12,7 +12,7 @@ import TextField from '@mui/material/TextField';
 
 import InputSwitch from 'src/pages/Cadastros/Perfis/Components/InputSwitch';
 import { useAppSelector, useAppDispatch } from 'src/store';
-import { perfisPostRequest, perfisPutRequest } from 'src/store/ducks/perfis';
+import { perfisCancelOperation, perfisPostRequest, perfisPutRequest } from 'src/store/ducks/perfis';
 import { Perfil } from 'src/store/ducks/perfis/types';
 import { objetosGetFilterRequest } from 'src/store/ducks/objetos';
 import { Alert, CircularProgress, Collapse, IconButton } from '@mui/material';
@@ -22,7 +22,6 @@ import { Icon } from '@iconify/react';
 interface FormProps {
   data: Perfil | null;
   isFormOpened: boolean;
-  onCancel(): void;
 }
 
 const schema = Yup.object({
@@ -40,7 +39,6 @@ const defaultValues: Perfil = {
 const Form: React.FC<FormProps> = ({
   data,
   isFormOpened,
-  onCancel,
 }: FormProps) => {
   const dispatch = useAppDispatch();
   const objetos = useAppSelector((state) => state.objetos.filterList);
@@ -63,6 +61,11 @@ const Form: React.FC<FormProps> = ({
     );
     if (errors !== undefined) setErrorCollapseOpened(true);
   };
+
+  const onCancel = () => {
+    dispatch(perfisCancelOperation());
+    setErrorCollapseOpened(false);
+  }
 
   useEffect(() => {
     dispatch(objetosGetFilterRequest());

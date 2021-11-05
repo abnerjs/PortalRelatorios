@@ -69,6 +69,14 @@ export const perfisSlice = createSlice({
       state.deleteError = undefined;
       state.deleteState = 'success';
     },
+    perfisCancelOperation: (state) => {
+      state.operationError = undefined;
+      state.operationState = 'cancel';
+    },
+    perfisCancelDelete: (state) => {
+      state.operationError = undefined;
+      state.operationState = 'cancel';
+    },
   },
 });
 
@@ -85,6 +93,8 @@ export const {
   perfisOperationError,
   perfisDeleteSuccess,
   perfisDeleteError,
+  perfisCancelOperation,
+  perfisCancelDelete,
 } = perfisSlice.actions;
 
 export default perfisSlice.reducer;

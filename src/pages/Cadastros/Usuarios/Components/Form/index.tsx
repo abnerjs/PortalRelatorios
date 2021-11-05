@@ -20,6 +20,7 @@ import { useAppSelector, useAppDispatch } from 'src/store';
 import { TipoFiltro } from 'src/store/ducks/base/types';
 import { perfisGetFilterRequest } from 'src/store/ducks/perfis';
 import {
+  usuariosCancelOperation,
   usuariosPostRequest,
   usuariosPutRequest,
 } from 'src/store/ducks/usuarios';
@@ -47,7 +48,6 @@ interface FormProps {
   data: Usuario | null;
   tipoUsuario: string;
   isFormOpened: boolean;
-  onCancel(): void;
 }
 
 const schema = Yup.object({
@@ -116,7 +116,6 @@ const Form: React.FC<FormProps> = ({
   data,
   tipoUsuario,
   isFormOpened,
-  onCancel,
 }: FormProps) => {
   const [initials, setInitials] = useState('');
   const [flgTipo, setFlgTipo] = useState('I');
@@ -155,6 +154,11 @@ const Form: React.FC<FormProps> = ({
     );
     if (errors !== undefined) setErrorCollapseOpened(true);
   };
+
+  const onCancel = () => {
+    dispatch(usuariosCancelOperation());
+    setErrorCollapseOpened(false);
+  }
 
   useEffect(() => {
     setErrorCollapseOpened(errors !== undefined);
@@ -437,7 +441,6 @@ const Form: React.FC<FormProps> = ({
         <Button
           onClick={() => {
             onCancel();
-            setErrorCollapseOpened(false);
           }}
           tabIndex={isFormOpened ? 0 : -1}
           variant="contained"

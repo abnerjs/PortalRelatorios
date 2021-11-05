@@ -71,25 +71,6 @@ const Perfis = () => {
     }, 400);
   };
 
-  const handleDelete = () => {
-    if (perfil?.idRelPerfil === perfis[rowSelected]?.idRelPerfil) {
-      setFormOpened(false);
-    }
-
-    setModalOpen(false);
-    setRowSelected(-1);
-
-    dispatch(perfisDeleteRequest(perfis[rowSelected]));
-    dispatch(perfisGetRequest(pesquisa.toString()));
-  };
-
-  const onCancel = () => {
-    setPerfil(null);
-    setRowSelected(-1);
-    setFormOpened(false);
-    setNewUserSection(false);
-  };
-
   useEffect(() => {
     dispatch(perfisGetRequest(pesquisa.toString()));
   }, [pesquisa, dispatch]);
@@ -126,13 +107,15 @@ const Perfis = () => {
       setNewUserSection(false);
 
       dispatch(perfisGetRequest(pesquisa.toString()));
+    } else if (operationState === 'cancel') {
+      setPerfil(null);
+      setRowSelected(-1);
+      setFormOpened(false);
+      setNewUserSection(false);
     }
+    setErrorCollapseOpened(errors !== undefined);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [operationState]);
-
-  useEffect(() => {
-    setErrorCollapseOpened(errors !== undefined);
-  }, [errors]);
 
   useEffect(() => {
     if (deleteState === 'success') {
@@ -276,13 +259,6 @@ const Perfis = () => {
                       >
                         CANCELAR
                       </Button>
-                      <Button
-                        onClick={handleDelete}
-                        variant="contained"
-                        className="errorColor"
-                      >
-                        DELETAR
-                      </Button>
                       <Box sx={{ m: 0, position: 'relative' }}>
                       <Button
                         variant="contained"
@@ -322,7 +298,6 @@ const Perfis = () => {
           <Form
             data={perfil}
             isFormOpened={isFormOpened}
-            onCancel={onCancel}
           />
         </div>
       </div>
