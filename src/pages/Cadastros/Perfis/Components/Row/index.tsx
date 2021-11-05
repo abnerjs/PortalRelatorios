@@ -38,7 +38,9 @@ const Row: React.FC<RowProps> = ({
         }
         className="header"
       >
-        <div className="nome">{data.desPerfil}</div>
+        <div className="textual">
+          <div className="nome">{data.desPerfil}</div>
+        </div>
         <Icon
           icon="fluent:chevron-right-16-filled"
           width={16}

@@ -36,14 +36,12 @@ import { UsuarioPrestador } from 'src/store/ducks/usuariosPrestadores/types';
 interface FormProps {
   data: Usuario | null;
   isFormOpened: boolean;
-  onSuccess(): void;
   onCancel(): void;
 }
 
 const Form: React.FC<FormProps> = ({
   data,
   isFormOpened,
-  onSuccess,
   onCancel,
 }: FormProps) => {
   const [tabsForm, setTabsForm] = useState('forn');
@@ -128,8 +126,6 @@ const Form: React.FC<FormProps> = ({
 
         dispatch(usuariosPrestadoresPostRequest(usuPrest));
       });
-
-      onSuccess();
     }
   }
 

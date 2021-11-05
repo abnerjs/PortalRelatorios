@@ -12,6 +12,11 @@ const initialState: UsuariosFornecedoresState = {
   filterList: [],
   pagination: Paginacao.getValoresPadrao(),
   error: undefined,
+  loading: false,
+  operationError: undefined,
+  operationState: 'idle',
+  deleteError: undefined,
+  deleteState: 'idle',
 };
 
 export const usuariosFornecedoresSlice = createSlice({
@@ -22,6 +27,7 @@ export const usuariosFornecedoresSlice = createSlice({
       state,
       action: PayloadAction<string | undefined>
     ) => {
+      state.loading = true;
       state.error = undefined;
     },
     usuariosFornecedoresGetSuccess: (
@@ -31,6 +37,7 @@ export const usuariosFornecedoresSlice = createSlice({
       state.data = action.payload.dados;
       state.pagination = action.payload.paginacao;
       state.error = undefined;
+      state.loading = false;
     },
     usuariosFornecedoresGetError: (state, action: PayloadAction<string>) => {
       state.error = action.payload;
@@ -48,15 +55,37 @@ export const usuariosFornecedoresSlice = createSlice({
     usuariosFornecedoresPostRequest: (
       state,
       action: PayloadAction<UsuarioFornecedor>
-    ) => {},
+    ) => {
+      state.operationState = 'request';
+    },
     usuariosFornecedoresPutRequest: (
       state,
       action: PayloadAction<UsuarioFornecedor>
-    ) => {},
+    ) => {
+      state.operationState = 'request';
+    },
     usuariosFornecedoresDeleteRequest: (
       state,
       action: PayloadAction<UsuarioFornecedor>
-    ) => {},
+    ) => {
+      state.operationState = 'request';
+    },
+    usuariosFornecedoresOperationSuccess: (state) => {
+      state.operationError = undefined;
+      state.operationState = 'success';
+    },
+    usuariosFornecedoresOperationError: (state, action: PayloadAction<string>) => {
+      state.operationError = action.payload;
+      state.operationState = 'error';
+    },
+    usuariosFornecedoresDeleteError: (state, action: PayloadAction<string>) => {
+      state.deleteError = action.payload;
+      state.deleteState = 'error';
+    },
+    usuariosFornecedoresDeleteSuccess: (state) => {
+      state.deleteError = undefined;
+      state.deleteState = 'success';
+    },
   },
 });
 
@@ -69,6 +98,10 @@ export const {
   usuariosFornecedoresPostRequest,
   usuariosFornecedoresPutRequest,
   usuariosFornecedoresDeleteRequest,
+  usuariosFornecedoresOperationSuccess,
+  usuariosFornecedoresOperationError,
+  usuariosFornecedoresDeleteError,
+  usuariosFornecedoresDeleteSuccess,
 } = usuariosFornecedoresSlice.actions;
 
 export default usuariosFornecedoresSlice.reducer;

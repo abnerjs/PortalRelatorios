@@ -44,8 +44,10 @@ const Row: React.FC<RowProps> = ({
             fontSize: '12pt',
           }}
         />
-        <div className="nome">{data.desNome}</div>
-        <div className="email">{data.desEmail}</div>
+        <div className="textual">
+          <div className="nome">{data.desNome}</div>
+          <div className="email">{data.desEmail}</div>
+        </div>
       </div>
     </div>
   );

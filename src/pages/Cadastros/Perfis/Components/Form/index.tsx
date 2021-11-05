@@ -2,7 +2,7 @@ import 'src/pages/Usuarios.css';
 import 'src/pages/FormUser.css';
 import 'src/pages/SectionizedTable.css';
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { SubmitHandler, Controller, useForm } from 'react-hook-form';
 import * as Yup from 'yup';
 
@@ -15,11 +15,13 @@ import { useAppSelector, useAppDispatch } from 'src/store';
 import { perfisPostRequest, perfisPutRequest } from 'src/store/ducks/perfis';
 import { Perfil } from 'src/store/ducks/perfis/types';
 import { objetosGetFilterRequest } from 'src/store/ducks/objetos';
+import { Alert, CircularProgress, Collapse, IconButton } from '@mui/material';
+import { Box } from '@mui/system';
+import { Icon } from '@iconify/react';
 
 interface FormProps {
   data: Perfil | null;
   isFormOpened: boolean;
-  onSuccess(): void;
   onCancel(): void;
 }
 
@@ -38,25 +40,28 @@ const defaultValues: Perfil = {
 const Form: React.FC<FormProps> = ({
   data,
   isFormOpened,
-  onSuccess,
   onCancel,
 }: FormProps) => {
   const dispatch = useAppDispatch();
   const objetos = useAppSelector((state) => state.objetos.filterList);
+  const errors = useAppSelector((state) => state.perfis.operationError);
+  const operationState = useAppSelector((state) => state.perfis.operationState);
+  const [isErrorCollapseOpened, setErrorCollapseOpened] = useState(false);
 
-  const { handleSubmit, register, reset, control } = useForm<Perfil>({
-    resolver: yupResolver(schema),
-    defaultValues: defaultValues,
-  });
+  const { handleSubmit, register, reset, control, formState } = useForm<Perfil>(
+    {
+      resolver: yupResolver(schema),
+      defaultValues: defaultValues,
+    }
+  );
 
   const onSubmit: SubmitHandler<Perfil> = (values) => {
-    if (data && data.idRelPerfil > 0) {
-      dispatch(perfisPutRequest(values));
-    } else {
-      dispatch(perfisPostRequest(values));
-    }
-
-    onSuccess();
+    dispatch(
+      data && data.idRelPerfil > 0
+        ? perfisPutRequest(values)
+        : perfisPostRequest(values)
+    );
+    if (errors !== undefined) setErrorCollapseOpened(true);
   };
 
   useEffect(() => {
@@ -74,6 +79,26 @@ const Form: React.FC<FormProps> = ({
       onSubmit={handleSubmit(onSubmit)}
       className={`FormUser${isFormOpened ? '' : ' invi'}`}
     >
+      <Collapse in={errors !== undefined && isErrorCollapseOpened}>
+        <Alert
+          severity="error"
+          action={
+            <IconButton
+              aria-label="close"
+              color="inherit"
+              size="small"
+              onClick={() => {
+                setErrorCollapseOpened(false);
+              }}
+            >
+              <Icon icon="fluent:dismiss-20-regular" />
+            </IconButton>
+          }
+          sx={{ mb: 2 }}
+        >
+          {errors}
+        </Alert>
+      </Collapse>
       <input type="hidden" {...register('idRelPerfil')} />
       <Controller
         name="desPerfil"
@@ -115,17 +140,41 @@ const Form: React.FC<FormProps> = ({
           variant="contained"
           tabIndex={isFormOpened ? 0 : -1}
           className="secondary"
-          onClick={onCancel}
+          onClick={() => {
+            onCancel();
+            setErrorCollapseOpened(false);
+          }}
         >
           CANCELAR
         </Button>
-        <Button
-          type="submit"
-          variant="contained"
-          tabIndex={isFormOpened ? 0 : -1}
-        >
-          SALVAR
-        </Button>
+        <Box sx={{ m: 0, position: 'relative' }}>
+          <Button
+            variant="contained"
+            tabIndex={isFormOpened ? 0 : -1}
+            disabled={formState.isSubmitting || operationState === 'request'}
+            type="submit"
+            className={
+              formState.isSubmitting || operationState === 'request'
+                ? 'secondary'
+                : ''
+            }
+          >
+            SALVAR
+          </Button>
+          {(formState.isSubmitting || operationState === 'request') && (
+            <CircularProgress
+              size={24}
+              sx={{
+                color: '#23ACE6',
+                position: 'absolute',
+                top: '50%',
+                left: '50%',
+                marginTop: '-12px',
+                marginLeft: '-12px',
+              }}
+            />
+          )}
+        </Box>
       </div>
     </form>
   );

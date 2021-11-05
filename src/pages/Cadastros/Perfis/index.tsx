@@ -5,10 +5,14 @@ import 'src/pages/SectionizedTable.css';
 import React, { useEffect, useState } from 'react';
 import { Icon } from '@iconify/react';
 import {
+  Alert,
   Backdrop,
   Box,
   Button,
+  CircularProgress,
+  Collapse,
   Fade,
+  IconButton,
   Modal,
   Skeleton,
   TextField,
@@ -42,6 +46,12 @@ const Perfis = () => {
   const dispatch = useAppDispatch();
   const perfis = useAppSelector((state) => state.perfis.data);
   const loading = useAppSelector((state) => state.perfis.loading);
+  const errors = useAppSelector((state) => state.perfis.deleteError);
+  const deleteState = useAppSelector((state) => state.perfis.deleteState);
+  const operationState = useAppSelector(
+    (state) => state.perfis.operationState
+  );
+  const [isErrorCollapseOpened, setErrorCollapseOpened] = useState(false);
 
   const handleChangeSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
     handlePesquisa('filtroPadrao', event.target.value);
@@ -73,15 +83,6 @@ const Perfis = () => {
     dispatch(perfisGetRequest(pesquisa.toString()));
   };
 
-  const onSuccess = () => {
-    setPerfil(null);
-    setRowSelected(-1);
-    setFormOpened(false);
-    setNewUserSection(false);
-
-    dispatch(perfisGetRequest(pesquisa.toString()));
-  };
-
   const onCancel = () => {
     setPerfil(null);
     setRowSelected(-1);
@@ -92,6 +93,60 @@ const Perfis = () => {
   useEffect(() => {
     dispatch(perfisGetRequest(pesquisa.toString()));
   }, [pesquisa, dispatch]);
+
+  const isOverflown = (e: any) => {
+    return e?.scrollWidth > e?.clientWidth || e?.scrollHeight > e?.clientHeight;
+  };
+
+  let arrElems = document.getElementsByClassName('textual');
+  let deleteModalElem = document
+    .getElementsByClassName('userInfo')[0]
+    ?.getElementsByTagName('p')[0];
+
+  useEffect(() => {
+    for (let elem of arrElems) {
+      if (isOverflown(elem)) elem.classList.add('overflown');
+    }
+  });
+
+  useEffect(() => {
+    setTimeout(() => {
+      if (isOverflown(deleteModalElem))
+        deleteModalElem.classList.add('overflown');
+      console.log(deleteModalElem);
+    }, 505);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  });
+
+  useEffect(() => {
+    if (operationState === 'success') {
+      setPerfil(null);
+      setRowSelected(-1);
+      setFormOpened(false);
+      setNewUserSection(false);
+
+      dispatch(perfisGetRequest(pesquisa.toString()));
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [operationState]);
+
+  useEffect(() => {
+    setErrorCollapseOpened(errors !== undefined);
+  }, [errors]);
+
+  useEffect(() => {
+    if (deleteState === 'success') {
+      if (perfil?.idRelPerfil === perfis[rowSelected]?.idRelPerfil) {
+        setFormOpened(false);
+      }
+
+      setModalOpen(false);
+      setRowSelected(-1);
+
+      dispatch(perfisGetRequest(pesquisa.toString()));
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [deleteState]);
 
   return (
     <div className="Usuarios">
@@ -145,22 +200,23 @@ const Perfis = () => {
             >
               NOVO PERFIL
             </Button>
-            <div className="rows"
+            <div
+              className="rows"
               style={{ overflow: loading ? 'hidden' : 'auto' }}
             >
               {loading
                 ? loadingProfilesRows()
                 : perfis.map((item, index) => (
-                <Row
-                  key={`perfil-${index}`}
-                  data={item}
-                  index={index}
-                  indexSelected={rowSelected}
-                  handleFormOpen={handleFormOpen}
-                  handleModalOpen={setModalOpen}
-                  handleIndexSelected={setRowSelected}
-                />
-              ))}
+                    <Row
+                      key={`perfil-${index}`}
+                      data={item}
+                      index={index}
+                      indexSelected={rowSelected}
+                      handleFormOpen={handleFormOpen}
+                      handleModalOpen={setModalOpen}
+                      handleIndexSelected={setRowSelected}
+                    />
+                  ))}
             </div>
             {rowSelected !== -1 && (
               <Modal
@@ -174,6 +230,28 @@ const Perfis = () => {
               >
                 <Fade in={isModalOpen}>
                   <Box className="modal-confirm-delete">
+                    <Collapse
+                      in={errors !== undefined && isErrorCollapseOpened}
+                    >
+                      <Alert
+                        severity="error"
+                        action={
+                          <IconButton
+                            aria-label="close"
+                            color="inherit"
+                            size="small"
+                            onClick={() => {
+                              setErrorCollapseOpened(false);
+                            }}
+                          >
+                            <Icon icon="fluent:dismiss-20-regular" />
+                          </IconButton>
+                        }
+                        sx={{ mb: 2 }}
+                      >
+                        {errors}
+                      </Alert>
+                    </Collapse>
                     <Typography id="transition-modal-title">
                       Tem certeza que quer deletar o perfil?
                     </Typography>
@@ -205,6 +283,36 @@ const Perfis = () => {
                       >
                         DELETAR
                       </Button>
+                      <Box sx={{ m: 0, position: 'relative' }}>
+                      <Button
+                        variant="contained"
+                        onClick={() =>
+                          dispatch(perfisDeleteRequest(perfis[rowSelected]))
+                        }
+                        disabled={deleteState === 'request'}
+                        type="submit"
+                        className={
+                          deleteState === 'request'
+                            ? 'errorSecondary'
+                            : 'errorColor'
+                        }
+                      >
+                        DELETAR
+                      </Button>
+                      {deleteState === 'request' && (
+                        <CircularProgress
+                          size={24}
+                          sx={{
+                            color: '#23ACE6',
+                            position: 'absolute',
+                            top: '50%',
+                            left: '50%',
+                            marginTop: '-12px',
+                            marginLeft: '-12px',
+                          }}
+                        />
+                      )}
+                    </Box>
                     </div>
                   </Box>
                 </Fade>
@@ -214,7 +322,6 @@ const Perfis = () => {
           <Form
             data={perfil}
             isFormOpened={isFormOpened}
-            onSuccess={onSuccess}
             onCancel={onCancel}
           />
         </div>
@@ -232,7 +339,7 @@ const loadingProfilesRows = () => {
     arr.push(
       <div className={`row`}>
         <div className="header">
-          <Typography component="div" variant="body1" className="email">
+          <Typography component="div" variant="body1" style={{ flex: 1 }}>
             <Skeleton animation="wave" />
           </Typography>
           <Icon

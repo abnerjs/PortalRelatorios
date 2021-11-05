@@ -10,6 +10,10 @@ const initialState: PerfisState = {
   pagination: Paginacao.getValoresPadrao(),
   loading: false,
   error: undefined,
+  operationError: undefined,
+  operationState: 'idle',
+  deleteError: undefined,
+  deleteState: 'idle',
 };
 
 export const perfisSlice = createSlice({
@@ -40,9 +44,31 @@ export const perfisSlice = createSlice({
     ) => {
       state.filterList = action.payload.dados;
     },
-    perfisPostRequest: (state, action: PayloadAction<Perfil>) => {},
-    perfisPutRequest: (state, action: PayloadAction<Perfil>) => {},
-    perfisDeleteRequest: (state, action: PayloadAction<Perfil>) => {},
+    perfisPostRequest: (state, action: PayloadAction<Perfil>) => {
+      state.operationState = 'request';
+    },
+    perfisPutRequest: (state, action: PayloadAction<Perfil>) => {
+      state.operationState = 'request';
+    },    
+    perfisOperationSuccess: (state) => {
+      state.operationError = undefined;
+      state.operationState = 'success';
+    },
+    perfisOperationError: (state, action: PayloadAction<string>) => {
+      state.operationError = action.payload;
+      state.operationState = 'error';
+    },
+    perfisDeleteRequest: (state, action: PayloadAction<Perfil>) => {
+      state.deleteState = 'request';
+    },
+    perfisDeleteError: (state, action: PayloadAction<string>) => {
+      state.deleteError = action.payload;
+      state.deleteState = 'error';
+    },
+    perfisDeleteSuccess: (state) => {
+      state.deleteError = undefined;
+      state.deleteState = 'success';
+    },
   },
 });
 
@@ -55,6 +81,10 @@ export const {
   perfisPostRequest,
   perfisPutRequest,
   perfisDeleteRequest,
+  perfisOperationSuccess,
+  perfisOperationError,
+  perfisDeleteSuccess,
+  perfisDeleteError,
 } = perfisSlice.actions;
 
 export default perfisSlice.reducer;

@@ -6,6 +6,10 @@ export interface PerfisState {
   pagination?: InfoPaginacao;
   loading: boolean;
   error?: string;
+  operationError?: string;
+  operationState?: string;
+  deleteError?: string;
+  deleteState?: string;
 }
 
 export interface Perfil {
