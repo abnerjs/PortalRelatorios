@@ -25,7 +25,7 @@ import Row from 'src/pages/Cadastros/Perfis/Components/Row';
 
 import { usePesquisa } from 'src/hooks/usePesquisa';
 import { useAppDispatch, useAppSelector } from 'src/store';
-import { perfisGetRequest, perfisDeleteRequest } from 'src/store/ducks/perfis';
+import { perfisGetRequest, perfisDeleteRequest, perfisCancelOperation, perfisCancelDelete, perfisIdleOperation } from 'src/store/ducks/perfis';
 import { Perfil } from 'src/store/ducks/perfis/types';
 
 const Perfis = () => {
@@ -57,15 +57,19 @@ const Perfis = () => {
     handlePesquisa('filtroPadrao', event.target.value);
   };
 
+  useEffect(() => {
+    dispatch(perfisIdleOperation());
+  }, []);
+
   const handleFormOpen = (open: boolean, newUser: boolean) => {
     if (newUser) {
       setRowSelected(-1);
     }
-
+    
     setPerfil(newUser ? null : perfis[rowSelected]);
     setFormOpened(open);
     setNewUserSection(newUser);
-
+    
     setTimeout(() => {
       global.window.document.getElementById('desPerfil')?.focus();
     }, 400);
@@ -94,7 +98,6 @@ const Perfis = () => {
     setTimeout(() => {
       if (isOverflown(deleteModalElem))
         deleteModalElem.classList.add('overflown');
-      console.log(deleteModalElem);
     }, 505);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   });
@@ -107,11 +110,13 @@ const Perfis = () => {
       setNewUserSection(false);
 
       dispatch(perfisGetRequest(pesquisa.toString()));
+      dispatch(perfisIdleOperation());
     } else if (operationState === 'cancel') {
       setPerfil(null);
       setRowSelected(-1);
       setFormOpened(false);
       setNewUserSection(false);
+      dispatch(perfisIdleOperation());
     }
     setErrorCollapseOpened(errors !== undefined);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -128,6 +133,7 @@ const Perfis = () => {
 
       dispatch(perfisGetRequest(pesquisa.toString()));
     }
+    setErrorCollapseOpened(errors !== undefined);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [deleteState]);
 
@@ -204,8 +210,16 @@ const Perfis = () => {
             {rowSelected !== -1 && (
               <Modal
                 open={isModalOpen}
-                onClose={() => setModalOpen(false)}
+                onClose={() => {
+                  setModalOpen(false);
+                  setErrorCollapseOpened(false);
+                  setTimeout(() => {
+                    dispatch(perfisCancelDelete());
+                  }, 500);
+                }}
                 closeAfterTransition
+                keepMounted
+                disablePortal
                 BackdropComponent={Backdrop}
                 BackdropProps={{ timeout: 500 }}
                 aria-labelledby="transition-modal-title"
@@ -253,7 +267,13 @@ const Perfis = () => {
                     />
                     <div className="buttons">
                       <Button
-                        onClick={() => setModalOpen(false)}
+                        onClick={() => {
+                          setModalOpen(false);
+                          setErrorCollapseOpened(false);
+                          setTimeout(() => {
+                            dispatch(perfisCancelDelete());
+                          }, 500);
+                        }}
                         variant="contained"
                         className="secondary"
                       >
@@ -279,7 +299,7 @@ const Perfis = () => {
                         <CircularProgress
                           size={24}
                           sx={{
-                            color: '#23ACE6',
+                            color: '#CA4539',
                             position: 'absolute',
                             top: '50%',
                             left: '50%',
