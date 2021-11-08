@@ -110,7 +110,7 @@ const VinculosUsuarios = () => {
     <div className="Usuarios">
       <div className="content">
         <div className="head">
-          <Header title="Usuários x Fornecedores/Prestadores" />
+          <Header title="Vínculo de Usuários" />
           <Typography variant="subtitle1">
             Usuários do sistema e seus vínculos
           </Typography>
