@@ -4,14 +4,14 @@ import 'src/pages/SectionizedTable.css';
 
 import React, { useEffect, useState } from 'react';
 import { Icon } from '@iconify/react';
-import { Skeleton, Tab, Tabs, TextField, Typography } from '@mui/material';
+import { Alert, Collapse, IconButton, Skeleton, Tab, Tabs, TextField, Typography } from '@mui/material';
 
 import Header from 'src/components/Header';
 import { usePesquisa } from 'src/hooks/usePesquisa';
 import Form from 'src/pages/Cadastros/VinculosUsuarios/Components/Form';
 import Row from 'src/pages/Cadastros/VinculosUsuarios/Components/Row';
 import { useAppDispatch, useAppSelector } from 'src/store';
-import { usuariosGetRequest } from 'src/store/ducks/usuarios';
+import { usuariosCleanError, usuariosGetRequest } from 'src/store/ducks/usuarios';
 import { Usuario } from 'src/store/ducks/usuarios/types';
 
 const VinculosUsuarios = () => {
@@ -28,6 +28,7 @@ const VinculosUsuarios = () => {
   const dispatch = useAppDispatch();
   const usuarios = useAppSelector((state) => state.usuarios.data);
   const loading = useAppSelector((state) => state.usuarios.loading);
+  const getError = useAppSelector((state) => state.usuarios.error);
   const ufErrors = useAppSelector((state) => state.usuariosFornecedores.deleteError);
   const ufDeleteState = useAppSelector((state) => state.usuariosFornecedores.deleteState);
   const ufOperationState = useAppSelector(
@@ -39,6 +40,11 @@ const VinculosUsuarios = () => {
     (state) => state.usuariosPrestadores.operationState
   );
   const [isErrorCollapseOpened, setErrorCollapseOpened] = useState(false);
+  const [isGetErrorCollapseOpened, setGetErrorCollapseOpened] = useState(false);
+
+  useEffect(() => {
+    dispatch(usuariosCleanError());
+  }, []);
 
   const handleChangeFlgTipo = (
     event: React.SyntheticEvent,
@@ -146,6 +152,26 @@ const VinculosUsuarios = () => {
                 }}
               />
             </div>
+            <Collapse in={getError !== undefined && isGetErrorCollapseOpened}>
+              <Alert
+                severity="error"
+                action={
+                  <IconButton
+                    aria-label="close"
+                    color="inherit"
+                    size="small"
+                    onClick={() => {
+                      setGetErrorCollapseOpened(false);
+                    }}
+                  >
+                    <Icon icon="fluent:dismiss-20-regular" />
+                  </IconButton>
+                }
+                style={{width: 470, margin: "20px 20px 0 20px"}}
+              >
+                {getError}
+              </Alert>
+            </Collapse>
             <div
               className="rows forprestadores"
               style={{ overflow: loading ? 'hidden' : 'auto' }}

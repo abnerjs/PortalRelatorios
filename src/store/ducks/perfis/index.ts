@@ -34,6 +34,9 @@ export const perfisSlice = createSlice({
       state.error = action.payload;
       state.loading = false;
     },
+    perfisCleanError: (state) => {
+      state.error = undefined;
+    },
     perfisGetFilterRequest: (
       state,
       action: PayloadAction<string | undefined>
@@ -105,6 +108,7 @@ export const {
   perfisCancelDelete,
   perfisIdleOperation,
   perfisIdleDelete,
+  perfisCleanError,
 } = perfisSlice.actions;
 
 export default perfisSlice.reducer;

@@ -38,6 +38,10 @@ export const usuariosSlice = createSlice({
     },
     usuariosGetError: (state, action: PayloadAction<string>) => {
       state.error = action.payload;
+      state.loading = false;
+    },
+    usuariosCleanError: (state) => {
+      state.error = undefined;
     },
     usuariosGetFilterRequest: (
       state,
@@ -110,6 +114,7 @@ export const {
   usuariosCancelDelete,
   usuariosIdleOperation,
   usuariosIdleDelete,
+  usuariosCleanError,
 } = usuariosSlice.actions;
 
 export default usuariosSlice.reducer;
