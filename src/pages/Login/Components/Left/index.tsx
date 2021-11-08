@@ -11,14 +11,14 @@ import mobile2 from 'src/assets/carousel/2-mobile.png';
 import mobile3 from 'src/assets/carousel/3-mobile.png';
 
 import Carousel from 'src/components/Carousel';
-import Title from 'src/components/Title';
+import { Typography } from '@mui/material';
 
 const Left: React.FC = (props: any) => {
   return (
     <div className="left">
       <div className="iconified">
         <DatamobIcon width={49} height={52} />
-        <Title content="PORTAL DE RELATÓRIOS" primaryColor />
+        <Typography variant="h5" className="primary">PORTAL DE RELATÓRIOS</Typography>
       </div>
       <Carousel>
         <div className="item">

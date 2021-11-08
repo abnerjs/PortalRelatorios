@@ -78,8 +78,8 @@ const RelForPagamento = () => {
     if (dtaInicio && dtaFim) {
       let query = '';
 
-      query = query.concat(`?dtaInicio=${format(dtaInicio, 'yyyy-MM-dd')}`);
-      query = query.concat(`&dtaFim=${format(dtaFim, 'yyyy-MM-dd')}`);
+      query = query.concat(`?dtaInicio=${format(dtaInicio, 'yyyy-MM')}`);
+      query = query.concat(`&dtaFim=${format(dtaFim, 'yyyy-MM')}`);
       query = query.concat(`&lstCodFornecedores=${lstCodFornecedores}`);
 
       dispatch(

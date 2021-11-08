@@ -5,12 +5,12 @@ import { Link } from 'react-router-dom';
 import ReactCodeInput from 'react-verification-code-input';
 
 import Button from 'src/components/Button';
-import Title from 'src/components/Title';
+import { Typography } from '@mui/material';
 
 const Confirmation: React.FC = (props: any) => {
   return (
     <form className="form Confirmation" action="">
-      <Title content="Recuperação de senha" primaryColor />
+      <Typography variant="h5" className="primary">Recuperação de senha</Typography>
       <div className="recoveryinfo">
         <p>Um código foi enviado para:</p>
         <span>r●●●●●●●●@gmail.com</span>

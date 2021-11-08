@@ -6,9 +6,8 @@ import { Link, useHistory } from 'react-router-dom';
 import * as Yup from 'yup';
 
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Alert, Button, CircularProgress, Collapse, IconButton, TextField } from '@mui/material';
+import { Alert, Button, CircularProgress, Collapse, IconButton, TextField, Typography } from '@mui/material';
 
-import Title from 'src/components/Title';
 import Checkbox from 'src/components/Checkbox';
 import { useAppDispatch, useAppSelector } from 'src/store';
 import { loginRequest } from 'src/store/ducks/login';
@@ -54,7 +53,7 @@ const Login: React.FC = () => {
       onSubmit={handleSubmit(onSubmit)}
       className="Login form"
     >
-      <Title content="Acessar" primaryColor />
+      <Typography variant="h5" className="primary">Acessar</Typography>
       <Collapse in={loginError !== undefined && isErrorCollapseOpened}>
         <Alert
           severity="error"
