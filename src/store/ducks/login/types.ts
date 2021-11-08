@@ -3,12 +3,18 @@ export interface SessionState {
   objetos: Array<Objeto>;
   authenticated: boolean;
   error?: string;
-  loading: boolean;
+  message?: string;
+  operationState: string;
 }
 
 export interface LoginRequest {
   desLogin: string;
   desSenha: string;
+}
+
+export interface RecoveryRequest {
+  desLogin: string;
+  desEmail: string;
 }
 
 export interface UserLogin {

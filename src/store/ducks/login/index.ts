@@ -6,6 +6,7 @@ import {
   UserLogin,
   SessionState,
   LoginRequest,
+  RecoveryRequest,
 } from 'src/store/ducks/login/types';
 
 const jsonUser = global.window.localStorage.getItem('dm_pr_relatorios_user');
@@ -16,7 +17,8 @@ const initialState: SessionState = {
   objetos: getObjetos(user?.lstSistemas ?? []),
   authenticated: user !== null,
   error: undefined,
-  loading: false,
+  message: undefined,
+  operationState: 'idle',
 };
 
 function getObjetos(lstSistemas: Array<Sistema>): Array<Objeto> {
@@ -37,33 +39,67 @@ export const sessionSlice = createSlice({
   reducers: {
     loginRequest: (state, action: PayloadAction<LoginRequest>) => {
       state.error = undefined;
-      state.loading = true;
+      state.message = undefined;
+      state.operationState = 'request';
     },
     loginSuccess: (state, action: PayloadAction<UserLogin>) => {
       state.user = action.payload;
       state.objetos = getObjetos(action.payload.lstSistemas);
       state.authenticated = true;
 
+      state.error = undefined;
+      state.message = undefined;
+      state.operationState = 'success';
+
       const jsonUser = JSON.stringify(action.payload);
       global.window.localStorage.setItem('dm_pr_relatorios_user', jsonUser);
-      state.error = undefined;
-      state.loading = false;
     },
     loginError: (state, action: PayloadAction<string>) => {
       state.error = action.payload;
-      state.loading = false;
+      state.message = undefined;
+      state.operationState = 'error';
+    },
+    recoveryRequest: (state, action: PayloadAction<RecoveryRequest>) => {
+      state.error = undefined;
+      state.message = undefined;
+      state.operationState = 'request';
+    },
+    recoverySuccess: (state, action: PayloadAction<string>) => {
+      state.error = undefined;
+      state.message = action.payload;
+      state.operationState = 'success';
+    },
+    recoveryError: (state, action: PayloadAction<string>) => {
+      state.error = action.payload;
+      state.message = undefined;
+      state.operationState = 'error';
     },
     logout: (state) => {
       state.user = null;
       state.authenticated = false;
       state.error = undefined;
-      state.loading = false;
+      state.message = undefined;
+      state.operationState = 'idle';
 
       global.window.localStorage.removeItem('dm_pr_relatorios_user');
+    },
+    reset: (state) => {
+      state.error = undefined;
+      state.message = undefined;
+      state.operationState = 'idle';
     },
   },
 });
 
-export const { loginRequest, loginSuccess, loginError, logout } = sessionSlice.actions;
+export const {
+  loginRequest,
+  loginSuccess,
+  loginError,
+  recoveryRequest,
+  recoverySuccess,
+  recoveryError,
+  logout,
+  reset,
+} = sessionSlice.actions;
 
 export default sessionSlice.reducer;
