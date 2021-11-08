@@ -34,6 +34,7 @@ import {
   usuariosIdleOperation,
   usuariosIdleDelete,
   usuariosCancelDelete,
+  usuariosCleanError,
 } from 'src/store/ducks/usuarios';
 import { Usuario } from 'src/store/ducks/usuarios/types';
 
@@ -58,12 +59,22 @@ const Usuarios = () => {
   const dispatch = useAppDispatch();
   const usuarios = useAppSelector((state) => state.usuarios.data);
   const loading = useAppSelector((state) => state.usuarios.loading);
+  const getError = useAppSelector((state) => state.usuarios.error);
   const errors = useAppSelector((state) => state.usuarios.deleteError);
   const deleteState = useAppSelector((state) => state.usuarios.deleteState);
   const operationState = useAppSelector(
     (state) => state.usuarios.operationState
   );
   const [isErrorCollapseOpened, setErrorCollapseOpened] = useState(false);
+  const [isGetErrorCollapseOpened, setGetErrorCollapseOpened] = useState(false);
+
+  useEffect(() => {
+    dispatch(usuariosCleanError());
+  }, []);
+
+  useEffect(() => {
+    setGetErrorCollapseOpened(getError !== undefined);
+  }, [getError]);
 
   const handleChangeSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
     handlePesquisa('filtroPadrao', event.target.value);
@@ -162,7 +173,7 @@ const Usuarios = () => {
       if (isOverflown(deleteModalElem))
         deleteModalElem.classList.add('overflown');
     }, 505);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   });
 
   return (
@@ -230,6 +241,26 @@ const Usuarios = () => {
             >
               NOVO USUÁRIO
             </Button>
+            <Collapse in={getError !== undefined && isGetErrorCollapseOpened}>
+              <Alert
+                severity="error"
+                action={
+                  <IconButton
+                    aria-label="close"
+                    color="inherit"
+                    size="small"
+                    onClick={() => {
+                      setGetErrorCollapseOpened(false);
+                    }}
+                  >
+                    <Icon icon="fluent:dismiss-20-regular" />
+                  </IconButton>
+                }
+                style={{width: 470, margin: "20px 20px 0 20px"}}
+              >
+                {getError}
+              </Alert>
+            </Collapse>
             <div
               className="rows"
               style={{ overflow: loading ? 'hidden' : 'auto' }}

@@ -25,7 +25,7 @@ import Row from 'src/pages/Cadastros/Perfis/Components/Row';
 
 import { usePesquisa } from 'src/hooks/usePesquisa';
 import { useAppDispatch, useAppSelector } from 'src/store';
-import { perfisGetRequest, perfisDeleteRequest, perfisCancelOperation, perfisCancelDelete, perfisIdleOperation } from 'src/store/ducks/perfis';
+import { perfisGetRequest, perfisDeleteRequest, perfisCancelOperation, perfisCancelDelete, perfisIdleOperation, perfisCleanError } from 'src/store/ducks/perfis';
 import { Perfil } from 'src/store/ducks/perfis/types';
 
 const Perfis = () => {
@@ -46,16 +46,22 @@ const Perfis = () => {
   const dispatch = useAppDispatch();
   const perfis = useAppSelector((state) => state.perfis.data);
   const loading = useAppSelector((state) => state.perfis.loading);
+  const getError = useAppSelector((state) => state.perfis.error);
   const errors = useAppSelector((state) => state.perfis.deleteError);
   const deleteState = useAppSelector((state) => state.perfis.deleteState);
   const operationState = useAppSelector(
     (state) => state.perfis.operationState
   );
   const [isErrorCollapseOpened, setErrorCollapseOpened] = useState(false);
+  const [isGetErrorCollapseOpened, setGetErrorCollapseOpened] = useState(false);
 
   const handleChangeSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
     handlePesquisa('filtroPadrao', event.target.value);
   };
+
+  useEffect(() => {
+    dispatch(perfisCleanError());
+  }, []);
 
   useEffect(() => {
     dispatch(perfisIdleOperation());
@@ -189,6 +195,26 @@ const Perfis = () => {
             >
               NOVO PERFIL
             </Button>
+            <Collapse in={getError !== undefined && isGetErrorCollapseOpened}>
+              <Alert
+                severity="error"
+                action={
+                  <IconButton
+                    aria-label="close"
+                    color="inherit"
+                    size="small"
+                    onClick={() => {
+                      setGetErrorCollapseOpened(false);
+                    }}
+                  >
+                    <Icon icon="fluent:dismiss-20-regular" />
+                  </IconButton>
+                }
+                style={{width: 470, margin: "20px 20px 0 20px"}}
+              >
+                {getError}
+              </Alert>
+            </Collapse>
             <div
               className="rows"
               style={{ overflow: loading ? 'hidden' : 'auto' }}
