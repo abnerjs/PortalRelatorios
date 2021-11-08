@@ -43,11 +43,11 @@ interface FormProps {
 
 const schema = Yup.object({
   dtaInicio: Yup.date()
-    .typeError('Data inválida!')
-    .required('Campo obrigatório!'),
+  .required('Campo obrigatório!')
+    .typeError('Data inválida!'),
   dtaFim: Yup.date().typeError('Data inválida!').required('Campo obrigatório!'),
   codTpRecurso: Yup.string().required('Campo obrigatório!'),
-  lstCodPrestadores: Yup.string().required('Campo obrigatório!'),
+  lstCodPrestadores: Yup.string().nullable().default(null).notRequired(),
 });
 
 const defaultValues: FormProps = {
@@ -93,7 +93,7 @@ const RelPreRecurso = () => {
         })
       );
 
-      if(pdf) global.window.open(pdf);
+      if (pdf) global.window.open(pdf);
       else setErrorCollapseOpened(true);
     }
   };
@@ -151,6 +151,7 @@ const RelPreRecurso = () => {
                 }}
                 startText="Data inicial"
                 endText="Data final"
+                disableCloseOnSelect={false}
                 renderInput={(startProps, endProps) => (
                   <React.Fragment>
                     <TextField
@@ -236,7 +237,9 @@ const RelPreRecurso = () => {
                   variant="filled"
                   InputProps={{ ...params.InputProps, disableUnderline: true }}
                   error={!!formState.errors.lstCodPrestadores}
-                  helperText={formState.errors.lstCodPrestadores?.message}
+                  helperText={
+                    formState.errors.lstCodPrestadores?.message || 'Opcional'
+                  }
                 />
               )}
               value={prestadores}
@@ -260,9 +263,11 @@ const RelPreRecurso = () => {
               <Box sx={{ m: 0, position: 'relative' }}>
                 <Button
                   variant="contained"
-                  disabled={(formState.isSubmitting || isLoading)}
+                  disabled={formState.isSubmitting || isLoading}
                   type="submit"
-                  className={(formState.isSubmitting || isLoading) ? 'secondary' : ''}
+                  className={
+                    formState.isSubmitting || isLoading ? 'secondary' : ''
+                  }
                 >
                   GERAR
                 </Button>

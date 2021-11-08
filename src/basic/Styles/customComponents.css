@@ -195,3 +195,34 @@
 .MuiAutocomplete-root.displayNone + .MuiAutocomplete-popper {
   display: none !important;
 }
+
+/*DATEPICKER ---------------------------------*/
+
+.MuiCalendarPicker-root {
+  width: 310px !important;
+}
+
+.MuiMonthPicker-root {
+  width: inherit !important;
+
+  padding: 18px;
+}
+
+.MuiMonthPicker-root .PrivatePickersMonth-root {
+  margin: 5px;
+  height: 30px;
+  width: 50px !important;
+  color: black;
+  font-size: 14px;
+  text-transform: uppercase;
+  background-color: white;
+  border: none;
+  box-shadow: 2px 2px 5px #d3d3d3, 
+            -3px -3px 6px #ffffff;
+  border-radius: 8px;
+  transition: all ease 0.3s;
+}
+
+.MuiMonthPicker-root .PrivatePickersMonth-root:hover {
+  background-color: #eee;
+}

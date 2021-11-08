@@ -19,10 +19,11 @@ import {
   CircularProgress,
   Collapse,
   IconButton,
+  Stack,
   TextField,
   Typography,
 } from '@mui/material';
-import { DateRange, DateRangePicker } from '@mui/lab';
+import { DatePicker, DateRange, DateRangePicker } from '@mui/lab';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 
@@ -44,7 +45,7 @@ const schema = Yup.object({
     .typeError('Data inválida!')
     .required('Campo obrigatório!'),
   dtaFim: Yup.date().typeError('Data inválida!').required('Campo obrigatório!'),
-  lstCodFornecedores: Yup.string().required('Campo obrigatório!'),
+  lstCodFornecedores: Yup.string().nullable().default(null).notRequired(),
 });
 
 const defaultValues: FormProps = {
@@ -54,7 +55,8 @@ const defaultValues: FormProps = {
 };
 
 const RelForPagamento = () => {
-  const [date, setDate] = useState<DateRange<Date>>([null, null]);
+  const [initialDate, setInitialDate] = useState<Date | null>(null);
+  const [finalDate, setFinalDate] = useState<Date | null>(null);
   const [fornecedores, setFornecedores] = useState<TipoFiltro[]>([]);
 
   const dispatch = useAppDispatch();
@@ -87,7 +89,7 @@ const RelForPagamento = () => {
         })
       );
 
-      if(pdf) global.window.open(pdf);
+      if (pdf) global.window.open(pdf);
       else setErrorCollapseOpened(true);
     }
   };
@@ -134,40 +136,59 @@ const RelForPagamento = () => {
               dateAdapter={AdapterDateFns}
               locale={brLocale}
             >
-              <DateRangePicker
-                mask="__/__/____"
-                value={date}
-                onChange={(value) => {
-                  setDate(value);
-                  setValue('dtaInicio', value[0]);
-                  setValue('dtaFim', value[1]);
-                }}
-                startText="Data inicial"
-                endText="Data final"
-                renderInput={(startProps, endProps) => (
-                  <React.Fragment>
+              <Stack direction="row">
+                <DatePicker
+                  label="Data inicial"
+                  disableFuture
+                  openTo="year"
+                  views={['year', 'month']}
+                  value={initialDate}
+                  onChange={(newValue) => {
+                    setInitialDate(newValue);
+                  }}
+                  renderInput={(params) => (
                     <TextField
-                      {...startProps}
+                      {...params}
                       margin="dense"
                       variant="filled"
                       fullWidth
-                      InputProps={{ disableUnderline: true }}
+                      InputProps={{
+                        ...params.InputProps,
+                        disableUnderline: true,
+                      }}
                       error={!!formState.errors.dtaInicio}
                       helperText={formState.errors.dtaInicio?.message}
+                      placeholder="mm/aaaa"
                     />
-                    <Box sx={{ mx: '6px' }} />
+                  )}
+                />
+                <Box sx={{ mx: '6px' }} />
+                <DatePicker
+                  label="Data final"
+                  disableFuture
+                  openTo="year"
+                  views={['year', 'month']}
+                  value={finalDate}
+                  onChange={(newValue) => {
+                    setFinalDate(newValue);
+                  }}
+                  renderInput={(params) => (
                     <TextField
-                      {...endProps}
+                      {...params}
                       margin="dense"
                       variant="filled"
                       fullWidth
-                      InputProps={{ disableUnderline: true }}
+                      InputProps={{
+                        ...params.InputProps,
+                        disableUnderline: true,
+                      }}
                       error={!!formState.errors.dtaFim}
                       helperText={formState.errors.dtaFim?.message}
+                      placeholder="mm/aaaa"
                     />
-                  </React.Fragment>
-                )}
-              />
+                  )}
+                />
+              </Stack>
             </LocalizationProvider>
             <Autocomplete
               multiple
@@ -196,7 +217,9 @@ const RelForPagamento = () => {
                   variant="filled"
                   InputProps={{ ...params.InputProps, disableUnderline: true }}
                   error={!!formState.errors.lstCodFornecedores}
-                  helperText={formState.errors.lstCodFornecedores?.message}
+                  helperText={
+                    formState.errors.lstCodFornecedores?.message || 'Opcional'
+                  }
                 />
               )}
               value={fornecedores}
@@ -220,9 +243,11 @@ const RelForPagamento = () => {
               <Box sx={{ m: 0, position: 'relative' }}>
                 <Button
                   variant="contained"
-                  disabled={(formState.isSubmitting || isLoading)}
+                  disabled={formState.isSubmitting || isLoading}
                   type="submit"
-                  className={(formState.isSubmitting || isLoading) ? 'secondary' : ''}
+                  className={
+                    formState.isSubmitting || isLoading ? 'secondary' : ''
+                  }
                 >
                   GERAR
                 </Button>

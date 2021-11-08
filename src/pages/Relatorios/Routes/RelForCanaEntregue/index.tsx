@@ -46,8 +46,8 @@ const schema = Yup.object({
     .typeError('Data inválida!')
     .required('Campo obrigatório!'),
   dtaFim: Yup.date().typeError('Data inválida!').required('Campo obrigatório!'),
-  lstCodFazendas: Yup.string().required('Campo obrigatório!'),
-  lstCodFornecedores: Yup.string().required('Campo obrigatório!'),
+  lstCodFazendas: Yup.string().nullable().default(null).notRequired(),
+  lstCodFornecedores: Yup.string().nullable().default(null).notRequired(),
 });
 
 const defaultValues: FormProps = {
@@ -94,7 +94,7 @@ const RelForCanaEntregue = () => {
         })
       );
 
-      if(pdf) global.window.open(pdf);
+      if (pdf) global.window.open(pdf);
       else setErrorCollapseOpened(true);
     }
   };
@@ -215,7 +215,9 @@ const RelForCanaEntregue = () => {
                   variant="filled"
                   InputProps={{ ...params.InputProps, disableUnderline: true }}
                   error={!!formState.errors.lstCodFornecedores}
-                  helperText={formState.errors.lstCodFornecedores?.message}
+                  helperText={
+                    formState.errors.lstCodFornecedores?.message || 'Opcional'
+                  }
                 />
               )}
               value={fornecedores}
@@ -275,9 +277,11 @@ const RelForCanaEntregue = () => {
               <Box sx={{ m: 0, position: 'relative' }}>
                 <Button
                   variant="contained"
-                  disabled={(formState.isSubmitting || isLoading)}
+                  disabled={formState.isSubmitting || isLoading}
                   type="submit"
-                  className={(formState.isSubmitting || isLoading) ? 'secondary' : ''}
+                  className={
+                    formState.isSubmitting || isLoading ? 'secondary' : ''
+                  }
                 >
                   GERAR
                 </Button>
