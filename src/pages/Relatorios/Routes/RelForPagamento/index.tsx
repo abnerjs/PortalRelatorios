@@ -139,12 +139,21 @@ const RelForPagamento = () => {
               <Stack direction="row">
                 <DatePicker
                   label="Data inicial"
-                  disableFuture
                   openTo="year"
+                  mask="__/____"
+                  inputFormat="MM/yyyy"
                   views={['year', 'month']}
+                  disableFuture
+                  disableMaskedInput={false}
                   value={initialDate}
                   onChange={(newValue) => {
+                    setValue('dtaInicio', newValue);
                     setInitialDate(newValue);
+                  }}
+                  InputAdornmentProps={{
+                    style: {
+                      marginRight: '4px',
+                    },
                   }}
                   renderInput={(params) => (
                     <TextField
@@ -156,21 +165,33 @@ const RelForPagamento = () => {
                         ...params.InputProps,
                         disableUnderline: true,
                       }}
+                      inputProps={{
+                        ...params.inputProps,
+                        placeholder: 'mm/aaaa',
+                      }}
                       error={!!formState.errors.dtaInicio}
                       helperText={formState.errors.dtaInicio?.message}
-                      placeholder="mm/aaaa"
                     />
                   )}
                 />
                 <Box sx={{ mx: '6px' }} />
                 <DatePicker
                   label="Data final"
-                  disableFuture
                   openTo="year"
+                  mask="__/____"
+                  inputFormat="MM/yyyy"
                   views={['year', 'month']}
+                  disableFuture
+                  disableMaskedInput={false}
                   value={finalDate}
                   onChange={(newValue) => {
+                    setValue('dtaFim', newValue);
                     setFinalDate(newValue);
+                  }}
+                  InputAdornmentProps={{
+                    style: {
+                      marginRight: '4px',
+                    },
                   }}
                   renderInput={(params) => (
                     <TextField
@@ -182,9 +203,12 @@ const RelForPagamento = () => {
                         ...params.InputProps,
                         disableUnderline: true,
                       }}
+                      inputProps={{
+                        ...params.inputProps,
+                        placeholder: 'mm/aaaa',
+                      }}
                       error={!!formState.errors.dtaFim}
                       helperText={formState.errors.dtaFim?.message}
-                      placeholder="mm/aaaa"
                     />
                   )}
                 />
