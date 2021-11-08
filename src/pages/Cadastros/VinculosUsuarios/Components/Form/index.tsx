@@ -200,11 +200,13 @@ const Form: React.FC<FormProps> = ({
       </Tabs>
       <Autocomplete
         multiple
+        autoComplete
+        clearOnBlur={false}
         open={true}
+        noOptionsText="Nenhum fornecedor"
         disableListWrap={true}
         disablePortal
         fullWidth
-        clearOnBlur
         selectOnFocus
         handleHomeEndKeys
         disableCloseOnSelect
@@ -250,6 +252,7 @@ const Form: React.FC<FormProps> = ({
       />
       <Autocomplete
         multiple
+        noOptionsText="Nenhum prestador"
         open={true}
         disableListWrap={true}
         disablePortal
