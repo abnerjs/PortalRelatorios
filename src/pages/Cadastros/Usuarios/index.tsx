@@ -138,6 +138,11 @@ const Usuarios = () => {
   ) => {
     setFlgTipo(newValue);
     handleCustomParameters({ key: 'flgTipo', value: newValue });
+    if(rowSelected !== -1) {
+      setFormOpened(false);
+      setUsuario(null);
+      setRowSelected(-1);
+    }
   };
 
   const handleUpdate = (index: number, flgAtivo: string) => {

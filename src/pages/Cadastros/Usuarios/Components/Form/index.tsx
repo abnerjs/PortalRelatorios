@@ -174,6 +174,9 @@ const Form: React.FC<FormProps> = ({
       setValue('codColaborador', '');
       setValue('flgTipo', tipoUsuario);
       clearErrors();
+    } else {
+      setFlgTipo(tipoUsuario);
+      setValue('flgTipo', tipoUsuario);
     }
   }, [data, tipoUsuario, clearErrors, setValue]);
 
