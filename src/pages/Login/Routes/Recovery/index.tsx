@@ -5,12 +5,12 @@ import { Link } from 'react-router-dom';
 
 import Button from 'src/components/Button';
 import Input from 'src/components/Input';
-import Title from 'src/components/Title';
+import { Typography } from '@mui/material';
 
 const Recovery: React.FC = (props: any) => {
   return (
     <form className="form" action="">
-      <Title content="Recuperação de senha" primaryColor />
+      <Typography variant="h5" className="primary">Recuperação de senha</Typography>
       <div className="recoveryinfo">
         <p>Insira algum dado em que sua conta esteja associada</p>
       </div>
