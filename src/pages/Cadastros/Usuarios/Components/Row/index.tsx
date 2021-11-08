@@ -33,6 +33,7 @@ const Row: React.FC<RowProps> = ({
   isFormOpened,
 }: RowProps) => {
   const objetos = useAppSelector((state) => state.session.objetos);
+  const loggedUser = useAppSelector((state) => state.session.user);
   const flgAcesso =
     objetos.find((x) => x.nomPagina.toLowerCase() === 'usuarios')?.flgAcesso ||
     'N';
@@ -72,7 +73,7 @@ const Row: React.FC<RowProps> = ({
           checked={data.flgAtivo === 'S'}
           onClick={(e) => e.stopPropagation()}
           onChange={(e) => handleChangeFlgAtivo(index, e.target.value)}
-          disabled={isFormOpened}
+          disabled={isFormOpened && loggedUser?.desLogin === data.desLogin}
           tabIndex={-1}
         />
         <Icon

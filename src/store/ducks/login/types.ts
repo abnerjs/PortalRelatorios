@@ -13,6 +13,7 @@ export interface LoginRequest {
 
 export interface UserLogin {
   nomUsuario: string;
+  desLogin: string;
   flgTipo: string;
   versaoApi: string;
   accessToken: string;
