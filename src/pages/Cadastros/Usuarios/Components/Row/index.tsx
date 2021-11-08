@@ -97,6 +97,7 @@ const Row: React.FC<RowProps> = ({
           tabIndex={indexSelected === index ? 0 : -1}
           variant="contained"
           className="errorColor"
+          style={{display: (loggedUser?.desLogin === data.desLogin) ? 'none' : 'block'}}
         >
           DELETAR
         </Button>
