@@ -73,7 +73,7 @@ const Row: React.FC<RowProps> = ({
           checked={data.flgAtivo === 'S'}
           onClick={(e) => e.stopPropagation()}
           onChange={(e) => handleChangeFlgAtivo(index, e.target.value)}
-          disabled={isFormOpened && loggedUser?.desLogin === data.desLogin}
+          disabled={isFormOpened || loggedUser?.desLogin === data.desLogin}
           tabIndex={-1}
         />
         <Icon
