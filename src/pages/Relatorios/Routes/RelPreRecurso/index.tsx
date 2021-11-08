@@ -160,6 +160,10 @@ const RelPreRecurso = () => {
                       variant="filled"
                       fullWidth
                       InputProps={{ disableUnderline: true }}
+                      inputProps={{
+                        ...startProps.inputProps,
+                        placeholder: 'dd/mm/aaaa',
+                      }}
                       error={!!formState.errors.dtaInicio}
                       helperText={formState.errors.dtaInicio?.message}
                     />
@@ -170,6 +174,10 @@ const RelPreRecurso = () => {
                       variant="filled"
                       fullWidth
                       InputProps={{ disableUnderline: true }}
+                      inputProps={{
+                        ...endProps.inputProps,
+                        placeholder: 'dd/mm/aaaa',
+                      }}
                       error={!!formState.errors.dtaFim}
                       helperText={formState.errors.dtaFim?.message}
                     />
