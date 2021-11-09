@@ -10,6 +10,8 @@ export interface UsuariosState {
   operationState?: string;
   deleteError?: string;
   deleteState?: string;
+  changePasswordError?: string;
+  changePasswordState?: string;
 }
 
 export interface Usuario {
@@ -23,4 +25,11 @@ export interface Usuario {
   codColaborador?: string | null;
   flgTipo: string;
   flgAtivo: string;
+}
+
+export interface ChangeUsuarioPasswordRequest {
+  desLogin: string;
+  desSenha: string;
+  desNovaSenha: string;
+  desConfirmaNovaSenha: string;
 }

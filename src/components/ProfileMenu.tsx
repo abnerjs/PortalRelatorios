@@ -1,14 +1,17 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import './ProfileMenu.css';
 import { Icon } from '@iconify/react';
 import useOutsideClick from 'src/hooks/useOutsideClick';
 import {
+  Alert,
   Avatar,
   Backdrop,
   Button,
   CircularProgress,
+  Collapse,
   Fade,
+  IconButton,
   Modal,
   Stack,
   TextField,
@@ -19,35 +22,41 @@ import * as Yup from 'yup';
 import { useAppDispatch, useAppSelector } from 'src/store';
 import { Box } from '@mui/system';
 import { loginRequest } from 'src/store/ducks/login';
-import { Usuario } from 'src/store/ducks/usuarios/types';
+import { ChangeUsuarioPasswordRequest, Usuario } from 'src/store/ducks/usuarios/types';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { usuariosCancelOperation } from 'src/store/ducks/usuarios';
+import {
+  changeUsuarioPasswordIdle,
+  changeUsuarioPasswordRequest,
+  usuariosCancelOperation,
+  usuariosGetRequest,
+} from 'src/store/ducks/usuarios';
 
 interface ProfileMenuProps {
   onLogout?: React.MouseEventHandler<HTMLDivElement> | undefined;
 }
 
 const schema = Yup.object({
-  idRelPerfil: Yup.number()
-    .transform((value) => (isNaN(value) ? 0 : value))
-    .moreThan(0, 'Campo obrigatório!'),
-  desEmail: Yup.string()
-    .email('O e-mail fornecido não é válido')
-    .nullable()
-    .default(null)
-    .max(200, (params) => `Máximo de ${params.max} caracteres!`)
-    .notRequired(),
   desLogin: Yup.string()
     .max(200, (params) => `Máximo de ${params.max} caracteres!`)
     .required(`Campo obrigatório!`),
   desSenha: Yup.string()
     .max(128, (params) => `Máximo de ${params.max} caracteres!`)
     .required(`Campo obrigatório!`),
+  desNovaSenha: Yup.string()
+    .max(128, (params) => `Máximo de ${params.max} caracteres!`)
+    .min(4, (params) => `Mínimo de ${params.min} caracteres!`)
+    .required(`Campo obrigatório!`),
+  desConfirmaNovaSenha: Yup.string()
+    .max(128, (params) => `Máximo de ${params.max} caracteres!`)
+    .min(4, (params) => `Mínimo de ${params.min} caracteres!`)
+    .required(`Campo obrigatório!`),
 });
 
 interface FormInputs {
   desLogin: string;
   desSenha: string;
+  desNovaSenha: string;
+  desConfirmaNovaSenha: string;
 }
 
 const ProfileMenu = (props: ProfileMenuProps) => {
@@ -63,32 +72,19 @@ const ProfileMenu = (props: ProfileMenuProps) => {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-  const loginError = useAppSelector((state) => state.session.error);
-  const isLoading = useAppSelector((state) => state.session.loading);
+  const errors = useAppSelector((state) => state.usuarios.changePasswordError);
   const [isErrorCollapseOpened, setErrorCollapseOpened] = useState(false);
-  const errors = useAppSelector((state) => state.usuarios.operationError);
-  const operationState = useAppSelector(
-    (state) => state.usuarios.operationState
+  const changePasswordState = useAppSelector(
+    (state) => state.usuarios.changePasswordState
   );
 
   const dispatch = useAppDispatch();
 
-  const onCancel = () => {
-    dispatch(usuariosCancelOperation());
-    setErrorCollapseOpened(false);
-  };
-
-  const defaultValues: Usuario = {
-    idRelUsuario: 0,
-    idRelPerfil: 0,
-    desNome: '',
-    desEmail: '',
-    desLogin: user ? user.desLogin : '',
+  const defaultValues: ChangeUsuarioPasswordRequest = {
+    desLogin: '',
     desSenha: '',
-    desCpfCnpj: '',
-    codColaborador: '',
-    flgTipo: 'I',
-    flgAtivo: 'S',
+    desNovaSenha: '',
+    desConfirmaNovaSenha: '',
   };
 
   const {
@@ -99,16 +95,32 @@ const ProfileMenu = (props: ProfileMenuProps) => {
     setValue,
     control,
     formState,
-  } = useForm<Usuario>({
+  } = useForm<ChangeUsuarioPasswordRequest>({
     resolver: yupResolver(schema),
     defaultValues: defaultValues,
   });
 
-  const onSubmit: SubmitHandler<FormInputs> = (data) => {
-    dispatch(loginRequest(data));
+  const onSubmit: SubmitHandler<FormInputs> = (values) => {
+    dispatch(changeUsuarioPasswordRequest(values));
 
-    if (loginError) setErrorCollapseOpened(true);
+    if (errors) setErrorCollapseOpened(true);
+    else {
+      dispatch(changeUsuarioPasswordIdle());
+
+      
+      setOpen(false);
+      dispatch(usuariosGetRequest());
+    }
   };
+
+  const onCancel = () => {
+    dispatch(usuariosCancelOperation());
+    setErrorCollapseOpened(false);
+  };
+
+  useEffect(() => {
+    setErrorCollapseOpened(errors !== undefined);
+  }, [errors]);
 
   return (
     <div className="ProfileMenu" ref={ref}>
@@ -137,7 +149,10 @@ const ProfileMenu = (props: ProfileMenuProps) => {
         aria-labelledby="transition-modal-title"
         aria-describedby="transition-modal-description"
         open={open}
-        onClose={handleClose}
+        onClose={() => {
+          onCancel();
+          handleClose();
+        }}
         closeAfterTransition
         BackdropComponent={Backdrop}
         BackdropProps={{
@@ -170,6 +185,27 @@ const ProfileMenu = (props: ProfileMenuProps) => {
               onSubmit={handleSubmit(onSubmit)}
               className="form-edit-profile"
             >
+              <Collapse in={errors !== undefined && isErrorCollapseOpened}>
+                <Alert
+                  severity="error"
+                  action={
+                    <IconButton
+                      aria-label="close"
+                      color="inherit"
+                      size="small"
+                      onClick={() => {
+                        setErrorCollapseOpened(false);
+                      }}
+                    >
+                      <Icon icon="fluent:dismiss-20-regular" />
+                    </IconButton>
+                  }
+                  sx={{ mb: 2 }}
+                >
+                  {errors}
+                </Alert>
+              </Collapse>
+              {/*
               <Controller
                 name="desEmail"
                 control={control}
@@ -196,6 +232,7 @@ const ProfileMenu = (props: ProfileMenuProps) => {
                   />
                 )}
               />
+              */}
 
               <Controller
                 name="desLogin"
@@ -253,11 +290,11 @@ const ProfileMenu = (props: ProfileMenuProps) => {
               />
 
               <Controller
-                name="desSenha"
+                name="desNovaSenha"
                 control={control}
                 render={({ field: { ref, ...rest }, fieldState }) => (
                   <TextField
-                    id="desSenha"
+                    id="desNovaSenha"
                     fullWidth
                     label="Nova senha"
                     type="password"
@@ -279,11 +316,11 @@ const ProfileMenu = (props: ProfileMenuProps) => {
               />
 
               <Controller
-                name="desSenha"
+                name="desConfirmaNovaSenha"
                 control={control}
                 render={({ field: { ref, ...rest }, fieldState }) => (
                   <TextField
-                    id="desSenha"
+                    id="desConfirmaNovaSenha"
                     fullWidth
                     label="Confirmar nova senha"
                     type="password"
@@ -303,10 +340,11 @@ const ProfileMenu = (props: ProfileMenuProps) => {
                   />
                 )}
               />
-              <Stack direction="row" sx={{mt: 1}}>
+              <Stack direction="row" sx={{ mt: 1 }}>
                 <Button
                   onClick={() => {
                     onCancel();
+                    handleClose();
                   }}
                   variant="contained"
                   className="secondary"
@@ -315,23 +353,26 @@ const ProfileMenu = (props: ProfileMenuProps) => {
                   CANCELAR
                 </Button>
                 <Box sx={{ mx: '6px' }} />
-                <Box sx={{ m: 0, position: 'relative', width: "100%" }}>
+                <Box sx={{ m: 0, position: 'relative', width: '100%' }}>
                   <Button
                     variant="contained"
                     fullWidth
                     disabled={
-                      formState.isSubmitting || operationState === 'request'
+                      formState.isSubmitting ||
+                      changePasswordState === 'request'
                     }
                     type="submit"
                     className={
-                      formState.isSubmitting || operationState === 'request'
+                      formState.isSubmitting ||
+                      changePasswordState === 'request'
                         ? 'secondary'
                         : ''
                     }
                   >
                     SALVAR
                   </Button>
-                  {(formState.isSubmitting || operationState === 'request') && (
+                  {(formState.isSubmitting ||
+                    changePasswordState === 'request') && (
                     <CircularProgress
                       size={24}
                       sx={{
