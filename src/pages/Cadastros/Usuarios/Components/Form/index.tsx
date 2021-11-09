@@ -69,6 +69,7 @@ const schema = Yup.object({
     .required(`Campo obrigatório!`),
   desSenha: Yup.string()
     .max(128, (params) => `Máximo de ${params.max} caracteres!`)
+    .min(4, (params) => `Mínimo de ${params.min} caracteres!`)
     .required(`Campo obrigatório!`),
   desCpfCnpj: Yup.string()
     .nullable()
