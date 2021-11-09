@@ -71,3 +71,33 @@
     background: rgb(245, 245, 249);
     background: linear-gradient(90deg, rgba(255, 255, 255, 1) 0%, rgba(245, 245, 249, 1) 50%, rgba(255, 255, 255, 1) 100%);
 }
+
+.profile-modal {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 700px;
+    max-height: calc(90% - 80px);
+    padding: 40px;
+    background-color: white;
+    border-radius: 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-shadow: 10px 10px 40px rgba(0,0,0,0.4);
+    outline: none;
+}
+
+.profile-modal .transition-modal-description {
+    margin-top: 20px;
+    font-size: 16pt;
+    font-weight: var(--medium);
+}
+
+.profile-modal .form-edit-profile {
+    width: 70%;
+    margin-top: 10px;
+    overflow: auto;
+    padding: 0 25px;
+}
