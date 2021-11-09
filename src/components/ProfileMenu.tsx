@@ -162,7 +162,7 @@ const ProfileMenu = (props: ProfileMenuProps) => {
 
       <div className={`menuCollapse${collapsed ? ' active' : ''}`}>
         <div className="item" onClick={handleOpen}>
-          <p>EDITAR PERFIL</p>
+          <p>ALTERAR SENHA</p>
         </div>
         <div className="item" onClick={props.onLogout}>
           <p>SAIR</p>
@@ -185,7 +185,7 @@ const ProfileMenu = (props: ProfileMenuProps) => {
         <Fade in={open}>
           <Box className="profile-modal">
             <Typography variant="h6" component="h2">
-              Editar perfil
+              Alterar senha
             </Typography>
             <Avatar
               sx={{
@@ -273,7 +273,7 @@ const ProfileMenu = (props: ProfileMenuProps) => {
                   <TextField
                     id="desLogin"
                     fullWidth
-                    label="Nome de usuário"
+                    label="Nome de usuário atual"
                     placeholder="Ex.: joao_silva"
                     className="secondary"
                     margin="dense"
