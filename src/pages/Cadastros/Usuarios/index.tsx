@@ -62,6 +62,9 @@ const Usuarios = () => {
   const getError = useAppSelector((state) => state.usuarios.error);
   const errors = useAppSelector((state) => state.usuarios.deleteError);
   const deleteState = useAppSelector((state) => state.usuarios.deleteState);
+  const changePassword = useAppSelector(
+    (state) => state.usuarios.changePasswordState
+  );
   const operationState = useAppSelector(
     (state) => state.usuarios.operationState
   );
@@ -73,7 +76,18 @@ const Usuarios = () => {
   }, []);
 
   useEffect(() => {
+    if (changePassword === 'success') {
+      dispatch(usuariosGetRequest(pesquisa.toString()));
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [changePassword]);
+
+  useEffect(() => {
     setGetErrorCollapseOpened(getError !== undefined);
+    setUsuario(null);
+    setRowSelected(-1);
+    setFormOpened(false);
+    setNewUserSection(false);
   }, [getError]);
 
   const handleChangeSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -138,7 +152,7 @@ const Usuarios = () => {
   ) => {
     setFlgTipo(newValue);
     handleCustomParameters({ key: 'flgTipo', value: newValue });
-    if(rowSelected !== -1) {
+    if (rowSelected !== -1) {
       setFormOpened(false);
       setUsuario(null);
       setRowSelected(-1);
@@ -261,7 +275,7 @@ const Usuarios = () => {
                     <Icon icon="fluent:dismiss-20-regular" />
                   </IconButton>
                 }
-                style={{width: 470, margin: "20px 20px 0 20px"}}
+                style={{ width: 470, margin: '20px 20px 0 20px' }}
               >
                 {getError}
               </Alert>
