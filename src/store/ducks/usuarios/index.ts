@@ -115,6 +115,10 @@ export const usuariosSlice = createSlice({
       state.changePasswordError = undefined;
       state.changePasswordState = 'idle';
     },
+    changeUsuarioPasswordCancel: (state) => {
+      state.changePasswordError = undefined;
+      state.changePasswordState = 'cancel';
+    },
   },
 });
 
@@ -140,6 +144,7 @@ export const {
   changeUsuarioPasswordSuccess,
   changeUsuarioPasswordError,
   changeUsuarioPasswordIdle,
+  changeUsuarioPasswordCancel,
 } = usuariosSlice.actions;
 
 export default usuariosSlice.reducer;

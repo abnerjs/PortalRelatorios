@@ -56,6 +56,7 @@
   height: 50px;
   box-shadow: none !important;
   color: white;
+  transition: all ease 0.3s !important;
 }
 
 .MuiBox-root .MuiButton-root.Mui-disabled {
