@@ -47,10 +47,12 @@ const schema = Yup.object({
     .max(128, (params) => `Máximo de ${params.max} caracteres!`)
     .required(`Campo obrigatório!`),
   desNovaSenha: Yup.string()
+    .oneOf([Yup.ref('desConfirmaNovaSenha')], 'Senhas devem ser iguais!')
     .max(128, (params) => `Máximo de ${params.max} caracteres!`)
     .min(4, (params) => `Mínimo de ${params.min} caracteres!`)
     .required(`Campo obrigatório!`),
   desConfirmaNovaSenha: Yup.string()
+    .oneOf([Yup.ref('desNovaSenha')], 'Senhas devem ser iguais!')
     .max(128, (params) => `Máximo de ${params.max} caracteres!`)
     .min(4, (params) => `Mínimo de ${params.min} caracteres!`)
     .required(`Campo obrigatório!`),
@@ -95,15 +97,11 @@ const ProfileMenu = (props: ProfileMenuProps) => {
     desConfirmaNovaSenha: '',
   };
 
-  const {
-    handleSubmit,
-    reset,
-    control,
-    formState,
-  } = useForm<ChangeUsuarioPasswordRequest>({
-    resolver: yupResolver(schema),
-    defaultValues: defaultValues,
-  });
+  const { handleSubmit, reset, control, formState } =
+    useForm<ChangeUsuarioPasswordRequest>({
+      resolver: yupResolver(schema),
+      defaultValues: defaultValues,
+    });
 
   const onSubmit: SubmitHandler<FormInputs> = (values) => {
     dispatch(changeUsuarioPasswordRequest(values));
@@ -111,7 +109,6 @@ const ProfileMenu = (props: ProfileMenuProps) => {
     if (errors) setErrorCollapseOpened(true);
     else {
       dispatch(changeUsuarioPasswordIdle());
-      
     }
   };
 
