@@ -22,9 +22,13 @@ import * as Yup from 'yup';
 import { useAppDispatch, useAppSelector } from 'src/store';
 import { Box } from '@mui/system';
 import { loginRequest } from 'src/store/ducks/login';
-import { ChangeUsuarioPasswordRequest, Usuario } from 'src/store/ducks/usuarios/types';
+import {
+  ChangeUsuarioPasswordRequest,
+  Usuario,
+} from 'src/store/ducks/usuarios/types';
 import { yupResolver } from '@hookform/resolvers/yup';
 import {
+  changeUsuarioPasswordCancel,
   changeUsuarioPasswordIdle,
   changeUsuarioPasswordRequest,
   usuariosCancelOperation,
@@ -70,8 +74,12 @@ const ProfileMenu = (props: ProfileMenuProps) => {
   });
 
   const [open, setOpen] = React.useState(false);
+  const [success, setSuccess] = React.useState(false);
   const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  const handleClose = () => {
+    setOpen(false);
+    reset();
+  };
   const errors = useAppSelector((state) => state.usuarios.changePasswordError);
   const [isErrorCollapseOpened, setErrorCollapseOpened] = useState(false);
   const changePasswordState = useAppSelector(
@@ -88,11 +96,8 @@ const ProfileMenu = (props: ProfileMenuProps) => {
   };
 
   const {
-    clearErrors,
     handleSubmit,
-    register,
     reset,
-    setValue,
     control,
     formState,
   } = useForm<ChangeUsuarioPasswordRequest>({
@@ -106,21 +111,42 @@ const ProfileMenu = (props: ProfileMenuProps) => {
     if (errors) setErrorCollapseOpened(true);
     else {
       dispatch(changeUsuarioPasswordIdle());
-
       
-      setOpen(false);
-      dispatch(usuariosGetRequest());
     }
   };
 
   const onCancel = () => {
-    dispatch(usuariosCancelOperation());
+    dispatch(changeUsuarioPasswordCancel());
     setErrorCollapseOpened(false);
   };
 
   useEffect(() => {
+    if (changePasswordState === 'success') {
+      setTimeout(() => {
+        setOpen(false);
+      }, 1000);
+      setTimeout(() => {
+        setSuccess(false);
+        reset();
+      }, 1500);
+      setErrorCollapseOpened(false);
+      setSuccess(true);
+      dispatch(changeUsuarioPasswordIdle());
+    } else if (changePasswordState === 'error') {
+      setErrorCollapseOpened(true);
+      setSuccess(false);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [changePasswordState]);
+
+  useEffect(() => {
     setErrorCollapseOpened(errors !== undefined);
   }, [errors]);
+
+  useEffect(() => {
+    reset(defaultValues);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [reset]);
 
   return (
     <div className="ProfileMenu" ref={ref}>
@@ -165,8 +191,17 @@ const ProfileMenu = (props: ProfileMenuProps) => {
               Editar perfil
             </Typography>
             <Avatar
-              sx={{ bgcolor: '#1878a1' }}
-              children={getInitialsFromString(user?.nomUsuario || '')}
+              sx={{
+                bgcolor: success ? '#4bb543' : '#1878a1',
+                transition: 'all ease 0.2s',
+              }}
+              children={
+                success ? (
+                  <span className="success icon"></span>
+                ) : (
+                  getInitialsFromString(user?.nomUsuario || '')
+                )
+              }
               style={{
                 fontSize: '38pt',
                 width: 120,
