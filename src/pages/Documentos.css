@@ -1,0 +1,76 @@
+.dropfiles {
+  margin-top: 25px;
+}
+
+.dropfilesContainer .dropzone {
+  height: 110px;
+  width: 700px;
+  border: 2px dashed #aaa;
+  border-radius: 16px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #aaa;
+  font-weight: var(--medium);
+  outline: none;
+  transition: all ease 0.2s;
+}
+
+.dropfilesContainer .dropzone.dropzoneFilled {
+  height: 210px;
+  width: 700px;
+  border: 2px dashed #aaa;
+  border-radius: 16px;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  cursor: unset;
+}
+
+.dropfilesContainer .dropzone:hover {
+  color: var(--primary50);
+  border-color: var(--primary50);
+}
+
+.dropfilesContainer .dropzoneFilled:hover {
+  color: #aaa;
+  border-color: #aaa;
+}
+
+.dropfilesContainer .dropzone.dropzoneFilled .formUpload {
+  flex: 1;
+  margin-right: 20px;
+  height: 100%;
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.dropfilesContainer .dropzone.dropzoneFilled .formUpload .MuiTextField-root:first-child {
+  margin-top: 0 !important;
+}
+
+.dropfilesContainer .dropzone.dropzoneFilled .formUpload .buttons {
+  display: flex;
+  width: 350px;
+  align-self: flex-end;
+}
+
+.cardAnimation-enter {
+  opacity: 0;
+}
+
+.cardAnimation-enter-active {
+  opacity: 1;
+  transition: opacity 3000ms;
+}
+
+.cardAnimation-exit {
+  opacity: 1;
+}
+.cardAnimation-exit-active {
+  opacity: 0;
+  transition: opacity 3000ms;
+}
