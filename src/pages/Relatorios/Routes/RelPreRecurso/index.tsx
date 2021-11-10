@@ -92,11 +92,13 @@ const RelPreRecurso = () => {
           query: query,
         })
       );
-
-      if (pdf) global.window.open(pdf);
-      else setErrorCollapseOpened(true);
     }
   };
+
+  useEffect(() => {
+    if (pdf) global.window.open(pdf);
+      else setErrorCollapseOpened(true);
+  }, [pdf]);
 
   useEffect(() => {
     dispatch(usuariosPrestadoresGetFilterRequest());
