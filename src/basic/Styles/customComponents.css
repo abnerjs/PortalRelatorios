@@ -266,3 +266,10 @@
   word-wrap: normal;
   flex: 1;
 }
+
+/*BACKDROP --------------------------*/
+
+.MuiBackdrop-root {
+  background-color: rgba(0,0,0,0.3) !important;
+  backdrop-filter: blur(6px);
+}
