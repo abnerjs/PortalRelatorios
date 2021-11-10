@@ -2,7 +2,7 @@ import './Table.css';
 
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Typography } from '@mui/material';
+import { Button, Typography } from '@mui/material';
 
 export type LinkProps = {
   name: string;
@@ -33,8 +33,14 @@ const Table = (props: Props) => {
               <div className="textual">
                 <div className="regname">{doc.name}</div>
               </div>
-              <Link to={doc.linkTo}>
-                <button className="reg">ABRIR</button>
+              <Link to={doc.linkTo} tabIndex={-1} style={{ textDecoration: 'none' }}>
+                <Button
+                  variant="contained"
+                  fullWidth
+                  className="reg"
+                >
+                  ABRIR
+                </Button>
               </Link>
             </div>
           ))}

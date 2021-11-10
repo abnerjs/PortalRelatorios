@@ -44,7 +44,7 @@
     flex: 1;
 }
 
-.Table .row button.reg {
+.Table .row .reg {
     background-color: var(--primaryColor);
     border: none;
     cursor: pointer;
@@ -53,7 +53,9 @@
     margin-left: 20px;
     margin-right: 20px;
     color: white;
-    font-weight: var(--semiBold);
-    border-radius: 8px;
+    font-weight: var(--semiBold) !important;
+    font-size: 12px !important;
+    border-radius: 8px !important;
+    text-decoration: none !important;
 }
 
