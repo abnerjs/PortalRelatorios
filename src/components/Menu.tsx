@@ -61,7 +61,7 @@ const Menu = () => {
     >
       <List>
         {buildMenu().map((text, index) => (
-          <Link to={text.link} key={`submenu-${index}`}>
+          <Link to={text.link} key={`submenu-${index}`} tabIndex={-1}>
             <ListItem button key={text.link}>
               <ListItemText
                 primary={text.label}
@@ -76,14 +76,14 @@ const Menu = () => {
 
   return (
     <div className="Menu">
-      <Link to="/">
+      <Link to="/" tabIndex={-1}>
         <div className="logo" onClick={() => setState(false)}>
           <DatamobIcon width={39} />
         </div>
       </Link>
 
       <div className="links">
-        <Link to="/">
+        <Link to="/" tabIndex={-1}>
           <div
             className={
               `menuButton` + (location.pathname === '/' ? ' active' : '')
@@ -96,7 +96,7 @@ const Menu = () => {
         {objetos.findIndex(
           (objeto) => objeto.nomPagina.toLowerCase() === 'relatorios'
         ) !== -1 && (
-          <Link to="/relatorios">
+          <Link to="/relatorios" tabIndex={-1}>
             <div
               className={
                 `menuButton` +
