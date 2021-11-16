@@ -48,7 +48,10 @@
   flex-direction: column;
 }
 
-.dropfilesContainer .dropzone.dropzoneFilled .formUpload .MuiTextField-root:first-child {
+.dropfilesContainer
+  .dropzone.dropzoneFilled
+  .formUpload
+  .MuiTextField-root:first-child {
   margin-top: 0 !important;
 }
 
@@ -58,23 +61,27 @@
   align-self: flex-end;
 }
 
-.cardAnimation-enter {
-  opacity: 0;
+.nameRegInput {
+  width: 120px;
+  height: calc(100% - 10px);
+  border: none;
+  outline: none;
+  padding: 5px;
+  color: #272727;
+  font-size: 14px !important;
+  font-weight: var(--bold);
+  font-family: 'Montserrat';
+  word-wrap: normal;
+  flex: 1 1;
+  resize: none;
+  border-radius: 8px;
+  transition: all ease 0.2s;
 }
 
-.cardAnimation-enter-active {
-  opacity: 1;
-  transition: opacity 3000ms;
+.nameRegInput:focus {
+  background-color: #fafafa;
+  box-shadow: inset 0 0 2px 1px var(--primary50);
 }
-
-.cardAnimation-exit {
-  opacity: 1;
-}
-.cardAnimation-exit-active {
-  opacity: 0;
-  transition: opacity 3000ms;
-}
-
 
 /*LISTAS -------------------------------*/
 
