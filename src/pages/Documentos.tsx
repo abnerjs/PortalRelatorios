@@ -78,7 +78,16 @@ const Documentos = () => {
                         />
                         {/* <p className="date">{new Date().toDateString()}</p> */}
                         <h2 className="nameReg">
-                          {'Demonstrativo Folha de Pagamento Fornecedores'}
+                          <textarea
+                            name=""
+                            id="nameReg"
+                            className="nameRegInput"
+                            wrap="hard"
+                            placeholder="Descrição do relatório"
+                            autoFocus
+                          >
+                            {file.name}
+                          </textarea>
                         </h2>
                       </CardContent>
                     </Card>
