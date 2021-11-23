@@ -6,6 +6,8 @@ const initialState: RelatoriosState = {
   data: undefined,
   error: undefined,
   loading: false,
+  operationError: undefined,
+  operationState: 'idle',
 };
 
 export const relatoriosSlice = createSlice({
