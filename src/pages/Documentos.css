@@ -1,9 +1,9 @@
 .dropfiles {
-  margin-top: 25px;
+  margin: 25px 25px 0 25px !important;
 }
 
 .dropfilesContainer .dropzone {
-  height: 110px;
+  height: 186px;
   width: 700px;
   border: 2px dashed #aaa;
   border-radius: 16px;
@@ -19,7 +19,7 @@
 }
 
 .dropfilesContainer .dropzone.dropzoneFilled {
-  height: 210px;
+  height: 100%;
   width: 700px;
   border: 2px dashed #aaa;
   border-radius: 16px;
@@ -27,6 +27,7 @@
   flex-direction: row;
   justify-content: flex-start;
   cursor: unset;
+  flex: 1;
 }
 
 .dropfilesContainer .dropzone:hover {
@@ -41,9 +42,8 @@
 
 .dropfilesContainer .dropzone.dropzoneFilled .formUpload {
   flex: 1;
-  margin-right: 20px;
+  margin: 20px;
   height: 100%;
-  margin-top: 20px;
   display: flex;
   flex-direction: column;
 }
@@ -51,7 +51,7 @@
 .dropfilesContainer
   .dropzone.dropzoneFilled
   .formUpload
-  .MuiTextField-root:first-child {
+  .MuiTextField-root {
   margin-top: 0 !important;
 }
 
@@ -59,10 +59,12 @@
   display: flex;
   width: 350px;
   align-self: flex-end;
+
+  margin-top: 10px;
 }
 
 .nameRegInput {
-  width: 120px;
+  width: 100%;
   height: calc(100% - 10px);
   border: none;
   outline: none;
@@ -116,4 +118,33 @@
 
 .row .column .filesTypes .principalContent {
   position: initial;
+}
+
+.btnUpload {
+  width: 350px;
+}
+
+.sectionController {
+  display: flex;
+  width: 100%;
+  overflow: hidden;
+  width: 506px;
+}
+
+.sectionController .sectionModal {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  min-width: 506px;
+  flex: 1;
+  transition: all ease 0.4s;
+}
+
+.sectionController .sectionModal:not(:first-child) {
+  margin-left: 50px;
+}
+
+.sectionController .sectionModal .buttons {
+  flex: 1;
+  align-items: flex-end;
 }

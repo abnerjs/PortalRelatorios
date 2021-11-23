@@ -1,4 +1,4 @@
-export interface RelatoriosState {
+export interface ArquivoUploadState {
   data?: string;
   error?: string;
   loading: boolean;
@@ -6,16 +6,16 @@ export interface RelatoriosState {
   operationState?: string;
 }
 
-export interface Arquivo {
+export interface ArquivoUpload {
   idRelArquivo: number;
-  idRelTparquivo: number;
-  idRelUsuarioUpload: number;
+  idRelTpArquivo: number;
   codFornecedor?: number;
   codPrestador?: number;
   desObs?: string;
   codAno?: number;
   codMes?: number;
-  dtaInicio?: string;
+  dtaIni?: string;
   dtaFim?: string;
+  nomArquivo: string;
   dtaUpload: string;
 }
