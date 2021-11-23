@@ -134,6 +134,16 @@ const Menu = () => {
             <Icon icon="fluent:person-20-regular" />
           </div>
         )}
+        <Link to="/tiposarquivos" tabIndex={-1}>
+          <div
+            className={
+              `menuButton` + (location.pathname === '/tiposarquivos' ? ' active' : '')
+            }
+            onClick={() => setState(false)}
+          >
+            <Icon icon="fluent:document-pdf-16-regular" />
+          </div>
+        </Link>
         {/*
           <Link to="/usuarios">
             <div

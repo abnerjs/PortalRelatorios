@@ -11,6 +11,7 @@ import { tiposRecursosSlice } from 'src/store/ducks/tiposRecursos';
 import { usuariosFornecedoresSlice } from 'src/store/ducks/usuariosFornecedores';
 import { usuariosPrestadoresSlice } from 'src/store/ducks/usuariosPrestadores';
 import { usuariosSlice } from 'src/store/ducks/usuarios';
+import { tipoArquivoSlice } from './tipoArquivo';
 
 const rootReducer = combineReducers({
   fazendas: fazendasSlice.reducer,
@@ -24,6 +25,7 @@ const rootReducer = combineReducers({
   usuarios: usuariosSlice.reducer,
   usuariosFornecedores: usuariosFornecedoresSlice.reducer,
   usuariosPrestadores: usuariosPrestadoresSlice.reducer,
+  tipoArquivo: tipoArquivoSlice.reducer,
 });
 
 export default rootReducer;

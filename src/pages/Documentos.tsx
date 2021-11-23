@@ -164,7 +164,7 @@ const Documentos = () => {
                                 className="sectionModal"
                                 style={{
                                   marginLeft: `-${
-                                    sectionModalController * 566
+                                    sectionModalController * 526
                                   }px`,
                                 }}
                               >

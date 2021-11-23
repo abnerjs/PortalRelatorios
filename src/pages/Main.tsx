@@ -14,6 +14,7 @@ import RelPreRecurso from './Relatorios/Routes/RelPreRecurso';
 import RelForPagamento from './Relatorios/Routes/RelForPagamento';
 import RelForCarregamento from './Relatorios/Routes/RelForCarregamento';
 import RelForCanaEntregue from './Relatorios/Routes/RelForCanaEntregue';
+import TiposArquivos from './Cadastros/TiposArquivos';
 
 const Main = () => {
   return (
@@ -26,6 +27,9 @@ const Main = () => {
         </Route>
         <Route path="/perfis">
           <Perfis />
+        </Route>
+        <Route path="/tiposarquivos">
+          <TiposArquivos />
         </Route>
         <Route path="/vinculos-usuarios">
           <VinculosUsuarios />

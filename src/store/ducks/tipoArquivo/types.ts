@@ -15,12 +15,5 @@ export interface TipoArquivoState {
 export interface TipoArquivo {
   idRelTpArquivo: number;
   desTpArquivo: string;
-  flgReferencia: ReferenciaTipoArquivo;
-}
-
-enum ReferenciaTipoArquivo {
-  A = "A",
-  M = "M",
-  D = "D",
-  P = "P",
+  flgReferencia: string | null;
 }
