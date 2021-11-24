@@ -11,25 +11,61 @@ import {
   Fade,
 } from '@mui/material';
 import brLocale from 'date-fns/locale/pt-BR';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Header from '../components/Header';
 import Table, { LinkProps } from '../components/Table';
 import './Dashboard.css';
 import './Documentos.css';
 
-import { useAppSelector } from 'src/store';
+import { useAppDispatch, useAppSelector } from 'src/store';
 import Dropzone from 'react-dropzone';
 import { Icon } from '@iconify/react';
-import { TipoFiltro } from 'src/store/ducks/base/types';
 import { Box } from '@mui/system';
 import { DatePicker, DateRangePicker, LocalizationProvider } from '@mui/lab';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
+import { TipoArquivo } from 'src/store/ducks/tipoArquivo/types';
+import { Perfil } from 'src/store/ducks/perfis/types';
+import { TipoFiltro } from 'src/store/ducks/base/types';
+import { ListboxComponent, StyledPopper } from './Cadastros/VinculosUsuarios/Components/Autocomplete';
+import { prestadoresGetFilterRequest } from 'src/store/ducks/prestadores';
+import { fornecedoresGetFilterRequest } from 'src/store/ducks/fornecedores';
+import { tipoArquivoGetFilterRequest } from 'src/store/ducks/tipoArquivo';
 
 const Documentos = () => {
+  const dispatch = useAppDispatch();
+
   const user = useAppSelector((state) => state.session.user);
   const [sectionModalController, setSectionModalController] = useState(0);
   const perfis = useAppSelector((state) => state.perfis.filterList);
-  const [perfil, setPerfil] = useState<TipoFiltro | null>(null);
+  const tiposArquivos = useAppSelector((state) => state.tipoArquivo.filterList);
+  const lstFornecedores = useAppSelector(
+    (state) => state.fornecedores.filterList
+  );
+  const lstPrestadores = useAppSelector(
+    (state) => state.prestadores.filterList
+  );
+
+  const fornAux = useAppSelector((state) => state.usuariosFornecedores.data);
+  const prestAux = useAppSelector((state) => state.usuariosPrestadores.data);
+
+
+  const [forns, setFornecedores] = useState<TipoFiltro[]>([]);
+  const [prests, setPrestadores] = useState<TipoFiltro[]>([]);
+
+  const [fornecedoresAntigos, setFornecedoresAntigos] = useState<TipoFiltro[]>(
+    []
+  );
+  const [prestadoresAntigos, setPrestadoresAntigos] = useState<TipoFiltro[]>(
+    []
+  );
+
+  useEffect(() => {
+    dispatch(fornecedoresGetFilterRequest());
+    dispatch(prestadoresGetFilterRequest());
+    dispatch(tipoArquivoGetFilterRequest());
+  }, [dispatch]);
+
+  const [tipoArquivo, setTipoArquivo] = useState<TipoFiltro | null>(null);
   const [open, setOpen] = React.useState(false);
   const [success, setSuccess] = React.useState(false);
   const handleOpen = () => setOpen(true);
@@ -169,83 +205,103 @@ const Documentos = () => {
                                 }}
                               >
                                 <Autocomplete
+                                  multiple
+                                  autoComplete
+                                  clearOnBlur={false}
+                                  noOptionsText="Nenhum fornecedor"
+                                  disableListWrap
                                   fullWidth
-                                  blurOnSelect
-                                  clearOnBlur
                                   selectOnFocus
                                   handleHomeEndKeys
                                   disableCloseOnSelect
-                                  filterSelectedOptions
-                                  openText="Abrir"
-                                  closeText="Fechar"
-                                  clearText="Limpar"
-                                  loadingText="Carregando"
-                                  noOptionsText="Sem opções"
-                                  options={perfis}
+                                  PopperComponent={StyledPopper}
+                                  ListboxComponent={ListboxComponent}
+                                  options={lstFornecedores}
                                   getOptionLabel={(option) => option.descricao}
-                                  renderInput={(params) => (
+                                  limitTags={1}
+                                  ChipProps={{ size: 'small' }}
+                                  // renderTags={() => undefined}
+                                  renderOption={(props, option, state) => {
+                                    return [
+                                      props,
+                                      <React.Fragment>
+                                        <span
+                                          style={{
+                                            overflow: 'hidden',
+                                            whiteSpace: 'nowrap',
+                                            textOverflow: 'ellipsis',
+                                          }}
+                                        >
+                                          {option.descricao}
+                                        </span>
+                                      </React.Fragment>,
+                                    ];
+                                  }}
+                                  renderInput={(params: any) => (
                                     <TextField
                                       {...params}
                                       label="Fornecedores"
-                                      placeholder="Procurar..."
-                                      margin="normal"
+                                      placeholder="Pesquisar..."
                                       variant="filled"
+                                      margin="normal"
                                       className="secondary"
-                                      InputProps={{
-                                        ...params.InputProps,
-                                        disableUnderline: true,
-                                        inputProps: {
-                                          ...params.inputProps,
-                                          tabIndex:
-                                            sectionModalController === 0
-                                              ? 0
-                                              : -1,
-                                        },
-                                      }}
+                                      InputProps={{ ...params.InputProps, disableUnderline: true }}
+                                      InputLabelProps={{ shrink: undefined }}
                                     />
                                   )}
-                                  value={perfil}
-                                  onChange={(_, data) => {}}
+                                  value={forns}
+                                  onChange={(_, data) => setFornecedores(data)}
+                                  isOptionEqualToValue={(option, value) => option.codigo === value.codigo}
                                 />
 
                                 <Autocomplete
+                                  multiple
+                                  autoComplete
+                                  clearOnBlur={false}
+                                  noOptionsText="Nenhum prestador"
+                                  disableListWrap
                                   fullWidth
-                                  blurOnSelect
-                                  clearOnBlur
                                   selectOnFocus
                                   handleHomeEndKeys
                                   disableCloseOnSelect
-                                  filterSelectedOptions
-                                  openText="Abrir"
-                                  closeText="Fechar"
-                                  clearText="Limpar"
-                                  loadingText="Carregando"
-                                  noOptionsText="Sem opções"
-                                  options={perfis}
+                                  PopperComponent={StyledPopper}
+                                  ListboxComponent={ListboxComponent}
+                                  options={lstPrestadores}
                                   getOptionLabel={(option) => option.descricao}
-                                  renderInput={(params) => (
+                                  limitTags={1}
+                                  ChipProps={{ size: 'small' }}
+                                  // renderTags={() => undefined}
+                                  renderOption={(props, option, state) => {
+                                    return [
+                                      props,
+                                      <React.Fragment>
+                                        <span
+                                          style={{
+                                            overflow: 'hidden',
+                                            whiteSpace: 'nowrap',
+                                            textOverflow: 'ellipsis',
+                                          }}
+                                        >
+                                          {option.descricao}
+                                        </span>
+                                      </React.Fragment>,
+                                    ];
+                                  }}
+                                  renderInput={(params: any) => (
                                     <TextField
                                       {...params}
                                       label="Prestadores"
-                                      placeholder="Procurar..."
-                                      margin="normal"
+                                      placeholder="Pesquisar..."
                                       variant="filled"
+                                      margin="normal"
                                       className="secondary"
-                                      InputProps={{
-                                        ...params.InputProps,
-                                        disableUnderline: true,
-                                        inputProps: {
-                                          ...params.inputProps,
-                                          tabIndex:
-                                            sectionModalController === 0
-                                              ? 0
-                                              : -1,
-                                        },
-                                      }}
+                                      InputProps={{ ...params.InputProps, disableUnderline: true }}
+                                      InputLabelProps={{ shrink: undefined }}
                                     />
                                   )}
-                                  value={perfil}
-                                  onChange={(_, data) => {}}
+                                  value={prests}
+                                  onChange={(_, data) => setPrestadores(data)}
+                                  isOptionEqualToValue={(option, value) => option.codigo === value.codigo}
                                 />
 
                                 <Autocomplete
@@ -261,7 +317,7 @@ const Documentos = () => {
                                   clearText="Limpar"
                                   loadingText="Carregando"
                                   noOptionsText="Sem opções"
-                                  options={perfis}
+                                  options={tiposArquivos}
                                   getOptionLabel={(option) => option.descricao}
                                   renderInput={(params) => (
                                     <TextField
@@ -284,7 +340,7 @@ const Documentos = () => {
                                       }}
                                     />
                                   )}
-                                  value={perfil}
+                                  value={tipoArquivo}
                                   onChange={(_, data) => {}}
                                 />
 
