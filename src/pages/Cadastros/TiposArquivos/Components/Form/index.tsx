@@ -35,6 +35,7 @@ interface FormProps {
 const schema = Yup.object({
   idRelTipoArquivo: Yup.number().notRequired(),
   desTipoArquivo: Yup.string().required('Campo obrigatório!'),
+  flgReferencia: Yup.string().required('Campo obrigatório!'),
 });
 
 const defaultValues: TipoArquivo = {
@@ -62,7 +63,6 @@ const referenciaToStringLabel = (referencia: string | null) => {
 
 const Form: React.FC<FormProps> = ({ data, isFormOpened }: FormProps) => {
   const dispatch = useAppDispatch();
-  const objetos = useAppSelector((state) => state.objetos.filterList);
   const [referencia, setReferencia] = useState<string | null>(null);
   const errors = useAppSelector((state) => state.tipoArquivo.operationError);
   const operationState = useAppSelector(
@@ -102,8 +102,21 @@ const Form: React.FC<FormProps> = ({ data, isFormOpened }: FormProps) => {
   }, [dispatch]);
 
   useEffect(() => {
-    reset(isFormOpened && data ? data : defaultValues);
-  }, [data, isFormOpened, reset]);
+    const newValue = data ?? defaultValues;
+    setReferencia(newValue.flgReferencia);
+    reset(newValue);
+  }, [data, reset]);
+
+  useEffect(() => {
+    if (!isFormOpened) {
+      reset();
+      setReferencia(null);
+    }
+  }, [isFormOpened, reset]);
+
+  useEffect(() => {
+    if (!data) clearErrors();
+  }, [data, clearErrors, setValue]);
 
   return (
     <form
@@ -141,7 +154,6 @@ const Form: React.FC<FormProps> = ({ data, isFormOpened }: FormProps) => {
             id="desTpArquivo"
             fullWidth
             label="Descrição do tipo de arquivo"
-            placeholder="Ex.: Acesso aos relatórios"
             color="primary"
             margin="normal"
             variant="filled"

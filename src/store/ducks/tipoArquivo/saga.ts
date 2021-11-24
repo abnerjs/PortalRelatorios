@@ -71,7 +71,7 @@ export function* sendDeleteRequest(
   action: ReturnType<typeof tipoArquivoDeleteRequest>
 ) {
   try {
-    const query = `?idRelTipoArquivo=${action.payload.idRelTpArquivo}`;
+    const query = `?idRelTpArquivo=${action.payload.idRelTpArquivo}`;
 
     yield call(api.delete, `TiposArquivos/v1/${query}`);
     yield put(tipoArquivoDeleteSuccess());

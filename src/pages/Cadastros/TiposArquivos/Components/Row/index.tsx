@@ -25,10 +25,6 @@ const Row: React.FC<RowProps> = ({
   handleModalOpen,
   handleIndexSelected,
 }: RowProps) => {
-  const objetos = useAppSelector((state) => state.session.objetos);
-  const flgAcesso =
-    objetos.find((x) => x.nomPagina.toLowerCase() === 'perfis')?.flgAcesso ||
-    'N';
 
   return (
     <div className={`row${indexSelected === index ? ' selected' : ''}`}>
@@ -50,7 +46,6 @@ const Row: React.FC<RowProps> = ({
       <div className="buttons">
         <Button
           onClick={() => handleFormOpen(true, false)}
-          disabled={flgAcesso !== 'A'}
           variant="contained"
           tabIndex={indexSelected === index ? 0 : -1}
         >
@@ -58,7 +53,6 @@ const Row: React.FC<RowProps> = ({
         </Button>
         <Button
           onClick={() => handleModalOpen(true)}
-          disabled={flgAcesso !== 'A'}
           tabIndex={indexSelected === index ? 0 : -1}
           variant="contained"
           className="errorColor"
