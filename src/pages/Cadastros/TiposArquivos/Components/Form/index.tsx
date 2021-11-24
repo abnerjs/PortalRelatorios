@@ -33,8 +33,8 @@ interface FormProps {
 }
 
 const schema = Yup.object({
-  idRelTipoArquivo: Yup.number().notRequired(),
-  desTipoArquivo: Yup.string().required('Campo obrigatório!'),
+  idRelTpArquivo: Yup.number().notRequired(),
+  desTpArquivo: Yup.string().required('Campo obrigatório!'),
   flgReferencia: Yup.string().required('Campo obrigatório!'),
 });
 
