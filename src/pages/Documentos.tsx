@@ -26,10 +26,16 @@ import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import { TipoArquivo } from 'src/store/ducks/tipoArquivo/types';
 import { Perfil } from 'src/store/ducks/perfis/types';
 import { TipoFiltro } from 'src/store/ducks/base/types';
-import { ListboxComponent, StyledPopper } from './Cadastros/VinculosUsuarios/Components/Autocomplete';
+import {
+  ListboxComponent,
+  StyledPopper,
+} from './Cadastros/VinculosUsuarios/Components/Autocomplete';
 import { prestadoresGetFilterRequest } from 'src/store/ducks/prestadores';
 import { fornecedoresGetFilterRequest } from 'src/store/ducks/fornecedores';
-import { tipoArquivoGetFilterRequest } from 'src/store/ducks/tipoArquivo';
+import {
+  tipoArquivoGetFilterRequest,
+  tipoArquivoGetRequest,
+} from 'src/store/ducks/tipoArquivo';
 
 const Documentos = () => {
   const dispatch = useAppDispatch();
@@ -37,7 +43,7 @@ const Documentos = () => {
   const user = useAppSelector((state) => state.session.user);
   const [sectionModalController, setSectionModalController] = useState(0);
   const perfis = useAppSelector((state) => state.perfis.filterList);
-  const tiposArquivos = useAppSelector((state) => state.tipoArquivo.filterList);
+  const tiposArquivos = useAppSelector((state) => state.tipoArquivo.data);
   const lstFornecedores = useAppSelector(
     (state) => state.fornecedores.filterList
   );
@@ -47,7 +53,6 @@ const Documentos = () => {
 
   const fornAux = useAppSelector((state) => state.usuariosFornecedores.data);
   const prestAux = useAppSelector((state) => state.usuariosPrestadores.data);
-
 
   const [forns, setFornecedores] = useState<TipoFiltro[]>([]);
   const [prests, setPrestadores] = useState<TipoFiltro[]>([]);
@@ -62,10 +67,10 @@ const Documentos = () => {
   useEffect(() => {
     dispatch(fornecedoresGetFilterRequest());
     dispatch(prestadoresGetFilterRequest());
-    dispatch(tipoArquivoGetFilterRequest());
+    dispatch(tipoArquivoGetRequest());
   }, [dispatch]);
 
-  const [tipoArquivo, setTipoArquivo] = useState<TipoFiltro | null>(null);
+  const [tipoArquivo, setTipoArquivo] = useState<TipoArquivo | null>(null);
   const [open, setOpen] = React.useState(false);
   const [success, setSuccess] = React.useState(false);
   const handleOpen = () => setOpen(true);
@@ -166,28 +171,6 @@ const Documentos = () => {
                     <section className="dropfilesContainer">
                       {file !== null ? (
                         <div className="dropzone dropzoneFilled">
-                          <Card sx={{ ml: '20px' }}>
-                            <CardContent>
-                              <Icon
-                                icon="fluent:document-bullet-list-20-regular"
-                                width={30}
-                              />
-                              {/* <p className="date">{new Date().toDateString()}</p> */}
-                              <h2 className="nameReg">
-                                <textarea
-                                  name=""
-                                  id="nameReg"
-                                  className="nameRegInput"
-                                  wrap="hard"
-                                  placeholder="Descrição do relatório"
-                                  autoFocus
-                                >
-                                  {file.name}
-                                </textarea>
-                              </h2>
-                            </CardContent>
-                          </Card>
-
                           <form
                             onSubmit={(e) => {
                               setFile(null);
@@ -195,6 +178,28 @@ const Documentos = () => {
                             }}
                             className="formUpload"
                           >
+                            <Card sx={{ mr: '20px' }}>
+                              <CardContent>
+                                <Icon
+                                  icon="fluent:document-bullet-list-20-regular"
+                                  width={30}
+                                />
+                                {/* <p className="date">{new Date().toDateString()}</p> */}
+                                <h2 className="nameReg">
+                                  <textarea
+                                    name=""
+                                    id="nameReg"
+                                    className="nameRegInput"
+                                    wrap="hard"
+                                    placeholder="Descrição do relatório"
+                                    autoFocus
+                                  >
+                                    {file.name}
+                                  </textarea>
+                                </h2>
+                              </CardContent>
+                            </Card>
+
                             <div className="sectionController">
                               <div
                                 className="sectionModal"
@@ -245,13 +250,18 @@ const Documentos = () => {
                                       variant="filled"
                                       margin="normal"
                                       className="secondary"
-                                      InputProps={{ ...params.InputProps, disableUnderline: true }}
+                                      InputProps={{
+                                        ...params.InputProps,
+                                        disableUnderline: true,
+                                      }}
                                       InputLabelProps={{ shrink: undefined }}
                                     />
                                   )}
                                   value={forns}
                                   onChange={(_, data) => setFornecedores(data)}
-                                  isOptionEqualToValue={(option, value) => option.codigo === value.codigo}
+                                  isOptionEqualToValue={(option, value) =>
+                                    option.codigo === value.codigo
+                                  }
                                 />
 
                                 <Autocomplete
@@ -295,13 +305,18 @@ const Documentos = () => {
                                       variant="filled"
                                       margin="normal"
                                       className="secondary"
-                                      InputProps={{ ...params.InputProps, disableUnderline: true }}
+                                      InputProps={{
+                                        ...params.InputProps,
+                                        disableUnderline: true,
+                                      }}
                                       InputLabelProps={{ shrink: undefined }}
                                     />
                                   )}
                                   value={prests}
                                   onChange={(_, data) => setPrestadores(data)}
-                                  isOptionEqualToValue={(option, value) => option.codigo === value.codigo}
+                                  isOptionEqualToValue={(option, value) =>
+                                    option.codigo === value.codigo
+                                  }
                                 />
 
                                 <Autocomplete
@@ -318,7 +333,9 @@ const Documentos = () => {
                                   loadingText="Carregando"
                                   noOptionsText="Sem opções"
                                   options={tiposArquivos}
-                                  getOptionLabel={(option) => option.descricao}
+                                  getOptionLabel={(option) =>
+                                    option.desTpArquivo
+                                  }
                                   renderInput={(params) => (
                                     <TextField
                                       {...params}
@@ -341,7 +358,9 @@ const Documentos = () => {
                                     />
                                   )}
                                   value={tipoArquivo}
-                                  onChange={(_, data) => {}}
+                                  onChange={(_, data) => {
+                                    setTipoArquivo(data);
+                                  }}
                                 />
 
                                 <div className="buttons">
@@ -428,7 +447,7 @@ const Documentos = () => {
                                     views={['year']}
                                     disableFuture
                                     disableMaskedInput={false}
-                                    value={new Date()}
+                                    value={null}
                                     onChange={(e: any) => {}}
                                     InputAdornmentProps={{
                                       style: {
@@ -442,6 +461,12 @@ const Documentos = () => {
                                     renderInput={(params) => (
                                       <TextField
                                         {...params}
+                                        style={{
+                                          display:
+                                            tipoArquivo?.flgReferencia === 'A'
+                                              ? 'block'
+                                              : 'none',
+                                        }}
                                         margin="normal"
                                         variant="filled"
                                         className="secondary"
@@ -469,7 +494,7 @@ const Documentos = () => {
                                     views={['year', 'month']}
                                     disableFuture
                                     disableMaskedInput={false}
-                                    value={new Date()}
+                                    value={null}
                                     onChange={(e: any) => {}}
                                     InputAdornmentProps={{
                                       style: {
@@ -483,6 +508,12 @@ const Documentos = () => {
                                     renderInput={(params) => (
                                       <TextField
                                         {...params}
+                                        style={{
+                                          display:
+                                            tipoArquivo?.flgReferencia === 'M'
+                                              ? 'block'
+                                              : 'none',
+                                        }}
                                         margin="normal"
                                         variant="filled"
                                         className="secondary"
@@ -513,6 +544,12 @@ const Documentos = () => {
                                       <React.Fragment>
                                         <TextField
                                           {...startProps}
+                                          style={{
+                                            display:
+                                              tipoArquivo?.flgReferencia === 'P'
+                                                ? 'block'
+                                                : 'none',
+                                          }}
                                           margin="normal"
                                           variant="filled"
                                           fullWidth
@@ -526,9 +563,23 @@ const Documentos = () => {
                                             placeholder: 'dd/mm/aaaa',
                                           }}
                                         />
-                                        <Box sx={{ mx: '4px' }} />
+                                        <Box
+                                          sx={{ mx: '4px' }}
+                                          style={{
+                                            display:
+                                              tipoArquivo?.flgReferencia === 'P'
+                                                ? 'block'
+                                                : 'none',
+                                          }}
+                                        />
                                         <TextField
                                           {...endProps}
+                                          style={{
+                                            display:
+                                              tipoArquivo?.flgReferencia === 'P'
+                                                ? 'block'
+                                                : 'none',
+                                          }}
                                           margin="normal"
                                           variant="filled"
                                           fullWidth
@@ -547,7 +598,7 @@ const Documentos = () => {
                                   />
 
                                   <DatePicker
-                                    label="Data inicial"
+                                    label="Data do documento"
                                     openTo="year"
                                     disableFuture
                                     disableMaskedInput={false}
@@ -565,6 +616,12 @@ const Documentos = () => {
                                     renderInput={(params) => (
                                       <TextField
                                         {...params}
+                                        style={{
+                                          display:
+                                            tipoArquivo?.flgReferencia === 'D'
+                                              ? 'block'
+                                              : 'none',
+                                        }}
                                         margin="normal"
                                         variant="filled"
                                         className="secondary"
