@@ -6,7 +6,10 @@ import {
   relatoriosDownloadError,
   relatoriosDownloadRequest,
   relatoriosDownloadSuccess,
-} from 'src/store/ducks/relatorios';
+  relatoriosUploadError,
+  relatoriosUploadRequest,
+  relatoriosUploadSuccess,
+} from 'src/store/ducks/relatoriosUpload';
 
 function downloadFile(
   data: any,
@@ -67,6 +70,16 @@ export function* sendDownloadRequest(
   }
 }
 
+export function* sendUploadRequest(action: ReturnType<typeof relatoriosUploadRequest>) {
+  try {
+    yield call(api.put, `Relatorios/v1/uploadRelatorio`, action.payload);
+    yield put(relatoriosUploadSuccess());
+  } catch (error: any) {
+    yield put(relatoriosUploadError(error));
+  }
+}
+
 export default all([
+  takeLatest(relatoriosDownloadRequest, sendDownloadRequest),
   takeLatest(relatoriosDownloadRequest, sendDownloadRequest),
 ]);
