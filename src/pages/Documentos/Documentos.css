@@ -1,10 +1,15 @@
 .dropfiles {
-  margin: 25px 25px 0 25px !important;
+  width: 100%;
+  margin-top: 25px;
+}
+
+.dropfilesContainer {
+  width: 100%;
 }
 
 .dropfilesContainer .dropzone {
   height: 186px;
-  width: 700px;
+  width: 100%;
   border: 2px dashed #aaa;
   border-radius: 16px;
   cursor: pointer;
@@ -20,7 +25,7 @@
 
 .dropfilesContainer .dropzone.dropzoneFilled {
   height: 100%;
-  width: 726px;
+  width: 100%;
   border: 2px dashed #aaa;
   border-radius: 16px;
   display: flex;
@@ -126,16 +131,16 @@
 
 .sectionController {
   display: flex;
-  width: 100%;
+  width: 200%;
   overflow: hidden;
-  width: 466px;
+  width: 491px;
 }
 
 .sectionController .sectionModal {
-  width: 100%;
+  width: 491px;
+  min-width: 491px;
   display: flex;
   flex-direction: column;
-  min-width: 466px;
   flex: 1;
   transition: all ease 0.4s;
 }
