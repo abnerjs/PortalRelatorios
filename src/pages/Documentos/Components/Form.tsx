@@ -9,10 +9,11 @@ import {
   CircularProgress,
   TextField,
 } from '@mui/material';
+import CheckIcon from '@mui/icons-material/Check';
 import { Box } from '@mui/system';
 import brLocale from 'date-fns/locale/pt-BR';
 import React, { useEffect, useState } from 'react';
-import { Controller, useForm } from 'react-hook-form';
+import { SubmitHandler, Controller, useForm } from 'react-hook-form';
 import {
   StyledPopper,
   ListboxComponent,
@@ -26,6 +27,7 @@ import { TipoFiltro } from 'src/store/ducks/base/types';
 import { fornecedoresGetFilterRequest } from 'src/store/ducks/fornecedores';
 import { prestadoresGetFilterRequest } from 'src/store/ducks/prestadores';
 import { tipoArquivoGetRequest } from 'src/store/ducks/tipoArquivo';
+import { relatoriosUploadRequest } from 'src/store/ducks/relatoriosUpload';
 
 type Props = {
   sectionModalController: number;
@@ -66,37 +68,42 @@ const autocompleteUniqueProps = {
 };
 
 const schema = Yup.object({
-  idRelTpArquivo: Yup.number()
-    .transform((value) => (isNaN(value) ? 0 : value))
-    .moreThan(0, 'Campo obrigatório!'),
+  idRelTpArquivo: Yup.mixed()
+    .nullable()
+    .default(null)
+    .required('Campo obrigatório!'),
   lstCodFornecedores: Yup.array().required('Campo obrigatório!'),
   lstCodPrestadores: Yup.array().required('Campo obrigatório!'),
   nomArquivo: Yup.string().required('Campo obrigatório!'),
   desObs: Yup.string(),
-  codAno: Yup.number().when('idRelTpArquivo', {
-    is: (value: TipoArquivo) =>
-      value.flgReferencia ? ['A', 'M'].includes(value.flgReferencia) : false,
-    then: Yup.number().required('Campo obrigatório!'),
-  }),
-  codMes: Yup.number().when('idRelTpArquivo', {
-    is: (value: TipoArquivo) =>
-      value.flgReferencia ? ['M'].includes(value.flgReferencia) : false,
-    then: Yup.number().required('Campo obrigatório!'),
-  }),
+  codAno: Yup.date()
+    .typeError('Data inválida!')
+    .when('idRelTpArquivo', {
+      is: (value: TipoArquivo | null) =>
+        value?.flgReferencia ? ['A'].includes(value.flgReferencia) : false,
+      then: Yup.date().required('Campo obrigatório!'),
+    }),
+  codMes: Yup.date()
+    .typeError('Data inválida!')
+    .when('idRelTpArquivo', {
+      is: (value: TipoArquivo | null) =>
+        value?.flgReferencia ? ['M'].includes(value.flgReferencia) : false,
+      then: Yup.date().required('Campo obrigatório!'),
+    }),
   dtaIni: Yup.date()
+    .typeError('Data inválida!')
     .when('idRelTpArquivo', {
-      is: (value: TipoArquivo) =>
-        value.flgReferencia ? ['D', 'P'].includes(value.flgReferencia) : false,
-      then: Yup.number().required('Campo obrigatório!'),
-    })
-    .typeError('Data inválida!'),
+      is: (value: TipoArquivo | null) =>
+        value?.flgReferencia ? ['D'].includes(value.flgReferencia) : false,
+      then: Yup.date().required('Campo obrigatório!'),
+    }),
   dtaFim: Yup.date()
+    .typeError('Data inválida!')
     .when('idRelTpArquivo', {
-      is: (value: TipoArquivo) =>
-        value.flgReferencia ? ['P'].includes(value.flgReferencia) : false,
-      then: Yup.number().required('Campo obrigatório!'),
-    })
-    .typeError('Data inválida!'),
+      is: (value: TipoArquivo | null) =>
+        value?.flgReferencia ? ['P'].includes(value.flgReferencia) : false,
+      then: Yup.date().required('Campo obrigatório!'),
+    }),
 });
 
 const defaultValues: ArquivoUpload = {
@@ -118,7 +125,9 @@ const Form = (props: Props) => {
   const [forns, setFornecedores] = useState<TipoFiltro[]>([]);
   const [prests, setPrestadores] = useState<TipoFiltro[]>([]);
   const [tipoArquivo, setTipoArquivo] = useState<TipoArquivo | null>(null);
+  const [yearOnlyDatePicker, setYearOnlyDatePicker] = useState<Date | null>(null);
   const tiposArquivos = useAppSelector((state) => state.tipoArquivo.data);
+  
   const lstFornecedores = useAppSelector(
     (state) => state.fornecedores.filterList
   );
@@ -137,7 +146,6 @@ const Form = (props: Props) => {
     trigger,
     clearErrors,
     handleSubmit,
-    register,
     reset,
     setValue,
     control,
@@ -147,29 +155,37 @@ const Form = (props: Props) => {
     defaultValues: defaultValues,
   });
 
+  const onSubmit: SubmitHandler<ArquivoUpload> = (values) => {
+    dispatch(relatoriosUploadRequest(values));
+    //if (errors !== undefined) setErrorCollapseOpened(true);
+  };
+
+  useEffect(() => {
+    reset(defaultValues);
+  }, [reset]);
+
   return (
-    <form
-      onSubmit={(e) => {
-        props.setFile(null);
-        e.preventDefault();
-      }}
-      className="formUpload"
-    >
+    <form onSubmit={handleSubmit(onSubmit)} className="formUpload">
       <Card sx={{ mr: '20px' }}>
         <CardContent>
           <Icon icon="fluent:document-bullet-list-20-regular" width={30} />
           {/* <p className="date">{new Date().toDateString()}</p> */}
           <h2 className="nameReg">
-            <textarea
-              name=""
-              id="nameReg"
-              className="nameRegInput"
-              wrap="hard"
-              placeholder="Descrição do relatório"
-              autoFocus
-            >
-              {props.file?.name}
-            </textarea>
+            <Controller
+              name="nomArquivo"
+              control={control}
+              render={({ field: { ref, onChange, ...rest }, fieldState }) => (
+                <textarea
+                  name=""
+                  id="nameReg"
+                  className="nameRegInput"
+                  wrap="hard"
+                  placeholder="Descrição do relatório"
+                  autoFocus
+                  defaultValue={props.file?.name}
+                />
+              )}
+            />
           </h2>
         </CardContent>
       </Card>
@@ -181,136 +197,158 @@ const Form = (props: Props) => {
             marginLeft: `-${props.sectionModalController * 541}px`,
           }}
         >
-          <Autocomplete
-            {...autocompleteProps}
-            multiple
-            ChipProps={{ size: 'small' }}
-            PopperComponent={StyledPopper}
-            ListboxComponent={ListboxComponent}
-            noOptionsText="Nenhum fornecedor"
-            options={lstFornecedores}
-            getOptionLabel={(option) => option.descricao}
-            // renderTags={() => undefined}
-            renderOption={(props, option, state) => {
-              return [
-                props,
-                <React.Fragment>
-                  <span
-                    style={{
-                      overflow: 'hidden',
-                      whiteSpace: 'nowrap',
-                      textOverflow: 'ellipsis',
-                    }}
-                  >
-                    {option.descricao}
-                  </span>
-                </React.Fragment>,
-              ];
-            }}
-            renderInput={(params: any) => {
-              const { InputProps, ...restParams } = params;
-              const { startAdornment, ...restInputProps } = InputProps;
-              return (
-                <TextField
-                  {...restParams}
-                  label="Fornecedores"
-                  variant="filled"
-                  margin="normal"
-                  className="secondary"
-                  InputProps={{
-                    ...restInputProps,
-                    disableUnderline: true,
-                    startAdornment: (
-                      <div
+          <Controller
+            name="lstCodFornecedores"
+            control={control}
+            render={({ field: { ref, onChange, ...rest }, fieldState }) => (
+              <Autocomplete
+                {...autocompleteProps}
+                multiple
+                ChipProps={{ size: 'small' }}
+                PopperComponent={StyledPopper}
+                ListboxComponent={ListboxComponent}
+                noOptionsText="Nenhum fornecedor"
+                options={lstFornecedores}
+                getOptionLabel={(option) => option.descricao}
+                // renderTags={() => undefined}
+                renderOption={(props, option, state) => {
+                  return [
+                    props,
+                    <React.Fragment>
+                      <span
                         style={{
-                          maxHeight: 50,
-                          marginTop: 10,
-                          overflowY: 'auto',
+                          overflow: 'hidden',
+                          whiteSpace: 'nowrap',
+                          textOverflow: 'ellipsis',
                         }}
                       >
-                        {startAdornment}
-                      </div>
-                    ),
-                    inputProps: {
-                      ...params.inputProps,
-                      tabIndex: props.sectionModalController === 0 ? 0 : -1,
-                    },
-                  }}
-                  InputLabelProps={{ shrink: forns.length > 0 }}
-                />
-              );
-            }}
-            value={forns}
-            onChange={(_, data) => setFornecedores(data)}
-            isOptionEqualToValue={(option, value) =>
-              option.codigo === value.codigo
-            }
+                        {option.descricao}
+                      </span>
+                      {state.selected && <CheckIcon color="primary" />}
+                    </React.Fragment>,
+                  ];
+                }}
+                renderInput={(params: any) => {
+                  const { InputProps, ...restParams } = params;
+                  const { startAdornment, ...restInputProps } = InputProps;
+                  return (
+                    <TextField
+                      {...restParams}
+                      label="Fornecedores"
+                      variant="filled"
+                      margin="normal"
+                      className="secondary"
+                      InputProps={{
+                        ...restInputProps,
+                        disableUnderline: true,
+                        startAdornment: (
+                          <div
+                            style={{
+                              maxHeight: 50,
+                              marginTop: 10,
+                              overflowY: 'auto',
+                            }}
+                          >
+                            {startAdornment}
+                          </div>
+                        ),
+                        inputProps: {
+                          ...params.inputProps,
+                          tabIndex: props.sectionModalController === 0 ? 0 : -1,
+                        },
+                      }}
+                      InputLabelProps={{ shrink: forns.length > 0 }}
+                      error={!!fieldState.error}
+                      helperText={fieldState.error?.message}
+                      inputRef={ref}
+                      {...rest}
+                    />
+                  );
+                }}
+                value={forns}
+                onChange={(_, data) => setFornecedores(data)}
+                isOptionEqualToValue={(option, value) =>
+                  option.codigo === value.codigo
+                }
+              />
+            )}
           />
 
-          <Autocomplete
-            {...autocompleteProps}
-            multiple
-            noOptionsText="Nenhum prestador"
-            PopperComponent={StyledPopper}
-            ListboxComponent={ListboxComponent}
-            options={lstPrestadores}
-            getOptionLabel={(option) => option.descricao}
-            ChipProps={{ size: 'small' }}
-            // renderTags={() => undefined}
-            renderOption={(props, option, state) => {
-              return [
-                props,
-                <React.Fragment>
-                  <span
-                    style={{
-                      overflow: 'hidden',
-                      whiteSpace: 'nowrap',
-                      textOverflow: 'ellipsis',
-                    }}
-                  >
-                    {option.descricao}
-                  </span>
-                </React.Fragment>,
-              ];
-            }}
-            renderInput={(params: any) => {
-              const { InputProps, ...restParams } = params;
-              const { startAdornment, ...restInputProps } = InputProps;
-              return (
-                <TextField
-                  {...restParams}
-                  label="Prestadores"
-                  variant="filled"
-                  margin="normal"
-                  className="secondary"
-                  InputProps={{
-                    ...restInputProps,
-                    disableUnderline: true,
-                    startAdornment: (
-                      <div
+          <Controller
+            name="lstCodPrestadores"
+            control={control}
+            render={({ field: { ref, onChange, ...rest }, fieldState }) => (
+              <Autocomplete
+                {...autocompleteProps}
+                multiple
+                noOptionsText="Nenhum prestador"
+                PopperComponent={StyledPopper}
+                ListboxComponent={ListboxComponent}
+                options={lstPrestadores}
+                getOptionLabel={(option) => option.descricao}
+                ChipProps={{ size: 'small' }}
+                // renderTags={() => undefined}
+                renderOption={(props, option, state) => {
+                  return [
+                    props,
+                    <React.Fragment>
+                      <span
                         style={{
-                          maxHeight: 50,
-                          marginTop: 10,
-                          overflowY: 'auto',
+                          overflow: 'hidden',
+                          whiteSpace: 'nowrap',
+                          textOverflow: 'ellipsis',
                         }}
                       >
-                        {startAdornment}
-                      </div>
-                    ),
-                    inputProps: {
-                      ...params.inputProps,
-                      tabIndex: props.sectionModalController === 0 ? 0 : -1,
-                    },
-                  }}
-                  InputLabelProps={{ shrink: prests.length > 0 }}
-                />
-              );
-            }}
-            value={prests}
-            onChange={(_, data) => setPrestadores(data)}
-            isOptionEqualToValue={(option, value) =>
-              option.codigo === value.codigo
-            }
+                        {option.descricao}
+                      </span>
+                      {state.selected && <CheckIcon color="primary" />}
+                    </React.Fragment>,
+                  ];
+                }}
+                renderInput={(params: any) => {
+                  const { InputProps, ...restParams } = params;
+                  const { startAdornment, ...restInputProps } = InputProps;
+                  return (
+                    <TextField
+                      {...restParams}
+                      label="Prestadores"
+                      variant="filled"
+                      margin="normal"
+                      className="secondary"
+                      InputProps={{
+                        ...restInputProps,
+                        disableUnderline: true,
+                        startAdornment: (
+                          <div
+                            style={{
+                              maxHeight: 50,
+                              marginTop: 10,
+                              overflowY: 'auto',
+                            }}
+                          >
+                            {startAdornment}
+                          </div>
+                        ),
+                        inputProps: {
+                          ...params.inputProps,
+                          tabIndex: props.sectionModalController === 0 ? 0 : -1,
+                        },
+                      }}
+                      InputLabelProps={{ shrink: prests.length > 0 }}
+                      error={!!fieldState.error}
+                      helperText={fieldState.error?.message}
+                      inputRef={ref}
+                      {...rest}
+                    />
+                  );
+                }}
+                value={prests}
+                onChange={(_, data) => setPrestadores(data)}
+                isOptionEqualToValue={(option, value) =>
+                  option.codigo === value.codigo
+                }
+              />
+            )}
           />
 
           <Controller
@@ -337,11 +375,17 @@ const Form = (props: Props) => {
                         tabIndex: props.sectionModalController === 0 ? 0 : -1,
                       },
                     }}
+                    error={!!fieldState.error}
+                    helperText={fieldState.error?.message}
+                    inputRef={ref}
+                    {...rest}
                   />
                 )}
                 value={tipoArquivo}
                 onChange={(_, data) => {
+                  clearErrors('idRelTpArquivo');
                   setTipoArquivo(data);
+                  setValue('idRelTpArquivo', data);
                 }}
               />
             )}
@@ -378,7 +422,11 @@ const Form = (props: Props) => {
                     'idRelTpArquivo',
                     'lstCodFornecedores',
                     'lstCodPrestadores',
-                  ]).then(() => props.setSectionModalController(1));
+                  ]);
+
+                  if (result) {
+                    props.setSectionModalController(1);
+                  }
                 }}
               >
                 PRÓXIMO
@@ -400,200 +448,263 @@ const Form = (props: Props) => {
           </div>
         </div>
         <div className="sectionModal">
-          <TextField
-            id="desObs"
-            fullWidth
-            label="Observação"
-            color="primary"
-            margin="normal"
-            variant="filled"
-            className="secondary"
-            InputProps={{
-              disableUnderline: true,
-              inputProps: {
-                tabIndex: props.sectionModalController === 1 ? 0 : -1,
-              },
-            }}
+          <Controller
+            name="desObs"
+            control={control}
+            render={({ field: { ref, value, ...rest }, fieldState }) => (
+              <TextField
+                id="desObs"
+                fullWidth
+                label="Observação"
+                color="primary"
+                margin="normal"
+                variant="filled"
+                className="secondary"
+                InputProps={{
+                  disableUnderline: true,
+                  inputProps: {
+                    tabIndex: props.sectionModalController === 1 ? 0 : -1,
+                  },
+                }}
+                error={!!fieldState.error}
+                helperText={fieldState.error?.message}
+                value={value || ''}
+                inputRef={ref}
+                {...rest}
+              />
+            )}
           />
 
           <LocalizationProvider dateAdapter={AdapterDateFns} locale={brLocale}>
-            <DatePicker
-              label="Ano"
-              openTo="year"
-              mask="____"
-              inputFormat="yyyy"
-              views={['year']}
-              disableFuture
-              disableMaskedInput={false}
-              value={null}
-              onChange={(e: any) => {}}
-              InputAdornmentProps={{
-                style: {
-                  marginRight: '4px',
-                },
-              }}
-              OpenPickerButtonProps={{
-                tabIndex: props.sectionModalController === 1 ? 0 : -1,
-              }}
-              renderInput={(params) => (
-                <TextField
-                  {...params}
-                  style={{
-                    display:
-                      tipoArquivo?.flgReferencia === 'A' ? 'block' : 'none',
+            <Controller
+              name="codAno"
+              control={control}
+              render={({ field: { ref, onChange, ...rest }, fieldState }) => (
+                <DatePicker
+                  label="Ano"
+                  openTo="year"
+                  mask="____"
+                  inputFormat="yyyy"
+                  views={['year']}
+                  disableMaskedInput={false}
+                  value={yearOnlyDatePicker}
+                  onChange={(value: any) => {
+                    setYearOnlyDatePicker(value);
                   }}
-                  margin="normal"
-                  variant="filled"
-                  className="secondary"
-                  fullWidth
-                  InputProps={{
-                    ...params.InputProps,
-                    disableUnderline: true,
+                  InputAdornmentProps={{
+                    style: {
+                      marginRight: '4px',
+                    },
                   }}
-                  inputProps={{
-                    ...params.inputProps,
-                    placeholder: 'aaaa',
+                  OpenPickerButtonProps={{
                     tabIndex: props.sectionModalController === 1 ? 0 : -1,
                   }}
-                />
-              )}
-            />
-            <DatePicker
-              label="Mês/Ano"
-              openTo="year"
-              mask="__/____"
-              inputFormat="MM/yyyy"
-              views={['year', 'month']}
-              disableFuture
-              disableMaskedInput={false}
-              value={null}
-              onChange={(e: any) => {}}
-              InputAdornmentProps={{
-                style: {
-                  marginRight: '4px',
-                },
-              }}
-              OpenPickerButtonProps={{
-                tabIndex: props.sectionModalController === 1 ? 0 : -1,
-              }}
-              renderInput={(params) => (
-                <TextField
-                  {...params}
-                  style={{
-                    display:
-                      tipoArquivo?.flgReferencia === 'M' ? 'block' : 'none',
-                  }}
-                  margin="normal"
-                  variant="filled"
-                  className="secondary"
-                  fullWidth
-                  InputProps={{
-                    ...params.InputProps,
-                    disableUnderline: true,
-                  }}
-                  inputProps={{
-                    ...params.inputProps,
-                    placeholder: 'mm/aaaa',
-                    tabIndex: props.sectionModalController === 1 ? 0 : -1,
-                  }}
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      style={{
+                        display:
+                          tipoArquivo?.flgReferencia === 'A' ? 'block' : 'none',
+                      }}
+                      margin="normal"
+                      variant="filled"
+                      className="secondary"
+                      fullWidth
+                      InputProps={{
+                        ...params.InputProps,
+                        disableUnderline: true,
+                      }}
+                      inputProps={{
+                        ...params.inputProps,
+                        placeholder: 'aaaa',
+                        tabIndex: props.sectionModalController === 1 ? 0 : -1,
+                      }}
+                      error={!!fieldState.error}
+                      helperText={fieldState.error?.message}
+                      inputRef={ref}
+                      {...rest}
+                    />
+                  )}
                 />
               )}
             />
 
-            <DateRangePicker
-              mask="__/__/____"
-              value={[null, null]}
-              onChange={(e: any) => {}}
-              startText="Data inicial"
-              endText="Data final"
-              renderInput={(startProps, endProps) => (
-                <React.Fragment>
-                  <TextField
-                    {...startProps}
-                    style={{
-                      display:
-                        tipoArquivo?.flgReferencia === 'P' ? 'block' : 'none',
-                    }}
-                    margin="normal"
-                    variant="filled"
-                    fullWidth
-                    className="secondary"
-                    InputProps={{
-                      ...startProps.InputProps,
-                      disableUnderline: true,
-                    }}
-                    inputProps={{
-                      ...startProps.inputProps,
-                      placeholder: 'dd/mm/aaaa',
-                      tabIndex: props.sectionModalController === 1 ? 0 : -1,
-                    }}
-                  />
-                  <Box
-                    sx={{ mx: '4px' }}
-                    style={{
-                      display:
-                        tipoArquivo?.flgReferencia === 'P' ? 'block' : 'none',
-                    }}
-                  />
-                  <TextField
-                    {...endProps}
-                    style={{
-                      display:
-                        tipoArquivo?.flgReferencia === 'P' ? 'block' : 'none',
-                    }}
-                    margin="normal"
-                    variant="filled"
-                    fullWidth
-                    className="secondary"
-                    InputProps={{
-                      ...endProps.InputProps,
-                      disableUnderline: true,
-                    }}
-                    inputProps={{
-                      ...endProps.inputProps,
-                      placeholder: 'dd/mm/aaaa',
-                      tabIndex: props.sectionModalController === 1 ? 0 : -1,
-                    }}
-                  />
-                </React.Fragment>
+            <Controller
+              name="codMes"
+              control={control}
+              render={({ field: { ref, onChange, ...rest }, fieldState }) => (
+                <DatePicker
+                  label="Mês/Ano"
+                  openTo="year"
+                  mask="__/____"
+                  inputFormat="MM/yyyy"
+                  views={['year', 'month']}
+                  disableFuture
+                  disableMaskedInput={false}
+                  value={null}
+                  onChange={(e: any) => {}}
+                  InputAdornmentProps={{
+                    style: {
+                      marginRight: '4px',
+                    },
+                  }}
+                  OpenPickerButtonProps={{
+                    tabIndex: props.sectionModalController === 1 ? 0 : -1,
+                  }}
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      style={{
+                        display:
+                          tipoArquivo?.flgReferencia === 'M' ? 'block' : 'none',
+                      }}
+                      margin="normal"
+                      variant="filled"
+                      className="secondary"
+                      fullWidth
+                      InputProps={{
+                        ...params.InputProps,
+                        disableUnderline: true,
+                      }}
+                      inputProps={{
+                        ...params.inputProps,
+                        placeholder: 'mm/aaaa',
+                        tabIndex: props.sectionModalController === 1 ? 0 : -1,
+                      }}
+                      error={!!fieldState.error}
+                      helperText={fieldState.error?.message}
+                      inputRef={ref}
+                      {...rest}
+                    />
+                  )}
+                />
               )}
             />
 
-            <DatePicker
-              label="Data do documento"
-              openTo="year"
-              disableFuture
-              disableMaskedInput={false}
-              value={null}
-              onChange={(e: any) => {}}
-              InputAdornmentProps={{
-                style: {
-                  marginRight: '4px',
-                },
-              }}
-              OpenPickerButtonProps={{
-                tabIndex: props.sectionModalController === 1 ? 0 : -1,
-              }}
-              renderInput={(params) => (
-                <TextField
-                  {...params}
-                  style={{
-                    display:
-                      tipoArquivo?.flgReferencia === 'D' ? 'block' : 'none',
+            <Controller
+              name="dtaFim"
+              control={control}
+              render={({ field: { ref, onChange, ...rest }, fieldState }) => (
+                <DateRangePicker
+                  startText="Data inicial"
+                  endText="Data final"
+                  mask="__/__/____"
+                  value={[null, null]}
+                  onChange={(e: any) => {}}
+                  renderInput={(startProps, endProps) => (
+                    <React.Fragment>
+                      <TextField
+                        {...startProps}
+                        style={{
+                          display:
+                            tipoArquivo?.flgReferencia === 'P'
+                              ? 'block'
+                              : 'none',
+                        }}
+                        margin="normal"
+                        variant="filled"
+                        fullWidth
+                        className="secondary"
+                        InputProps={{
+                          ...startProps.InputProps,
+                          disableUnderline: true,
+                        }}
+                        inputProps={{
+                          ...startProps.inputProps,
+                          placeholder: 'dd/mm/aaaa',
+                          tabIndex: props.sectionModalController === 1 ? 0 : -1,
+                        }}
+                        error={!!fieldState.error}
+                        helperText={fieldState.error?.message}
+                        inputRef={ref}
+                        {...rest}
+                      />
+                      <Box
+                        sx={{ mx: '4px' }}
+                        style={{
+                          display:
+                            tipoArquivo?.flgReferencia === 'P'
+                              ? 'block'
+                              : 'none',
+                        }}
+                      />
+                      <TextField
+                        {...endProps}
+                        style={{
+                          display:
+                            tipoArquivo?.flgReferencia === 'P'
+                              ? 'block'
+                              : 'none',
+                        }}
+                        margin="normal"
+                        variant="filled"
+                        fullWidth
+                        className="secondary"
+                        InputProps={{
+                          ...endProps.InputProps,
+                          disableUnderline: true,
+                        }}
+                        inputProps={{
+                          ...endProps.inputProps,
+                          placeholder: 'dd/mm/aaaa',
+                          tabIndex: props.sectionModalController === 1 ? 0 : -1,
+                        }}
+                        error={!!fieldState.error}
+                        helperText={fieldState.error?.message}
+                        inputRef={ref}
+                        {...rest}
+                      />
+                    </React.Fragment>
+                  )}
+                />
+              )}
+            />
+
+            <Controller
+              name="dtaIni"
+              control={control}
+              render={({ field: { ref, onChange, ...rest }, fieldState }) => (
+                <DatePicker
+                  label="Data do documento"
+                  openTo="year"
+                  disableFuture
+                  disableMaskedInput={false}
+                  value={null}
+                  onChange={(e: any) => {}}
+                  InputAdornmentProps={{
+                    style: {
+                      marginRight: '4px',
+                    },
                   }}
-                  margin="normal"
-                  variant="filled"
-                  className="secondary"
-                  fullWidth
-                  InputProps={{
-                    ...params.InputProps,
-                    disableUnderline: true,
-                  }}
-                  inputProps={{
-                    ...params.inputProps,
-                    placeholder: 'dd/mm/aaaa',
+                  OpenPickerButtonProps={{
                     tabIndex: props.sectionModalController === 1 ? 0 : -1,
                   }}
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      style={{
+                        display:
+                          tipoArquivo?.flgReferencia === 'D' ? 'block' : 'none',
+                      }}
+                      margin="normal"
+                      variant="filled"
+                      className="secondary"
+                      fullWidth
+                      InputProps={{
+                        ...params.InputProps,
+                        disableUnderline: true,
+                      }}
+                      inputProps={{
+                        ...params.inputProps,
+                        placeholder: 'dd/mm/aaaa',
+                        tabIndex: props.sectionModalController === 1 ? 0 : -1,
+                      }}
+                      error={!!fieldState.error}
+                      helperText={fieldState.error?.message}
+                      inputRef={ref}
+                      {...rest}
+                    />
+                  )}
                 />
               )}
             />
@@ -625,6 +736,7 @@ const Form = (props: Props) => {
                 disabled={flag === 'request'}
                 className={flag === 'request' ? 'secondary' : ''}
                 tabIndex={props.sectionModalController === 1 ? 0 : -1}
+                type="submit"
               >
                 SALVAR
               </Button>

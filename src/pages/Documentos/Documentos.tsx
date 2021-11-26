@@ -3,19 +3,13 @@ import {
   Button,
   CircularProgress,
 } from '@mui/material';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import Header from 'src/components/Header';
 import Table, { LinkProps } from 'src/components/Table';
 import '../Dashboard.css';
 import './Documentos.css';
-
-import { useAppDispatch, useAppSelector } from 'src/store';
+import { useAppSelector } from 'src/store';
 import { Box } from '@mui/system';
-import { TipoArquivo } from 'src/store/ducks/tipoArquivo/types';
-import { TipoFiltro } from 'src/store/ducks/base/types';
-import { prestadoresGetFilterRequest } from 'src/store/ducks/prestadores';
-import { fornecedoresGetFilterRequest } from 'src/store/ducks/fornecedores';
-import { tipoArquivoGetRequest } from 'src/store/ducks/tipoArquivo';
 import ModalUpload from './Components/ModalUpload';
 
 

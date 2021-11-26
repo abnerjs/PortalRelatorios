@@ -1,6 +1,6 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { Paginacao } from '../base';
-import { ArquivosState } from './types';
+import { ArquivosState, ArquivoUpload } from './types';
 
 const initialState: ArquivosState = {
   data: undefined,
@@ -26,11 +26,10 @@ export const relatoriosSlice = createSlice({
     relatoriosDownloadError: (state, action: PayloadAction<string>) => {
       state.error = action.payload;
     },
-    relatoriosUploadRequest: (state) => {
+    relatoriosUploadRequest: (state, action: PayloadAction<ArquivoUpload>) => {
       state.error = undefined;
     },
-    relatoriosUploadSuccess: (state, action: PayloadAction<any>) => {
-      state.data = action.payload;
+    relatoriosUploadSuccess: (state) => {
       state.error = undefined;
     },
     relatoriosUploadError: (state, action: PayloadAction<string>) => {
@@ -43,6 +42,9 @@ export const {
   relatoriosDownloadRequest,
   relatoriosDownloadSuccess,
   relatoriosDownloadError,
+  relatoriosUploadRequest,
+  relatoriosUploadSuccess,
+  relatoriosUploadError,
 } = relatoriosSlice.actions;
 
 export default relatoriosSlice.reducer;
