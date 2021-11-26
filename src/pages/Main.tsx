@@ -6,7 +6,7 @@ import Dashboard from './Dashboard';
 import Usuarios from './Cadastros/Usuarios';
 import Perfis from './Cadastros/Perfis';
 import VinculosUsuarios from './Cadastros/VinculosUsuarios';
-import Documentos from './Documentos';
+import Documentos from './Documentos/Documentos';
 import RelPreExtrato from './Relatorios/Routes/RelPreExtrato';
 import RelPreCombustivel from './Relatorios/Routes/RelPreCombustivel';
 import RelPreProducao from './Relatorios/Routes/RelPreProducao';
