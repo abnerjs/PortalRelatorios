@@ -1,0 +1,56 @@
+
+
+.dropfilesContainer .dropzone.dropzoneFilled .formUpload {
+  flex: 1;
+  margin: 20px;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+}
+
+.dropfilesContainer
+  .dropzone.dropzoneFilled
+  .formUpload
+  .MuiTextField-root {
+  margin-top: 0 !important;
+}
+
+.dropfilesContainer .dropzone.dropzoneFilled .formUpload .buttons {
+  display: flex;
+  width: 350px;
+  align-self: flex-end;
+
+  margin-top: 10px;
+}
+
+.nameRegInput {
+  width: 100%;
+  height: calc(100% - 10px);
+  border: none;
+  outline: none;
+  word-wrap: normal !important;
+  flex: 1 1;
+  resize: none;
+  border-radius: 8px;
+  transition: all ease 0.2s;
+}
+
+.nameRegInput .MuiFilledInput-root {
+  flex: 1;
+  padding: 0;
+  color: #272727 !important;
+  font-size: 14px !important;
+  font-weight: var(--bold) !important;
+  font-family: 'Montserrat' !important;
+  justify-content: flex-start;
+}
+
+.nameRegInput .MuiFilledInput-root .MuiFilledInput-input {
+  padding: 0 !important;
+  flex: 1 !important;
+  height: 100% !important;
+}
+
+.nameRegInput:focus {
+  box-shadow: inset 0 0 2px 1px var(--primary50);
+}

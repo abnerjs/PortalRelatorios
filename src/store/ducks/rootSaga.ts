@@ -12,6 +12,7 @@ import usuariosFornecedoresSaga from 'src/store/ducks/usuariosFornecedores/saga'
 import usuariosPrestadoresSaga from 'src/store/ducks/usuariosPrestadores/saga';
 import usuariosSaga from 'src/store/ducks/usuarios/saga';
 import tipoArquivoSaga from 'src/store/ducks/tipoArquivo/saga';
+import arquivoUploadSaga from 'src/store/ducks/relatoriosUpload/saga';
 
 export default function* rootSaga(): any {
   return yield all([
@@ -27,5 +28,6 @@ export default function* rootSaga(): any {
     usuariosPrestadoresSaga,
     usuariosSaga,
     tipoArquivoSaga,
+    arquivoUploadSaga,
   ]);
 }

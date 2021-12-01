@@ -1,8 +1,12 @@
 import { AxiosResponse } from 'axios';
+import axios from 'axios';
 import { all, call, put, takeLatest } from 'redux-saga/effects';
 
 import api from 'src/services/api';
 import {
+  arquivosGetError,
+  arquivosGetRequest,
+  arquivosGetSuccess,
   relatoriosDownloadError,
   relatoriosDownloadRequest,
   relatoriosDownloadSuccess,
@@ -10,6 +14,24 @@ import {
   relatoriosUploadRequest,
   relatoriosUploadSuccess,
 } from 'src/store/ducks/relatoriosUpload';
+import { RespostaApi } from '../base/types';
+import { ArquivosByTipo } from './types';
+import { Upload } from '@mui/icons-material';
+
+export function* sendGetRequest(action: ReturnType<typeof arquivosGetRequest>) {
+  try {
+    const query = action.payload ?? '';
+
+    const response: AxiosResponse<RespostaApi<ArquivosByTipo>> = yield call(
+      api.get,
+      `Relatorios/v1/${query}`
+    );
+
+    yield put(arquivosGetSuccess(response.data));
+  } catch (error: any) {
+    yield put(arquivosGetError(error));
+  }
+}
 
 function downloadFile(
   data: any,
@@ -70,9 +92,32 @@ export function* sendDownloadRequest(
   }
 }
 
-export function* sendUploadRequest(action: ReturnType<typeof relatoriosUploadRequest>) {
+export function* sendUploadRequest(
+  action: ReturnType<typeof relatoriosUploadRequest>
+) {
+  let formData = new FormData();
+  formData.append('formFile', action.payload.formFile);
+  formData.append('nomArquivo', action.payload.nomArquivo);
+  formData.append('idRelTpArquivo', action.payload.idRelTpArquivo.toString());
+
+  action.payload.lstCodFornecedores?.forEach((item, index) =>
+    formData.append(`lstCodFornecedores[${index}]`, item.toString())
+  );
+  action.payload.lstCodPrestadores?.forEach((item, index) =>
+    formData.append(`lstCodPrestadores[${index}]`, item.toString())
+  );
+
+  if (action.payload.dtaFim) formData.append('dtaFim', action.payload.dtaFim);
+  if (action.payload.dtaIni) formData.append('dtaIni', action.payload.dtaIni);
+  if (action.payload.codAno)
+    formData.append('codAno', action.payload.codAno.toString());
+  if (action.payload.codMes)
+    formData.append('codMes', action.payload.codMes.toString());
+  if (action.payload.desObs) formData.append('desObs', action.payload.desObs);
+  formData.append('forcarUpload', 'true');
+
   try {
-    yield call(api.put, `Relatorios/v1/uploadRelatorio`, action.payload);
+    yield call(api.post, `Relatorios/v1/uploadRelatorio/`, formData);
     yield put(relatoriosUploadSuccess());
   } catch (error: any) {
     yield put(relatoriosUploadError(error));
@@ -81,5 +126,5 @@ export function* sendUploadRequest(action: ReturnType<typeof relatoriosUploadReq
 
 export default all([
   takeLatest(relatoriosDownloadRequest, sendDownloadRequest),
-  takeLatest(relatoriosDownloadRequest, sendDownloadRequest),
+  takeLatest(relatoriosUploadRequest, sendUploadRequest),
 ]);
