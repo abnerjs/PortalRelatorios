@@ -33,6 +33,8 @@
   justify-content: flex-start;
   cursor: unset;
   flex: 1;
+  display: flex;
+  flex-direction: column;
 }
 
 .dropfilesContainer .dropzone:hover {
@@ -43,51 +45,6 @@
 .dropfilesContainer .dropzoneFilled:hover {
   color: #aaa;
   border-color: #aaa;
-}
-
-.dropfilesContainer .dropzone.dropzoneFilled .formUpload {
-  flex: 1;
-  margin: 20px;
-  height: 100%;
-  display: flex;
-  flex-direction: row;
-}
-
-.dropfilesContainer
-  .dropzone.dropzoneFilled
-  .formUpload
-  .MuiTextField-root {
-  margin-top: 0 !important;
-}
-
-.dropfilesContainer .dropzone.dropzoneFilled .formUpload .buttons {
-  display: flex;
-  width: 350px;
-  align-self: flex-end;
-
-  margin-top: 10px;
-}
-
-.nameRegInput {
-  width: 100%;
-  height: calc(100% - 10px);
-  border: none;
-  outline: none;
-  padding: 5px;
-  color: #272727;
-  font-size: 14px !important;
-  font-weight: var(--bold);
-  font-family: 'Montserrat';
-  word-wrap: normal;
-  flex: 1 1;
-  resize: none;
-  border-radius: 8px;
-  transition: all ease 0.2s;
-}
-
-.nameRegInput:focus {
-  background-color: #fafafa;
-  box-shadow: inset 0 0 2px 1px var(--primary50);
 }
 
 /*LISTAS -------------------------------*/
