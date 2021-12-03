@@ -16,7 +16,6 @@ import {
 } from 'src/store/ducks/relatoriosUpload';
 import { RespostaApi } from '../base/types';
 import { ArquivosByTipo } from './types';
-import { Upload } from '@mui/icons-material';
 
 export function* sendGetRequest(action: ReturnType<typeof arquivosGetRequest>) {
   try {
@@ -127,4 +126,5 @@ export function* sendUploadRequest(
 export default all([
   takeLatest(relatoriosDownloadRequest, sendDownloadRequest),
   takeLatest(relatoriosUploadRequest, sendUploadRequest),
+  takeLatest(arquivosGetRequest, sendGetRequest),
 ]);

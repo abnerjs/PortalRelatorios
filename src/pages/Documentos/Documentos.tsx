@@ -96,7 +96,7 @@ const Documentos = () => {
           <div className="column">
             <div className="filesTypes">
               {
-                () => filesTypes(arquivosByTipo)
+                filesTypes(arquivosByTipo)
               }
             </div>
           </div>

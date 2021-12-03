@@ -63,7 +63,9 @@
 }
 
 .row.tables .column:last-child .Table {
-  min-height: 255px;
+  position: relative;
+  height: fit-content;
+  max-height: 255px;
 }
 
 .row.tables .column:last-child {
@@ -73,13 +75,8 @@
 }
 
 .row .column .filesTypes {
-  position: absolute;
   width: calc(100% - 40px);
   padding-left: 20px;
-}
-
-.row .column .filesTypes .principalContent {
-  position: initial;
 }
 
 .btnUpload {

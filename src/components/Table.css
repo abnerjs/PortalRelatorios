@@ -8,15 +8,14 @@
 
 .principalContent {
     width: 100%;
-    height: 100%;
+    height: fit-content;
     overflow: auto !important;
     display: flex;
     flex-direction: column;
-    position: relative;
+    position: relative !important;
 }
 
 .scrollable {
-    position: absolute;
     width: 100%;
 }
 
