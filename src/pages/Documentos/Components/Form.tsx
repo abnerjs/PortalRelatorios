@@ -32,7 +32,11 @@ import fornecedores, {
 } from 'src/store/ducks/fornecedores';
 import { prestadoresGetFilterRequest } from 'src/store/ducks/prestadores';
 import { tipoArquivoGetRequest } from 'src/store/ducks/tipoArquivo';
-import { relatoriosUploadRequest } from 'src/store/ducks/relatoriosUpload';
+import {
+  arquivosGetRequest,
+  relatoriosUploadError,
+  relatoriosUploadRequest,
+} from 'src/store/ducks/relatoriosUpload';
 import { DateRange } from '@mui/lab/DateRangePicker/RangeTypes';
 import './Form.css';
 
@@ -79,8 +83,8 @@ const schema = Yup.object({
     .nullable()
     .default(null)
     .required('Campo obrigatório!'),
-  lstCodFornecedores: Yup.array().required('Campo obrigatório!'),
-  lstCodPrestadores: Yup.array().required('Campo obrigatório!'),
+  lstCodFornecedores: Yup.array(),
+  lstCodPrestadores: Yup.array(),
   nomArquivo: Yup.string().required('Campo obrigatório!'),
   desObs: Yup.string(),
   codAno: Yup.number()
@@ -99,32 +103,40 @@ const schema = Yup.object({
     .when('idRelTpArquivo', {
       is: (value: TipoArquivo | null) =>
         value?.flgReferencia ? ['M'].includes(value.flgReferencia) : false,
-      then: Yup.date().required('Campo obrigatório!'),
+      then: Yup.number().required('Campo obrigatório!'),
     }),
-  dtaIni: Yup.date()
+  dtaIni: Yup.string()
     .nullable()
     .default(null)
     .typeError('Data inválida!')
     .when('idRelTpArquivo', {
       is: (value: TipoArquivo | null) =>
         value?.flgReferencia ? ['D'].includes(value.flgReferencia) : false,
-      then: Yup.date().required('Campo obrigatório!'),
+      then: Yup.string().required('Campo obrigatório!'),
     }),
-  dtaFim: Yup.date()
+  dtaFim: Yup.string()
     .nullable()
     .default(null)
     .typeError('Data inválida!')
     .when('idRelTpArquivo', {
       is: (value: TipoArquivo | null) =>
         value?.flgReferencia ? ['P'].includes(value.flgReferencia) : false,
-      then: Yup.date().required('Campo obrigatório!'),
+      then: Yup.string().required('Campo obrigatório!'),
     }),
-});
+}).test(
+  'is-optional',
+  'É necessário selecionar ao menos um fornecedor ou prestador',
+  ({ lstCodFornecedores, lstCodPrestadores }) => {
+    if (lstCodPrestadores && lstCodFornecedores) {
+      return lstCodFornecedores?.length > 0 || lstCodPrestadores?.length > 0;
+    } else return false;
+  }
+);
 
 interface FormProps {
   idRelTpArquivo: number | null;
-  dtaIni: Date | null;
-  dtaFim: Date | null;
+  dtaIni: string | null;
+  dtaFim: string | null;
   codAno: number | null;
   codMes: number | null;
   lstCodFornecedores: Array<number>;
@@ -157,6 +169,8 @@ const Form = (props: Props) => {
   const [yearOnlyDatePicker, setYearOnlyDatePicker] = useState<Date | null>(
     null
   );
+  const [yearAndMonthDatePicker, setYearAndMonthDatePicker] =
+    useState<Date | null>(null);
   const [datePeriodo, setDatePeriodo] = useState<DateRange<Date>>([null, null]);
   const tiposArquivos = useAppSelector((state) => state.tipoArquivo.data);
 
@@ -193,10 +207,12 @@ const Form = (props: Props) => {
 
   const onSubmit: SubmitHandler<ArquivoUpload> = (values) => {
     dispatch(relatoriosUploadRequest(values));
+    dispatch(arquivosGetRequest());
   };
 
   const onError = (error: any) => {
-    console.log(error);
+    if (error[""]?.message)
+      dispatch(relatoriosUploadError(error[""].message));
   };
 
   useEffect(() => {
@@ -659,8 +675,12 @@ const Form = (props: Props) => {
                     views={['year', 'month']}
                     disableFuture
                     disableMaskedInput={false}
-                    value={null}
-                    onChange={(e: any) => {}}
+                    value={yearAndMonthDatePicker}
+                    onChange={(value: any) => {
+                      setYearAndMonthDatePicker(value);
+                      setValue('codMes', value.getMonth());
+                      setValue('codAno', value.getFullYear());
+                    }}
                     InputAdornmentProps={{
                       style: {
                         marginRight: '4px',
@@ -712,8 +732,19 @@ const Form = (props: Props) => {
                     value={datePeriodo}
                     onChange={(value) => {
                       setDatePeriodo(value);
-                      setValue('dtaIni', value[0]);
-                      setValue('dtaFim', value[1]);
+                      if (value[0] && value[1]) {
+                        setValue(
+                          'dtaIni',
+                          value[0].toISOString().split('T')[0]
+                        );
+                        setValue(
+                          'dtaFim',
+                          value[1].toISOString().split('T')[0]
+                        );
+                      } else {
+                        setValue('dtaIni', null);
+                        setValue('dtaFim', null);
+                      }
                     }}
                     renderInput={(startProps, endProps) => (
                       <React.Fragment>
@@ -796,7 +827,10 @@ const Form = (props: Props) => {
                     disableFuture
                     disableMaskedInput={false}
                     value={null}
-                    onChange={(e: any) => {}}
+                    onChange={(value: any) => {
+                      setYearOnlyDatePicker(value);
+                      setValue('dtaIni', value.toISOString().split('T')[0]);
+                    }}
                     InputAdornmentProps={{
                       style: {
                         marginRight: '4px',
