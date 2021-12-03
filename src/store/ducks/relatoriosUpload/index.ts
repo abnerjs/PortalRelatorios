@@ -5,16 +5,18 @@ import { ArquivosByTipo, ArquivosState, ArquivoUpload } from './types';
 
 const initialState: ArquivosState = {
   data: [],
+  file: undefined,
   filterList: [],
   pagination: Paginacao.getValoresPadrao(),
   error: undefined,
+  uploadError: undefined,
   state: undefined,
   downloadError: undefined,
   uploadState: undefined, // undef- idle; s- success; e- error; l-loading
 };
 
 export const arquivoUploadSlice = createSlice({
-  name: 'relatorios',
+  name: 'arquivos',
   initialState: initialState,
   reducers: {
     arquivosGetRequest: (
@@ -36,34 +38,38 @@ export const arquivoUploadSlice = createSlice({
       state.error = action.payload;
       state.state = 'e';
     },
-    relatoriosDownloadRequest: (
+    arquivosDownloadRequest: (
       state,
-      action: PayloadAction<{ url: string; query: string }>
+      action: PayloadAction<number>
     ) => {
       state.downloadError = undefined;
     },
-    relatoriosDownloadSuccess: (state, action: PayloadAction<any>) => {
-      state.data = action.payload;
+    arquivosDownloadSuccess: (state, action: PayloadAction<any>) => {
+      state.file = action.payload;
       state.downloadError = undefined;
     },
-    relatoriosDownloadError: (state, action: PayloadAction<string>) => {
+    arquivosDownloadError: (state, action: PayloadAction<string>) => {
       state.downloadError = action.payload;
     },
-    relatoriosUploadRequest: (state, action: PayloadAction<ArquivoUpload>) => {
-      state.error = undefined;
+    arquivosDownloadIdle: (state) => {
+      state.file = undefined;
+      state.downloadError = undefined;
+    },
+    arquivosUploadRequest: (state, action: PayloadAction<ArquivoUpload>) => {
+      state.uploadError = undefined;
       state.uploadState = 'l';
     },
-    relatoriosUploadSuccess: (state) => {
-      state.error = undefined;
+    arquivosUploadSuccess: (state) => {
+      state.uploadError = undefined;
       state.uploadState = 's';
     },
-    relatoriosUploadError: (state, action: PayloadAction<string>) => {
-      state.error = action.payload;
+    arquivosUploadError: (state, action: PayloadAction<string>) => {
+      state.uploadError = action.payload;
       state.uploadState = 'e';
     },
-    relatoriosUploadIdle: (state) => {
+    arquivosUploadIdle: (state) => {
       state.uploadState = undefined;
-      state.error = undefined;
+      state.uploadError = undefined;
     },
   },
 });
@@ -72,12 +78,13 @@ export const {
   arquivosGetRequest,
   arquivosGetSuccess,
   arquivosGetError,
-  relatoriosDownloadRequest,
-  relatoriosDownloadSuccess,
-  relatoriosDownloadError,
-  relatoriosUploadRequest,
-  relatoriosUploadSuccess,
-  relatoriosUploadError,
+  arquivosDownloadRequest,
+  arquivosDownloadSuccess,
+  arquivosDownloadError,
+  arquivosUploadRequest,
+  arquivosUploadSuccess,
+  arquivosUploadError,
+  arquivosUploadIdle,
 } = arquivoUploadSlice.actions;
 
 export default arquivoUploadSlice.reducer;
