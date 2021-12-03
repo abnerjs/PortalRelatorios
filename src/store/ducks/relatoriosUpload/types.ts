@@ -3,10 +3,12 @@ import { TipoArquivo } from "../tipoArquivo/types";
 
 export interface ArquivosState {
   data?: Array<ArquivosByTipo>;
+  file?: any;
   filterList: Array<TipoFiltro>;
   pagination?: InfoPaginacao;
   error?: string;
   state?: string;
+  uploadError?: string;
   downloadError?: string;
   uploadState?: string;
 }
@@ -25,8 +27,9 @@ export interface ArquivoUpload {
   formFile: File;
 }
 
-interface ArquivoUploadReceiveFormat extends ArquivoUpload {
+export interface ArquivoUploadReceiveFormat extends ArquivoUpload {
   dtaUpload: string;
+  idRelArquivo: number;
 }
 
 export interface ArquivosByTipo {

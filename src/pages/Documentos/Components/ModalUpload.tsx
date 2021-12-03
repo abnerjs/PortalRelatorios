@@ -3,6 +3,7 @@ import { Backdrop, Fade, Modal, Typography } from '@mui/material';
 import { Box } from '@mui/system';
 import React, { useState } from 'react';
 import Dropzone from 'react-dropzone';
+import { arquivosUploadError, arquivosUploadIdle } from 'src/store/ducks/relatoriosUpload';
 import Form from './Form';
 
 type Props = {
@@ -13,6 +14,8 @@ type Props = {
 const ModalUpload = (props: Props) => {
   const [file, setFile] = useState<File | null>(null);
   const [sectionModalController, setSectionModalController] = useState(0);
+  const [isUnsuportedFile, setUnsuportedFile] = useState(false);
+  const [isUnsuportedStyle, setUnsuportedStyle] = useState(false);
 
   return (
     <Modal
@@ -38,8 +41,18 @@ const ModalUpload = (props: Props) => {
 
           <div className="dropfiles">
             <Dropzone
-              onDrop={(files) => {
+              accept=".pdf"
+              onDropAccepted={(files) => {
                 setFile(files[files.length - 1]);
+                setUnsuportedFile(false);
+              }}
+              onDropRejected={(files) => {
+                setUnsuportedFile(true);
+                setUnsuportedStyle(true);
+
+                setTimeout(() => {
+                  setUnsuportedStyle(false);;
+                }, 2000);
               }}
             >
               {({ getRootProps, getInputProps }) => (
@@ -54,10 +67,22 @@ const ModalUpload = (props: Props) => {
                       />
                     </div>
                   ) : (
-                    <div {...getRootProps({ className: 'dropzone' })}>
+                    <div
+                      {...getRootProps({
+                        className: `dropzone${
+                          isUnsuportedFile && isUnsuportedStyle
+                            ? ' unsuportedAlert'
+                            : ''
+                        }`,
+                      })}
+                    >
                       <input {...getInputProps()} />
                       <Icon icon="fluent:arrow-upload-16-regular" width={25} />
-                      <p>CLIQUE OU ARRASTE UM ARQUIVO PARA EFETUAR UPLOAD</p>
+                      <p>
+                        {isUnsuportedFile
+                          ? 'FORMATO DE ARQUIVO NÃO SUPORTADO! ESPERA-SE: .pdf'
+                          : 'CLIQUE OU ARRASTE UM ARQUIVO PARA EFETUAR UPLOAD'}
+                      </p>
                     </div>
                   )}
                 </section>

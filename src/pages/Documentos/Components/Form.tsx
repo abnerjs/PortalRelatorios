@@ -27,15 +27,14 @@ import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useAppDispatch, useAppSelector } from 'src/store';
 import { TipoFiltro } from 'src/store/ducks/base/types';
-import fornecedores, {
-  fornecedoresGetFilterRequest,
-} from 'src/store/ducks/fornecedores';
+import { fornecedoresGetFilterRequest } from 'src/store/ducks/fornecedores';
 import { prestadoresGetFilterRequest } from 'src/store/ducks/prestadores';
 import { tipoArquivoGetRequest } from 'src/store/ducks/tipoArquivo';
 import {
   arquivosGetRequest,
-  relatoriosUploadError,
-  relatoriosUploadRequest,
+  arquivosUploadError,
+  arquivosUploadIdle,
+  arquivosUploadRequest,
 } from 'src/store/ducks/relatoriosUpload';
 import { DateRange } from '@mui/lab/DateRangePicker/RangeTypes';
 import './Form.css';
@@ -174,8 +173,8 @@ const Form = (props: Props) => {
   const [datePeriodo, setDatePeriodo] = useState<DateRange<Date>>([null, null]);
   const tiposArquivos = useAppSelector((state) => state.tipoArquivo.data);
 
-  const uploadError = useAppSelector((state) => state.arquivoUpload.error);
-  const uploadState = useAppSelector((state) => state.arquivoUpload.error);
+  const uploadError = useAppSelector((state) => state.arquivoUpload.uploadError);
+  const uploadState = useAppSelector((state) => state.arquivoUpload.uploadState);
   const [isErrorCollapseOpened, setErrorCollapseOpened] = useState(false);
 
   const lstFornecedores = useAppSelector(
@@ -206,13 +205,11 @@ const Form = (props: Props) => {
   });
 
   const onSubmit: SubmitHandler<ArquivoUpload> = (values) => {
-    dispatch(relatoriosUploadRequest(values));
-    dispatch(arquivosGetRequest());
+    dispatch(arquivosUploadRequest(values));
   };
 
   const onError = (error: any) => {
-    if (error[""]?.message)
-      dispatch(relatoriosUploadError(error[""].message));
+    if (error['']?.message) dispatch(arquivosUploadError(error[''].message));
   };
 
   useEffect(() => {
@@ -220,19 +217,23 @@ const Form = (props: Props) => {
   }, [reset]);
 
   useEffect(() => {
-    setValue('formFile', props.file);
-  }, []);
-
-  useEffect(() => {
     if (uploadState) {
+      if(uploadState === 's') {
+        dispatch(arquivosGetRequest());
+        setTimeout(() => {
+          dispatch(arquivosUploadIdle());
+          props.setFile(null);
+        }, 1000);
+      }
     }
     setErrorCollapseOpened(uploadError !== undefined);
-  }, [uploadState, uploadError]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [uploadState]);
 
   useEffect(() => {
     if (props.file) setValue('nomArquivo', props.file.name);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [props.file]);
+  });
 
   return (
     <>
@@ -542,8 +543,6 @@ const Form = (props: Props) => {
                 <Button
                   variant="contained"
                   fullWidth
-                  disabled={uploadState === 'l'}
-                  className={uploadState === 'l' ? 'secondary' : ''}
                   tabIndex={props.sectionModalController === 0 ? 0 : -1}
                   onClick={async () => {
                     const result = await trigger([
@@ -555,6 +554,8 @@ const Form = (props: Props) => {
                     if (result) {
                       props.setSectionModalController(1);
                     }
+
+                    setValue('formFile', props.file);
                   }}
                 >
                   PRÓXIMO
@@ -895,8 +896,8 @@ const Form = (props: Props) => {
                 <Button
                   variant="contained"
                   fullWidth
-                  disabled={flag === 'request'}
-                  className={flag === 'request' ? 'secondary' : ''}
+                  disabled={uploadState === 'l'}
+                  className={uploadState === 'l' ? 'secondary' : uploadState === 's' ? 'success' : ''}
                   tabIndex={props.sectionModalController === 1 ? 0 : -1}
                   type="submit"
                 >

@@ -1,8 +1,4 @@
-import {
-  Typography,
-  Button,
-  CircularProgress,
-} from '@mui/material';
+import { Typography, Button, CircularProgress, Skeleton } from '@mui/material';
 import React, { useEffect } from 'react';
 import Header from 'src/components/Header';
 import Table, { LinkProps } from 'src/components/Table';
@@ -11,7 +7,7 @@ import './Documentos.css';
 import { useAppDispatch, useAppSelector } from 'src/store';
 import { Box } from '@mui/system';
 import ModalUpload from './Components/ModalUpload';
-import { arquivosGetRequest } from 'src/store/ducks/relatoriosUpload';
+import { arquivosGetRequest, arquivosUploadIdle } from 'src/store/ducks/relatoriosUpload';
 import { ArquivosByTipo } from 'src/store/ducks/relatoriosUpload/types';
 
 const Documentos = () => {
@@ -19,10 +15,16 @@ const Documentos = () => {
   const user = useAppSelector((state) => state.session.user);
   const [open, setOpen] = React.useState(false);
   const arquivosByTipo = useAppSelector((state) => state.arquivoUpload.data);
+  const arquivosState = useAppSelector((state) => state.arquivoUpload.state);
+  const file = useAppSelector((state) => state.arquivoUpload.file);
 
   useEffect(() => {
     dispatch(arquivosGetRequest());
   }, [dispatch]);
+
+  useEffect(() => {
+    if (file) window.open(file);
+  }, [file]);
 
   function getObjetos(flgFiltro: string): Array<LinkProps> {
     const objetos: Array<LinkProps> = [];
@@ -63,6 +65,7 @@ const Documentos = () => {
             style={{ marginTop: 8 }}
             onClick={() => {
               setOpen(true);
+              dispatch(arquivosUploadIdle());
             }}
           >
             UPLOAD DE RELATÓRIOS
@@ -93,12 +96,12 @@ const Documentos = () => {
               <Table arr={prestadores} title="Para prestadores" />
             )}
           </div>
-          <div className="column">
-            <div className="filesTypes">
-              {
-                filesTypes(arquivosByTipo)
-              }
-            </div>
+          <div className={`column${arquivosState === 'l' ? ' loading' : ''}`}>
+            {arquivosState === 'l' ? (
+              loadingSkeletonElements()
+            ) : (
+              <div className="filesTypes">{filesTypes(arquivosByTipo)}</div>
+            )}
           </div>
         </div>
       </div>
@@ -111,17 +114,78 @@ export default Documentos;
 function filesTypes(arquivosByTipo: ArquivosByTipo[] | undefined): any {
   let arrAux: JSX.Element[] = [];
   arquivosByTipo?.forEach((item) => {
-    let arrRefs: {name: string, linkTo: string}[] = [];
-    item.arquivos.forEach((itemAux) => {
-      arrRefs.push({
-        name: itemAux['nomArquivo'],
-        linkTo: 'teste',
-      })
-    })
-    arrAux.push(
-      <Table arr={arrRefs} title={item.desTpArquivo} />
-    );
-  })
+    arrAux.push(<Table arrArquivo={item.arquivos} title={item.desTpArquivo} />);
+  });
   return arrAux;
 }
 
+const loadingSkeletonElements = () => {
+  return (
+    <div className="skeletons">
+      <Typography variant="h3" sx={{ mb: 2 }}>
+        <Skeleton />
+      </Typography>
+      <Typography variant="body1" sx={{ mb: 1 }}>
+        <Skeleton />
+      </Typography>
+      <Typography variant="body1" sx={{ mb: 1 }}>
+        <Skeleton />
+      </Typography>
+      <Typography variant="body1" sx={{ mb: 1 }}>
+        <Skeleton />
+      </Typography>
+      <Typography variant="body1" sx={{ mb: 1 }}>
+        <Skeleton />
+      </Typography>
+
+      <Typography variant="h3" sx={{ mb: 2, mt: 3 }}>
+        <Skeleton />
+      </Typography>
+      <Typography variant="body1" sx={{ mb: 1 }}>
+        <Skeleton />
+      </Typography>
+      <Typography variant="body1" sx={{ mb: 1 }}>
+        <Skeleton />
+      </Typography>
+      <Typography variant="body1" sx={{ mb: 1 }}>
+        <Skeleton />
+      </Typography>
+      <Typography variant="body1" sx={{ mb: 1 }}>
+        <Skeleton />
+      </Typography>
+
+      <Typography variant="h3" sx={{ mb: 2, mt: 3 }}>
+        <Skeleton />
+      </Typography>
+      <Typography variant="body1" sx={{ mb: 1 }}>
+        <Skeleton />
+      </Typography>
+      <Typography variant="body1" sx={{ mb: 1 }}>
+        <Skeleton />
+      </Typography>
+      <Typography variant="body1" sx={{ mb: 1 }}>
+        <Skeleton />
+      </Typography>
+      <Typography variant="body1" sx={{ mb: 1 }}>
+        <Skeleton />
+      </Typography>
+
+      <Typography variant="h3" sx={{ mb: 2, mt: 3 }}>
+        <Skeleton />
+      </Typography>
+      <Typography variant="body1" sx={{ mb: 1 }}>
+        <Skeleton />
+      </Typography>
+      <Typography variant="body1" sx={{ mb: 1 }}>
+        <Skeleton />
+      </Typography>
+      <Typography variant="body1" sx={{ mb: 1 }}>
+        <Skeleton />
+      </Typography>
+      <Typography variant="body1" sx={{ mb: 1 }}>
+        <Skeleton />
+      </Typography>
+      <div className="overflown"></div>
+    </div>
+  );
+};

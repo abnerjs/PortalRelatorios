@@ -7,12 +7,12 @@ import {
   arquivosGetError,
   arquivosGetRequest,
   arquivosGetSuccess,
-  relatoriosDownloadError,
-  relatoriosDownloadRequest,
-  relatoriosDownloadSuccess,
-  relatoriosUploadError,
-  relatoriosUploadRequest,
-  relatoriosUploadSuccess,
+  arquivosDownloadError,
+  arquivosDownloadRequest,
+  arquivosDownloadSuccess,
+  arquivosUploadError,
+  arquivosUploadRequest,
+  arquivosUploadSuccess,
 } from 'src/store/ducks/relatoriosUpload';
 import { RespostaApi } from '../base/types';
 import { ArquivosByTipo } from './types';
@@ -68,14 +68,14 @@ function getFileNameFromHeader(responseHeaders: any): string | null {
 }
 
 export function* sendDownloadRequest(
-  action: ReturnType<typeof relatoriosDownloadRequest>
+  action: ReturnType<typeof arquivosDownloadRequest>
 ) {
   try {
-    const query = action.payload.query ?? '';
+    const query = action.payload ?? '';
 
     const response: AxiosResponse<Blob> = yield call(
       api.get,
-      `${action.payload.url}${query}`,
+      `Relatorios/v1/downloadRelatorio/?idRelArquivo=${query}`,
       {
         responseType: 'blob',
       }
@@ -85,14 +85,16 @@ export function* sendDownloadRequest(
 
     downloadFile(response.data, fileName, 'pdf');
 
-    yield put(relatoriosDownloadSuccess(blobURL));
+    yield put(arquivosDownloadSuccess(blobURL));
   } catch (error: any) {
-    yield put(relatoriosDownloadError(error));
+    yield put(arquivosDownloadError(error));
   }
 }
 
+
+
 export function* sendUploadRequest(
-  action: ReturnType<typeof relatoriosUploadRequest>
+  action: ReturnType<typeof arquivosUploadRequest>
 ) {
   let formData = new FormData();
   formData.append('formFile', action.payload.formFile);
@@ -117,14 +119,14 @@ export function* sendUploadRequest(
 
   try {
     yield call(api.post, `Relatorios/v1/uploadRelatorio/`, formData);
-    yield put(relatoriosUploadSuccess());
+    yield put(arquivosUploadSuccess());
   } catch (error: any) {
-    yield put(relatoriosUploadError(error));
+    yield put(arquivosUploadError(error));
   }
 }
 
 export default all([
-  takeLatest(relatoriosDownloadRequest, sendDownloadRequest),
-  takeLatest(relatoriosUploadRequest, sendUploadRequest),
+  takeLatest(arquivosDownloadRequest, sendDownloadRequest),
+  takeLatest(arquivosUploadRequest, sendUploadRequest),
   takeLatest(arquivosGetRequest, sendGetRequest),
 ]);
