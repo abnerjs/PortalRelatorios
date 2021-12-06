@@ -3,6 +3,7 @@ import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { Paginacao } from 'src/store/ducks/base';
 import { RespostaApi, TipoFiltro } from 'src/store/ducks/base/types';
 import { Usuario, UsuariosState } from 'src/store/ducks/usuarios/types';
+import { ErrorAPI } from '../types';
 
 const initialState: UsuariosState = {
   data: [],
@@ -36,7 +37,7 @@ export const usuariosSlice = createSlice({
       state.loading = false;
       state.error = undefined;
     },
-    usuariosGetError: (state, action: PayloadAction<string>) => {
+    usuariosGetError: (state, action: PayloadAction<ErrorAPI>) => {
       state.error = action.payload;
       state.loading = false;
     },
@@ -63,14 +64,14 @@ export const usuariosSlice = createSlice({
       state.operationError = undefined;
       state.operationState = 'success';
     },
-    usuariosOperationError: (state, action: PayloadAction<string>) => {
+    usuariosOperationError: (state, action: PayloadAction<ErrorAPI>) => {
       state.operationError = action.payload;
       state.operationState = 'error';
     },
     usuariosDeleteRequest: (state, action: PayloadAction<Usuario>) => {
       state.deleteState = 'request';
     },
-    usuariosDeleteError: (state, action: PayloadAction<string>) => {
+    usuariosDeleteError: (state, action: PayloadAction<ErrorAPI>) => {
       state.deleteError = action.payload;
       state.deleteState = 'error';
     },

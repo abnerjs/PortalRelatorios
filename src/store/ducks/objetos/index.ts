@@ -2,6 +2,7 @@ import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 
 import { ObjetosState } from 'src/store/ducks/objetos/types';
 import { RespostaApi, TipoFiltro } from 'src/store/ducks/base/types';
+import { ErrorAPI } from '../types';
 
 const initialState: ObjetosState = {
   filterList: [],
@@ -25,7 +26,7 @@ export const objetosSlice = createSlice({
       state.filterList = action.payload.dados;
       state.error = undefined;
     },
-    objetosGetFilterError: (state, action: PayloadAction<string>) => {
+    objetosGetFilterError: (state, action: PayloadAction<ErrorAPI>) => {
       state.error = action.payload;
     },
   },

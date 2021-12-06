@@ -1,14 +1,15 @@
 import { InfoPaginacao, TipoFiltro } from 'src/store/ducks/base/types';
+import { ErrorAPI } from '../types';
 
 export interface UsuariosFornecedoresState {
   data: Array<UsuarioFornecedor>;
   filterList: Array<TipoFiltro>;
   pagination?: InfoPaginacao;
-  error?: string;
+  error?: ErrorAPI;
   loading: boolean;
-  operationError?: string;
+  operationError?: ErrorAPI;
   operationState?: string;
-  deleteError?: string;
+  deleteError?: ErrorAPI;
   deleteState?: string;
 }
 

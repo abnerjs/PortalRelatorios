@@ -225,7 +225,7 @@ const Form: React.FC<FormProps> = ({
           }
           sx={{ mb: 2 }}
         >
-          {errors}
+          {errors?.mensagem}
         </Alert>
       </Collapse>
       <div className="sectionImage">

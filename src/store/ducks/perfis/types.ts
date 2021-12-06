@@ -1,14 +1,15 @@
 import { InfoPaginacao, TipoFiltro } from 'src/store/ducks/base/types';
+import { ErrorAPI } from '../types';
 
 export interface PerfisState {
   data: Array<Perfil>;
   filterList: Array<TipoFiltro>;
   pagination?: InfoPaginacao;
   loading: boolean;
-  error?: string;
-  operationError?: string;
+  error?: ErrorAPI;
+  operationError?: ErrorAPI;
   operationState?: string;
-  deleteError?: string;
+  deleteError?: ErrorAPI;
   deleteState?: string;
 }
 

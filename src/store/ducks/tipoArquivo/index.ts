@@ -3,6 +3,7 @@ import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { Paginacao } from 'src/store/ducks/base';
 import { RespostaApi, TipoFiltro } from 'src/store/ducks/base/types';
 import { TipoArquivo, TipoArquivoState } from 'src/store/ducks/tipoArquivo/types';
+import { ErrorAPI } from '../types';
 
 const initialState: TipoArquivoState = {
   data: [],
@@ -30,7 +31,7 @@ export const tipoArquivoSlice = createSlice({
       state.loading = false;
       state.error = undefined;
     },
-    tipoArquivoGetError: (state, action: PayloadAction<string>) => {
+    tipoArquivoGetError: (state, action: PayloadAction<ErrorAPI>) => {
       state.error = action.payload;
       state.loading = false;
     },
@@ -57,14 +58,14 @@ export const tipoArquivoSlice = createSlice({
       state.operationError = undefined;
       state.operationState = 'success';
     },
-    tipoArquivoOperationError: (state, action: PayloadAction<string>) => {
+    tipoArquivoOperationError: (state, action: PayloadAction<ErrorAPI>) => {
       state.operationError = action.payload;
       state.operationState = 'error';
     },
     tipoArquivoDeleteRequest: (state, action: PayloadAction<TipoArquivo>) => {
       state.deleteState = 'request';
     },
-    tipoArquivoDeleteError: (state, action: PayloadAction<string>) => {
+    tipoArquivoDeleteError: (state, action: PayloadAction<ErrorAPI>) => {
       state.deleteError = action.payload;
       state.deleteState = 'error';
     },
