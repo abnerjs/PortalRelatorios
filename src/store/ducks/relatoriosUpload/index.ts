@@ -1,6 +1,7 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { Paginacao } from '../base';
 import { RespostaApi } from '../base/types';
+import { ErrorAPI } from '../types';
 import { ArquivosByTipo, ArquivosState, ArquivoUpload } from './types';
 
 const initialState: ArquivosState = {
@@ -34,7 +35,7 @@ export const arquivoUploadSlice = createSlice({
       state.error = undefined;
       state.state = 's';
     },
-    arquivosGetError: (state, action: PayloadAction<string>) => {
+    arquivosGetError: (state, action: PayloadAction<ErrorAPI>) => {
       state.error = action.payload;
       state.state = 'e';
     },
@@ -48,7 +49,7 @@ export const arquivoUploadSlice = createSlice({
       state.file = action.payload;
       state.downloadError = undefined;
     },
-    arquivosDownloadError: (state, action: PayloadAction<string>) => {
+    arquivosDownloadError: (state, action: PayloadAction<ErrorAPI>) => {
       state.downloadError = action.payload;
     },
     arquivosDownloadIdle: (state) => {
@@ -63,7 +64,7 @@ export const arquivoUploadSlice = createSlice({
       state.uploadError = undefined;
       state.uploadState = 's';
     },
-    arquivosUploadError: (state, action: PayloadAction<string>) => {
+    arquivosUploadError: (state, action: PayloadAction<ErrorAPI>) => {
       state.uploadError = action.payload;
       state.uploadState = 'e';
     },

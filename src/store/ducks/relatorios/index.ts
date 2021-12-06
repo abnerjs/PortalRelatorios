@@ -1,6 +1,7 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 
 import { RelatoriosState } from 'src/store/ducks/relatorios/types';
+import { ErrorAPI } from '../types';
 
 const initialState: RelatoriosState = {
   data: undefined,
@@ -26,7 +27,7 @@ export const relatoriosSlice = createSlice({
       state.error = undefined;
       state.loading = false;
     },
-    relatoriosDownloadError: (state, action: PayloadAction<string>) => {
+    relatoriosDownloadError: (state, action: PayloadAction<ErrorAPI>) => {
       state.error = action.payload;
       state.loading = false;
     },

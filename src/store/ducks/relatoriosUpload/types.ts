@@ -1,15 +1,16 @@
 import { InfoPaginacao, TipoFiltro } from "../base/types";
 import { TipoArquivo } from "../tipoArquivo/types";
+import { ErrorAPI } from "../types";
 
 export interface ArquivosState {
   data?: Array<ArquivosByTipo>;
   file?: any;
   filterList: Array<TipoFiltro>;
   pagination?: InfoPaginacao;
-  error?: string;
+  error?: ErrorAPI;
   state?: string;
-  uploadError?: string;
-  downloadError?: string;
+  uploadError?: ErrorAPI;
+  downloadError?: ErrorAPI;
   uploadState?: string;
 }
 

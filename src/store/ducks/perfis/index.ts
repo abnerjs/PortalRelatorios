@@ -3,6 +3,7 @@ import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { Paginacao } from 'src/store/ducks/base';
 import { RespostaApi, TipoFiltro } from 'src/store/ducks/base/types';
 import { Perfil, PerfisState } from 'src/store/ducks/perfis/types';
+import { ErrorAPI } from '../types';
 
 const initialState: PerfisState = {
   data: [],
@@ -30,7 +31,7 @@ export const perfisSlice = createSlice({
       state.loading = false;
       state.error = undefined;
     },
-    perfisGetError: (state, action: PayloadAction<string>) => {
+    perfisGetError: (state, action: PayloadAction<ErrorAPI>) => {
       state.error = action.payload;
       state.loading = false;
     },
@@ -57,14 +58,14 @@ export const perfisSlice = createSlice({
       state.operationError = undefined;
       state.operationState = 'success';
     },
-    perfisOperationError: (state, action: PayloadAction<string>) => {
+    perfisOperationError: (state, action: PayloadAction<ErrorAPI>) => {
       state.operationError = action.payload;
       state.operationState = 'error';
     },
     perfisDeleteRequest: (state, action: PayloadAction<Perfil>) => {
       state.deleteState = 'request';
     },
-    perfisDeleteError: (state, action: PayloadAction<string>) => {
+    perfisDeleteError: (state, action: PayloadAction<ErrorAPI>) => {
       state.deleteError = action.payload;
       state.deleteState = 'error';
     },
