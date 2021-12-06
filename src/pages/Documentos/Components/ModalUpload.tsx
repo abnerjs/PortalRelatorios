@@ -3,7 +3,6 @@ import { Backdrop, Fade, Modal, Typography } from '@mui/material';
 import { Box } from '@mui/system';
 import React, { useState } from 'react';
 import Dropzone from 'react-dropzone';
-import { arquivosUploadError, arquivosUploadIdle } from 'src/store/ducks/relatoriosUpload';
 import Form from './Form';
 
 type Props = {
@@ -41,6 +40,9 @@ const ModalUpload = (props: Props) => {
 
           <div className="dropfiles">
             <Dropzone
+              noClick={file !== null}
+              noKeyboard={file !== null}
+              noDrag={file !== null}
               accept=".pdf"
               onDropAccepted={(files) => {
                 setFile(files[files.length - 1]);
@@ -51,40 +53,52 @@ const ModalUpload = (props: Props) => {
                 setUnsuportedStyle(true);
 
                 setTimeout(() => {
-                  setUnsuportedStyle(false);;
+                  setUnsuportedStyle(false);
                 }, 2000);
               }}
             >
               {({ getRootProps, getInputProps }) => (
                 <section className="dropfilesContainer">
-                  {file !== null ? (
-                    <div className="dropzone dropzoneFilled">
-                      <Form
-                        sectionModalController={sectionModalController}
-                        setSectionModalController={setSectionModalController}
-                        file={file}
-                        setFile={setFile}
-                      />
-                    </div>
-                  ) : (
+                  <div
+                    {...getRootProps({
+                      className: `dropzone${
+                        isUnsuportedFile && isUnsuportedStyle
+                          ? ' unsuportedAlert'
+                          : ''
+                      }${file !== null ? ' dropzoneFilled' : ''}`,
+                      onDrop: e => {
+                        if (file !== null) e.stopPropagation();
+                      },
+                      noDragEventsBubbling: (file !== null),
+                    })}
+                  >
                     <div
-                      {...getRootProps({
-                        className: `dropzone${
-                          isUnsuportedFile && isUnsuportedStyle
-                            ? ' unsuportedAlert'
-                            : ''
-                        }`,
-                      })}
+                      className={`modalControllerContainer${
+                        file !== null ? ' filled' : ''
+                      }`}
                     >
-                      <input {...getInputProps()} />
-                      <Icon icon="fluent:arrow-upload-16-regular" width={25} />
-                      <p>
-                        {isUnsuportedFile
-                          ? 'FORMATO DE ARQUIVO NÃO SUPORTADO! ESPERA-SE: .pdf'
-                          : 'CLIQUE OU ARRASTE UM ARQUIVO PARA EFETUAR UPLOAD'}
-                      </p>
+                      <div className="modalContainer">
+                        <input {...getInputProps()} />
+                        <Icon
+                          icon="fluent:arrow-upload-16-regular"
+                          width={25}
+                        />
+                        <p>
+                          {isUnsuportedFile
+                            ? 'FORMATO DE ARQUIVO NÃO SUPORTADO! ESPERA-SE: .pdf'
+                            : 'CLIQUE OU ARRASTE UM ARQUIVO PARA EFETUAR UPLOAD'}
+                        </p>
+                      </div>
+                      <div className="modalContainer">
+                        <Form
+                          sectionModalController={sectionModalController}
+                          setSectionModalController={setSectionModalController}
+                          file={file}
+                          setFile={setFile}
+                        />
+                      </div>
                     </div>
-                  )}
+                  </div>
                 </section>
               )}
             </Dropzone>
