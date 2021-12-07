@@ -6,13 +6,23 @@ import { Link, useHistory } from 'react-router-dom';
 import * as Yup from 'yup';
 
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Alert, Button, CircularProgress, Collapse, IconButton, TextField, Typography } from '@mui/material';
+import {
+  Alert,
+  AlertColor,
+  Button,
+  CircularProgress,
+  Collapse,
+  IconButton,
+  TextField,
+  Typography,
+} from '@mui/material';
 
 import Checkbox from 'src/components/Checkbox';
 import { useAppDispatch, useAppSelector } from 'src/store';
 import { loginRequest } from 'src/store/ducks/login';
 import { Icon } from '@iconify/react';
 import { Box } from '@mui/system';
+import DmCollapseHandler from 'src/components/DmCollapseHandler/DmCollapseHandler';
 
 interface FormInputs {
   desLogin: string;
@@ -53,27 +63,14 @@ const Login: React.FC = () => {
       onSubmit={handleSubmit(onSubmit)}
       className="Login form"
     >
-      <Typography variant="h5" className="primary">Acessar</Typography>
-      <Collapse in={loginError !== undefined && isErrorCollapseOpened}>
-        <Alert
-          severity={loginError?.tipo === 1000 ? 'error' : 'warning'}
-          action={
-            <IconButton
-              aria-label="close"
-              color="inherit"
-              size="small"
-              onClick={() => {
-                setErrorCollapseOpened(false);
-              }}
-            >
-              <Icon icon="fluent:dismiss-20-regular" />
-            </IconButton>
-          }
-          sx={{ mb: 2 }}
-        >
-          {loginError?.mensagem}
-        </Alert>
-      </Collapse>
+      <Typography variant="h5" className="primary">
+        Acessar
+      </Typography>
+      <DmCollapseHandler
+        error={loginError}
+        isErrorCollapseOpened={isErrorCollapseOpened}
+        setErrorCollapseOpened={setErrorCollapseOpened}
+      />
       <TextField
         id="desLogin"
         autoFocus
@@ -108,9 +105,9 @@ const Login: React.FC = () => {
       <Box sx={{ m: 0, position: 'relative' }}>
         <Button
           variant="contained"
-          disabled={(formState.isSubmitting || isLoading)}
+          disabled={formState.isSubmitting || isLoading}
           type="submit"
-          className={(formState.isSubmitting || isLoading) ? 'secondary' : ''}
+          className={formState.isSubmitting || isLoading ? 'secondary' : ''}
           style={{ marginTop: 8 }}
         >
           ENTRAR

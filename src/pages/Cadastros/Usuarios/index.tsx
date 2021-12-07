@@ -6,6 +6,7 @@ import React, { useEffect, useState } from 'react';
 import { Icon } from '@iconify/react';
 import {
   Alert,
+  AlertColor,
   Backdrop,
   Box,
   Button,
@@ -37,6 +38,7 @@ import {
   usuariosCleanError,
 } from 'src/store/ducks/usuarios';
 import { Usuario } from 'src/store/ducks/usuarios/types';
+import DmCollapseHandler from 'src/components/DmCollapseHandler/DmCollapseHandler';
 
 const Usuarios = () => {
   const objetos = useAppSelector((state) => state.session.objetos);
@@ -138,7 +140,7 @@ const Usuarios = () => {
   ) => {
     setFlgTipo(newValue);
     handleCustomParameters({ key: 'flgTipo', value: newValue });
-    if(rowSelected !== -1) {
+    if (rowSelected !== -1) {
       setFormOpened(false);
       setUsuario(null);
       setRowSelected(-1);
@@ -246,26 +248,11 @@ const Usuarios = () => {
             >
               NOVO USUÁRIO
             </Button>
-            <Collapse in={getError !== undefined && isGetErrorCollapseOpened}>
-              <Alert
-                severity={getError?.tipo === 1000 ? 'error' : 'warning'}
-                action={
-                  <IconButton
-                    aria-label="close"
-                    color="inherit"
-                    size="small"
-                    onClick={() => {
-                      setGetErrorCollapseOpened(false);
-                    }}
-                  >
-                    <Icon icon="fluent:dismiss-20-regular" />
-                  </IconButton>
-                }
-                style={{width: 470, margin: "20px 20px 0 20px"}}
-              >
-                {getError?.mensagem}
-              </Alert>
-            </Collapse>
+            <DmCollapseHandler
+              error={getError}
+              isErrorCollapseOpened={isGetErrorCollapseOpened}
+              setErrorCollapseOpened={setGetErrorCollapseOpened}
+            />
             <div
               className="rows"
               style={{ overflow: loading ? 'hidden' : 'auto' }}
@@ -303,26 +290,11 @@ const Usuarios = () => {
             >
               <Fade in={isModalOpen}>
                 <Box className="modal-confirm-delete">
-                  <Collapse in={errors !== undefined && isErrorCollapseOpened}>
-                    <Alert
-                      severity={getError?.tipo === 1000 ? 'error' : 'warning'}
-                      action={
-                        <IconButton
-                          aria-label="close"
-                          color="inherit"
-                          size="small"
-                          onClick={() => {
-                            setErrorCollapseOpened(false);
-                          }}
-                        >
-                          <Icon icon="fluent:dismiss-20-regular" />
-                        </IconButton>
-                      }
-                      sx={{ mb: 2 }}
-                    >
-                      {errors?.mensagem}
-                    </Alert>
-                  </Collapse>
+                  <DmCollapseHandler
+                    error={errors}
+                    isErrorCollapseOpened={isErrorCollapseOpened}
+                    setErrorCollapseOpened={setErrorCollapseOpened}
+                  />
                   <Typography id="transition-modal-title">
                     Tem certeza que quer deletar o usuário?
                   </Typography>

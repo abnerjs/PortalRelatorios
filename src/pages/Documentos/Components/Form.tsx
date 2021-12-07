@@ -3,6 +3,7 @@ import { DatePicker, DateRangePicker, LocalizationProvider } from '@mui/lab';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import {
   Alert,
+  AlertColor,
   Autocomplete,
   Button,
   Card,
@@ -38,6 +39,7 @@ import {
 } from 'src/store/ducks/relatoriosUpload';
 import { DateRange } from '@mui/lab/DateRangePicker/RangeTypes';
 import './Form.css';
+import DmCollapseHandler from 'src/components/DmCollapseHandler/DmCollapseHandler';
 
 type Props = {
   sectionModalController: number;
@@ -173,8 +175,12 @@ const Form = (props: Props) => {
   const [datePeriodo, setDatePeriodo] = useState<DateRange<Date>>([null, null]);
   const tiposArquivos = useAppSelector((state) => state.tipoArquivo.data);
 
-  const uploadError = useAppSelector((state) => state.arquivoUpload.uploadError);
-  const uploadState = useAppSelector((state) => state.arquivoUpload.uploadState);
+  const uploadError = useAppSelector(
+    (state) => state.arquivoUpload.uploadError
+  );
+  const uploadState = useAppSelector(
+    (state) => state.arquivoUpload.uploadState
+  );
   const [isErrorCollapseOpened, setErrorCollapseOpened] = useState(false);
 
   const lstFornecedores = useAppSelector(
@@ -218,7 +224,7 @@ const Form = (props: Props) => {
 
   useEffect(() => {
     if (uploadState) {
-      if(uploadState === 's') {
+      if (uploadState === 's') {
         dispatch(arquivosGetRequest());
         setTimeout(() => {
           dispatch(arquivosUploadIdle());
@@ -227,7 +233,7 @@ const Form = (props: Props) => {
       }
     }
     setErrorCollapseOpened(uploadError !== undefined);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [uploadState]);
 
   useEffect(() => {
@@ -237,32 +243,15 @@ const Form = (props: Props) => {
 
   return (
     <>
-      <Collapse
-        in={uploadError !== undefined && isErrorCollapseOpened}
+      <DmCollapseHandler
+        error={uploadError}
+        isErrorCollapseOpened={isErrorCollapseOpened}
+        setErrorCollapseOpened={setErrorCollapseOpened}
         sx={{
           width: 'calc(100% - 40px)',
           margin: '20px 20px 0 20px',
         }}
-      >
-        <Alert
-          severity={uploadError?.tipo === 1000 ? 'error' : 'warning'}
-          action={
-            <IconButton
-              aria-label="close"
-              color="inherit"
-              size="small"
-              onClick={() => {
-                setErrorCollapseOpened(false);
-              }}
-            >
-              <Icon icon="fluent:dismiss-20-regular" />
-            </IconButton>
-          }
-          sx={{ mb: 2 }}
-        >
-          {uploadError?.mensagem}
-        </Alert>
-      </Collapse>
+      />
       <form onSubmit={handleSubmit(onSubmit, onError)} className="formUpload">
         <Card sx={{ mr: '20px' }}>
           <CardContent>
@@ -897,7 +886,13 @@ const Form = (props: Props) => {
                   variant="contained"
                   fullWidth
                   disabled={uploadState === 'l'}
-                  className={uploadState === 'l' ? 'secondary' : uploadState === 's' ? 'success' : ''}
+                  className={
+                    uploadState === 'l'
+                      ? 'secondary'
+                      : uploadState === 's'
+                      ? 'success'
+                      : ''
+                  }
                   tabIndex={props.sectionModalController === 1 ? 0 : -1}
                   type="submit"
                 >
