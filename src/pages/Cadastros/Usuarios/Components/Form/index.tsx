@@ -162,6 +162,7 @@ const Form: React.FC<FormProps> = ({
 
   useEffect(() => {
     setErrorCollapseOpened(errors !== undefined);
+    console.log(errors)
   }, [errors]);
 
   useEffect(() => {
@@ -210,7 +211,7 @@ const Form: React.FC<FormProps> = ({
     >
       <Collapse in={errors !== undefined && isErrorCollapseOpened}>
         <Alert
-          severity="error"
+          severity={errors?.tipo === 1000 ? 'error' : 'warning'}
           action={
             <IconButton
               aria-label="close"

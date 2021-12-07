@@ -23,9 +23,9 @@ api.interceptors.request.use(
   },
   (error) => {
     if (error.request) {
-      return Promise.reject('Erro: ' + error.request);
+      return Promise.reject(error.request);
     }
-    return Promise.reject('Erro: ' + error.message);
+    return Promise.reject(error.message);
   }
 );
 
@@ -43,12 +43,12 @@ api.interceptors.response.use(
   (error) => {
     if(error.request?.responseType === 'blob' && error.response?.data) {
       const blob = error.response.data as Blob;
-      return blob.text().then((text) => Promise.reject('Erro: ' + text));
+      return blob.text().then((text) => Promise.reject(JSON.parse(text)));
     }
     if (error.response?.data) {
-      return Promise.reject('Erro: ' + error.response.data);
+      return Promise.reject(error.response.data);
     }
-    return Promise.reject('Erro: ' + error.message);
+    return Promise.reject(error.message);
   }
 );
 

@@ -248,7 +248,7 @@ const Usuarios = () => {
             </Button>
             <Collapse in={getError !== undefined && isGetErrorCollapseOpened}>
               <Alert
-                severity="error"
+                severity={getError?.tipo === 1000 ? 'error' : 'warning'}
                 action={
                   <IconButton
                     aria-label="close"
@@ -263,7 +263,7 @@ const Usuarios = () => {
                 }
                 style={{width: 470, margin: "20px 20px 0 20px"}}
               >
-                {getError}
+                {getError?.mensagem}
               </Alert>
             </Collapse>
             <div
@@ -305,7 +305,7 @@ const Usuarios = () => {
                 <Box className="modal-confirm-delete">
                   <Collapse in={errors !== undefined && isErrorCollapseOpened}>
                     <Alert
-                      severity="error"
+                      severity={getError?.tipo === 1000 ? 'error' : 'warning'}
                       action={
                         <IconButton
                           aria-label="close"
@@ -320,7 +320,7 @@ const Usuarios = () => {
                       }
                       sx={{ mb: 2 }}
                     >
-                      {errors}
+                      {errors?.mensagem}
                     </Alert>
                   </Collapse>
                   <Typography id="transition-modal-title">

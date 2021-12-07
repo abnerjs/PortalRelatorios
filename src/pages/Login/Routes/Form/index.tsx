@@ -56,7 +56,7 @@ const Login: React.FC = () => {
       <Typography variant="h5" className="primary">Acessar</Typography>
       <Collapse in={loginError !== undefined && isErrorCollapseOpened}>
         <Alert
-          severity="error"
+          severity={loginError?.tipo === 1000 ? 'error' : 'warning'}
           action={
             <IconButton
               aria-label="close"
@@ -71,7 +71,7 @@ const Login: React.FC = () => {
           }
           sx={{ mb: 2 }}
         >
-          {loginError}
+          {loginError?.mensagem}
         </Alert>
       </Collapse>
       <TextField
