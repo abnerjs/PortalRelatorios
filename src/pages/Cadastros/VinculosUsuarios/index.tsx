@@ -160,7 +160,7 @@ const VinculosUsuarios = () => {
             </div>
             <Collapse in={getError !== undefined && isGetErrorCollapseOpened}>
               <Alert
-                severity="error"
+                severity={getError?.tipo === 1000 ? 'error' : 'warning'}
                 action={
                   <IconButton
                     aria-label="close"
@@ -175,7 +175,7 @@ const VinculosUsuarios = () => {
                 }
                 style={{width: 470, margin: "20px 20px 0 20px"}}
               >
-                {getError}
+                {getError?.mensagem}
               </Alert>
             </Collapse>
             <div

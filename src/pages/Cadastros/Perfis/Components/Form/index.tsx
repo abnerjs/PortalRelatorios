@@ -84,7 +84,7 @@ const Form: React.FC<FormProps> = ({
     >
       <Collapse in={errors !== undefined && isErrorCollapseOpened}>
         <Alert
-          severity="error"
+          severity={errors?.tipo === 1000 ? 'error' : 'warning'}
           action={
             <IconButton
               aria-label="close"
@@ -99,7 +99,7 @@ const Form: React.FC<FormProps> = ({
           }
           sx={{ mb: 2 }}
         >
-          {errors}
+          {errors?.mensagem}
         </Alert>
       </Collapse>
       <input type="hidden" {...register('idRelPerfil')} />

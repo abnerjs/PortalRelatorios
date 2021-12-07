@@ -114,7 +114,7 @@ const RelPreProducao = () => {
             <Typography variant="h6">Filtrar documento</Typography>
             <Collapse in={pdfError !== undefined && isErrorCollapseOpened}>
               <Alert
-                severity="error"
+                severity={pdfError?.tipo === 1000 ? 'error' : 'warning'}
                 action={
                   <IconButton
                     aria-label="close"
@@ -129,7 +129,7 @@ const RelPreProducao = () => {
                 }
                 sx={{ mb: 2 }}
               >
-                {pdfError}
+                {pdfError?.mensagem}
               </Alert>
             </Collapse>
             <LocalizationProvider

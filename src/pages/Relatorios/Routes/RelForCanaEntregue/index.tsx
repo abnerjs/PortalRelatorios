@@ -97,6 +97,10 @@ const RelForCanaEntregue = () => {
   };
 
   useEffect(() => {
+    console.log(pdfError);
+  }, [pdfError])
+
+  useEffect(() => {
     if (pdf) global.window.open(pdf);
       else setErrorCollapseOpened(true);
   }, [pdf]);
@@ -133,7 +137,7 @@ const RelForCanaEntregue = () => {
             <Typography variant="h6">Filtrar documento</Typography>
             <Collapse in={pdfError !== undefined && isErrorCollapseOpened}>
               <Alert
-                severity="error"
+                severity={pdfError?.tipo === 1000 ? 'error' : 'warning'}
                 action={
                   <IconButton
                     aria-label="close"
@@ -148,7 +152,7 @@ const RelForCanaEntregue = () => {
                 }
                 sx={{ mb: 2 }}
               >
-                {pdfError}
+                {pdfError?.mensagem}
               </Alert>
             </Collapse>
             <LocalizationProvider

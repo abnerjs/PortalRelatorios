@@ -245,7 +245,7 @@ const Form = (props: Props) => {
         }}
       >
         <Alert
-          severity="error"
+          severity={uploadError?.tipo === 1000 ? 'error' : 'warning'}
           action={
             <IconButton
               aria-label="close"
@@ -260,7 +260,7 @@ const Form = (props: Props) => {
           }
           sx={{ mb: 2 }}
         >
-          {uploadError}
+          {uploadError?.mensagem}
         </Alert>
       </Collapse>
       <form onSubmit={handleSubmit(onSubmit, onError)} className="formUpload">
