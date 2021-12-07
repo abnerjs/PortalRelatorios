@@ -97,10 +97,6 @@ const RelForCanaEntregue = () => {
   };
 
   useEffect(() => {
-    console.log(pdfError);
-  }, [pdfError])
-
-  useEffect(() => {
     if (pdf) global.window.open(pdf);
       else setErrorCollapseOpened(true);
   }, [pdf]);
