@@ -162,7 +162,6 @@ const Form: React.FC<FormProps> = ({
 
   useEffect(() => {
     setErrorCollapseOpened(errors !== undefined);
-    console.log(errors)
   }, [errors]);
 
   useEffect(() => {
