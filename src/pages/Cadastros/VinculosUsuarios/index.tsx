@@ -4,7 +4,7 @@ import 'src/pages/SectionizedTable.css';
 
 import React, { useEffect, useState } from 'react';
 import { Icon } from '@iconify/react';
-import { Alert, Collapse, IconButton, Skeleton, Tab, Tabs, TextField, Typography } from '@mui/material';
+import { Alert, AlertColor, Collapse, IconButton, Skeleton, Tab, Tabs, TextField, Typography } from '@mui/material';
 
 import Header from 'src/components/Header';
 import { usePesquisa } from 'src/hooks/usePesquisa';
@@ -13,6 +13,7 @@ import Row from 'src/pages/Cadastros/VinculosUsuarios/Components/Row';
 import { useAppDispatch, useAppSelector } from 'src/store';
 import { usuariosCleanError, usuariosGetRequest } from 'src/store/ducks/usuarios';
 import { Usuario } from 'src/store/ducks/usuarios/types';
+import DmCollapseHandler from 'src/components/DmCollapseHandler/DmCollapseHandler';
 
 const VinculosUsuarios = () => {
   const [flgTipo, setFlgTipo] = useState('I');
@@ -29,17 +30,9 @@ const VinculosUsuarios = () => {
   const usuarios = useAppSelector((state) => state.usuarios.data);
   const loading = useAppSelector((state) => state.usuarios.loading);
   const getError = useAppSelector((state) => state.usuarios.error);
-  const ufErrors = useAppSelector((state) => state.usuariosFornecedores.deleteError);
-  const ufDeleteState = useAppSelector((state) => state.usuariosFornecedores.deleteState);
   const ufOperationState = useAppSelector(
     (state) => state.usuariosFornecedores.operationState
   );
-  const upErrors = useAppSelector((state) => state.usuariosPrestadores.deleteError);
-  const upDeleteState = useAppSelector((state) => state.usuariosPrestadores.deleteState);
-  const upOperationState = useAppSelector(
-    (state) => state.usuariosPrestadores.operationState
-  );
-  const [isErrorCollapseOpened, setErrorCollapseOpened] = useState(false);
   const [isGetErrorCollapseOpened, setGetErrorCollapseOpened] = useState(false);
 
   useEffect(() => {
@@ -158,26 +151,11 @@ const VinculosUsuarios = () => {
                 }}
               />
             </div>
-            <Collapse in={getError !== undefined && isGetErrorCollapseOpened}>
-              <Alert
-                severity={getError?.tipo === 1000 ? 'error' : 'warning'}
-                action={
-                  <IconButton
-                    aria-label="close"
-                    color="inherit"
-                    size="small"
-                    onClick={() => {
-                      setGetErrorCollapseOpened(false);
-                    }}
-                  >
-                    <Icon icon="fluent:dismiss-20-regular" />
-                  </IconButton>
-                }
-                style={{width: 470, margin: "20px 20px 0 20px"}}
-              >
-                {getError?.mensagem}
-              </Alert>
-            </Collapse>
+            <DmCollapseHandler
+              error={getError}
+              isErrorCollapseOpened={isGetErrorCollapseOpened}
+              setErrorCollapseOpened={setGetErrorCollapseOpened}
+            />
             <div
               className="rows forprestadores"
               style={{ overflow: loading ? 'hidden' : 'auto' }}

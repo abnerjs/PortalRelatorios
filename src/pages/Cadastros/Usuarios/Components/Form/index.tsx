@@ -6,6 +6,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { Icon } from '@iconify/react';
 import {
   Alert,
+  AlertColor,
   Autocomplete,
   Box,
   Button,
@@ -26,6 +27,7 @@ import {
 } from 'src/store/ducks/usuarios';
 import { Usuario } from 'src/store/ducks/usuarios/types';
 import { getInitialsFromString } from 'src/utils/StringUtils';
+import DmCollapseHandler from 'src/components/DmCollapseHandler/DmCollapseHandler';
 
 const maskCpfCnpj = (value: string) => {
   value = value.replace(/\D/g, '');
@@ -158,7 +160,7 @@ const Form: React.FC<FormProps> = ({
   const onCancel = () => {
     dispatch(usuariosCancelOperation());
     setErrorCollapseOpened(false);
-  }
+  };
 
   useEffect(() => {
     setErrorCollapseOpened(errors !== undefined);
@@ -208,26 +210,11 @@ const Form: React.FC<FormProps> = ({
       onSubmit={handleSubmit(onSubmit)}
       className={`FormUser${isFormOpened ? '' : ' invi'}`}
     >
-      <Collapse in={errors !== undefined && isErrorCollapseOpened}>
-        <Alert
-          severity={errors?.tipo === 1000 ? 'error' : 'warning'}
-          action={
-            <IconButton
-              aria-label="close"
-              color="inherit"
-              size="small"
-              onClick={() => {
-                setErrorCollapseOpened(false);
-              }}
-            >
-              <Icon icon="fluent:dismiss-20-regular" />
-            </IconButton>
-          }
-          sx={{ mb: 2 }}
-        >
-          {errors?.mensagem}
-        </Alert>
-      </Collapse>
+      <DmCollapseHandler
+        error={errors}
+        isErrorCollapseOpened={isErrorCollapseOpened}
+        setErrorCollapseOpened={setErrorCollapseOpened}
+      />
       <div className="sectionImage">
         <div className="image">
           <div className="text"></div>

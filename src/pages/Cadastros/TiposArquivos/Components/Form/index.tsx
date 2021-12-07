@@ -22,10 +22,12 @@ import {
   IconButton,
   Button,
   TextField,
+  AlertColor,
 } from '@mui/material';
 import { Box } from '@mui/system';
 import { Icon } from '@iconify/react';
 import { TipoArquivo } from 'src/store/ducks/tipoArquivo/types';
+import DmCollapseHandler from 'src/components/DmCollapseHandler/DmCollapseHandler';
 
 interface FormProps {
   data: TipoArquivo | null;
@@ -125,26 +127,11 @@ const Form: React.FC<FormProps> = ({ data, isFormOpened }: FormProps) => {
       onSubmit={handleSubmit(onSubmit)}
       className={`FormUser${isFormOpened ? '' : ' invi'}`}
     >
-      <Collapse in={errors !== undefined && isErrorCollapseOpened}>
-        <Alert
-          severity={errors?.tipo === 1000 ? 'error' : 'warning'}
-          action={
-            <IconButton
-              aria-label="close"
-              color="inherit"
-              size="small"
-              onClick={() => {
-                setErrorCollapseOpened(false);
-              }}
-            >
-              <Icon icon="fluent:dismiss-20-regular" />
-            </IconButton>
-          }
-          sx={{ mb: 2 }}
-        >
-          {errors?.mensagem}
-        </Alert>
-      </Collapse>
+      <DmCollapseHandler
+        error={errors}
+        isErrorCollapseOpened={isErrorCollapseOpened}
+        setErrorCollapseOpened={setErrorCollapseOpened}
+      />
       <input type="hidden" {...register('idRelTpArquivo')} />
       <Controller
         name="desTpArquivo"

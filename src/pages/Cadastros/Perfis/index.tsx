@@ -6,6 +6,7 @@ import React, { useEffect, useState } from 'react';
 import { Icon } from '@iconify/react';
 import {
   Alert,
+  AlertColor,
   Backdrop,
   Box,
   Button,
@@ -25,8 +26,16 @@ import Row from 'src/pages/Cadastros/Perfis/Components/Row';
 
 import { usePesquisa } from 'src/hooks/usePesquisa';
 import { useAppDispatch, useAppSelector } from 'src/store';
-import { perfisGetRequest, perfisDeleteRequest, perfisCancelOperation, perfisCancelDelete, perfisIdleOperation, perfisCleanError } from 'src/store/ducks/perfis';
+import {
+  perfisGetRequest,
+  perfisDeleteRequest,
+  perfisCancelOperation,
+  perfisCancelDelete,
+  perfisIdleOperation,
+  perfisCleanError,
+} from 'src/store/ducks/perfis';
 import { Perfil } from 'src/store/ducks/perfis/types';
+import DmCollapseHandler from 'src/components/DmCollapseHandler/DmCollapseHandler';
 
 const Perfis = () => {
   const objetos = useAppSelector((state) => state.session.objetos);
@@ -49,9 +58,7 @@ const Perfis = () => {
   const getError = useAppSelector((state) => state.perfis.error);
   const errors = useAppSelector((state) => state.perfis.deleteError);
   const deleteState = useAppSelector((state) => state.perfis.deleteState);
-  const operationState = useAppSelector(
-    (state) => state.perfis.operationState
-  );
+  const operationState = useAppSelector((state) => state.perfis.operationState);
   const [isErrorCollapseOpened, setErrorCollapseOpened] = useState(false);
   const [isGetErrorCollapseOpened, setGetErrorCollapseOpened] = useState(false);
 
@@ -71,11 +78,11 @@ const Perfis = () => {
     if (newUser) {
       setRowSelected(-1);
     }
-    
+
     setPerfil(newUser ? null : perfis[rowSelected]);
     setFormOpened(open);
     setNewUserSection(newUser);
-    
+
     setTimeout(() => {
       global.window.document.getElementById('desPerfil')?.focus();
     }, 400);
@@ -195,26 +202,11 @@ const Perfis = () => {
             >
               NOVO PERFIL
             </Button>
-            <Collapse in={getError !== undefined && isGetErrorCollapseOpened}>
-              <Alert
-                severity={getError?.tipo === 1000 ? 'error' : 'warning'}
-                action={
-                  <IconButton
-                    aria-label="close"
-                    color="inherit"
-                    size="small"
-                    onClick={() => {
-                      setGetErrorCollapseOpened(false);
-                    }}
-                  >
-                    <Icon icon="fluent:dismiss-20-regular" />
-                  </IconButton>
-                }
-                style={{width: 470, margin: "20px 20px 0 20px"}}
-              >
-                {getError?.mensagem}
-              </Alert>
-            </Collapse>
+            <DmCollapseHandler
+              error={getError}
+              isErrorCollapseOpened={isGetErrorCollapseOpened}
+              setErrorCollapseOpened={setGetErrorCollapseOpened}
+            />
             <div
               className="rows"
               style={{ overflow: loading ? 'hidden' : 'auto' }}
@@ -253,28 +245,11 @@ const Perfis = () => {
               >
                 <Fade in={isModalOpen}>
                   <Box className="modal-confirm-delete">
-                    <Collapse
-                      in={errors !== undefined && isErrorCollapseOpened}
-                    >
-                      <Alert
-                        severity={errors?.tipo === 1000 ? 'error' : 'warning'}
-                        action={
-                          <IconButton
-                            aria-label="close"
-                            color="inherit"
-                            size="small"
-                            onClick={() => {
-                              setErrorCollapseOpened(false);
-                            }}
-                          >
-                            <Icon icon="fluent:dismiss-20-regular" />
-                          </IconButton>
-                        }
-                        sx={{ mb: 2 }}
-                      >
-                        {errors?.mensagem}
-                      </Alert>
-                    </Collapse>
+                    <DmCollapseHandler
+              error={errors}
+              isErrorCollapseOpened={isErrorCollapseOpened}
+              setErrorCollapseOpened={setErrorCollapseOpened}
+            />
                     <Typography id="transition-modal-title">
                       Tem certeza que quer deletar o perfil?
                     </Typography>
@@ -306,45 +281,42 @@ const Perfis = () => {
                         CANCELAR
                       </Button>
                       <Box sx={{ m: 0, position: 'relative' }}>
-                      <Button
-                        variant="contained"
-                        onClick={() =>
-                          dispatch(perfisDeleteRequest(perfis[rowSelected]))
-                        }
-                        disabled={deleteState === 'request'}
-                        type="submit"
-                        className={
-                          deleteState === 'request'
-                            ? 'errorSecondary'
-                            : 'errorColor'
-                        }
-                      >
-                        DELETAR
-                      </Button>
-                      {deleteState === 'request' && (
-                        <CircularProgress
-                          size={24}
-                          sx={{
-                            color: '#CA4539',
-                            position: 'absolute',
-                            top: '50%',
-                            left: '50%',
-                            marginTop: '-12px',
-                            marginLeft: '-12px',
-                          }}
-                        />
-                      )}
-                    </Box>
+                        <Button
+                          variant="contained"
+                          onClick={() =>
+                            dispatch(perfisDeleteRequest(perfis[rowSelected]))
+                          }
+                          disabled={deleteState === 'request'}
+                          type="submit"
+                          className={
+                            deleteState === 'request'
+                              ? 'errorSecondary'
+                              : 'errorColor'
+                          }
+                        >
+                          DELETAR
+                        </Button>
+                        {deleteState === 'request' && (
+                          <CircularProgress
+                            size={24}
+                            sx={{
+                              color: '#CA4539',
+                              position: 'absolute',
+                              top: '50%',
+                              left: '50%',
+                              marginTop: '-12px',
+                              marginLeft: '-12px',
+                            }}
+                          />
+                        )}
+                      </Box>
                     </div>
                   </Box>
                 </Fade>
               </Modal>
             )}
           </div>
-          <Form
-            data={perfil}
-            isFormOpened={isFormOpened}
-          />
+          <Form data={perfil} isFormOpened={isFormOpened} />
         </div>
       </div>
     </div>
