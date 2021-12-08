@@ -30,7 +30,7 @@ import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import Header from 'src/components/Header';
 import { useAppDispatch, useAppSelector } from 'src/store';
 import { TipoFiltro } from 'src/store/ducks/base/types';
-import { relatoriosDownloadRequest } from 'src/store/ducks/relatorios';
+import { relatoriosDownloadIdle, relatoriosDownloadRequest } from 'src/store/ducks/relatorios';
 import { tiposRecursosGetFilterRequest } from 'src/store/ducks/tiposRecursos';
 import { usuariosPrestadoresGetFilterRequest } from 'src/store/ducks/usuariosPrestadores';
 import { Icon } from '@iconify/react';
@@ -107,6 +107,10 @@ const RelPreRecurso = () => {
     dispatch(usuariosPrestadoresGetFilterRequest());
     dispatch(tiposRecursosGetFilterRequest());
   }, [dispatch]);
+
+  useEffect(() => {
+    dispatch(relatoriosDownloadIdle());
+  }, []);
 
   return (
     <div className="Usuarios Demonstrativo">

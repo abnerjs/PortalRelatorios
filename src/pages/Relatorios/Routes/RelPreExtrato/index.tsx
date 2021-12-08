@@ -31,7 +31,7 @@ import Header from 'src/components/Header';
 import { useAppDispatch, useAppSelector } from 'src/store';
 import { TipoFiltro } from 'src/store/ducks/base/types';
 import { usuariosPrestadoresGetFilterRequest } from 'src/store/ducks/usuariosPrestadores';
-import { relatoriosDownloadRequest } from 'src/store/ducks/relatorios';
+import { relatoriosDownloadIdle, relatoriosDownloadRequest } from 'src/store/ducks/relatorios';
 import { Icon } from '@iconify/react';
 import DmCollapseHandler from 'src/components/DmCollapseHandler/DmCollapseHandler';
 
@@ -99,6 +99,10 @@ const RelPreExtrato = () => {
   useEffect(() => {
     dispatch(usuariosPrestadoresGetFilterRequest());
   }, [dispatch]);
+
+  useEffect(() => {
+    dispatch(relatoriosDownloadIdle());
+  }, []);
 
   return (
     <div className="Usuarios Demonstrativo">

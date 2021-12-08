@@ -8,6 +8,7 @@ import {
 } from 'src/store/ducks/relatoriosUpload/types';
 import { arquivosDownloadRequest } from 'src/store/ducks/relatoriosUpload';
 import { useAppDispatch } from 'src/store';
+import { dateFormatter } from 'src/utils/StringUtils';
 
 export interface LinkProps {
   name: string;
@@ -53,6 +54,7 @@ const conditionalArrayTypeRender = (
         <div className="row" key={index}>
           <div className="textual">
             <div className="regname">{doc.nomArquivo}</div>
+            <div className="date">{dateFormatter(doc.dtaUpload, 'pt-BR')}</div>
           </div>
           <Button
             variant="contained"

@@ -84,7 +84,7 @@ const Usuarios = () => {
 
   useEffect(() => {
     dispatch(usuariosIdleOperation());
-  }, []);
+  });
 
   const handleFormOpen = (open: boolean, newUser: boolean) => {
     if (newUser) {
