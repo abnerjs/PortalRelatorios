@@ -7,7 +7,7 @@
   width: 100%;
 }
 
-.modalControllerContainer, .modalContainer {
+.modalControllerContainer {
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -15,20 +15,9 @@
   height: 100%;
 }
 
-.modalContainer {
+.modalControllerContainer {
   justify-content: center;
   align-items: center;
-}
-
-.modalControllerContainer:not(.filled) .modalContainer:last-child {
-  position: absolute;
-  display: none;
-}
-
-.modalControllerContainer.filled .modalContainer:first-child {
-  opacity: 0;
-  visibility: hidden;
-  position: absolute;
 }
 
 .dropfilesContainer .dropzone {
