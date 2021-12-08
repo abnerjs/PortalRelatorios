@@ -1,6 +1,6 @@
 import { Icon } from '@iconify/react';
-import { Alert, Collapse, IconButton } from '@mui/material';
-import React from 'react';
+import { Alert, AlertColor, Collapse, IconButton } from '@mui/material';
+import React, { useEffect, useState } from 'react';
 import { ErrorAPI } from 'src/store/ducks/types';
 
 interface Props {
@@ -11,22 +11,31 @@ interface Props {
 }
 
 const DmCollapseHandler = (props: Props) => {
-  /*
-    const [errorSeverity, setErrorSeverity] = useState<AlertColor>('error');
-  if (props.error) setErrorSeverity(props.error.tipo === 1000 ? 'error' : 'warning');
+  const [errorSeverity, setErrorSeverity] = useState<AlertColor>(
+    props.error?.tipo === 1000 ? 'error' : 'warning'
+  );
 
   useEffect(() => {
-    setTimeout(() => {
-      if (!props.error) setErrorSeverity('error');
-    }, 400);
+    if (props.error) {
+      setErrorSeverity(props.error.tipo === 1000 ? 'error' : 'warning');
+    }
+      
+    if (!props.error) {
+      const timeout = setTimeout(() => {
+        setErrorSeverity('error');
+      }, 150);
+      return () => clearTimeout(timeout);
+    }
   }, [props.error]);
-  
-  */
 
   return (
-    <Collapse in={props.error && props.isErrorCollapseOpened} sx={props.sx}>
+    <Collapse
+      in={props.error && props.isErrorCollapseOpened}
+      sx={props.sx}
+      timeout={150}
+    >
       <Alert
-        severity={props.error?.tipo === 1000 ? 'error' : 'warning'}
+        severity={errorSeverity}
         action={
           <IconButton
             aria-label="close"
