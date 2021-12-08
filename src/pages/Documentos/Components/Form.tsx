@@ -40,12 +40,14 @@ import {
 import { DateRange } from '@mui/lab/DateRangePicker/RangeTypes';
 import './Form.css';
 import DmCollapseHandler from 'src/components/DmCollapseHandler/DmCollapseHandler';
+import { relative } from 'path';
 
 type Props = {
   sectionModalController: number;
   setSectionModalController: Function;
   file: File | null;
   setFile: Function;
+  setOpen: Function;
 };
 
 const autocompleteProps = {
@@ -86,7 +88,10 @@ const schema = Yup.object({
     .required('Campo obrigatório!'),
   lstCodFornecedores: Yup.array(),
   lstCodPrestadores: Yup.array(),
-  nomArquivo: Yup.string().required('Campo obrigatório!'),
+  nomArquivo: Yup.string()
+    .nullable()
+    .default(null)
+    .required('Campo obrigatório!'),
   desObs: Yup.string(),
   codAno: Yup.number()
     .nullable()
@@ -96,7 +101,9 @@ const schema = Yup.object({
         value !== null && value.flgReferencia
           ? 'A' === value.flgReferencia
           : false,
-      then: Yup.number().typeError('Campo obrigatório!').required('Campo obrigatório!'),
+      then: Yup.number()
+        .typeError('Campo obrigatório!')
+        .required('Campo obrigatório!'),
     }),
   codMes: Yup.number()
     .nullable()
@@ -105,7 +112,9 @@ const schema = Yup.object({
     .when('idRelTpArquivo', {
       is: (value: TipoArquivo | null) =>
         value?.flgReferencia ? 'M' === value.flgReferencia : false,
-      then: Yup.number().typeError('Campo obrigatório!').required('Campo obrigatório!'),
+      then: Yup.number()
+        .typeError('Campo obrigatório!')
+        .required('Campo obrigatório!'),
     }),
   dtaIni: Yup.string()
     .nullable()
@@ -114,7 +123,9 @@ const schema = Yup.object({
     .when('idRelTpArquivo', {
       is: (value: TipoArquivo | null) =>
         value?.flgReferencia ? 'D' === value.flgReferencia : false,
-      then: Yup.string().required('Campo obrigatório!'),
+      then: Yup.string()
+        .typeError('Campo obrigatório!')
+        .required('Campo obrigatório!'),
     }),
   dtaFim: Yup.string()
     .nullable()
@@ -123,7 +134,9 @@ const schema = Yup.object({
     .when('idRelTpArquivo', {
       is: (value: TipoArquivo | null) =>
         value?.flgReferencia ? 'P' === value.flgReferencia : false,
-      then: Yup.string().required('Campo obrigatório!'),
+      then: Yup.string()
+        .typeError('Campo obrigatório!')
+        .required('Campo obrigatório!'),
     }),
 }).test(
   'is-optional',
@@ -191,6 +204,11 @@ const Form = (props: Props) => {
   );
   const [flag, setflag] = useState(false);
 
+  useEffect(() => {
+    if (!flag && props.file) setValue('nomArquivo', props.file.name);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [props.file]);
+
   const dispatch = useAppDispatch();
   useEffect(() => {
     dispatch(fornecedoresGetFilterRequest());
@@ -237,6 +255,7 @@ const Form = (props: Props) => {
         setTimeout(() => {
           dispatch(arquivosUploadIdle());
           props.setFile(null);
+          props.setOpen(false);
         }, 1000);
       }
     }
@@ -281,7 +300,8 @@ const Form = (props: Props) => {
                       disableUnderline: true,
                     }}
                     onChange={(e) => {
-                      if (e.target.value !== null) setValue('nomArquivo', e.target.value);
+                      if (e.target.value !== null)
+                        setValue('nomArquivo', e.target.value);
                       if (e.target.value !== null) setflag(true);
                     }}
                   />
@@ -545,7 +565,7 @@ const Form = (props: Props) => {
                     }
 
                     if (props.file) setValue('formFile', props.file);
-                    if (props.file !== null && !flag) {
+                    if (props.file && !flag) {
                       setValue('nomArquivo', props.file.name);
                       console.log('teste');
                       console.log(props.file.name);
@@ -629,6 +649,14 @@ const Form = (props: Props) => {
                     OpenPickerButtonProps={{
                       tabIndex: props.sectionModalController === 1 ? 0 : -1,
                     }}
+                    PopperProps={{
+                      style: {
+                        position: 'absolute',
+                        top: '50%',
+                        left: '50%',
+                        transform: 'translate(-50%, -50%)',
+                      },
+                    }}
                     renderInput={(params) => (
                       <TextField
                         {...params}
@@ -692,6 +720,14 @@ const Form = (props: Props) => {
                     OpenPickerButtonProps={{
                       tabIndex: props.sectionModalController === 1 ? 0 : -1,
                     }}
+                    PopperProps={{
+                      style: {
+                        position: 'absolute',
+                        top: '50%',
+                        left: '50%',
+                        transform: 'translate(-50%, -50%)',
+                      },
+                    }}
                     renderInput={(params) => (
                       <TextField
                         {...params}
@@ -732,6 +768,11 @@ const Form = (props: Props) => {
                     startText="Data inicial"
                     endText="Data final"
                     mask="__/__/____"
+                    className="modalDateRangePicker"
+                    PopperProps={{
+                      disablePortal: true,
+                      className: 'dateRangePickerModal',
+                    }}
                     value={datePeriodo}
                     onChange={(value) => {
                       setDatePeriodo(value);
@@ -843,6 +884,14 @@ const Form = (props: Props) => {
                     }}
                     OpenPickerButtonProps={{
                       tabIndex: props.sectionModalController === 1 ? 0 : -1,
+                    }}
+                    PopperProps={{
+                      style: {
+                        position: 'absolute',
+                        top: '50%',
+                        left: '50%',
+                        transform: 'translate(-50%, -50%)',
+                      },
                     }}
                     renderInput={(params) => (
                       <TextField

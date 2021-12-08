@@ -1,6 +1,7 @@
 .dropfiles {
   width: 100%;
   margin-top: 25px;
+  height: 100%;
 }
 
 .dropfilesContainer {
@@ -92,7 +93,7 @@
 
 .row.tables .column.loading .overflown::after {
   position: absolute;
-  content: "";
+  content: '';
   left: 0px;
   top: 0px;
   height: 100%;
@@ -112,6 +113,7 @@
 .sectionController {
   display: flex;
   width: 200%;
+  height: 100%;
   overflow: hidden;
   width: 491px;
 }
@@ -123,6 +125,7 @@
   flex-direction: column;
   flex: 1;
   transition: all ease 0.4s;
+  overflow: auto;
 }
 
 .sectionController .sectionModal:not(:first-child) {
