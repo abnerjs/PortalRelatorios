@@ -96,6 +96,7 @@ const ModalUpload = (props: Props) => {
                           setSectionModalController={setSectionModalController}
                           file={file}
                           setFile={setFile}
+                          setOpen={props.setOpen}
                         />
                       )}
                     </div>
