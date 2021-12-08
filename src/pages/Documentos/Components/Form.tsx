@@ -2,21 +2,17 @@ import { Icon } from '@iconify/react';
 import { DatePicker, DateRangePicker, LocalizationProvider } from '@mui/lab';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import {
-  Alert,
-  AlertColor,
   Autocomplete,
   Button,
   Card,
   CardContent,
   CircularProgress,
-  Collapse,
-  IconButton,
   TextField,
 } from '@mui/material';
 import CheckIcon from '@mui/icons-material/Check';
 import { Box } from '@mui/system';
 import brLocale from 'date-fns/locale/pt-BR';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { SubmitHandler, Controller, useForm } from 'react-hook-form';
 import {
   StyledPopper,
@@ -202,12 +198,6 @@ const Form = (props: Props) => {
   const lstPrestadores = useAppSelector(
     (state) => state.prestadores.filterList
   );
-  const [flag, setflag] = useState(false);
-
-  useEffect(() => {
-    if (!flag && props.file) setValue('nomArquivo', props.file.name);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [props.file]);
 
   const dispatch = useAppDispatch();
   useEffect(() => {
@@ -216,18 +206,11 @@ const Form = (props: Props) => {
     dispatch(tipoArquivoGetRequest());
   }, [dispatch]);
 
-  const {
-    trigger,
-    clearErrors,
-    handleSubmit,
-    reset,
-    setValue,
-    control,
-    formState,
-  } = useForm<FormProps>({
-    resolver: yupResolver(schema),
-    defaultValues: defaultValues,
-  });
+  const { trigger, clearErrors, handleSubmit, reset, setValue, control } =
+    useForm<FormProps>({
+      resolver: yupResolver(schema),
+      defaultValues: defaultValues,
+    });
 
   const onSubmit: SubmitHandler<ArquivoUpload> = (values) => {
     dispatch(arquivosUploadRequest(values));
@@ -245,7 +228,7 @@ const Form = (props: Props) => {
   };
 
   useEffect(() => {
-    reset(defaultValues);
+    return () => reset(defaultValues);
   }, [reset]);
 
   useEffect(() => {
@@ -256,12 +239,20 @@ const Form = (props: Props) => {
           dispatch(arquivosUploadIdle());
           props.setFile(null);
           props.setOpen(false);
+          props.setSectionModalController(0);
         }, 1000);
       }
     }
     setErrorCollapseOpened(uploadError !== undefined);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [uploadState]);
+
+  useEffect(() => {
+    if (props.file) {
+      setValue('formFile', props.file);
+      setValue('nomArquivo', props.file.name);
+    }
+  }, [props.file, setValue]);
 
   return (
     <>
@@ -299,11 +290,7 @@ const Form = (props: Props) => {
                     InputProps={{
                       disableUnderline: true,
                     }}
-                    onChange={(e) => {
-                      if (e.target.value !== null)
-                        setValue('nomArquivo', e.target.value);
-                      if (e.target.value !== null) setflag(true);
-                    }}
+                    onChange={(e) => setValue('nomArquivo', e.target.value)}
                   />
                 )}
               />
@@ -562,14 +549,6 @@ const Form = (props: Props) => {
 
                     if (result) {
                       props.setSectionModalController(1);
-                    }
-
-                    if (props.file) setValue('formFile', props.file);
-                    if (props.file && !flag) {
-                      setValue('nomArquivo', props.file.name);
-                      console.log('teste');
-                      console.log(props.file.name);
-                      console.log(formState);
                     }
                   }}
                 >
