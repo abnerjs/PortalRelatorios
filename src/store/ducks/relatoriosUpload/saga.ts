@@ -99,7 +99,7 @@ export function* sendUploadRequest(
   let formData = new FormData();
   formData.append('formFile', action.payload.formFile);
   formData.append('nomArquivo', action.payload.nomArquivo);
-  formData.append('idRelTpArquivo', action.payload.idRelTpArquivo.toString());
+  formData.append('idRelTpArquivo', action.payload.idRelTpArquivo.idRelTpArquivo.toString());
 
   action.payload.lstCodFornecedores?.forEach((item, index) =>
     formData.append(`lstCodFornecedores[${index}]`, item.toString())

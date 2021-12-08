@@ -80,7 +80,7 @@ const autocompleteUniqueProps = {
 };
 
 const schema = Yup.object({
-  idRelTpArquivo: Yup.number()
+  idRelTpArquivo: Yup.mixed()
     .nullable()
     .default(null)
     .required('Campo obrigatório!'),
@@ -91,13 +91,12 @@ const schema = Yup.object({
   codAno: Yup.number()
     .nullable()
     .default(null)
-    .typeError('Data inválida!')
     .when('idRelTpArquivo', {
       is: (value: TipoArquivo | null) =>
         value !== null && value.flgReferencia
-          ? ['A'].includes(value.flgReferencia)
+          ? 'A' === value.flgReferencia
           : false,
-      then: Yup.number().required('Campo obrigatório!'),
+      then: Yup.number().typeError('Campo obrigatório!').required('Campo obrigatório!'),
     }),
   codMes: Yup.number()
     .nullable()
@@ -105,8 +104,8 @@ const schema = Yup.object({
     .typeError('Data inválida!')
     .when('idRelTpArquivo', {
       is: (value: TipoArquivo | null) =>
-        value?.flgReferencia ? ['M'].includes(value.flgReferencia) : false,
-      then: Yup.number().required('Campo obrigatório!'),
+        value?.flgReferencia ? 'M' === value.flgReferencia : false,
+      then: Yup.number().typeError('Campo obrigatório!').required('Campo obrigatório!'),
     }),
   dtaIni: Yup.string()
     .nullable()
@@ -114,7 +113,7 @@ const schema = Yup.object({
     .typeError('Data inválida!')
     .when('idRelTpArquivo', {
       is: (value: TipoArquivo | null) =>
-        value?.flgReferencia ? ['D'].includes(value.flgReferencia) : false,
+        value?.flgReferencia ? 'D' === value.flgReferencia : false,
       then: Yup.string().required('Campo obrigatório!'),
     }),
   dtaFim: Yup.string()
@@ -123,7 +122,7 @@ const schema = Yup.object({
     .typeError('Data inválida!')
     .when('idRelTpArquivo', {
       is: (value: TipoArquivo | null) =>
-        value?.flgReferencia ? ['P'].includes(value.flgReferencia) : false,
+        value?.flgReferencia ? 'P' === value.flgReferencia : false,
       then: Yup.string().required('Campo obrigatório!'),
     }),
 }).test(
@@ -137,7 +136,7 @@ const schema = Yup.object({
 );
 
 interface FormProps {
-  idRelTpArquivo: number | null;
+  idRelTpArquivo: TipoArquivo | null;
   dtaIni: string | null;
   dtaFim: string | null;
   codAno: number | null;
@@ -165,7 +164,6 @@ const defaultValues: FormProps = {
 };
 
 const Form = (props: Props) => {
-  const [flag, setFlag] = useState('');
   const [forns, setFornecedores] = useState<TipoFiltro[]>([]);
   const [prests, setPrestadores] = useState<TipoFiltro[]>([]);
   const [tipoArquivo, setTipoArquivo] = useState<TipoArquivo | null>(null);
@@ -191,8 +189,7 @@ const Form = (props: Props) => {
   const lstPrestadores = useAppSelector(
     (state) => state.prestadores.filterList
   );
-
-  const refCardForm = useRef<HTMLInputElement>(null);
+  const [flag, setflag] = useState(false);
 
   const dispatch = useAppDispatch();
   useEffect(() => {
@@ -247,15 +244,6 @@ const Form = (props: Props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [uploadState]);
 
-  useEffect(() => {
-    if (props.file) setValue('nomArquivo', props.file.name);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  });
-
-  useEffect(() => {
-    if (refCardForm?.current) refCardForm.current.focus();
-  }, []);
-
   return (
     <>
       <DmCollapseHandler
@@ -291,12 +279,10 @@ const Form = (props: Props) => {
                     inputRef={ref}
                     InputProps={{
                       disableUnderline: true,
-                      inputProps: {
-                        ref: { refCardForm },
-                      },
                     }}
                     onChange={(e) => {
-                      setValue('nomArquivo', e.target.value);
+                      if (e.target.value !== null) setValue('nomArquivo', e.target.value);
+                      if (e.target.value !== null) setflag(true);
                     }}
                   />
                 )}
@@ -517,10 +503,7 @@ const Form = (props: Props) => {
                   onChange={(_, data) => {
                     clearErrors('idRelTpArquivo');
                     setTipoArquivo(data);
-                    setValue(
-                      'idRelTpArquivo',
-                      data ? data.idRelTpArquivo : null
-                    );
+                    setValue('idRelTpArquivo', data);
                   }}
                 />
               )}
@@ -561,7 +544,13 @@ const Form = (props: Props) => {
                       props.setSectionModalController(1);
                     }
 
-                    setValue('formFile', props.file);
+                    if (props.file) setValue('formFile', props.file);
+                    if (props.file !== null && !flag) {
+                      setValue('nomArquivo', props.file.name);
+                      console.log('teste');
+                      console.log(props.file.name);
+                      console.log(formState);
+                    }
                   }}
                 >
                   PRÓXIMO
@@ -924,7 +913,7 @@ const Form = (props: Props) => {
                 >
                   SALVAR
                 </Button>
-                {flag === 'request' && (
+                {uploadState === 'l' && (
                   <CircularProgress
                     size={24}
                     sx={{
