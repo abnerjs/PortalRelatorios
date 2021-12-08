@@ -16,7 +16,7 @@ import {
 import CheckIcon from '@mui/icons-material/Check';
 import { Box } from '@mui/system';
 import brLocale from 'date-fns/locale/pt-BR';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { SubmitHandler, Controller, useForm } from 'react-hook-form';
 import {
   StyledPopper,
@@ -94,7 +94,9 @@ const schema = Yup.object({
     .typeError('Data inválida!')
     .when('idRelTpArquivo', {
       is: (value: TipoArquivo | null) =>
-        value?.flgReferencia ? ['A'].includes(value.flgReferencia) : false,
+        value !== null && value.flgReferencia
+          ? ['A'].includes(value.flgReferencia)
+          : false,
       then: Yup.number().required('Campo obrigatório!'),
     }),
   codMes: Yup.number()
@@ -190,6 +192,8 @@ const Form = (props: Props) => {
     (state) => state.prestadores.filterList
   );
 
+  const refCardForm = useRef<HTMLInputElement>(null);
+
   const dispatch = useAppDispatch();
   useEffect(() => {
     dispatch(fornecedoresGetFilterRequest());
@@ -215,7 +219,14 @@ const Form = (props: Props) => {
   };
 
   const onError = (error: any) => {
-    if (error['']?.message) dispatch(arquivosUploadError(error[''].message));
+    if (error['']?.message)
+      dispatch(
+        arquivosUploadError({
+          desTipo: 'aviso',
+          mensagem: error[''].message,
+          tipo: 2000,
+        })
+      );
   };
 
   useEffect(() => {
@@ -241,6 +252,10 @@ const Form = (props: Props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   });
 
+  useEffect(() => {
+    if (refCardForm?.current) refCardForm.current.focus();
+  }, []);
+
   return (
     <>
       <DmCollapseHandler
@@ -249,11 +264,11 @@ const Form = (props: Props) => {
         setErrorCollapseOpened={setErrorCollapseOpened}
         sx={{
           width: 'calc(100% - 40px)',
-          margin: '20px 20px 0 20px',
+          margin: isErrorCollapseOpened ? '20px 20px -20px 20px' : 0,
         }}
       />
       <form onSubmit={handleSubmit(onSubmit, onError)} className="formUpload">
-        <Card sx={{ mr: '20px' }}>
+        <Card sx={{ mr: '20px' }} elevation={3}>
           <CardContent>
             <Icon icon="fluent:document-bullet-list-20-regular" width={30} />
             {/* <p className="date">{new Date().toDateString()}</p> */}
@@ -276,6 +291,9 @@ const Form = (props: Props) => {
                     inputRef={ref}
                     InputProps={{
                       disableUnderline: true,
+                      inputProps: {
+                        ref: { refCardForm },
+                      },
                     }}
                     onChange={(e) => {
                       setValue('nomArquivo', e.target.value);
@@ -355,7 +373,6 @@ const Form = (props: Props) => {
                               props.sectionModalController === 0 ? 0 : -1,
                           },
                         }}
-                        InputLabelProps={{ shrink: forns.length > 0 }}
                         error={!!fieldState.error}
                         helperText={fieldState.error?.message}
                         inputRef={ref}
@@ -441,7 +458,7 @@ const Form = (props: Props) => {
                               props.sectionModalController === 0 ? 0 : -1,
                           },
                         }}
-                        InputLabelProps={{ shrink: prests.length > 0 }}
+                        InputLabelProps={{ shrink: undefined }}
                         error={!!fieldState.error}
                         helperText={fieldState.error?.message}
                         inputRef={ref}
@@ -611,7 +628,9 @@ const Form = (props: Props) => {
                     value={yearOnlyDatePicker}
                     onChange={(value: any) => {
                       setYearOnlyDatePicker(value);
-                      setValue('codAno', value.getFullYear());
+                      if (value !== null)
+                        setValue('codAno', value.getFullYear());
+                      else setValue('codAno', value);
                     }}
                     InputAdornmentProps={{
                       style: {
@@ -668,8 +687,13 @@ const Form = (props: Props) => {
                     value={yearAndMonthDatePicker}
                     onChange={(value: any) => {
                       setYearAndMonthDatePicker(value);
-                      setValue('codMes', value.getMonth());
-                      setValue('codAno', value.getFullYear());
+                      if (value !== null) {
+                        setValue('codMes', value.getMonth());
+                        setValue('codAno', value.getFullYear());
+                      } else {
+                        setValue('codAno', value);
+                        setValue('codMes', value);
+                      }
                     }}
                     InputAdornmentProps={{
                       style: {
@@ -819,7 +843,9 @@ const Form = (props: Props) => {
                     value={null}
                     onChange={(value: any) => {
                       setYearOnlyDatePicker(value);
-                      setValue('dtaIni', value.toISOString().split('T')[0]);
+                      if (value !== null)
+                        setValue('dtaIni', value.toISOString().split('T')[0]);
+                      else setValue('dtaIni', value);
                     }}
                     InputAdornmentProps={{
                       style: {

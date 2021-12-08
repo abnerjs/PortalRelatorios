@@ -26,3 +26,9 @@ export function getInitialsFromString(string: string) {
 
   return aux.toLocaleUpperCase()
 }
+
+export function dateFormatter(value: string, location: string) {
+  let foo = new Date(value).toLocaleString(location, { timeZone: 'UTC' });
+
+  return foo;
+}

@@ -19,13 +19,6 @@ const DmCollapseHandler = (props: Props) => {
     if (props.error) {
       setErrorSeverity(props.error.tipo === 1000 ? 'error' : 'warning');
     }
-      
-    if (!props.error) {
-      const timeout = setTimeout(() => {
-        setErrorSeverity('error');
-      }, 150);
-      return () => clearTimeout(timeout);
-    }
   }, [props.error]);
 
   return (

@@ -31,10 +31,18 @@ export const relatoriosSlice = createSlice({
       state.error = action.payload;
       state.loading = false;
     },
+    relatoriosDownloadIdle: (state) => {
+      state.error = undefined;
+      state.loading = false;
+    },
   },
 });
 
-export const { relatoriosDownloadRequest, relatoriosDownloadSuccess, relatoriosDownloadError } =
-  relatoriosSlice.actions;
+export const {
+  relatoriosDownloadRequest,
+  relatoriosDownloadSuccess,
+  relatoriosDownloadError,
+  relatoriosDownloadIdle,
+} = relatoriosSlice.actions;
 
 export default relatoriosSlice.reducer;

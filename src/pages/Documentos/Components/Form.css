@@ -17,7 +17,7 @@
 
 .dropfilesContainer .dropzone.dropzoneFilled .formUpload .buttons {
   display: flex;
-  width: 350px;
+  width: 100%;
   align-self: flex-end;
 
   margin-top: 10px;

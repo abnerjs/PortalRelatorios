@@ -12,14 +12,10 @@ import { format } from 'date-fns';
 import brLocale from 'date-fns/locale/pt-BR';
 import { yupResolver } from '@hookform/resolvers/yup';
 import {
-  Alert,
-  AlertColor,
   Autocomplete,
   Box,
   Button,
   CircularProgress,
-  Collapse,
-  IconButton,
   TextField,
   Typography,
 } from '@mui/material';
@@ -32,8 +28,7 @@ import { useAppDispatch, useAppSelector } from 'src/store';
 import { TipoFiltro } from 'src/store/ducks/base/types';
 import { fazendasGetFilterRequest } from 'src/store/ducks/fazendas';
 import { usuariosFornecedoresGetFilterRequest } from 'src/store/ducks/usuariosFornecedores';
-import { relatoriosDownloadRequest } from 'src/store/ducks/relatorios';
-import { Icon } from '@iconify/react';
+import { relatoriosDownloadIdle, relatoriosDownloadRequest } from 'src/store/ducks/relatorios';
 import DmCollapseHandler from 'src/components/DmCollapseHandler/DmCollapseHandler';
 
 interface FormProps {
@@ -48,7 +43,15 @@ const schema = Yup.object({
     .typeError('Data inválida!')
     .required('Campo obrigatório!'),
   dtaFim: Yup.date().typeError('Data inválida!').required('Campo obrigatório!'),
-  lstCodFazendas: Yup.string().nullable().default(null).notRequired(),
+  lstCodFazendas: Yup.string()
+    .nullable()
+    .default(null)
+    .when('lstCodFornecedores', {
+      is: (value: string) => (value !== '' ? true : false),
+      then: Yup.string().required(
+        'Campo obrigatório se há fornecedor selecionado!'
+      ),
+    }),
   lstCodFornecedores: Yup.string().nullable().default(null).notRequired(),
 });
 
@@ -101,12 +104,16 @@ const RelForCarregamento = () => {
 
   useEffect(() => {
     if (pdf) global.window.open(pdf);
-      else setErrorCollapseOpened(true);
+    else setErrorCollapseOpened(true);
   }, [pdf]);
 
   useEffect(() => {
     dispatch(usuariosFornecedoresGetFilterRequest());
   }, [dispatch]);
+
+  useEffect(() => {
+    dispatch(relatoriosDownloadIdle());
+  }, []);
 
   useEffect(() => {
     if (fornecedores.length !== 0) {
@@ -256,7 +263,11 @@ const RelForCarregamento = () => {
                   InputProps={{ ...params.InputProps, disableUnderline: true }}
                   error={!!formState.errors.lstCodFazendas}
                   helperText={
-                    formState.errors.lstCodFazendas?.message || 'Opcional'
+                    formState.errors.lstCodFazendas?.message
+                      ? formState.errors.lstCodFazendas.message
+                      : fornecedores.length === 0
+                      ? 'Opcional'
+                      : undefined
                   }
                 />
               )}
