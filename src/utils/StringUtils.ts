@@ -24,5 +24,11 @@ export function getInitialsFromString(string: string) {
 
   if (arr.length > 1) aux += arr[arr.length - 1].charAt(0);
 
-  return aux.toLocaleUpperCase()
+  return aux.toLocaleUpperCase();
+}
+
+export function dateFormatter(value: string, location: string) {
+  let foo = new Date(value).toLocaleString(location);
+
+  return foo;
 }

@@ -7,7 +7,10 @@ import './Documentos.css';
 import { useAppDispatch, useAppSelector } from 'src/store';
 import { Box } from '@mui/system';
 import ModalUpload from './Components/ModalUpload';
-import { arquivosGetRequest, arquivosUploadIdle } from 'src/store/ducks/relatoriosUpload';
+import {
+  arquivosGetRequest,
+  arquivosUploadIdle,
+} from 'src/store/ducks/relatoriosUpload';
 import { ArquivosByTipo } from 'src/store/ducks/relatoriosUpload/types';
 
 const Documentos = () => {
@@ -87,7 +90,28 @@ const Documentos = () => {
 
         <ModalUpload open={open} setOpen={setOpen} />
 
-        <div className="row tables">
+        <div
+          className="row tables"
+          style={{
+            gridTemplateColumns:
+              arquivosState === 's' && arquivosByTipo?.length === 0
+                ? '1fr'
+                : '1fr 1fr',
+            gap:
+              arquivosState === 's' && arquivosByTipo?.length === 0
+                ? '0'
+                : '30px',
+            width:
+              arquivosState === 's' && arquivosByTipo?.length === 0
+                ? '50%'
+                : '100%',
+            marginLeft:
+              arquivosState === 's' && arquivosByTipo?.length === 0
+                ? '25%'
+                : '0',
+            transition: 'margin-left ease 0.4s',
+          }}
+        >
           <div className="column">
             {fornecedores.length !== 0 && (
               <Table arr={fornecedores} title="Para fornecedores" />
@@ -96,7 +120,15 @@ const Documentos = () => {
               <Table arr={prestadores} title="Para prestadores" />
             )}
           </div>
-          <div className={`column${arquivosState === 'l' ? ' loading' : ''}`}>
+          <div
+            className={`column${arquivosState === 'l' ? ' loading' : ''}`}
+            style={{
+              display:
+                arquivosState === 's' && arquivosByTipo?.length === 0
+                  ? 'none'
+                  : 'flex',
+            }}
+          >
             {arquivosState === 'l' ? (
               loadingSkeletonElements()
             ) : (

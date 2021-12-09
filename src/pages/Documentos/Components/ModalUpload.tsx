@@ -66,10 +66,10 @@ const ModalUpload = (props: Props) => {
                           ? ' unsuportedAlert'
                           : ''
                       }${file !== null ? ' dropzoneFilled' : ''}`,
-                      onDrop: e => {
+                      onDrop: (e) => {
                         if (file !== null) e.stopPropagation();
                       },
-                      noDragEventsBubbling: (file !== null),
+                      noDragEventsBubbling: file !== null,
                     })}
                   >
                     <div
@@ -77,26 +77,28 @@ const ModalUpload = (props: Props) => {
                         file !== null ? ' filled' : ''
                       }`}
                     >
-                      <div className="modalContainer">
-                        <input {...getInputProps()} />
-                        <Icon
-                          icon="fluent:arrow-upload-16-regular"
-                          width={25}
-                        />
-                        <p>
-                          {isUnsuportedFile
-                            ? 'FORMATO DE ARQUIVO NÃO SUPORTADO! ESPERA-SE: .pdf'
-                            : 'CLIQUE OU ARRASTE UM ARQUIVO PARA EFETUAR UPLOAD'}
-                        </p>
-                      </div>
-                      <div className="modalContainer">
+                      {file === null ? (
+                        <>
+                          <input {...getInputProps()} />
+                          <Icon
+                            icon="fluent:arrow-upload-16-regular"
+                            width={25}
+                          />
+                          <p>
+                            {isUnsuportedFile
+                              ? 'FORMATO DE ARQUIVO NÃO SUPORTADO! ESPERA-SE: .pdf'
+                              : 'CLIQUE OU ARRASTE UM ARQUIVO PARA EFETUAR UPLOAD'}
+                          </p>
+                        </>
+                      ) : (
                         <Form
                           sectionModalController={sectionModalController}
                           setSectionModalController={setSectionModalController}
                           file={file}
                           setFile={setFile}
+                          setOpen={props.setOpen}
                         />
-                      </div>
+                      )}
                     </div>
                   </div>
                 </section>

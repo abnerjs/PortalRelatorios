@@ -6,6 +6,7 @@ import {
   UsuarioPrestador,
   UsuariosPrestadoresState,
 } from 'src/store/ducks/usuariosPrestadores/types';
+import { ErrorAPI } from '../types';
 
 const initialState: UsuariosPrestadoresState = {
   data: [],
@@ -39,7 +40,7 @@ export const usuariosPrestadoresSlice = createSlice({
       state.error = undefined;
       state.loading = false;
     },
-    usuariosPrestadoresGetError: (state, action: PayloadAction<string>) => {
+    usuariosPrestadoresGetError: (state, action: PayloadAction<ErrorAPI>) => {
       state.error = action.payload;
     },
     usuariosPrestadoresGetFilterRequest: (
@@ -74,11 +75,11 @@ export const usuariosPrestadoresSlice = createSlice({
       state.operationError = undefined;
       state.operationState = 'success';
     },
-    usuariosPrestadoresOperationError: (state, action: PayloadAction<string>) => {
+    usuariosPrestadoresOperationError: (state, action: PayloadAction<ErrorAPI>) => {
       state.operationError = action.payload;
       state.operationState = 'error';
     },
-    usuariosPrestadoresDeleteError: (state, action: PayloadAction<string>) => {
+    usuariosPrestadoresDeleteError: (state, action: PayloadAction<ErrorAPI>) => {
       state.deleteError = action.payload;
       state.deleteState = 'error';
     },

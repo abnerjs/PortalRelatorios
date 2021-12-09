@@ -12,13 +12,10 @@ import { format } from 'date-fns';
 import brLocale from 'date-fns/locale/pt-BR';
 import { yupResolver } from '@hookform/resolvers/yup';
 import {
-  Alert,
   Autocomplete,
   Box,
   Button,
   CircularProgress,
-  Collapse,
-  IconButton,
   TextField,
   Typography,
 } from '@mui/material';
@@ -31,8 +28,8 @@ import { useAppDispatch, useAppSelector } from 'src/store';
 import { TipoFiltro } from 'src/store/ducks/base/types';
 import { fazendasGetFilterRequest } from 'src/store/ducks/fazendas';
 import { usuariosFornecedoresGetFilterRequest } from 'src/store/ducks/usuariosFornecedores';
-import { relatoriosDownloadRequest } from 'src/store/ducks/relatorios';
-import { Icon } from '@iconify/react';
+import { relatoriosDownloadIdle, relatoriosDownloadRequest } from 'src/store/ducks/relatorios';
+import DmCollapseHandler from 'src/components/DmCollapseHandler/DmCollapseHandler';
 
 interface FormProps {
   dtaInicio: Date | null;
@@ -46,7 +43,15 @@ const schema = Yup.object({
     .typeError('Data inválida!')
     .required('Campo obrigatório!'),
   dtaFim: Yup.date().typeError('Data inválida!').required('Campo obrigatório!'),
-  lstCodFazendas: Yup.string().nullable().default(null).notRequired(),
+  lstCodFazendas: Yup.string()
+    .nullable()
+    .default(null)
+    .when('lstCodFornecedores', {
+      is: (value: string) => (value !== '' ? true : false),
+      then: Yup.string().required(
+        'Campo obrigatório se há fornecedor selecionado!'
+      ),
+    }),
   lstCodFornecedores: Yup.string().nullable().default(null).notRequired(),
 });
 
@@ -69,6 +74,7 @@ const RelForCanaEntregue = () => {
   const pdfError = useAppSelector((state) => state.relatorios.error);
   const isLoading = useAppSelector((state) => state.relatorios.loading);
   const [isErrorCollapseOpened, setErrorCollapseOpened] = useState(false);
+
   const history = useHistory();
 
   const { handleSubmit, setValue, formState } = useForm<FormProps>({
@@ -98,12 +104,16 @@ const RelForCanaEntregue = () => {
 
   useEffect(() => {
     if (pdf) global.window.open(pdf);
-      else setErrorCollapseOpened(true);
+    else setErrorCollapseOpened(true);
   }, [pdf]);
 
   useEffect(() => {
     dispatch(usuariosFornecedoresGetFilterRequest());
   }, [dispatch]);
+
+  useEffect(() => {
+    dispatch(relatoriosDownloadIdle());
+  }, []);
 
   useEffect(() => {
     if (fornecedores.length !== 0) {
@@ -131,26 +141,11 @@ const RelForCanaEntregue = () => {
             className={`FormUser`}
           >
             <Typography variant="h6">Filtrar documento</Typography>
-            <Collapse in={pdfError !== undefined && isErrorCollapseOpened}>
-              <Alert
-                severity="error"
-                action={
-                  <IconButton
-                    aria-label="close"
-                    color="inherit"
-                    size="small"
-                    onClick={() => {
-                      setErrorCollapseOpened(false);
-                    }}
-                  >
-                    <Icon icon="fluent:dismiss-20-regular" />
-                  </IconButton>
-                }
-                sx={{ mb: 2 }}
-              >
-                {pdfError}
-              </Alert>
-            </Collapse>
+            <DmCollapseHandler
+              error={pdfError}
+              isErrorCollapseOpened={isErrorCollapseOpened}
+              setErrorCollapseOpened={setErrorCollapseOpened}
+            />
             <LocalizationProvider
               dateAdapter={AdapterDateFns}
               locale={brLocale}
@@ -267,7 +262,13 @@ const RelForCanaEntregue = () => {
                   variant="filled"
                   InputProps={{ ...params.InputProps, disableUnderline: true }}
                   error={!!formState.errors.lstCodFazendas}
-                  helperText={formState.errors.lstCodFazendas?.message}
+                  helperText={
+                    formState.errors.lstCodFazendas?.message
+                      ? formState.errors.lstCodFazendas.message
+                      : fornecedores.length === 0
+                      ? 'Opcional'
+                      : undefined
+                  }
                 />
               )}
               value={fazendas}

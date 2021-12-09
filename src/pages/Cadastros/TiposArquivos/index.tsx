@@ -6,6 +6,7 @@ import React, { useEffect, useState } from 'react';
 import { Icon } from '@iconify/react';
 import {
   Alert,
+  AlertColor,
   Backdrop,
   Box,
   Button,
@@ -25,11 +26,18 @@ import Row from 'src/pages/Cadastros/TiposArquivos/Components/Row';
 
 import { usePesquisa } from 'src/hooks/usePesquisa';
 import { useAppDispatch, useAppSelector } from 'src/store';
-import { tipoArquivoGetRequest, tipoArquivoDeleteRequest, tipoArquivoCancelOperation, tipoArquivoCancelDelete, tipoArquivoIdleOperation, tipoArquivoCleanError } from 'src/store/ducks/tipoArquivo';
+import {
+  tipoArquivoGetRequest,
+  tipoArquivoDeleteRequest,
+  tipoArquivoCancelOperation,
+  tipoArquivoCancelDelete,
+  tipoArquivoIdleOperation,
+  tipoArquivoCleanError,
+} from 'src/store/ducks/tipoArquivo';
 import { TipoArquivo } from 'src/store/ducks/tipoArquivo/types';
+import DmCollapseHandler from 'src/components/DmCollapseHandler/DmCollapseHandler';
 
 const TiposArquivos = () => {
-
   const [rowSelected, setRowSelected] = useState(-1);
   const [isModalOpen, setModalOpen] = useState(false);
   const [isFormOpened, setFormOpened] = useState(false);
@@ -67,11 +75,11 @@ const TiposArquivos = () => {
     if (newUser) {
       setRowSelected(-1);
     }
-    
+
     setTipoArquivo(newUser ? null : tiposArquivos[rowSelected]);
     setFormOpened(open);
     setNewUserSection(newUser);
-    
+
     setTimeout(() => {
       global.window.document.getElementById('desTipoArquivo')?.focus();
     }, 400);
@@ -126,7 +134,10 @@ const TiposArquivos = () => {
 
   useEffect(() => {
     if (deleteState === 'success') {
-      if (tipoArquivo?.idRelTpArquivo === tiposArquivos[rowSelected]?.idRelTpArquivo) {
+      if (
+        tipoArquivo?.idRelTpArquivo ===
+        tiposArquivos[rowSelected]?.idRelTpArquivo
+      ) {
         setFormOpened(false);
       }
 
@@ -190,26 +201,11 @@ const TiposArquivos = () => {
             >
               NOVO TIPO DE ARQUIVO
             </Button>
-            <Collapse in={getError !== undefined && isGetErrorCollapseOpened}>
-              <Alert
-                severity="error"
-                action={
-                  <IconButton
-                    aria-label="close"
-                    color="inherit"
-                    size="small"
-                    onClick={() => {
-                      setGetErrorCollapseOpened(false);
-                    }}
-                  >
-                    <Icon icon="fluent:dismiss-20-regular" />
-                  </IconButton>
-                }
-                style={{width: 470, margin: "20px 20px 0 20px"}}
-              >
-                {getError}
-              </Alert>
-            </Collapse>
+            <DmCollapseHandler
+              error={getError}
+              isErrorCollapseOpened={isGetErrorCollapseOpened}
+              setErrorCollapseOpened={setGetErrorCollapseOpened}
+            />
             <div
               className="rows"
               style={{ overflow: loading ? 'hidden' : 'auto' }}
@@ -248,28 +244,11 @@ const TiposArquivos = () => {
               >
                 <Fade in={isModalOpen}>
                   <Box className="modal-confirm-delete">
-                    <Collapse
-                      in={errors !== undefined && isErrorCollapseOpened}
-                    >
-                      <Alert
-                        severity="error"
-                        action={
-                          <IconButton
-                            aria-label="close"
-                            color="inherit"
-                            size="small"
-                            onClick={() => {
-                              setErrorCollapseOpened(false);
-                            }}
-                          >
-                            <Icon icon="fluent:dismiss-20-regular" />
-                          </IconButton>
-                        }
-                        sx={{ mb: 2 }}
-                      >
-                        {errors}
-                      </Alert>
-                    </Collapse>
+                    <DmCollapseHandler
+                      error={errors}
+                      isErrorCollapseOpened={isErrorCollapseOpened}
+                      setErrorCollapseOpened={setErrorCollapseOpened}
+                    />
                     <Typography id="transition-modal-title">
                       Tem certeza que quer deletar o tipoArquivo?
                     </Typography>
@@ -301,45 +280,46 @@ const TiposArquivos = () => {
                         CANCELAR
                       </Button>
                       <Box sx={{ m: 0, position: 'relative' }}>
-                      <Button
-                        variant="contained"
-                        onClick={() =>
-                          dispatch(tipoArquivoDeleteRequest(tiposArquivos[rowSelected]))
-                        }
-                        disabled={deleteState === 'request'}
-                        type="submit"
-                        className={
-                          deleteState === 'request'
-                            ? 'errorSecondary'
-                            : 'errorColor'
-                        }
-                      >
-                        DELETAR
-                      </Button>
-                      {deleteState === 'request' && (
-                        <CircularProgress
-                          size={24}
-                          sx={{
-                            color: '#CA4539',
-                            position: 'absolute',
-                            top: '50%',
-                            left: '50%',
-                            marginTop: '-12px',
-                            marginLeft: '-12px',
-                          }}
-                        />
-                      )}
-                    </Box>
+                        <Button
+                          variant="contained"
+                          onClick={() =>
+                            dispatch(
+                              tipoArquivoDeleteRequest(
+                                tiposArquivos[rowSelected]
+                              )
+                            )
+                          }
+                          disabled={deleteState === 'request'}
+                          type="submit"
+                          className={
+                            deleteState === 'request'
+                              ? 'errorSecondary'
+                              : 'errorColor'
+                          }
+                        >
+                          DELETAR
+                        </Button>
+                        {deleteState === 'request' && (
+                          <CircularProgress
+                            size={24}
+                            sx={{
+                              color: '#CA4539',
+                              position: 'absolute',
+                              top: '50%',
+                              left: '50%',
+                              marginTop: '-12px',
+                              marginLeft: '-12px',
+                            }}
+                          />
+                        )}
+                      </Box>
                     </div>
                   </Box>
                 </Fade>
               </Modal>
             )}
           </div>
-          <Form
-            data={tipoArquivo}
-            isFormOpened={isFormOpened}
-          />
+          <Form data={tipoArquivo} isFormOpened={isFormOpened} />
         </div>
       </div>
     </div>

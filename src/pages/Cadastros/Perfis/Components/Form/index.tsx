@@ -12,12 +12,23 @@ import TextField from '@mui/material/TextField';
 
 import InputSwitch from 'src/pages/Cadastros/Perfis/Components/InputSwitch';
 import { useAppSelector, useAppDispatch } from 'src/store';
-import { perfisCancelOperation, perfisPostRequest, perfisPutRequest } from 'src/store/ducks/perfis';
+import {
+  perfisCancelOperation,
+  perfisPostRequest,
+  perfisPutRequest,
+} from 'src/store/ducks/perfis';
 import { Perfil } from 'src/store/ducks/perfis/types';
 import { objetosGetFilterRequest } from 'src/store/ducks/objetos';
-import { Alert, CircularProgress, Collapse, IconButton } from '@mui/material';
+import {
+  Alert,
+  AlertColor,
+  CircularProgress,
+  Collapse,
+  IconButton,
+} from '@mui/material';
 import { Box } from '@mui/system';
 import { Icon } from '@iconify/react';
+import DmCollapseHandler from 'src/components/DmCollapseHandler/DmCollapseHandler';
 
 interface FormProps {
   data: Perfil | null;
@@ -36,10 +47,7 @@ const defaultValues: Perfil = {
   lstPerfisObjetos: [],
 };
 
-const Form: React.FC<FormProps> = ({
-  data,
-  isFormOpened,
-}: FormProps) => {
+const Form: React.FC<FormProps> = ({ data, isFormOpened }: FormProps) => {
   const dispatch = useAppDispatch();
   const objetos = useAppSelector((state) => state.objetos.filterList);
   const errors = useAppSelector((state) => state.perfis.operationError);
@@ -65,7 +73,7 @@ const Form: React.FC<FormProps> = ({
   const onCancel = () => {
     dispatch(perfisCancelOperation());
     setErrorCollapseOpened(false);
-  }
+  };
 
   useEffect(() => {
     dispatch(objetosGetFilterRequest());
@@ -82,26 +90,11 @@ const Form: React.FC<FormProps> = ({
       onSubmit={handleSubmit(onSubmit)}
       className={`FormUser${isFormOpened ? '' : ' invi'}`}
     >
-      <Collapse in={errors !== undefined && isErrorCollapseOpened}>
-        <Alert
-          severity="error"
-          action={
-            <IconButton
-              aria-label="close"
-              color="inherit"
-              size="small"
-              onClick={() => {
-                setErrorCollapseOpened(false);
-              }}
-            >
-              <Icon icon="fluent:dismiss-20-regular" />
-            </IconButton>
-          }
-          sx={{ mb: 2 }}
-        >
-          {errors}
-        </Alert>
-      </Collapse>
+      <DmCollapseHandler
+        error={errors}
+        isErrorCollapseOpened={isErrorCollapseOpened}
+        setErrorCollapseOpened={setErrorCollapseOpened}
+      />
       <input type="hidden" {...register('idRelPerfil')} />
       <Controller
         name="desPerfil"

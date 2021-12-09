@@ -2,6 +2,7 @@ import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 
 import { RespostaApi, TipoFiltro } from 'src/store/ducks/base/types';
 import { TiposRecursosState } from 'src/store/ducks/tiposRecursos/types';
+import { ErrorAPI } from '../types';
 
 const initialState: TiposRecursosState = {
   filterList: [],
@@ -25,7 +26,7 @@ export const tiposRecursosSlice = createSlice({
       state.filterList = action.payload.dados;
       state.error = undefined;
     },
-    tiposRecursosGetFilterError: (state, action: PayloadAction<string>) => {
+    tiposRecursosGetFilterError: (state, action: PayloadAction<ErrorAPI>) => {
       state.error = action.payload;
     },
   },

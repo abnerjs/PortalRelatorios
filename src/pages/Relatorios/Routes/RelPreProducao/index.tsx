@@ -13,6 +13,7 @@ import brLocale from 'date-fns/locale/pt-BR';
 import { yupResolver } from '@hookform/resolvers/yup';
 import {
   Alert,
+  AlertColor,
   Autocomplete,
   Box,
   Button,
@@ -30,8 +31,9 @@ import Header from 'src/components/Header';
 import { useAppDispatch, useAppSelector } from 'src/store';
 import { TipoFiltro } from 'src/store/ducks/base/types';
 import { usuariosPrestadoresGetFilterRequest } from 'src/store/ducks/usuariosPrestadores';
-import { relatoriosDownloadRequest } from 'src/store/ducks/relatorios';
+import { relatoriosDownloadIdle, relatoriosDownloadRequest } from 'src/store/ducks/relatorios';
 import { Icon } from '@iconify/react';
+import DmCollapseHandler from 'src/components/DmCollapseHandler/DmCollapseHandler';
 
 interface FormProps {
   dtaInicio: Date | null;
@@ -63,6 +65,7 @@ const RelPreProducao = () => {
   const pdfError = useAppSelector((state) => state.relatorios.error);
   const isLoading = useAppSelector((state) => state.relatorios.loading);
   const [isErrorCollapseOpened, setErrorCollapseOpened] = useState(false);
+
   const history = useHistory();
 
   const { handleSubmit, setValue, formState } = useForm<FormProps>({
@@ -98,6 +101,10 @@ const RelPreProducao = () => {
     dispatch(usuariosPrestadoresGetFilterRequest());
   }, [dispatch]);
 
+  useEffect(() => {
+    dispatch(relatoriosDownloadIdle());
+  }, []);
+
   return (
     <div className="Usuarios Demonstrativo">
       <div className="content">
@@ -112,26 +119,11 @@ const RelPreProducao = () => {
             className={`FormUser`}
           >
             <Typography variant="h6">Filtrar documento</Typography>
-            <Collapse in={pdfError !== undefined && isErrorCollapseOpened}>
-              <Alert
-                severity="error"
-                action={
-                  <IconButton
-                    aria-label="close"
-                    color="inherit"
-                    size="small"
-                    onClick={() => {
-                      setErrorCollapseOpened(false);
-                    }}
-                  >
-                    <Icon icon="fluent:dismiss-20-regular" />
-                  </IconButton>
-                }
-                sx={{ mb: 2 }}
-              >
-                {pdfError}
-              </Alert>
-            </Collapse>
+            <DmCollapseHandler
+              error={pdfError}
+              isErrorCollapseOpened={isErrorCollapseOpened}
+              setErrorCollapseOpened={setErrorCollapseOpened}
+            />
             <LocalizationProvider
               dateAdapter={AdapterDateFns}
               locale={brLocale}
