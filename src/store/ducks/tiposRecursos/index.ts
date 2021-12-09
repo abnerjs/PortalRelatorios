@@ -32,7 +32,10 @@ export const tiposRecursosSlice = createSlice({
   },
 });
 
-export const { tiposRecursosGetFilterRequest, tiposRecursosGetFilterSuccess, tiposRecursosGetFilterError } =
-  tiposRecursosSlice.actions;
+export const {
+  tiposRecursosGetFilterRequest,
+  tiposRecursosGetFilterSuccess,
+  tiposRecursosGetFilterError,
+} = tiposRecursosSlice.actions;
 
 export default tiposRecursosSlice.reducer;

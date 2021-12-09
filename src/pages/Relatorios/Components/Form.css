@@ -1,5 +1,3 @@
-
-
 .dropfilesContainer .dropzone.dropzoneFilled .formUpload {
   flex: 1;
   margin: 20px;
@@ -8,10 +6,7 @@
   flex-direction: row;
 }
 
-.dropfilesContainer
-  .dropzone.dropzoneFilled
-  .formUpload
-  .MuiTextField-root {
+.dropfilesContainer .dropzone.dropzoneFilled .formUpload .MuiTextField-root {
   margin-top: 0 !important;
 }
 
@@ -60,4 +55,9 @@
   top: 50% !important;
   left: 50% !important;
   transform: translate(-50%, -50%) !important;
+}
+
+#lstCodFornecedores,
+#lstCodPrestadores {
+  padding-left: 12px !important;
 }

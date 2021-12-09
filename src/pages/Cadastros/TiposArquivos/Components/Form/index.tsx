@@ -15,17 +15,12 @@ import {
 } from 'src/store/ducks/tipoArquivo';
 import { objetosGetFilterRequest } from 'src/store/ducks/objetos';
 import {
-  Alert,
   Autocomplete,
   CircularProgress,
-  Collapse,
-  IconButton,
   Button,
   TextField,
-  AlertColor,
 } from '@mui/material';
 import { Box } from '@mui/system';
-import { Icon } from '@iconify/react';
 import { TipoArquivo } from 'src/store/ducks/tipoArquivo/types';
 import DmCollapseHandler from 'src/components/DmCollapseHandler/DmCollapseHandler';
 
@@ -36,8 +31,8 @@ interface FormProps {
 
 const schema = Yup.object({
   idRelTpArquivo: Yup.number().notRequired(),
-  desTpArquivo: Yup.string().required('Campo obrigatório!'),
-  flgReferencia: Yup.string().required('Campo obrigatório!'),
+  desTpArquivo: Yup.string().nullable().required('Campo obrigatório!'),
+  flgReferencia: Yup.string().nullable().required('Campo obrigatório!'),
 });
 
 const defaultValues: TipoArquivo = {

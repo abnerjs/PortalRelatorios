@@ -1,4 +1,4 @@
-import { ErrorAPI } from "../types";
+import { ErrorAPI } from '../types';
 
 export interface RelatoriosState {
   data?: string;

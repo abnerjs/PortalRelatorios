@@ -28,7 +28,10 @@ import { useAppDispatch, useAppSelector } from 'src/store';
 import { TipoFiltro } from 'src/store/ducks/base/types';
 import { fazendasGetFilterRequest } from 'src/store/ducks/fazendas';
 import { usuariosFornecedoresGetFilterRequest } from 'src/store/ducks/usuariosFornecedores';
-import { relatoriosDownloadIdle, relatoriosDownloadRequest } from 'src/store/ducks/relatorios';
+import {
+  relatoriosDownloadIdle,
+  relatoriosDownloadRequest,
+} from 'src/store/ducks/relatorios';
 import DmCollapseHandler from 'src/components/DmCollapseHandler/DmCollapseHandler';
 
 interface FormProps {
@@ -109,11 +112,8 @@ const RelForCarregamento = () => {
 
   useEffect(() => {
     dispatch(usuariosFornecedoresGetFilterRequest());
-  }, [dispatch]);
-
-  useEffect(() => {
     dispatch(relatoriosDownloadIdle());
-  }, []);
+  }, [dispatch]);
 
   useEffect(() => {
     if (fornecedores.length !== 0) {

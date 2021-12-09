@@ -4,14 +4,17 @@ import 'src/pages/SectionizedTable.css';
 
 import React, { useEffect, useState } from 'react';
 import { Icon } from '@iconify/react';
-import { Alert, AlertColor, Collapse, IconButton, Skeleton, Tab, Tabs, TextField, Typography } from '@mui/material';
+import { Skeleton, Tab, Tabs, TextField, Typography } from '@mui/material';
 
 import Header from 'src/components/Header';
 import { usePesquisa } from 'src/hooks/usePesquisa';
 import Form from 'src/pages/Cadastros/VinculosUsuarios/Components/Form';
 import Row from 'src/pages/Cadastros/VinculosUsuarios/Components/Row';
 import { useAppDispatch, useAppSelector } from 'src/store';
-import { usuariosCleanError, usuariosGetRequest } from 'src/store/ducks/usuarios';
+import {
+  usuariosCleanError,
+  usuariosGetRequest,
+} from 'src/store/ducks/usuarios';
 import { Usuario } from 'src/store/ducks/usuarios/types';
 import DmCollapseHandler from 'src/components/DmCollapseHandler/DmCollapseHandler';
 
@@ -37,6 +40,7 @@ const VinculosUsuarios = () => {
 
   useEffect(() => {
     dispatch(usuariosCleanError());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleChangeFlgTipo = (
@@ -46,7 +50,7 @@ const VinculosUsuarios = () => {
     setFlgTipo(newValue);
     handleCustomParameters({ key: 'flgTipo', value: newValue });
 
-    if(rowSelected !== -1) {
+    if (rowSelected !== -1) {
       setFormOpened(false);
       setUsuario(null);
       setRowSelected(-1);
@@ -62,8 +66,6 @@ const VinculosUsuarios = () => {
   const handleChangeSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
     handlePesquisa('filtroPadrao', event.target.value);
   };
-
-  
 
   useEffect(() => {
     if (ufOperationState === 'success') {
@@ -103,7 +105,7 @@ const VinculosUsuarios = () => {
     <div className="Usuarios">
       <div className="content">
         <div className="head">
-          <Header title="Vínculo de Usuários" />
+          <Header title="Vínculos de Usuários" />
           <Typography variant="subtitle1">
             Usuários do sistema e seus vínculos
           </Typography>
@@ -191,7 +193,7 @@ const loadingUsersRows = () => {
 
   for (let i = 0; i < 25; i++) {
     arr.push(
-      <div className={`row`}>
+      <div key={`loadingRow-${i}`} className={`row`}>
         <div className="header">
           <Skeleton
             animation="wave"
@@ -200,7 +202,7 @@ const loadingUsersRows = () => {
             height={36}
             style={{ marginRight: '10px' }}
           />
-          <Typography component="div" variant="body1" style={{flex: 1}}>
+          <Typography component="div" variant="body1" style={{ flex: 1 }}>
             <Skeleton animation="wave" />
           </Typography>
         </div>

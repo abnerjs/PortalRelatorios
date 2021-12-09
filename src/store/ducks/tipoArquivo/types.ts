@@ -1,5 +1,5 @@
-import { InfoPaginacao, TipoFiltro } from "../base/types";
-import { ErrorAPI } from "../types";
+import { InfoPaginacao, TipoFiltro } from '../base/types';
+import { ErrorAPI } from '../types';
 
 export interface TipoArquivoState {
   data: Array<TipoArquivo>;

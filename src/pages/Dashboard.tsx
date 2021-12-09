@@ -30,8 +30,16 @@ const Dashboard = () => {
           </div>
         </div>
         <div className="row tables">
-          <Table arr={[]} title="Novos arquivos" subtitle="Tudo o que você não viu desde o seu último acesso" />
-          <Table arr={[]} title="Últimas atualizações" subtitle="Tudo o que você não viu desde o seu último acesso" />
+          <Table
+            arr={[]}
+            title="Novos arquivos"
+            subtitle="Tudo o que você não viu desde o seu último acesso"
+          />
+          <Table
+            arr={[]}
+            title="Últimas atualizações"
+            subtitle="Tudo o que você não viu desde o seu último acesso"
+          />
         </div>
       </div>
     </div>

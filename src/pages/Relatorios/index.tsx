@@ -1,240 +1,146 @@
-import 'src/pages/Usuarios.css';
-import 'src/pages/Relatorios/Styles/index.css';
-import 'src/pages/FormUser.css';
-import 'src/pages/SectionizedTable.css';
+import '../Dashboard.css';
+import './Styles/index.css';
 
-import React, { useState } from 'react';
-import brLocale from 'date-fns/locale/pt-BR';
-import ruLocale from 'date-fns/locale/ru';
-import deLocale from 'date-fns/locale/de';
-import enLocale from 'date-fns/locale/en-US';
-import {
-  Button,
-  ToggleButton,
-  ToggleButtonGroup,
-  TextField,
-  Typography,
-  Box,
-  Autocomplete,
-} from '@mui/material';
-import AdapterDateFns from '@mui/lab/AdapterDateFns';
-import DatePicker from '@mui/lab/DatePicker';
-import LocalizationProvider from '@mui/lab/LocalizationProvider';
+import { Typography, Button, CircularProgress, Skeleton } from '@mui/material';
+import React, { useEffect } from 'react';
 import Header from 'src/components/Header';
-import { DateRange, DateRangePicker } from '@mui/lab';
-import pdf from 'src/testing/basic.pdf';
+import Table, { LinkProps } from 'src/components/Table';
+import { useAppDispatch, useAppSelector } from 'src/store';
+import { Box } from '@mui/system';
+import ModalUpload from './Components/ModalUpload';
+import {
+  arquivosGetRequest,
+  arquivosUploadIdle,
+  arquivosDownloadIdle,
+} from 'src/store/ducks/relatoriosUpload';
+import { ArquivosByTipo } from 'src/store/ducks/relatoriosUpload/types';
 
-const localeMap = {
-  en: enLocale,
-  br: brLocale,
-  ru: ruLocale,
-  de: deLocale,
-};
+const Documentos = () => {
+  const dispatch = useAppDispatch();
+  const user = useAppSelector((state) => state.session.user);
+  const [open, setOpen] = React.useState(false);
+  const arquivosByTipo = useAppSelector((state) => state.arquivoUpload.data);
+  const arquivosState = useAppSelector((state) => state.arquivoUpload.state);
+  const file = useAppSelector((state) => state.arquivoUpload.file);
 
-const maskMap = {
-  br: '__/__/____',
-  en: '__/__/____',
-  ru: '__.__.____',
-  de: '__.__.____',
-};
+  useEffect(() => {
+    dispatch(arquivosGetRequest());
 
-const Demonstrativo = () => {
-  const [locale, setLocale] = React.useState<keyof typeof maskMap>('br');
-  const [value, setValue] = React.useState<DateRange<Date>>([null, null]);
-  const [autocompleteValue, setAutocompleteValue] = React.useState<
-    | Array<{
-        code: string;
-        label: string;
-        phone: string;
-      }>
-    | undefined
-  >(undefined);
+    return () => {
+      dispatch(arquivosDownloadIdle());
+      dispatch(arquivosUploadIdle());
+    };
+  }, [dispatch]);
 
-  const countries = [
-    { code: 'AD', label: 'Andorra', phone: '376' },
-    { code: 'AE', label: 'United Arab Emirates', phone: '971' },
-    { code: 'AF', label: 'Afghanistan', phone: '93' },
-    { code: 'AG', label: 'Antigua and Barbuda', phone: '1-268' },
-    { code: 'AI', label: 'Anguilla', phone: '1-264' },
-    { code: 'AL', label: 'Albania', phone: '355' },
-    { code: 'AM', label: 'Armenia', phone: '374' },
-  ];
+  useEffect(() => {
+    if (file) window.open(file);
+  }, [file]);
 
-  const arr: string[] = ['teste1', 'teste2', 'teste3', 'teste4'];
+  function getObjetos(flgFiltro: string): Array<LinkProps> {
+    const objetos: Array<LinkProps> = [];
 
-  const selectLocale = (newLocale: any) => {
-    setLocale(newLocale);
-  };
+    user?.lstSistemas?.forEach((sistema) =>
+      sistema.lstTiposObjetos?.forEach((tipoObjeto) => {
+        if (tipoObjeto.flgTipo === flgFiltro)
+          tipoObjeto.lstObjetos?.forEach((objeto) => {
+            objetos.push({
+              name: objeto.desObjeto,
+              linkTo: `/${objeto.nomPagina.toLowerCase()}`,
+            });
+          });
+      })
+    );
 
-  function handleSubmit(e: any) {
-    e.preventDefault();
+    return objetos;
   }
 
-  function handleSelectAutocompleteValue(
-    e: any,
-    newValue: { code: string; label: string; phone: string }[] | undefined
-  ) {
-    setAutocompleteValue(newValue);
-  }
+  const prestadores = getObjetos('P');
+  const fornecedores = getObjetos('F');
 
   return (
-    <div className="Usuarios Demonstrativo">
+    <div className="Dashboard">
       <div className="content">
         <div className="head">
-          <Header title="Demonstrativo X" />
-          <Typography variant="subtitle1">26/01/2019 17:50</Typography>
+          <Header title="Relatórios" />
+          <Typography variant="subtitle1">
+            Relatórios e demonstrativos disponíveis para consulta
+          </Typography>
         </div>
 
-        <div className="row">
-          <form className={`FormUser`} onSubmit={handleSubmit}>
-            <Typography variant="h6">Filtrar documento</Typography>
-            <LocalizationProvider
-              dateAdapter={AdapterDateFns}
-              locale={localeMap[locale]}
-            >
-              <DateRangePicker
-                mask={maskMap[locale]}
-                startText="Data inicial"
-                endText="Data final"
-                value={value}
-                onChange={(newValue) => {
-                  setValue(newValue);
-                }}
-                renderInput={(startProps, endProps) => (
-                  <React.Fragment>
-                    <TextField
-                      {...startProps}
-                      variant="filled"
-                      margin="dense"
-                      fullWidth
-                      InputProps={{
-                        disableUnderline: true,
-                      }}
-                    />
-                    <Box sx={{ mx: '6px' }}></Box>
-                    <TextField
-                      {...endProps}
-                      variant="filled"
-                      margin="dense"
-                      fullWidth
-                      InputProps={{
-                        disableUnderline: true,
-                      }}
-                    />
-                  </React.Fragment>
-                )}
-              />
-            </LocalizationProvider>
-            <Autocomplete
-              multiple
-              disableListWrap={true}
-              fullWidth
-              clearOnBlur
-              selectOnFocus
-              handleHomeEndKeys
-              disableCloseOnSelect
-              limitTags={1}
-              options={arr}
-              filterSelectedOptions
-              ChipProps={{ size: `small` }}
-              renderInput={(params: any) => (
-                <TextField
-                  {...params}
-                  label="Fornecedores"
-                  variant="filled"
-                  margin="dense"
-                  InputProps={{
-                    ...params.InputProps,
-                    disableUnderline: true,
-                  }}
-                />
-              )}
+        <Box sx={{ m: 0, position: 'relative' }} className="btnUpload">
+          <Button
+            variant="contained"
+            type="submit"
+            className={false ? 'secondary' : ''}
+            style={{ marginTop: 8 }}
+            onClick={() => {
+              setOpen(true);
+              dispatch(arquivosUploadIdle());
+            }}
+          >
+            UPLOAD DE RELATÓRIOS
+          </Button>
+          {false && (
+            <CircularProgress
+              size={24}
+              sx={{
+                color: '#23ACE6',
+                position: 'absolute',
+                top: '50%',
+                left: '50%',
+                marginTop: '-12px',
+                marginLeft: '-12px',
+              }}
             />
-            <Autocomplete
-              multiple
-              disableListWrap={true}
-              fullWidth
-              clearOnBlur
-              selectOnFocus
-              handleHomeEndKeys
-              disableCloseOnSelect
-              limitTags={1}
-              options={arr}
-              filterSelectedOptions
-              ChipProps={{ size: `small` }}
-              renderInput={(params: any) => (
-                <TextField
-                  {...params}
-                  label="Prestadores"
-                  variant="filled"
-                  margin="dense"
-                  InputProps={{
-                    ...params.InputProps,
-                    disableUnderline: true,
-                  }}
-                />
-              )}
-            />
-            <Autocomplete
-              multiple
-              disableListWrap={true}
-              fullWidth
-              clearOnBlur
-              selectOnFocus
-              handleHomeEndKeys
-              disableCloseOnSelect
-              limitTags={1}
-              options={arr}
-              filterSelectedOptions
-              ChipProps={{ size: `small` }}
-              renderInput={(params: any) => (
-                <TextField
-                  {...params}
-                  label="Fazendas"
-                  variant="filled"
-                  margin="dense"
-                  InputProps={{
-                    ...params.InputProps,
-                    disableUnderline: true,
-                  }}
-                />
-              )}
-            />
-            <Autocomplete
-              fullWidth
-              clearOnBlur
-              selectOnFocus
-              handleHomeEndKeys
-              disableCloseOnSelect
-              options={arr}
-              renderInput={(params: any) => (
-                <TextField
-                  {...params}
-                  label="Recurso"
-                  variant="filled"
-                  margin="dense"
-                  InputProps={{
-                    ...params.InputProps,
-                    disableUnderline: true,
-                  }}
-                />
-              )}
-            />
+          )}
+        </Box>
 
-            <div className="buttons">
-              <Button variant="contained" className="secondary">
-                VOLTAR
-              </Button>
-              <Button variant="contained">GERAR</Button>
-            </div>
-          </form>
-          <div className="pdf" style={{ display: 'none' }}>
-            <embed
-              width="100%"
-              height="100%"
-              src={pdf}
-              type="application/pdf"
-            />
+        <ModalUpload open={open} setOpen={setOpen} />
+
+        <div
+          className="row tables"
+          style={{
+            gridTemplateColumns:
+              arquivosState === 's' && arquivosByTipo?.length === 0
+                ? '1fr'
+                : '1fr 1fr',
+            gap:
+              arquivosState === 's' && arquivosByTipo?.length === 0
+                ? '0'
+                : '30px',
+            width:
+              arquivosState === 's' && arquivosByTipo?.length === 0
+                ? '50%'
+                : '100%',
+            marginLeft:
+              arquivosState === 's' && arquivosByTipo?.length === 0
+                ? '25%'
+                : '0',
+            transition: 'margin-left ease 0.4s',
+          }}
+        >
+          <div className="column">
+            {fornecedores.length !== 0 && (
+              <Table arr={fornecedores} title="Para fornecedores" />
+            )}
+            {prestadores.length !== 0 && (
+              <Table arr={prestadores} title="Para prestadores" />
+            )}
+          </div>
+          <div
+            className={`column${arquivosState === 'l' ? ' loading' : ''}`}
+            style={{
+              display:
+                arquivosState === 's' && arquivosByTipo?.length === 0
+                  ? 'none'
+                  : 'flex',
+            }}
+          >
+            {arquivosState === 'l' ? (
+              loadingSkeletonElements()
+            ) : (
+              <div className="filesTypes">{filesTypes(arquivosByTipo)}</div>
+            )}
           </div>
         </div>
       </div>
@@ -242,4 +148,91 @@ const Demonstrativo = () => {
   );
 };
 
-export default Demonstrativo;
+export default Documentos;
+
+function filesTypes(arquivosByTipo: ArquivosByTipo[] | undefined): any {
+  let arrAux: JSX.Element[] = [];
+
+  arquivosByTipo?.forEach((item, index) => {
+    arrAux.push(
+      <Table
+        key={item.idRelTpArquivo}
+        arrArquivo={item.arquivos}
+        title={item.desTpArquivo}
+      />
+    );
+  });
+
+  return arrAux;
+}
+
+const loadingSkeletonElements = () => {
+  return (
+    <div className="skeletons">
+      <Typography variant="h3" sx={{ mb: 2 }}>
+        <Skeleton />
+      </Typography>
+      <Typography variant="body1" sx={{ mb: 1 }}>
+        <Skeleton />
+      </Typography>
+      <Typography variant="body1" sx={{ mb: 1 }}>
+        <Skeleton />
+      </Typography>
+      <Typography variant="body1" sx={{ mb: 1 }}>
+        <Skeleton />
+      </Typography>
+      <Typography variant="body1" sx={{ mb: 1 }}>
+        <Skeleton />
+      </Typography>
+
+      <Typography variant="h3" sx={{ mb: 2, mt: 3 }}>
+        <Skeleton />
+      </Typography>
+      <Typography variant="body1" sx={{ mb: 1 }}>
+        <Skeleton />
+      </Typography>
+      <Typography variant="body1" sx={{ mb: 1 }}>
+        <Skeleton />
+      </Typography>
+      <Typography variant="body1" sx={{ mb: 1 }}>
+        <Skeleton />
+      </Typography>
+      <Typography variant="body1" sx={{ mb: 1 }}>
+        <Skeleton />
+      </Typography>
+
+      <Typography variant="h3" sx={{ mb: 2, mt: 3 }}>
+        <Skeleton />
+      </Typography>
+      <Typography variant="body1" sx={{ mb: 1 }}>
+        <Skeleton />
+      </Typography>
+      <Typography variant="body1" sx={{ mb: 1 }}>
+        <Skeleton />
+      </Typography>
+      <Typography variant="body1" sx={{ mb: 1 }}>
+        <Skeleton />
+      </Typography>
+      <Typography variant="body1" sx={{ mb: 1 }}>
+        <Skeleton />
+      </Typography>
+
+      <Typography variant="h3" sx={{ mb: 2, mt: 3 }}>
+        <Skeleton />
+      </Typography>
+      <Typography variant="body1" sx={{ mb: 1 }}>
+        <Skeleton />
+      </Typography>
+      <Typography variant="body1" sx={{ mb: 1 }}>
+        <Skeleton />
+      </Typography>
+      <Typography variant="body1" sx={{ mb: 1 }}>
+        <Skeleton />
+      </Typography>
+      <Typography variant="body1" sx={{ mb: 1 }}>
+        <Skeleton />
+      </Typography>
+      <div className="overflown"></div>
+    </div>
+  );
+};

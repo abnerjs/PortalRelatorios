@@ -21,18 +21,12 @@ import { getInitialsFromString } from 'src/utils/StringUtils';
 import * as Yup from 'yup';
 import { useAppDispatch, useAppSelector } from 'src/store';
 import { Box } from '@mui/system';
-import { loginRequest } from 'src/store/ducks/login';
-import {
-  ChangeUsuarioPasswordRequest,
-  Usuario,
-} from 'src/store/ducks/usuarios/types';
+import { ChangeUsuarioPasswordRequest } from 'src/store/ducks/usuarios/types';
 import { yupResolver } from '@hookform/resolvers/yup';
 import {
   changeUsuarioPasswordCancel,
   changeUsuarioPasswordIdle,
   changeUsuarioPasswordRequest,
-  usuariosCancelOperation,
-  usuariosGetRequest,
 } from 'src/store/ducks/usuarios';
 
 interface ProfileMenuProps {
@@ -273,7 +267,7 @@ const ProfileMenu = (props: ProfileMenuProps) => {
                   <TextField
                     id="desLogin"
                     fullWidth
-                    label="Nome de usuário atual"
+                    label="Nome de usuário"
                     placeholder="Ex.: joao_silva"
                     className="secondary"
                     margin="dense"
@@ -372,7 +366,7 @@ const ProfileMenu = (props: ProfileMenuProps) => {
                   />
                 )}
               />
-              <Stack direction="row" sx={{ mt: 1 }}>
+              <Stack direction="row" sx={{ mt: 2 }}>
                 <Button
                   onClick={() => {
                     onCancel();

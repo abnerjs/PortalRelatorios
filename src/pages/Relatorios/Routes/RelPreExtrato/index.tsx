@@ -18,10 +18,6 @@ import {
   TextField,
   Typography,
   CircularProgress,
-  Collapse,
-  Alert,
-  IconButton,
-  AlertColor,
 } from '@mui/material';
 import { DateRange, DateRangePicker } from '@mui/lab';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
@@ -31,8 +27,10 @@ import Header from 'src/components/Header';
 import { useAppDispatch, useAppSelector } from 'src/store';
 import { TipoFiltro } from 'src/store/ducks/base/types';
 import { usuariosPrestadoresGetFilterRequest } from 'src/store/ducks/usuariosPrestadores';
-import { relatoriosDownloadIdle, relatoriosDownloadRequest } from 'src/store/ducks/relatorios';
-import { Icon } from '@iconify/react';
+import {
+  relatoriosDownloadIdle,
+  relatoriosDownloadRequest,
+} from 'src/store/ducks/relatorios';
 import DmCollapseHandler from 'src/components/DmCollapseHandler/DmCollapseHandler';
 
 interface FormProps {
@@ -93,16 +91,13 @@ const RelPreExtrato = () => {
 
   useEffect(() => {
     if (pdf) global.window.open(pdf);
-      else setErrorCollapseOpened(true);
+    else setErrorCollapseOpened(true);
   }, [pdf]);
 
   useEffect(() => {
     dispatch(usuariosPrestadoresGetFilterRequest());
-  }, [dispatch]);
-
-  useEffect(() => {
     dispatch(relatoriosDownloadIdle());
-  }, []);
+  }, [dispatch]);
 
   return (
     <div className="Usuarios Demonstrativo">

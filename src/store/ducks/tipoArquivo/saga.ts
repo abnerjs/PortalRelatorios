@@ -19,7 +19,9 @@ import {
 } from 'src/store/ducks/tipoArquivo';
 import { TipoArquivo } from 'src/store/ducks/tipoArquivo/types';
 
-export function* sendGetRequest(action: ReturnType<typeof tipoArquivoGetRequest>) {
+export function* sendGetRequest(
+  action: ReturnType<typeof tipoArquivoGetRequest>
+) {
   try {
     const query = action.payload ?? '';
 
@@ -49,7 +51,9 @@ export function* sendGetFilterRequest(
   } catch (error: any) {}
 }
 
-export function* sendPostRequest(action: ReturnType<typeof tipoArquivoPostRequest>) {
+export function* sendPostRequest(
+  action: ReturnType<typeof tipoArquivoPostRequest>
+) {
   try {
     yield call(api.post, `TiposArquivos/v1/`, action.payload);
     yield put(tipoArquivoOperationSuccess());
@@ -58,7 +62,9 @@ export function* sendPostRequest(action: ReturnType<typeof tipoArquivoPostReques
   }
 }
 
-export function* sendPutRequest(action: ReturnType<typeof tipoArquivoPutRequest>) {
+export function* sendPutRequest(
+  action: ReturnType<typeof tipoArquivoPutRequest>
+) {
   try {
     yield call(api.put, `TiposArquivos/v1/`, action.payload);
     yield put(tipoArquivoOperationSuccess());

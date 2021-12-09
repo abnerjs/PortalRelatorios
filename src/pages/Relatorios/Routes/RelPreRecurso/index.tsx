@@ -12,14 +12,10 @@ import { format } from 'date-fns';
 import brLocale from 'date-fns/locale/pt-BR';
 import { yupResolver } from '@hookform/resolvers/yup';
 import {
-  Alert,
-  AlertColor,
   Autocomplete,
   Box,
   Button,
   CircularProgress,
-  Collapse,
-  IconButton,
   TextField,
   Typography,
 } from '@mui/material';
@@ -30,10 +26,12 @@ import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import Header from 'src/components/Header';
 import { useAppDispatch, useAppSelector } from 'src/store';
 import { TipoFiltro } from 'src/store/ducks/base/types';
-import { relatoriosDownloadIdle, relatoriosDownloadRequest } from 'src/store/ducks/relatorios';
+import {
+  relatoriosDownloadIdle,
+  relatoriosDownloadRequest,
+} from 'src/store/ducks/relatorios';
 import { tiposRecursosGetFilterRequest } from 'src/store/ducks/tiposRecursos';
 import { usuariosPrestadoresGetFilterRequest } from 'src/store/ducks/usuariosPrestadores';
-import { Icon } from '@iconify/react';
 import DmCollapseHandler from 'src/components/DmCollapseHandler/DmCollapseHandler';
 
 interface FormProps {
@@ -45,7 +43,7 @@ interface FormProps {
 
 const schema = Yup.object({
   dtaInicio: Yup.date()
-  .required('Campo obrigatório!')
+    .required('Campo obrigatório!')
     .typeError('Data inválida!'),
   dtaFim: Yup.date().typeError('Data inválida!').required('Campo obrigatório!'),
   codTpRecurso: Yup.string().required('Campo obrigatório!'),
@@ -100,17 +98,14 @@ const RelPreRecurso = () => {
 
   useEffect(() => {
     if (pdf) global.window.open(pdf);
-      else setErrorCollapseOpened(true);
+    else setErrorCollapseOpened(true);
   }, [pdf]);
 
   useEffect(() => {
     dispatch(usuariosPrestadoresGetFilterRequest());
     dispatch(tiposRecursosGetFilterRequest());
-  }, [dispatch]);
-
-  useEffect(() => {
     dispatch(relatoriosDownloadIdle());
-  }, []);
+  }, [dispatch]);
 
   return (
     <div className="Usuarios Demonstrativo">

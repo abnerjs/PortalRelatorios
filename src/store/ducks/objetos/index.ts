@@ -32,7 +32,10 @@ export const objetosSlice = createSlice({
   },
 });
 
-export const { objetosGetFilterRequest, objetosGetFilterSuccess, objetosGetFilterError } =
-  objetosSlice.actions;
+export const {
+  objetosGetFilterRequest,
+  objetosGetFilterSuccess,
+  objetosGetFilterError,
+} = objetosSlice.actions;
 
 export default objetosSlice.reducer;

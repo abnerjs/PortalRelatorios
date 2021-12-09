@@ -53,7 +53,7 @@ export const perfisSlice = createSlice({
     },
     perfisPutRequest: (state, action: PayloadAction<Perfil>) => {
       state.operationState = 'request';
-    },    
+    },
     perfisOperationSuccess: (state) => {
       state.operationError = undefined;
       state.operationState = 'success';

@@ -1,5 +1,4 @@
 import { AxiosResponse } from 'axios';
-import axios from 'axios';
 import { all, call, put, takeLatest } from 'redux-saga/effects';
 
 import api from 'src/services/api';
@@ -91,15 +90,16 @@ export function* sendDownloadRequest(
   }
 }
 
-
-
 export function* sendUploadRequest(
   action: ReturnType<typeof arquivosUploadRequest>
 ) {
   let formData = new FormData();
   formData.append('formFile', action.payload.formFile);
   formData.append('nomArquivo', action.payload.nomArquivo);
-  formData.append('idRelTpArquivo', action.payload.idRelTpArquivo.idRelTpArquivo.toString());
+  formData.append(
+    'idRelTpArquivo',
+    action.payload.idRelTpArquivo.idRelTpArquivo.toString()
+  );
 
   action.payload.lstCodFornecedores?.forEach((item, index) =>
     formData.append(`lstCodFornecedores[${index}]`, item.toString())

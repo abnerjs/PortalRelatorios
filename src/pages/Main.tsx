@@ -1,12 +1,14 @@
-import React from 'react';
 import './Main.css';
+
+import React from 'react';
 import { Route, Switch } from 'react-router';
+
 import Menu from 'src/components/Menu';
 import Dashboard from './Dashboard';
 import Usuarios from './Cadastros/Usuarios';
 import Perfis from './Cadastros/Perfis';
 import VinculosUsuarios from './Cadastros/VinculosUsuarios';
-import Documentos from './Documentos/Documentos';
+import Relatorios from './Relatorios';
 import RelPreExtrato from './Relatorios/Routes/RelPreExtrato';
 import RelPreCombustivel from './Relatorios/Routes/RelPreCombustivel';
 import RelPreProducao from './Relatorios/Routes/RelPreProducao';
@@ -35,7 +37,7 @@ const Main = () => {
           <VinculosUsuarios />
         </Route>
         <Route path="/relatorios">
-          <Documentos />
+          <Relatorios />
         </Route>
         <Route path="/relpreextrato">
           <RelPreExtrato />
