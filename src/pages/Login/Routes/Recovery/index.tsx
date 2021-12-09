@@ -20,6 +20,7 @@ import { Box } from '@mui/system';
 
 import { useAppDispatch, useAppSelector } from 'src/store';
 import { recoveryRequest, reset } from 'src/store/ducks/login';
+import DmCollapseHandler from 'src/components/DmCollapseHandler/DmCollapseHandler';
 
 interface FormInputs {
   desLogin: string;
@@ -34,7 +35,6 @@ const schema = Yup.object({
 const Recovery: React.FC = () => {
   const dispatch = useAppDispatch();
   const recoveryError = useAppSelector((state) => state.session.error);
-  const message = useAppSelector((state) => state.session.message);
   const operationState = useAppSelector(
     (state) => state.session.operationState
   );
@@ -72,24 +72,11 @@ const Recovery: React.FC = () => {
           Preencha o formulário a seguir para recuperar a sua senha de acesso
         </p>
       </div>
-      <Collapse in={isAllertCollapseOpened}>
-        <Alert
-          severity={recoveryError ? 'error' : 'success'}
-          action={
-            <IconButton
-              size="small"
-              color="inherit"
-              aria-label="close"
-              onClick={() => setAlertCollapseOpened(false)}
-            >
-              <Icon icon="fluent:dismiss-20-regular" />
-            </IconButton>
-          }
-          sx={{ mb: 2 }}
-        >
-          {recoveryError || message}
-        </Alert>
-      </Collapse>
+      <DmCollapseHandler
+        error={recoveryError}
+        isErrorCollapseOpened={isAllertCollapseOpened}
+        setErrorCollapseOpened={setAlertCollapseOpened}
+      />
       <TextField
         id="desLogin"
         autoFocus
