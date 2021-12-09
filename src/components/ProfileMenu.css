@@ -1,73 +1,148 @@
 .ProfileMenu {
-    display: flex;
-    align-items: center;
-    cursor: pointer;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
 }
 
 .ProfileMenu div.image {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    background-color: #1878a1;
-    margin: 0 10px;
-    color: white;
-    font-weight: var(--bold);
-    overflow: hidden;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #1878a1;
+  margin: 0 10px;
+  color: white;
+  font-weight: var(--bold);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .ProfileMenu .collapseToggle {
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
 }
 
 .ProfileMenu .menuCollapse {
-    position: absolute;
-    right: 40px;
-    top: 90px;  
-    width: 250px;
-    padding: 10px 0;
-    border-radius: 16px;
-    background-color: white;
-    display: flex;
-    visibility: hidden;
-    opacity: 0;
-    flex-direction: column; 
-    align-items: center;
-    justify-content: center;
-    transition: all ease 0.2s;
+  position: absolute;
+  right: 40px;
+  top: 90px;
+  width: 250px;
+  padding: 10px 0;
+  border-radius: 16px;
+  background-color: white;
+  display: flex;
+  visibility: hidden;
+  opacity: 0;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transition: all ease 0.2s;
+  z-index: 1;
 }
 
 .ProfileMenu .menuCollapse.active {
-    visibility: visible;
-    opacity: 1;
+  visibility: visible;
+  opacity: 1;
 }
 
 .ProfileMenu .menuCollapse div {
-    height: 40px;
-    display: flex;
-    align-items: center;
-    font-weight: var(--medium);
-    font-size: 10pt;
-    width: 100%;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  font-weight: var(--medium);
+  font-size: 10pt;
+  width: 100%;
 }
 
 .ProfileMenu .menuCollapse div.item p {
-    width: 100%;
-    text-align: center;
+  width: 100%;
+  text-align: center;
 }
 
 .ProfileMenu .menuCollapse div.item p::selection {
-    background: none;
+  background: none;
 }
 
 .ProfileMenu .menuCollapse div.item:last-child p {
-    color: var(--errorColor);
+  color: var(--errorColor);
 }
 
 .ProfileMenu .menuCollapse div:hover {
-    background: rgb(245, 245, 249);
-    background: linear-gradient(90deg, rgba(255, 255, 255, 1) 0%, rgba(245, 245, 249, 1) 50%, rgba(255, 255, 255, 1) 100%);
+  background: rgb(245, 245, 249);
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 1) 0%,
+    rgba(245, 245, 249, 1) 50%,
+    rgba(255, 255, 255, 1) 100%
+  );
+}
+
+.profile-modal {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 700px;
+  max-height: calc(90% - 80px);
+  padding: 40px;
+  background-color: white;
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 10px 10px 40px rgba(0, 0, 0, 0.4);
+  outline: none;
+}
+
+.profile-modal .transition-modal-description {
+  margin-top: 20px;
+  font-size: 16pt;
+  font-weight: var(--medium);
+}
+
+.profile-modal .form-edit-profile {
+  width: 70%;
+  margin-top: 10px;
+  overflow: auto;
+  padding: 0 25px;
+}
+
+.profile-modal .icon {
+    width: 108px;
+    height: 108px;
+    position: relative;
+    display: inline-block;
+}
+
+.profile-modal .icon:before,
+.profile-modal .icon:after {
+    content: '';
+    width: 72px;
+    height: 12px;
+    background: #fff;
+    position: absolute;
+    transition: all .2s ease-in-out 0.8s;
+    border-radius: 4px;
+}
+
+.profile-modal .icon:before {
+    left: 10px;
+    width: 42px;
+    bottom: 36px;
+    transform: scale(0) rotate(0);
+}
+
+.profile-modal .icon:after {
+    top: 48px;
+    right: 8px;
+    transform: scale(0) rotate(0);
+}
+
+.profile-modal .success.icon:before {
+    transform: scale(1) rotate(45deg);
+}
+
+.profile-modal .success.icon:after {
+    transform: scale(1) rotate(-45deg);
 }
