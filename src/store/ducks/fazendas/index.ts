@@ -32,7 +32,10 @@ export const fazendasSlice = createSlice({
   },
 });
 
-export const { fazendasGetFilterRequest, fazendasGetFilterSuccess, fazendasGetFilterError } =
-  fazendasSlice.actions;
+export const {
+  fazendasGetFilterRequest,
+  fazendasGetFilterSuccess,
+  fazendasGetFilterError,
+} = fazendasSlice.actions;
 
 export default fazendasSlice.reducer;

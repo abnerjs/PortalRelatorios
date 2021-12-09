@@ -23,7 +23,7 @@
     display: flex;
 }
 
-.Dashboard .cards > div:not(:last-child) {
+.Dashboard .cards>div:not(:last-child) {
     margin-right: 10px;
 }
 

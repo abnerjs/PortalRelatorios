@@ -5,15 +5,11 @@ import 'src/pages/SectionizedTable.css';
 import React, { useEffect, useState } from 'react';
 import { Icon } from '@iconify/react';
 import {
-  Alert,
-  AlertColor,
   Backdrop,
   Box,
   Button,
   CircularProgress,
-  Collapse,
   Fade,
-  IconButton,
   Modal,
   Skeleton,
   TextField,
@@ -29,7 +25,6 @@ import { useAppDispatch, useAppSelector } from 'src/store';
 import {
   tipoArquivoGetRequest,
   tipoArquivoDeleteRequest,
-  tipoArquivoCancelOperation,
   tipoArquivoCancelDelete,
   tipoArquivoIdleOperation,
   tipoArquivoCleanError,
@@ -65,11 +60,8 @@ const TiposArquivos = () => {
 
   useEffect(() => {
     dispatch(tipoArquivoCleanError());
-  }, []);
-
-  useEffect(() => {
     dispatch(tipoArquivoIdleOperation());
-  }, []);
+  }, [dispatch]);
 
   const handleFormOpen = (open: boolean, newUser: boolean) => {
     if (newUser) {
@@ -333,7 +325,7 @@ const loadingProfilesRows = () => {
 
   for (let i = 0; i < 25; i++) {
     arr.push(
-      <div className={`row`}>
+      <div key={`loadingRow-${i}`} className={`row`}>
         <div className="header">
           <Typography component="div" variant="body1" style={{ flex: 1 }}>
             <Skeleton animation="wave" />

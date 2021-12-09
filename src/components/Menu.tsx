@@ -137,7 +137,8 @@ const Menu = () => {
         <Link to="/tiposarquivos" tabIndex={-1}>
           <div
             className={
-              `menuButton` + (location.pathname === '/tiposarquivos' ? ' active' : '')
+              `menuButton` +
+              (location.pathname === '/tiposarquivos' ? ' active' : '')
             }
             onClick={() => setState(false)}
           >

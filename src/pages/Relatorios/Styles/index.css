@@ -1,16 +1,138 @@
-.pdf {
-  height: 3000px;
+.dropfiles {
   width: 100%;
-  margin: 40px 40px 0 40px;
+  margin-top: 25px;
+  height: 100%;
 }
 
-.Demonstrativo .row {
+.dropfilesContainer {
+  width: 100%;
+}
+
+.modalControllerContainer {
+  display: flex;
   flex-direction: column;
-  overflow: auto !important;
-  align-items: center !important;
-  flex-flow: row wrap;
+  width: 100%;
+  flex: 1;
+  height: 100%;
 }
 
-.Demonstrativo .FormUser {
-  overflow-y: initial;
+.modalControllerContainer {
+  justify-content: center;
+  align-items: center;
+}
+
+.dropfilesContainer .dropzone {
+  height: 186px;
+  width: 100%;
+  border: 2px dashed #aaa;
+  border-radius: 16px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #aaa;
+  font-weight: var(--medium);
+  outline: none;
+  transition: all ease 0.2s;
+}
+
+.dropfilesContainer .dropzone.unsuportedAlert {
+  border: 2px dashed var(--errorColor);
+  color: var(--errorColor);
+}
+
+.dropfilesContainer .dropzone.dropzoneFilled {
+  height: auto;
+  min-height: 186px;
+  display: flex;
+  justify-content: flex-start;
+  cursor: unset;
+  flex: 1;
+  flex-direction: column;
+}
+
+.dropfilesContainer .dropzone:not(.dropzoneFilled):not(.unsuportedAlert):hover {
+  color: var(--primary50);
+  border-color: var(--primary50);
+}
+
+/*LISTAS -------------------------------*/
+
+.row.tables .column {
+  flex: 1;
+  overflow: auto;
+  margin-right: 20px;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  max-height: 100%;
+}
+
+.row.tables .column .Table {
+  margin-bottom: 10px;
+}
+
+.row.tables .column:last-child .Table {
+  position: relative;
+  height: fit-content;
+  max-height: 255px;
+}
+
+.row.tables .column:not(.loading):last-child {
+  overflow: auto;
+  position: relative;
+  width: 100%;
+}
+
+.row.tables .column.loading {
+  overflow: hidden;
+  mix-blend-mode: multiply;
+  position: relative;
+}
+
+.row.tables .column.loading .overflown::after {
+  position: absolute;
+  content: '';
+  left: 0px;
+  top: 0px;
+  height: 100%;
+  width: 100%;
+  background: linear-gradient(180deg, transparent 70%, white 100%);
+  pointer-events: none;
+}
+
+.row .column .filesTypes {
+  width: calc(100% - 15px);
+}
+
+.btnUpload {
+  width: 350px;
+}
+
+.sectionController {
+  display: flex;
+  width: 200%;
+  height: 100%;
+  overflow: hidden;
+  width: 491px;
+}
+
+.sectionController .sectionModal {
+  width: 491px;
+  min-width: 491px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  transition: all ease 0.4s;
+  overflow: auto;
+}
+
+.sectionController .sectionModal:not(:first-child) {
+  margin-left: 50px;
+}
+
+.sectionController .sectionModal .buttons {
+  flex: 1;
+  align-items: flex-end;
 }

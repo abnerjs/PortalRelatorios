@@ -32,7 +32,10 @@ export const prestadoresSlice = createSlice({
   },
 });
 
-export const { prestadoresGetFilterRequest, prestadoresGetFilterSuccess, prestadoresGetFilterError } =
-  prestadoresSlice.actions;
+export const {
+  prestadoresGetFilterRequest,
+  prestadoresGetFilterSuccess,
+  prestadoresGetFilterError,
+} = prestadoresSlice.actions;
 
 export default prestadoresSlice.reducer;

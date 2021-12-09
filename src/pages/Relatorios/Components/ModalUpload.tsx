@@ -28,9 +28,7 @@ const ModalUpload = (props: Props) => {
       }}
       closeAfterTransition
       BackdropComponent={Backdrop}
-      BackdropProps={{
-        timeout: 500,
-      }}
+      BackdropProps={{ timeout: 500 }}
     >
       <Fade in={props.open}>
         <Box className="modalBox-root">

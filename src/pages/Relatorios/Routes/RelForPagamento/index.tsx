@@ -3,7 +3,7 @@ import 'src/pages/Relatorios/Styles/index.css';
 import 'src/pages/FormUser.css';
 import 'src/pages/SectionizedTable.css';
 
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useHistory } from 'react-router-dom';
 import * as Yup from 'yup';
@@ -12,14 +12,10 @@ import { format } from 'date-fns';
 import brLocale from 'date-fns/locale/pt-BR';
 import { yupResolver } from '@hookform/resolvers/yup';
 import {
-  Alert,
-  AlertColor,
   Autocomplete,
   Box,
   Button,
   CircularProgress,
-  Collapse,
-  IconButton,
   Stack,
   TextField,
   Typography,
@@ -32,8 +28,10 @@ import Header from 'src/components/Header';
 import { useAppDispatch, useAppSelector } from 'src/store';
 import { TipoFiltro } from 'src/store/ducks/base/types';
 import { usuariosFornecedoresGetFilterRequest } from 'src/store/ducks/usuariosFornecedores';
-import { relatoriosDownloadIdle, relatoriosDownloadRequest } from 'src/store/ducks/relatorios';
-import { Icon } from '@iconify/react';
+import {
+  relatoriosDownloadIdle,
+  relatoriosDownloadRequest,
+} from 'src/store/ducks/relatorios';
 import DmCollapseHandler from 'src/components/DmCollapseHandler/DmCollapseHandler';
 
 interface FormProps {
@@ -96,16 +94,13 @@ const RelForPagamento = () => {
 
   useEffect(() => {
     if (pdf) global.window.open(pdf);
-      else setErrorCollapseOpened(true);
+    else setErrorCollapseOpened(true);
   }, [pdf]);
 
   useEffect(() => {
     dispatch(usuariosFornecedoresGetFilterRequest());
-  }, [dispatch]);
-
-  useEffect(() => {
     dispatch(relatoriosDownloadIdle());
-  }, []);
+  }, [dispatch]);
 
   return (
     <div className="Usuarios Demonstrativo">

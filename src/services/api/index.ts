@@ -41,7 +41,7 @@ api.interceptors.response.use(
     return response;
   },
   (error) => {
-    if(error.request?.responseType === 'blob' && error.response?.data) {
+    if (error.request?.responseType === 'blob' && error.response?.data) {
       const blob = error.response.data as Blob;
       return blob.text().then((text) => Promise.reject(JSON.parse(text)));
     }

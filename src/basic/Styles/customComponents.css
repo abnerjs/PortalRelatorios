@@ -10,7 +10,7 @@
 }
 
 .MuiInputLabel-root {
-  margin-left: 10px;
+  margin-left: 8px;
 }
 
 .MuiInputBase-input {
@@ -110,7 +110,7 @@
   color: #aaa;
 }
 
-.MuiFormControlLabel-root .Mui-checked ~ .MuiTypography-root {
+.MuiFormControlLabel-root .Mui-checked~.MuiTypography-root {
   color: var(--primaryColor);
 }
 
@@ -203,7 +203,7 @@
   display: none;
 }
 
-.MuiAutocomplete-root.displayNone + .MuiAutocomplete-popper {
+.MuiAutocomplete-root.displayNone+.MuiAutocomplete-popper {
   display: none !important;
 }
 
@@ -228,8 +228,8 @@
   text-transform: uppercase;
   background-color: white;
   border: none;
-  box-shadow: 2px 2px 5px #d3d3d3, 
-            -3px -3px 6px #ffffff;
+  box-shadow: 2px 2px 5px #d3d3d3,
+    -3px -3px 6px #ffffff;
   border-radius: 8px;
   transition: all ease 0.3s;
 }
@@ -275,7 +275,7 @@
 /*BACKDROP --------------------------*/
 
 .MuiBackdrop-root {
-  background-color: rgba(0,0,0,0.3) !important;
+  background-color: rgba(0, 0, 0, 0.3) !important;
   backdrop-filter: blur(6px) !important;
 }
 

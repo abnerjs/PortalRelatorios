@@ -5,15 +5,11 @@ import 'src/pages/SectionizedTable.css';
 import React, { useEffect, useState } from 'react';
 import { Icon } from '@iconify/react';
 import {
-  Alert,
-  AlertColor,
   Backdrop,
   Box,
   Button,
   CircularProgress,
-  Collapse,
   Fade,
-  IconButton,
   Modal,
   Skeleton,
   TextField,
@@ -29,7 +25,6 @@ import { useAppDispatch, useAppSelector } from 'src/store';
 import {
   perfisGetRequest,
   perfisDeleteRequest,
-  perfisCancelOperation,
   perfisCancelDelete,
   perfisIdleOperation,
   perfisCleanError,
@@ -68,11 +63,8 @@ const Perfis = () => {
 
   useEffect(() => {
     dispatch(perfisCleanError());
-  }, []);
-
-  useEffect(() => {
     dispatch(perfisIdleOperation());
-  }, []);
+  }, [dispatch]);
 
   const handleFormOpen = (open: boolean, newUser: boolean) => {
     if (newUser) {
@@ -246,10 +238,10 @@ const Perfis = () => {
                 <Fade in={isModalOpen}>
                   <Box className="modal-confirm-delete">
                     <DmCollapseHandler
-              error={errors}
-              isErrorCollapseOpened={isErrorCollapseOpened}
-              setErrorCollapseOpened={setErrorCollapseOpened}
-            />
+                      error={errors}
+                      isErrorCollapseOpened={isErrorCollapseOpened}
+                      setErrorCollapseOpened={setErrorCollapseOpened}
+                    />
                     <Typography id="transition-modal-title">
                       Tem certeza que quer deletar o perfil?
                     </Typography>
@@ -330,7 +322,7 @@ const loadingProfilesRows = () => {
 
   for (let i = 0; i < 25; i++) {
     arr.push(
-      <div className={`row`}>
+      <div key={`loadingRow-${i}`} className={`row`}>
         <div className="header">
           <Typography component="div" variant="body1" style={{ flex: 1 }}>
             <Skeleton animation="wave" />

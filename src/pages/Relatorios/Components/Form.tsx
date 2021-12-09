@@ -1,3 +1,5 @@
+import './Form.css';
+
 import { Icon } from '@iconify/react';
 import { DatePicker, DateRangePicker, LocalizationProvider } from '@mui/lab';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
@@ -34,9 +36,7 @@ import {
   arquivosUploadRequest,
 } from 'src/store/ducks/relatoriosUpload';
 import { DateRange } from '@mui/lab/DateRangePicker/RangeTypes';
-import './Form.css';
 import DmCollapseHandler from 'src/components/DmCollapseHandler/DmCollapseHandler';
-import { relative } from 'path';
 
 type Props = {
   sectionModalController: number;
@@ -228,21 +228,24 @@ const Form = (props: Props) => {
   };
 
   useEffect(() => {
-    return () => reset(defaultValues);
-  }, [reset]);
+    return () => {
+      reset(defaultValues);
+      dispatch(arquivosUploadIdle());
+    };
+  }, [reset, dispatch]);
 
   useEffect(() => {
-    if (uploadState) {
-      if (uploadState === 's') {
-        dispatch(arquivosGetRequest());
-        setTimeout(() => {
-          dispatch(arquivosUploadIdle());
-          props.setFile(null);
-          props.setOpen(false);
-          props.setSectionModalController(0);
-        }, 1000);
-      }
+    if (uploadState === 's') {
+      dispatch(arquivosGetRequest());
+
+      setTimeout(() => {
+        dispatch(arquivosUploadIdle());
+        props.setFile(null);
+        props.setOpen(false);
+        props.setSectionModalController(0);
+      }, 1000);
     }
+
     setErrorCollapseOpened(uploadError !== undefined);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [uploadState]);
@@ -253,6 +256,9 @@ const Form = (props: Props) => {
       setValue('nomArquivo', props.file.name);
     }
   }, [props.file, setValue]);
+
+  const [focusForn, setFocusForn] = useState(false);
+  const [focusPrest, setFocusPrest] = useState(false);
 
   return (
     <>
@@ -336,7 +342,7 @@ const Form = (props: Props) => {
                       </React.Fragment>,
                     ];
                   }}
-                  renderInput={(params: any) => {
+                  renderInput={(params) => {
                     const { InputProps, ...restParams } = params;
                     const { startAdornment, ...restInputProps } = InputProps;
                     return (
@@ -354,6 +360,8 @@ const Form = (props: Props) => {
                               style={{
                                 maxHeight: 50,
                                 marginTop: 10,
+                                marginBottom: 5,
+                                marginLeft: 8,
                                 overflowY: 'auto',
                               }}
                             >
@@ -362,14 +370,20 @@ const Form = (props: Props) => {
                           ),
                           inputProps: {
                             ...params.inputProps,
+                            id: 'lstCodFornecedores',
                             tabIndex:
                               props.sectionModalController === 0 ? 0 : -1,
                           },
+                        }}
+                        InputLabelProps={{
+                          shrink: forns.length > 0 || focusForn,
                         }}
                         error={!!fieldState.error}
                         helperText={fieldState.error?.message}
                         inputRef={ref}
                         {...rest}
+                        onFocus={() => setFocusForn(true)}
+                        onBlur={() => setFocusForn(false)}
                       />
                     );
                   }}
@@ -421,7 +435,7 @@ const Form = (props: Props) => {
                       </React.Fragment>,
                     ];
                   }}
-                  renderInput={(params: any) => {
+                  renderInput={(params) => {
                     const { InputProps, ...restParams } = params;
                     const { startAdornment, ...restInputProps } = InputProps;
                     return (
@@ -439,6 +453,8 @@ const Form = (props: Props) => {
                               style={{
                                 maxHeight: 50,
                                 marginTop: 10,
+                                marginBottom: 5,
+                                marginLeft: 8,
                                 overflowY: 'auto',
                               }}
                             >
@@ -447,15 +463,20 @@ const Form = (props: Props) => {
                           ),
                           inputProps: {
                             ...params.inputProps,
+                            id: 'lstCodPrestadores',
                             tabIndex:
                               props.sectionModalController === 0 ? 0 : -1,
                           },
                         }}
-                        InputLabelProps={{ shrink: undefined }}
+                        InputLabelProps={{
+                          shrink: prests.length > 0 || focusPrest,
+                        }}
                         error={!!fieldState.error}
                         helperText={fieldState.error?.message}
                         inputRef={ref}
                         {...rest}
+                        onFocus={() => setFocusPrest(true)}
+                        onBlur={() => setFocusPrest(false)}
                       />
                     );
                   }}

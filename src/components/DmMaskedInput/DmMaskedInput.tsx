@@ -30,7 +30,7 @@ export default class DmMaskedInput extends Component<any, any> {
   maskBuilder = (v: string) => {
     if (!v || v.length === 0) return '';
     const a = this.ajusta(v);
-    return a.length < 15 ? "999.999.999-99" : "99.999.999/0001-99";
+    return a.length < 15 ? '999.999.999-99' : '99.999.999/0001-99';
   };
 
   render() {
@@ -38,7 +38,11 @@ export default class DmMaskedInput extends Component<any, any> {
       <div>
         <div>
           <InputMask
-            mask={this.state.text?.length || 0 < 15 ? "999.999.999-99" : "99.999.999/9999-99"}
+            mask={
+              this.state.text?.length || 0 < 15
+                ? '999.999.999-99'
+                : '99.999.999/9999-99'
+            }
             value={this.state.text}
             disabled={false}
             onChange={this.handleChange}

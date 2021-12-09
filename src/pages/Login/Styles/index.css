@@ -9,14 +9,13 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
 }
 
 .Canvas .right .form {
-    margin-top: 200px;
     width: 450px;
 }
 
 .Canvas .right .form p {
     font-size: 14px;
 }
-

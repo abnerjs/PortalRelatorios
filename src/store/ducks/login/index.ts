@@ -20,6 +20,7 @@ const initialState: SessionState = {
   error: undefined,
   message: undefined,
   operationState: 'idle',
+  loading: false,
 };
 
 function getObjetos(lstSistemas: Array<Sistema>): Array<Objeto> {
@@ -70,7 +71,7 @@ export const sessionSlice = createSlice({
       state.message = action.payload;
       state.operationState = 'success';
     },
-    recoveryError: (state, action: PayloadAction<string>) => {
+    recoveryError: (state, action: PayloadAction<ErrorAPI>) => {
       state.error = action.payload;
       state.message = undefined;
       state.operationState = 'error';

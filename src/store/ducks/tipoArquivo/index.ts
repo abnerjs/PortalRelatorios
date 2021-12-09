@@ -2,7 +2,10 @@ import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 
 import { Paginacao } from 'src/store/ducks/base';
 import { RespostaApi, TipoFiltro } from 'src/store/ducks/base/types';
-import { TipoArquivo, TipoArquivoState } from 'src/store/ducks/tipoArquivo/types';
+import {
+  TipoArquivo,
+  TipoArquivoState,
+} from 'src/store/ducks/tipoArquivo/types';
 import { ErrorAPI } from '../types';
 
 const initialState: TipoArquivoState = {
@@ -21,11 +24,17 @@ export const tipoArquivoSlice = createSlice({
   name: 'tipoArquivo',
   initialState: initialState,
   reducers: {
-    tipoArquivoGetRequest: (state, action: PayloadAction<string | undefined>) => {
+    tipoArquivoGetRequest: (
+      state,
+      action: PayloadAction<string | undefined>
+    ) => {
       state.loading = true;
       state.error = undefined;
     },
-    tipoArquivoGetSuccess: (state, action: PayloadAction<RespostaApi<TipoArquivo>>) => {
+    tipoArquivoGetSuccess: (
+      state,
+      action: PayloadAction<RespostaApi<TipoArquivo>>
+    ) => {
       state.data = action.payload.dados;
       state.pagination = action.payload.paginacao;
       state.loading = false;
@@ -53,7 +62,7 @@ export const tipoArquivoSlice = createSlice({
     },
     tipoArquivoPutRequest: (state, action: PayloadAction<TipoArquivo>) => {
       state.operationState = 'request';
-    },    
+    },
     tipoArquivoOperationSuccess: (state) => {
       state.operationError = undefined;
       state.operationState = 'success';

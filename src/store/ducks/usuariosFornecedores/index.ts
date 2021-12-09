@@ -75,11 +75,17 @@ export const usuariosFornecedoresSlice = createSlice({
       state.operationError = undefined;
       state.operationState = 'success';
     },
-    usuariosFornecedoresOperationError: (state, action: PayloadAction<ErrorAPI>) => {
+    usuariosFornecedoresOperationError: (
+      state,
+      action: PayloadAction<ErrorAPI>
+    ) => {
       state.operationError = action.payload;
       state.operationState = 'error';
     },
-    usuariosFornecedoresDeleteError: (state, action: PayloadAction<ErrorAPI>) => {
+    usuariosFornecedoresDeleteError: (
+      state,
+      action: PayloadAction<ErrorAPI>
+    ) => {
       state.deleteError = action.payload;
       state.deleteState = 'error';
     },

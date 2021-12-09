@@ -5,7 +5,6 @@ import 'src/pages/SectionizedTable.css';
 import React from 'react';
 import { Icon } from '@iconify/react';
 import Button from '@mui/material/Button';
-import { useAppSelector } from 'src/store';
 import { TipoArquivo } from 'src/store/ducks/tipoArquivo/types';
 
 interface RowProps {
@@ -25,7 +24,6 @@ const Row: React.FC<RowProps> = ({
   handleModalOpen,
   handleIndexSelected,
 }: RowProps) => {
-
   return (
     <div className={`row${indexSelected === index ? ' selected' : ''}`}>
       <div

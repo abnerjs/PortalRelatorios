@@ -1,11 +1,9 @@
 import './Table.css';
 
-import React, {useRef} from 'react';
+import React, { useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { Button, Typography } from '@mui/material';
-import {
-  ArquivoUploadReceiveFormat,
-} from 'src/store/ducks/relatoriosUpload/types';
+import { ArquivoUploadReceiveFormat } from 'src/store/ducks/relatoriosUpload/types';
 import { arquivosDownloadRequest } from 'src/store/ducks/relatoriosUpload';
 import { useAppDispatch } from 'src/store';
 import { dateFormatter } from 'src/utils/StringUtils';
@@ -32,7 +30,7 @@ const conditionalArrayTypeRender = (
   if (arr) {
     arr.forEach((doc, index) => {
       arrGui.push(
-        <div className="row" key={index}>
+        <div className="row" key={`${doc.linkTo}-${index}`}>
           <div className="textual">
             <div className="regname">{doc.name}</div>
           </div>
@@ -51,7 +49,7 @@ const conditionalArrayTypeRender = (
   } else if (arrArquivo) {
     arrArquivo.forEach((doc, index) => {
       arrGui.push(
-        <div className="row" key={index}>
+        <div className="row" key={doc.idRelArquivo}>
           <div className="textual">
             <div className="regname">{doc.nomArquivo}</div>
             <div className="date">{dateFormatter(doc.dtaUpload, 'pt-BR')}</div>

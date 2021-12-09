@@ -5,6 +5,8 @@ export interface SessionState {
   objetos: Array<Objeto>;
   authenticated: boolean;
   error?: ErrorAPI;
+  message?: string;
+  operationState: string;
   loading: boolean;
 }
 

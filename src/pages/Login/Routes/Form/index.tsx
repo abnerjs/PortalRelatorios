@@ -6,21 +6,11 @@ import { Link, useHistory } from 'react-router-dom';
 import * as Yup from 'yup';
 
 import { yupResolver } from '@hookform/resolvers/yup';
-import {
-  Alert,
-  AlertColor,
-  Button,
-  CircularProgress,
-  Collapse,
-  IconButton,
-  TextField,
-  Typography,
-} from '@mui/material';
+import { Button, CircularProgress, TextField, Typography } from '@mui/material';
 
 // import Checkbox from 'src/components/Checkbox';
 import { useAppDispatch, useAppSelector } from 'src/store';
 import { loginRequest } from 'src/store/ducks/login';
-import { Icon } from '@iconify/react';
 import { Box } from '@mui/system';
 import DmCollapseHandler from 'src/components/DmCollapseHandler/DmCollapseHandler';
 

@@ -32,7 +32,10 @@ export const fornecedoresSlice = createSlice({
   },
 });
 
-export const { fornecedoresGetFilterRequest, fornecedoresGetFilterSuccess, fornecedoresGetFilterError } =
-  fornecedoresSlice.actions;
+export const {
+  fornecedoresGetFilterRequest,
+  fornecedoresGetFilterSuccess,
+  fornecedoresGetFilterError,
+} = fornecedoresSlice.actions;
 
 export default fornecedoresSlice.reducer;

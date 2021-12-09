@@ -20,10 +20,7 @@ export const arquivoUploadSlice = createSlice({
   name: 'arquivos',
   initialState: initialState,
   reducers: {
-    arquivosGetRequest: (
-      state,
-      action: PayloadAction<string | undefined>
-    ) => {
+    arquivosGetRequest: (state, action: PayloadAction<string | undefined>) => {
       state.error = undefined;
       state.state = 'l';
     },
@@ -39,10 +36,7 @@ export const arquivoUploadSlice = createSlice({
       state.error = action.payload;
       state.state = 'e';
     },
-    arquivosDownloadRequest: (
-      state,
-      action: PayloadAction<number>
-    ) => {
+    arquivosDownloadRequest: (state, action: PayloadAction<number>) => {
       state.downloadError = undefined;
     },
     arquivosDownloadSuccess: (state, action: PayloadAction<any>) => {
@@ -82,6 +76,7 @@ export const {
   arquivosDownloadRequest,
   arquivosDownloadSuccess,
   arquivosDownloadError,
+  arquivosDownloadIdle,
   arquivosUploadRequest,
   arquivosUploadSuccess,
   arquivosUploadError,

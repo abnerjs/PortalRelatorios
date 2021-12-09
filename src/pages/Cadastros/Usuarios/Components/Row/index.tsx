@@ -61,9 +61,7 @@ const Row: React.FC<RowProps> = ({
           }}
           children={getInitialsFromString(data.desNome)}
         />
-        <div
-          className="textual"
-        >
+        <div className="textual">
           <div className="nome">{data.desNome}</div>
           <div className="email">{data.desEmail}</div>
         </div>
@@ -97,7 +95,9 @@ const Row: React.FC<RowProps> = ({
           tabIndex={indexSelected === index ? 0 : -1}
           variant="contained"
           className="errorColor"
-          style={{display: (loggedUser?.desLogin === data.desLogin) ? 'none' : 'block'}}
+          style={{
+            display: loggedUser?.desLogin === data.desLogin ? 'none' : 'block',
+          }}
         >
           DELETAR
         </Button>

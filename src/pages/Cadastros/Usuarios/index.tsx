@@ -5,15 +5,11 @@ import 'src/pages/SectionizedTable.css';
 import React, { useEffect, useState } from 'react';
 import { Icon } from '@iconify/react';
 import {
-  Alert,
-  AlertColor,
   Backdrop,
   Box,
   Button,
   CircularProgress,
-  Collapse,
   Fade,
-  IconButton,
   Modal,
   Skeleton,
   Tab,
@@ -31,9 +27,7 @@ import {
   usuariosGetRequest,
   usuariosPutRequest,
   usuariosDeleteRequest,
-  usuariosCancelOperation,
   usuariosIdleOperation,
-  usuariosIdleDelete,
   usuariosCancelDelete,
   usuariosCleanError,
 } from 'src/store/ducks/usuarios';
@@ -75,7 +69,8 @@ const Usuarios = () => {
 
   useEffect(() => {
     dispatch(usuariosCleanError());
-  }, []);
+    dispatch(usuariosIdleOperation());
+  }, [dispatch]);
 
   useEffect(() => {
     if (changePassword === 'success') {
@@ -95,10 +90,6 @@ const Usuarios = () => {
   const handleChangeSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
     handlePesquisa('filtroPadrao', event.target.value);
   };
-
-  useEffect(() => {
-    dispatch(usuariosIdleOperation());
-  }, []);
 
   const handleFormOpen = (open: boolean, newUser: boolean) => {
     if (newUser) {
@@ -129,7 +120,9 @@ const Usuarios = () => {
       setNewUserSection(false);
       dispatch(usuariosIdleOperation());
     }
+
     setErrorCollapseOpened(errors !== undefined);
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [operationState]);
 
@@ -144,7 +137,9 @@ const Usuarios = () => {
 
       dispatch(usuariosGetRequest(pesquisa.toString()));
     }
+
     setErrorCollapseOpened(errors !== undefined);
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [deleteState]);
 
@@ -275,6 +270,7 @@ const Usuarios = () => {
                 ? loadingUsersRows()
                 : usuarios.map((item, index) => (
                     <Row
+                      key={`usuario-${index}`}
                       data={item}
                       index={index}
                       indexSelected={rowSelected}
@@ -392,7 +388,7 @@ const loadingUsersRows = () => {
 
   for (let i = 0; i < 25; i++) {
     arr.push(
-      <div className={`row`}>
+      <div key={`loadingRow-${i}`} className={`row`}>
         <div className="header">
           <Skeleton
             animation="wave"
