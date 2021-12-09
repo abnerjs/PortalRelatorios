@@ -108,7 +108,7 @@ export const usuariosSlice = createSlice({
       state.changePasswordError = undefined;
       state.changePasswordState = 'success';
     },
-    changeUsuarioPasswordError: (state, action: PayloadAction<string>) => {
+    changeUsuarioPasswordError: (state, action: PayloadAction<ErrorAPI>) => {
       state.changePasswordError = action.payload;
       state.changePasswordState = 'error';
     },

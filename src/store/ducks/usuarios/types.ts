@@ -11,7 +11,7 @@ export interface UsuariosState {
   operationState?: string;
   deleteError?: ErrorAPI;
   deleteState?: string;
-  changePasswordError?: string;
+  changePasswordError?: ErrorAPI;
   changePasswordState?: string;
 }
 
