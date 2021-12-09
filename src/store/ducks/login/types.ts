@@ -1,10 +1,11 @@
+import { ErrorAPI } from '../types';
+
 export interface SessionState {
   user: UserLogin | null;
   objetos: Array<Objeto>;
   authenticated: boolean;
-  error?: string;
-  message?: string;
-  operationState: string;
+  error?: ErrorAPI;
+  loading: boolean;
 }
 
 export interface LoginRequest {

@@ -8,6 +8,7 @@ import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import {
   Alert,
+  AlertColor,
   Button,
   CircularProgress,
   Collapse,
@@ -21,6 +22,7 @@ import { useAppDispatch, useAppSelector } from 'src/store';
 import { loginRequest } from 'src/store/ducks/login';
 import { Icon } from '@iconify/react';
 import { Box } from '@mui/system';
+import DmCollapseHandler from 'src/components/DmCollapseHandler/DmCollapseHandler';
 
 interface FormInputs {
   desLogin: string;
@@ -36,9 +38,7 @@ const Login: React.FC = () => {
   const history = useHistory();
   const dispatch = useAppDispatch();
   const loginError = useAppSelector((state) => state.session.error);
-  const operationState = useAppSelector(
-    (state) => state.session.operationState
-  );
+  const isLoading = useAppSelector((state) => state.session.loading);
   const [isErrorCollapseOpened, setErrorCollapseOpened] = useState(false);
 
   const { register, handleSubmit, formState } = useForm<FormInputs>({
@@ -66,26 +66,11 @@ const Login: React.FC = () => {
       <Typography variant="h5" className="primary">
         Acessar
       </Typography>
-      <Collapse in={loginError !== undefined && isErrorCollapseOpened}>
-        <Alert
-          severity="error"
-          action={
-            <IconButton
-              aria-label="close"
-              color="inherit"
-              size="small"
-              onClick={() => {
-                setErrorCollapseOpened(false);
-              }}
-            >
-              <Icon icon="fluent:dismiss-20-regular" />
-            </IconButton>
-          }
-          sx={{ mb: 2 }}
-        >
-          {loginError}
-        </Alert>
-      </Collapse>
+      <DmCollapseHandler
+        error={loginError}
+        isErrorCollapseOpened={isErrorCollapseOpened}
+        setErrorCollapseOpened={setErrorCollapseOpened}
+      />
       <TextField
         id="desLogin"
         autoFocus
@@ -119,19 +104,15 @@ const Login: React.FC = () => {
       {/* <Checkbox flexEnd medium id="checkbox" content="Manter conectado" /> */}
       <Box sx={{ m: 0, position: 'relative' }}>
         <Button
-          type="submit"
           variant="contained"
-          disabled={formState.isSubmitting || operationState === 'request'}
-          className={
-            formState.isSubmitting || operationState === 'request'
-              ? 'secondary'
-              : ''
-          }
+          disabled={formState.isSubmitting || isLoading}
+          type="submit"
+          className={formState.isSubmitting || isLoading ? 'secondary' : ''}
           style={{ marginTop: 8 }}
         >
           ENTRAR
         </Button>
-        {(formState.isSubmitting || operationState === 'request') && (
+        {(formState.isSubmitting || isLoading) && (
           <CircularProgress
             size={24}
             sx={{
