@@ -241,7 +241,7 @@
 /*CARD -----------------------------------------------*/
 
 .MuiCard-root {
-  height: 200px;
+  flex: 1;
   padding: 15px;
   width: 170px;
   border-radius: 20px !important;

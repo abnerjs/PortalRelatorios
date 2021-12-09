@@ -8,6 +8,7 @@ import {
   LoginRequest,
   RecoveryRequest,
 } from 'src/store/ducks/login/types';
+import { ErrorAPI } from '../types';
 
 const jsonUser = global.window.localStorage.getItem('dm_pr_relatorios_user');
 const user = (jsonUser ? JSON.parse(jsonUser) : null) as UserLogin;
@@ -54,7 +55,7 @@ export const sessionSlice = createSlice({
       const jsonUser = JSON.stringify(action.payload);
       global.window.localStorage.setItem('dm_pr_relatorios_user', jsonUser);
     },
-    loginError: (state, action: PayloadAction<string>) => {
+    loginError: (state, action: PayloadAction<ErrorAPI>) => {
       state.error = action.payload;
       state.message = undefined;
       state.operationState = 'error';

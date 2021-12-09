@@ -1,8 +1,10 @@
+import { ErrorAPI } from "../types";
+
 export interface RelatoriosState {
   data?: string;
-  error?: string;
+  error?: ErrorAPI;
   loading: boolean;
-  operationError?: string;
+  operationError?: ErrorAPI;
   operationState?: string;
 }
 

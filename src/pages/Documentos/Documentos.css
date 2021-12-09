@@ -1,13 +1,14 @@
 .dropfiles {
   width: 100%;
   margin-top: 25px;
+  height: 100%;
 }
 
 .dropfilesContainer {
   width: 100%;
 }
 
-.modalControllerContainer, .modalContainer {
+.modalControllerContainer {
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -15,20 +16,9 @@
   height: 100%;
 }
 
-.modalContainer {
+.modalControllerContainer {
   justify-content: center;
   align-items: center;
-}
-
-.modalControllerContainer:not(.filled) .modalContainer:last-child {
-  position: absolute;
-  display: none;
-}
-
-.modalControllerContainer.filled .modalContainer:first-child {
-  opacity: 0;
-  visibility: hidden;
-  position: absolute;
 }
 
 .dropfilesContainer .dropzone {
@@ -103,7 +93,7 @@
 
 .row.tables .column.loading .overflown::after {
   position: absolute;
-  content: "";
+  content: '';
   left: 0px;
   top: 0px;
   height: 100%;
@@ -123,6 +113,7 @@
 .sectionController {
   display: flex;
   width: 200%;
+  height: 100%;
   overflow: hidden;
   width: 491px;
 }
@@ -134,6 +125,7 @@
   flex-direction: column;
   flex: 1;
   transition: all ease 0.4s;
+  overflow: auto;
 }
 
 .sectionController .sectionModal:not(:first-child) {

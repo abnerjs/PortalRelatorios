@@ -2,6 +2,7 @@ import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 
 import { RespostaApi, TipoFiltro } from 'src/store/ducks/base/types';
 import { FazendasState } from 'src/store/ducks/fazendas/types';
+import { ErrorAPI } from '../types';
 
 const initialState: FazendasState = {
   filterList: [],
@@ -25,7 +26,7 @@ export const fazendasSlice = createSlice({
       state.filterList = action.payload.dados;
       state.error = undefined;
     },
-    fazendasGetFilterError: (state, action: PayloadAction<string>) => {
+    fazendasGetFilterError: (state, action: PayloadAction<ErrorAPI>) => {
       state.error = action.payload;
     },
   },
