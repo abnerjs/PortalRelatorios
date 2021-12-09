@@ -28,6 +28,7 @@ import {
   changeUsuarioPasswordIdle,
   changeUsuarioPasswordRequest,
 } from 'src/store/ducks/usuarios';
+import DmCollapseHandler from './DmCollapseHandler/DmCollapseHandler';
 
 interface ProfileMenuProps {
   onLogout?: React.MouseEventHandler<HTMLDivElement> | undefined;
@@ -211,26 +212,11 @@ const ProfileMenu = (props: ProfileMenuProps) => {
               onSubmit={handleSubmit(onSubmit)}
               className="form-edit-profile"
             >
-              <Collapse in={errors !== undefined && isErrorCollapseOpened}>
-                <Alert
-                  severity="error"
-                  action={
-                    <IconButton
-                      aria-label="close"
-                      color="inherit"
-                      size="small"
-                      onClick={() => {
-                        setErrorCollapseOpened(false);
-                      }}
-                    >
-                      <Icon icon="fluent:dismiss-20-regular" />
-                    </IconButton>
-                  }
-                  sx={{ mb: 2 }}
-                >
-                  {errors}
-                </Alert>
-              </Collapse>
+              <DmCollapseHandler
+                error={errors}
+                isErrorCollapseOpened={isErrorCollapseOpened}
+                setErrorCollapseOpened={setErrorCollapseOpened}
+              />
               {/*
               <Controller
                 name="desEmail"
