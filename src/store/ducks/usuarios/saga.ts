@@ -16,6 +16,9 @@ import {
   usuariosDeleteSuccess,
   usuariosDeleteError,
   usuariosGetError,
+  changeUsuarioPasswordRequest,
+  changeUsuarioPasswordSuccess,
+  changeUsuarioPasswordError,
 } from 'src/store/ducks/usuarios';
 import { Usuario } from 'src/store/ducks/usuarios/types';
 
@@ -74,11 +77,22 @@ export function* sendDeleteRequest(
 ) {
   try {
     const query = `?idRelUsuario=${action.payload.idRelUsuario}`;
-    
+
     yield call(api.delete, `Usuarios/v1/${query}`);
     yield put(usuariosDeleteSuccess());
   } catch (error: any) {
     yield put(usuariosDeleteError(error));
+  }
+}
+
+export function* sendChangePasswordRequest(
+  action: ReturnType<typeof changeUsuarioPasswordRequest>
+) {
+  try {
+    yield call(api.post, `Usuarios/v1/alterarSenha/`, action.payload);
+    yield put(changeUsuarioPasswordSuccess());
+  } catch (error: any) {
+    yield put(changeUsuarioPasswordError(error));
   }
 }
 
@@ -88,4 +102,5 @@ export default all([
   takeLatest(usuariosPostRequest, sendPostRequest),
   takeLatest(usuariosPutRequest, sendPutRequest),
   takeLatest(usuariosDeleteRequest, sendDeleteRequest),
+  takeLatest(changeUsuarioPasswordRequest, sendChangePasswordRequest),
 ]);

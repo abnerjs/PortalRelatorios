@@ -2,7 +2,11 @@ import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 
 import { Paginacao } from 'src/store/ducks/base';
 import { RespostaApi, TipoFiltro } from 'src/store/ducks/base/types';
-import { Usuario, UsuariosState } from 'src/store/ducks/usuarios/types';
+import {
+  ChangeUsuarioPasswordRequest,
+  Usuario,
+  UsuariosState,
+} from 'src/store/ducks/usuarios/types';
 
 const initialState: UsuariosState = {
   data: [],
@@ -14,16 +18,15 @@ const initialState: UsuariosState = {
   operationState: 'idle',
   deleteError: undefined,
   deleteState: 'idle',
+  changePasswordError: undefined,
+  changePasswordState: 'idle',
 };
 
 export const usuariosSlice = createSlice({
   name: 'usuarios',
   initialState: initialState,
   reducers: {
-    usuariosGetRequest: (
-      state,
-      action: PayloadAction<string | undefined>
-    ) => {
+    usuariosGetRequest: (state, action: PayloadAction<string | undefined>) => {
       state.loading = true;
       state.error = undefined;
     },
@@ -94,6 +97,28 @@ export const usuariosSlice = createSlice({
       state.deleteError = undefined;
       state.deleteState = 'idle';
     },
+    changeUsuarioPasswordRequest: (
+      state,
+      action: PayloadAction<ChangeUsuarioPasswordRequest>
+    ) => {
+      state.changePasswordState = 'request';
+    },
+    changeUsuarioPasswordSuccess: (state) => {
+      state.changePasswordError = undefined;
+      state.changePasswordState = 'success';
+    },
+    changeUsuarioPasswordError: (state, action: PayloadAction<string>) => {
+      state.changePasswordError = action.payload;
+      state.changePasswordState = 'error';
+    },
+    changeUsuarioPasswordIdle: (state) => {
+      state.changePasswordError = undefined;
+      state.changePasswordState = 'idle';
+    },
+    changeUsuarioPasswordCancel: (state) => {
+      state.changePasswordError = undefined;
+      state.changePasswordState = 'cancel';
+    },
   },
 });
 
@@ -115,6 +140,11 @@ export const {
   usuariosIdleOperation,
   usuariosIdleDelete,
   usuariosCleanError,
+  changeUsuarioPasswordRequest,
+  changeUsuarioPasswordSuccess,
+  changeUsuarioPasswordError,
+  changeUsuarioPasswordIdle,
+  changeUsuarioPasswordCancel,
 } = usuariosSlice.actions;
 
 export default usuariosSlice.reducer;
