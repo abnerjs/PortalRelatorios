@@ -6,9 +6,17 @@ import { Link, useHistory } from 'react-router-dom';
 import * as Yup from 'yup';
 
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Alert, Button, CircularProgress, Collapse, IconButton, TextField, Typography } from '@mui/material';
+import {
+  Alert,
+  Button,
+  CircularProgress,
+  Collapse,
+  IconButton,
+  TextField,
+  Typography,
+} from '@mui/material';
 
-import Checkbox from 'src/components/Checkbox';
+// import Checkbox from 'src/components/Checkbox';
 import { useAppDispatch, useAppSelector } from 'src/store';
 import { loginRequest } from 'src/store/ducks/login';
 import { Icon } from '@iconify/react';
@@ -28,7 +36,9 @@ const Login: React.FC = () => {
   const history = useHistory();
   const dispatch = useAppDispatch();
   const loginError = useAppSelector((state) => state.session.error);
-  const isLoading = useAppSelector((state) => state.session.loading);
+  const operationState = useAppSelector(
+    (state) => state.session.operationState
+  );
   const [isErrorCollapseOpened, setErrorCollapseOpened] = useState(false);
 
   const { register, handleSubmit, formState } = useForm<FormInputs>({
@@ -53,7 +63,9 @@ const Login: React.FC = () => {
       onSubmit={handleSubmit(onSubmit)}
       className="Login form"
     >
-      <Typography variant="h5" className="primary">Acessar</Typography>
+      <Typography variant="h5" className="primary">
+        Acessar
+      </Typography>
       <Collapse in={loginError !== undefined && isErrorCollapseOpened}>
         <Alert
           severity="error"
@@ -107,15 +119,19 @@ const Login: React.FC = () => {
       {/* <Checkbox flexEnd medium id="checkbox" content="Manter conectado" /> */}
       <Box sx={{ m: 0, position: 'relative' }}>
         <Button
-          variant="contained"
-          disabled={(formState.isSubmitting || isLoading)}
           type="submit"
-          className={(formState.isSubmitting || isLoading) ? 'secondary' : ''}
+          variant="contained"
+          disabled={formState.isSubmitting || operationState === 'request'}
+          className={
+            formState.isSubmitting || operationState === 'request'
+              ? 'secondary'
+              : ''
+          }
           style={{ marginTop: 8 }}
         >
           ENTRAR
         </Button>
-        {(formState.isSubmitting || isLoading) && (
+        {(formState.isSubmitting || operationState === 'request') && (
           <CircularProgress
             size={24}
             sx={{
@@ -129,11 +145,9 @@ const Login: React.FC = () => {
           />
         )}
       </Box>
-      {/*
-        <Link className="forgot" to="/recovery">
-          Esqueceu a senha?
-        </Link> 
-      */}
+      <Link className="forgot" to="/recovery">
+        Esqueceu a senha?
+      </Link>
     </form>
   );
 };
