@@ -17,7 +17,7 @@ import {
   Typography,
 } from '@mui/material';
 
-import Checkbox from 'src/components/Checkbox';
+// import Checkbox from 'src/components/Checkbox';
 import { useAppDispatch, useAppSelector } from 'src/store';
 import { loginRequest } from 'src/store/ducks/login';
 import { Icon } from '@iconify/react';
@@ -126,11 +126,9 @@ const Login: React.FC = () => {
           />
         )}
       </Box>
-      {/*
-        <Link className="forgot" to="/recovery">
-          Esqueceu a senha?
-        </Link> 
-      */}
+      <Link className="forgot" to="/recovery">
+        Esqueceu a senha?
+      </Link>
     </form>
   );
 };

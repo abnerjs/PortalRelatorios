@@ -1,4 +1,4 @@
-import { ErrorAPI } from "../types";
+import { ErrorAPI } from '../types';
 
 export interface SessionState {
   user: UserLogin | null;
@@ -11,6 +11,11 @@ export interface SessionState {
 export interface LoginRequest {
   desLogin: string;
   desSenha: string;
+}
+
+export interface RecoveryRequest {
+  desLogin: string;
+  desEmail: string;
 }
 
 export interface UserLogin {
