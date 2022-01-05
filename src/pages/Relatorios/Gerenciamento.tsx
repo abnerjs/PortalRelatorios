@@ -32,6 +32,7 @@ export interface FiltrosRelatorios {
   prestadores?: Array<TipoFiltro>;
   periodoRef?: DateRange<Date>;
   periodoUp?: DateRange<Date>;
+  usuarioUpload?: Array<TipoFiltro>;
 }
 
 const defaultValuesFiltros: FiltrosRelatorios = {
@@ -40,6 +41,7 @@ const defaultValuesFiltros: FiltrosRelatorios = {
   prestadores: [],
   periodoRef: [null, null],
   periodoUp: [null, null],
+  usuarioUpload: [],
 }
 
 const Gerenciamento = () => {
@@ -138,7 +140,7 @@ const Gerenciamento = () => {
               <Icon icon="ci:filter-outline" height={'30px'} />
             </IconButton>
             <ModalFiltros open={openFilters} setOpen={setOpenFilters}
-              filtros={filtros} setFiltros={setFiltros}
+              filtros={filtros} setFiltros={setFiltros} admin
             />
           </div>
         </div>

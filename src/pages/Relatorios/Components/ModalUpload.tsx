@@ -111,6 +111,7 @@ const ModalUpload = (props: Props) => {
                       <div
                         style={{
                           display: file === null ? 'none' : 'flex',
+                          flexDirection: 'column',
                           width: '100%',
                         }}
                       >

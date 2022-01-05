@@ -30,11 +30,13 @@ type Props = {
   setOpen: Function;
   filtros: FiltrosRelatorios;
   setFiltros: Function;
+  admin?: boolean;
 };
 
 const ModalUpload = (props: Props) => {
   const [focusForn, setFocusForn] = useState(false);
   const [focusPrest, setFocusPrest] = useState(false);
+  const [focusUsers, setFocusUsers] = useState(false);
 
   const lstFornecedores = useAppSelector(
     (state) => state.fornecedores.filterList
@@ -42,6 +44,9 @@ const ModalUpload = (props: Props) => {
   const lstPrestadores = useAppSelector(
     (state) => state.prestadores.filterList
   );
+  const lstUsuarios = useAppSelector((state) => state.usuarios.filterList);
+
+  const [users, setUsers] = useState<TipoFiltro[]>([]);
   const [forns, setFornecedores] = useState<TipoFiltro[]>([]);
   const [prests, setPrestadores] = useState<TipoFiltro[]>([]);
   const [isDatePickerOpened, setDatePickerOpened] = useState(false);
@@ -67,7 +72,89 @@ const ModalUpload = (props: Props) => {
       BackdropProps={{ timeout: 500 }}
     >
       <Fade in={props.open}>
-        <Box className={`modalBox-root filter${isDatePickerOpened ? ' dateOpened' : ' teste'}`}>
+        <Box
+          className={`modalBox-root filter${
+            isDatePickerOpened ? ' dateOpened' : ' teste'
+          }`}
+        >
+          <Autocomplete
+            multiple
+            fullWidth
+            style={{
+              display: props.admin ? 'flex' : 'none',
+            }}
+            ChipProps={{ size: 'small' }}
+            PopperComponent={StyledPopper}
+            ListboxComponent={ListboxComponent}
+            noOptionsText="Nenhum usuário"
+            options={lstUsuarios}
+            getOptionLabel={(option) => option.descricao}
+            // renderTags={() => undefined}
+            renderOption={(props, option, state) => {
+              return [
+                props,
+                <React.Fragment>
+                  <span
+                    style={{
+                      overflow: 'hidden',
+                      whiteSpace: 'nowrap',
+                      textOverflow: 'ellipsis',
+                    }}
+                  >
+                    {option.descricao}
+                  </span>
+                  {state.selected && <CheckIcon color="primary" />}
+                </React.Fragment>,
+              ];
+            }}
+            renderInput={(params) => {
+              const { InputProps, ...restParams } = params;
+              const { startAdornment, ...restInputProps } = InputProps;
+              return (
+                <TextField
+                  {...restParams}
+                  label="Responsável pelo upload"
+                  variant="filled"
+                  margin="none"
+                  className="secondary"
+                  InputProps={{
+                    ...restInputProps,
+                    disableUnderline: true,
+                    startAdornment: (
+                      <div
+                        style={{
+                          maxHeight: 50,
+                          marginTop: 10,
+                          marginBottom: 5,
+                          marginLeft: 8,
+                          overflowY: 'auto',
+                        }}
+                      >
+                        {startAdornment}
+                      </div>
+                    ),
+                    inputProps: {
+                      ...params.inputProps,
+                      id: 'idRelUsuarioUpload',
+                    },
+                  }}
+                  InputLabelProps={{
+                    shrink: users.length > 0 || focusUsers,
+                  }}
+                  onFocus={() => setFocusUsers(true)}
+                  onBlur={() => setFocusUsers(false)}
+                />
+              );
+            }}
+            value={users}
+            onChange={(_, data) => {
+              setUsers(data);
+            }}
+            isOptionEqualToValue={(option, value) =>
+              option.codigo === value.codigo
+            }
+          />
+
           <Autocomplete
             multiple
             fullWidth
@@ -103,7 +190,10 @@ const ModalUpload = (props: Props) => {
                   {...restParams}
                   label="Fornecedores"
                   variant="filled"
-                  margin="none"
+                  margin="normal"
+                  style={{
+                    marginBottom: 0,
+                  }}
                   className="secondary"
                   InputProps={{
                     ...restInputProps,
@@ -298,7 +388,7 @@ const ModalUpload = (props: Props) => {
                 placement: 'auto',
                 popperOptions: {
                   strategy: 'absolute',
-                }
+                },
               }}
               value={datePeriodoUp}
               onChange={(value) => {
@@ -368,6 +458,7 @@ const ModalUpload = (props: Props) => {
                 onClick={() => {
                   props.setFiltros({
                     descricao: props.filtros.descricao,
+                    usuarioUpload: props.admin ? props.filtros.usuarioUpload : users,
                     fornecedores: forns,
                     prestadores: prests,
                     periodoRef: datePeriodoRef,
