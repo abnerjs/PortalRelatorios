@@ -19,14 +19,6 @@ const ModalUpload = (props: Props) => {
   const [isUnsuportedFile, setUnsuportedFile] = useState(false);
   const [isUnsuportedStyle, setUnsuportedStyle] = useState(false);
   const [isDatePickerOpened, setDatePickerOpened] = useState(false);
-  
-
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  useEffect(() => {
-    if (props.doc) {
-      setFile(props.doc.formFile);
-    }
-  });
 
   return (
     <Modal
@@ -43,7 +35,7 @@ const ModalUpload = (props: Props) => {
       BackdropProps={{ timeout: 500 }}
     >
       <Fade in={props.open}>
-        <Box  className={`modalBox-root${isDatePickerOpened ? ' dateOpened' : ' teste'}`}>
+        <Box  className={`modalBox-root${isDatePickerOpened ? ' dateOpened' : ''}`}>
           <Typography variant="h6" component="h2">
             Upload de relatórios
           </Typography>

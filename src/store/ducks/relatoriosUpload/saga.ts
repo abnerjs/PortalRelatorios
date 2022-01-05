@@ -15,6 +15,9 @@ import {
   arquivosDeleteRequest,
   arquivosDeleteSuccess,
   arquivosDeleteError,
+  returnFileRequest,
+  returnFileSuccess,
+  returnFileError,
 } from 'src/store/ducks/relatoriosUpload';
 import { RespostaApi } from '../base/types';
 import { ArquivosByTipo } from './types';
@@ -35,16 +38,14 @@ export function* sendGetRequest(action: ReturnType<typeof arquivosGetRequest>) {
         query += `dtaFim=${
           action.payload.periodoRef[1].toISOString().split('T')[0]
         }`;
-      } else if (action.payload.periodoRef &&
-        action.payload.periodoRef[0]) {
-          query += `dtaIni=${
-            action.payload.periodoRef[0].toISOString().split('T')[0]
-          }`;
-      } else if (action.payload.periodoRef &&
-        action.payload.periodoRef[1]) {
-          query += `dtaFim=${
-            action.payload.periodoRef[1].toISOString().split('T')[0]
-          }`;
+      } else if (action.payload.periodoRef && action.payload.periodoRef[0]) {
+        query += `dtaIni=${
+          action.payload.periodoRef[0].toISOString().split('T')[0]
+        }`;
+      } else if (action.payload.periodoRef && action.payload.periodoRef[1]) {
+        query += `dtaFim=${
+          action.payload.periodoRef[1].toISOString().split('T')[0]
+        }`;
       }
 
       if (
@@ -59,18 +60,16 @@ export function* sendGetRequest(action: ReturnType<typeof arquivosGetRequest>) {
         query += `dtaUploadFim=${
           action.payload.periodoUp[1].toISOString().split('T')[0]
         }`;
-      }  else if (action.payload.periodoUp &&
-        action.payload.periodoUp[0]) {
-          if (query !== '?') query += '&';
-          query += `dtaIni=${
-            action.payload.periodoUp[0].toISOString().split('T')[0]
-          }`;
-      } else if (action.payload.periodoUp &&
-        action.payload.periodoUp[1]) {
-          if (query !== '?') query += '&';
-          query += `dtaFim=${
-            action.payload.periodoUp[1].toISOString().split('T')[0]
-          }`;
+      } else if (action.payload.periodoUp && action.payload.periodoUp[0]) {
+        if (query !== '?') query += '&';
+        query += `dtaIni=${
+          action.payload.periodoUp[0].toISOString().split('T')[0]
+        }`;
+      } else if (action.payload.periodoUp && action.payload.periodoUp[1]) {
+        if (query !== '?') query += '&';
+        query += `dtaFim=${
+          action.payload.periodoUp[1].toISOString().split('T')[0]
+        }`;
       }
 
       if (action.payload.prestadores) {
@@ -99,7 +98,6 @@ export function* sendGetRequest(action: ReturnType<typeof arquivosGetRequest>) {
         if (query !== '?') query += '&';
         query += `filtroPadrao=${action.payload.descricao}`;
       }
-
     }
 
     const response: AxiosResponse<RespostaApi<ArquivosByTipo>> = yield call(
@@ -148,6 +146,31 @@ function getFileNameFromHeader(responseHeaders: any): string | null {
   }
 }
 
+export function* sendReturnFileRequest(
+  action: ReturnType<typeof returnFileRequest>
+) {
+  try {
+    const query = action.payload ?? '';
+
+    const response: AxiosResponse<Blob> = yield call(
+      api.get,
+      `Relatorios/v1/download/?idRelArquivo=${query}`,
+      {
+        responseType: 'blob',
+      }
+    );
+    const blob = new Blob([response.data])
+
+    const fileName = getFileNameFromHeader(response.headers);
+
+    var file = new File([blob], fileName + '.pdf' || 'file.pdf');
+
+    yield put(returnFileSuccess(file));
+  } catch (error: any) {
+    yield put(returnFileError(error));
+  }
+}
+
 export function* sendDownloadRequest(
   action: ReturnType<typeof arquivosDownloadRequest>
 ) {
@@ -178,10 +201,7 @@ export function* sendUploadRequest(
   let formData = new FormData();
   formData.append('formFile', action.payload.formFile);
   formData.append('nomArquivo', action.payload.nomArquivo);
-  formData.append(
-    'idRelTpArquivo',
-    action.payload.idRelTpArquivo.toString()
-  );
+  formData.append('idRelTpArquivo', action.payload.idRelTpArquivo.toString());
 
   action.payload.lstCodFornecedores?.forEach((item, index) =>
     formData.append(`lstCodFornecedores[${index}]`, item.toString())
@@ -229,4 +249,5 @@ export default all([
   takeLatest(arquivosUploadRequest, sendUploadRequest),
   takeLatest(arquivosGetRequest, sendGetRequest),
   takeLatest(arquivosDeleteRequest, sendDeleteRequest),
+  takeLatest(returnFileRequest, sendReturnFileRequest),
 ]);

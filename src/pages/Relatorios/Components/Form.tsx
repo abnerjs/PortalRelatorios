@@ -40,6 +40,7 @@ import {
   arquivosUploadError,
   arquivosUploadIdle,
   arquivosUploadRequest,
+  returnFileRequest,
 } from 'src/store/ducks/relatoriosUpload';
 import { DateRange } from '@mui/lab/DateRangePicker/RangeTypes';
 import DmCollapseHandler from 'src/components/DmCollapseHandler/DmCollapseHandler';
@@ -194,6 +195,9 @@ const Form = (props: Props) => {
   const uploadError = useAppSelector(
     (state) => state.arquivoUpload.uploadError
   );
+  const fileWhenGettingByPropsDoc = useAppSelector(
+    (state) => state.arquivoUpload.fileNotDownloadable
+  );
   const uploadState = useAppSelector(
     (state) => state.arquivoUpload.uploadState
   );
@@ -210,6 +214,15 @@ const Form = (props: Props) => {
   );
   const [desObsForm, setDesObsForm] = useState<string | null>(null);
 
+  useEffect(() => {
+    if(props.doc) {
+      console.log(fileWhenGettingByPropsDoc)
+      setValue('formFile', fileWhenGettingByPropsDoc || null);
+      props.setFile(fileWhenGettingByPropsDoc);
+    } 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [fileWhenGettingByPropsDoc])
+
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     if (props.doc && props.doc.idRelTpArquivo) {
@@ -219,13 +232,7 @@ const Form = (props: Props) => {
         ) || null
       );
 
-      console.log(props.doc);
-
-      if(props.doc.formFile) {
-        console.log('teste')
-        props.setFile(props.doc.formFile);
-        setValue('formFile', props.doc.formFile);
-      }
+      dispatch(returnFileRequest(props.doc.idRelArquivo));
 
       clearErrors('idRelTpArquivo');
       setValue('idRelTpArquivo', props.doc?.idRelTpArquivo);
@@ -279,14 +286,10 @@ const Form = (props: Props) => {
         setYearOnlyDatePicker(dtaIni);
         setValue('dtaIni', props.doc.dtaIni);
       }
+
+      setValue('substituirExistentes', true);
     }
   }, [props.doc]);
-
-  useEffect(() => {
-    if (props.file) {
-      setNomArqWhenDocExists(props.file.name);
-    }
-  }, [props.file]);
 
   const dispatch = useAppDispatch();
   useEffect(() => {
@@ -343,6 +346,7 @@ const Form = (props: Props) => {
     if (props.file) {
       setValue('formFile', props.file);
       setValue('nomArquivo', props.file.name);
+      console.log(props.file)
     }
   }, [props.file, setValue]);
 
