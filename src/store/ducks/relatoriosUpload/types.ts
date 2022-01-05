@@ -14,6 +14,9 @@ export interface ArquivosState {
   uploadState?: string;
   deleteError?: ErrorAPI;
   deleteState?: string;
+  fileRequestState?: string;
+  fileRequestError?: ErrorAPI;
+  fileNotDownloadable?: File;
 }
 
 export interface ArquivoUpload {

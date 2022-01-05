@@ -17,6 +17,9 @@ const initialState: ArquivosState = {
   uploadState: undefined, // undef- idle; s- success; e- error; l-loading
   deleteError: undefined,
   deleteState: undefined, // undef- idle; s- success; e- error; l-loading
+  fileRequestState: undefined,
+  fileRequestError: undefined,
+  fileNotDownloadable: undefined,
 };
 
 export const arquivoUploadSlice = createSlice({
@@ -85,6 +88,23 @@ export const arquivoUploadSlice = createSlice({
       state.uploadState = undefined;
       state.deleteState = undefined;
     },
+    returnFileRequest: (state, action: PayloadAction<number>) => {
+      state.fileRequestError = undefined;
+      state.fileRequestState = 'l';
+    },
+    returnFileSuccess: (state, action: PayloadAction<File>) => {
+      state.fileRequestError = undefined;
+      state.fileRequestState = 's';
+      state.fileNotDownloadable = action.payload;
+    },
+    returnFileError: (state, action: PayloadAction<ErrorAPI>) => {
+      state.fileRequestError = action.payload;
+      state.fileRequestState = 'e';
+    },
+    returnFileIdle: (state) => {
+      state.fileNotDownloadable = undefined;
+      state.fileRequestError = undefined;
+    },
   },
 });
 
@@ -104,6 +124,9 @@ export const {
   arquivosDeleteSuccess,
   arquivosDeleteError,
   arquivosDeleteIdle,
+  returnFileSuccess,
+  returnFileRequest,
+  returnFileError,
 } = arquivoUploadSlice.actions;
 
 export default arquivoUploadSlice.reducer;
