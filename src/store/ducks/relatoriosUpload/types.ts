@@ -17,7 +17,7 @@ export interface ArquivosState {
 }
 
 export interface ArquivoUpload {
-  idRelTpArquivo: TipoArquivo;
+  idRelTpArquivo: number;
   lstCodFornecedores?: Array<number>;
   lstCodPrestadores?: Array<number>;
   desObs?: string;

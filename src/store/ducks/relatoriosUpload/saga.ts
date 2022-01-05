@@ -97,7 +97,7 @@ export function* sendGetRequest(action: ReturnType<typeof arquivosGetRequest>) {
 
       if (action.payload.descricao) {
         if (query !== '?') query += '&';
-        query += `filtroPadrao=`;
+        query += `filtroPadrao=${action.payload.descricao}`;
       }
 
     }
@@ -180,7 +180,7 @@ export function* sendUploadRequest(
   formData.append('nomArquivo', action.payload.nomArquivo);
   formData.append(
     'idRelTpArquivo',
-    action.payload.idRelTpArquivo.idRelTpArquivo.toString()
+    action.payload.idRelTpArquivo.toString()
   );
 
   action.payload.lstCodFornecedores?.forEach((item, index) =>

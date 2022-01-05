@@ -85,7 +85,7 @@ const autocompleteUniqueProps = {
 };
 
 const schema = Yup.object({
-  idRelTpArquivo: Yup.mixed()
+  idRelTpArquivo: Yup.number()
     .nullable()
     .default(null)
     .required('Campo obrigatório!'),
@@ -152,7 +152,7 @@ const schema = Yup.object({
 );
 
 interface FormProps {
-  idRelTpArquivo: TipoArquivo | null;
+  idRelTpArquivo: number | null;
   dtaIni: string | null;
   dtaFim: string | null;
   codAno: number | null;
@@ -208,18 +208,77 @@ const Form = (props: Props) => {
   const [nomArqWhenDocExists, setNomArqWhenDocExists] = useState<string | null>(
     null
   );
-  const [desObsForm, setDesObsForm] = useState<string | null>(
-    null
-  );
+  const [desObsForm, setDesObsForm] = useState<string | null>(null);
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
-    if (props.doc) {
-      setTipoArquivo(props.doc.idRelTpArquivo);
-      //setFornecedores(props.doc.lstCodFornecedores);
-      //setPrestadores(props.doc.lstCodPrestadores);
+    if (props.doc && props.doc.idRelTpArquivo) {
+      setTipoArquivo(
+        tiposArquivos.find(
+          (item) => props.doc?.idRelTpArquivo === item.idRelTpArquivo
+        ) || null
+      );
+
+      console.log(props.doc);
+
+      if(props.doc.formFile) {
+        console.log('teste')
+        props.setFile(props.doc.formFile);
+        setValue('formFile', props.doc.formFile);
+      }
+
+      clearErrors('idRelTpArquivo');
+      setValue('idRelTpArquivo', props.doc?.idRelTpArquivo);
+
+      if (props.doc.lstCodFornecedores) {
+        setFornecedores(
+          lstFornecedores.filter((value) =>
+            props.doc?.lstCodFornecedores?.includes(parseInt(value.codigo))
+          )
+        );
+        setValue('lstCodFornecedores', props.doc.lstCodFornecedores);
+      }
+
+      if (props.doc.lstCodPrestadores) {
+        setValue('lstCodPrestadores', props.doc.lstCodPrestadores);
+        setPrestadores(
+          lstPrestadores.filter((value) =>
+            props.doc?.lstCodPrestadores?.includes(parseInt(value.codigo))
+          )
+        );
+      }
+
       setNomArqWhenDocExists(props.doc.nomArquivo);
-      if (props.doc.desObs) setDesObsForm(props.doc.desObs);
+      setValue('nomArquivo', props.doc.nomArquivo);
+
+      if (props.doc.desObs) {
+        setDesObsForm(props.doc.desObs);
+        setValue('desObs', props.doc.desObs);
+      }
+
+      if (props.doc.codMes && props.doc.codAno) {
+        let d = new Date();
+        d.setMonth(props.doc.codMes);
+        d.setFullYear(props.doc.codAno);
+        setYearAndMonthDatePicker(d);
+        setValue('codMes', props.doc.codMes);
+        setValue('codAno', props.doc.codAno);
+      } else if (props.doc.codAno) {
+        let d = new Date();
+        d.setFullYear(props.doc.codAno);
+        setYearOnlyDatePicker(d);
+        setValue('codAno', props.doc.codAno);
+      } else if (props.doc.dtaIni && props.doc.dtaFim) {
+        let dtaIni = new Date(props.doc.dtaIni);
+        let dtaFim = new Date(props.doc.dtaFim);
+        setValue('dtaIni', props.doc.dtaIni);
+        setValue('dtaFim', props.doc.dtaFim);
+        setDatePeriodo([dtaIni, dtaFim]);
+      } else if (props.doc.dtaIni) {
+        let dtaIni = new Date(props.doc.dtaIni);
+        setYearOnlyDatePicker(dtaIni);
+        setValue('dtaIni', props.doc.dtaIni);
+      }
     }
   }, [props.doc]);
 
@@ -349,6 +408,7 @@ const Form = (props: Props) => {
                   {...autocompleteProps}
                   multiple
                   ChipProps={{ size: 'small' }}
+                  disabled={props.doc !== undefined}
                   PopperComponent={StyledPopper}
                   ListboxComponent={ListboxComponent}
                   noOptionsText="Nenhum fornecedor"
@@ -442,6 +502,7 @@ const Form = (props: Props) => {
                   {...autocompleteProps}
                   multiple
                   noOptionsText="Nenhum prestador"
+                  disabled={props.doc !== undefined}
                   PopperComponent={StyledPopper}
                   ListboxComponent={ListboxComponent}
                   options={lstPrestadores}
@@ -534,6 +595,7 @@ const Form = (props: Props) => {
                 <Autocomplete
                   {...autocompleteUniqueProps}
                   options={tiposArquivos}
+                  disabled={props.doc !== undefined}
                   getOptionLabel={(option) => option.desTpArquivo}
                   renderInput={(params) => (
                     <TextField
@@ -561,7 +623,7 @@ const Form = (props: Props) => {
                   onChange={(_, data) => {
                     clearErrors('idRelTpArquivo');
                     setTipoArquivo(data);
-                    setValue('idRelTpArquivo', data);
+                    setValue('idRelTpArquivo', data?.idRelTpArquivo || null);
                   }}
                 />
               )}
@@ -663,6 +725,7 @@ const Form = (props: Props) => {
                     openTo="year"
                     mask="____"
                     inputFormat="yyyy"
+                    disabled={props.doc !== undefined}
                     views={['year']}
                     disableMaskedInput={false}
                     value={yearOnlyDatePicker}
@@ -728,6 +791,7 @@ const Form = (props: Props) => {
                     label="Mês/Ano"
                     openTo="year"
                     mask="__/____"
+                    disabled={props.doc !== undefined}
                     inputFormat="MM/yyyy"
                     views={['year', 'month']}
                     disableFuture
@@ -805,6 +869,7 @@ const Form = (props: Props) => {
                       className: 'dateRangePickerModal',
                     }}
                     value={datePeriodo}
+                    disabled={props.doc !== undefined}
                     onChange={(value) => {
                       setDatePeriodo(value);
                       if (value[0] && value[1]) {
@@ -900,6 +965,7 @@ const Form = (props: Props) => {
                     label="Data do documento"
                     openTo="year"
                     disableFuture
+                    disabled={props.doc !== undefined}
                     disableMaskedInput={false}
                     value={null}
                     onChange={(value: any) => {
@@ -961,6 +1027,8 @@ const Form = (props: Props) => {
               <FormControlLabel
                 control={
                   <Checkbox
+                    checked={props.doc !== undefined}
+                    disabled={props.doc !== undefined}
                     onChange={(_, value) => {
                       setValue('substituirExistentes', value);
                     }}
