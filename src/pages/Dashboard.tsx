@@ -2,7 +2,7 @@ import { Typography } from '@mui/material';
 import React from 'react';
 import Card from '../components/Card';
 import Header from '../components/Header';
-import Table from '../components/Table';
+import Table from 'src/components/Table/Table';
 import './Dashboard.css';
 
 const Dashboard = () => {

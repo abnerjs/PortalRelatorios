@@ -1,0 +1,71 @@
+.row .info span {
+  font-weight: var(--semiBold);
+}
+
+.info .row {
+  margin: 5px !important;
+}
+
+.info {
+  margin-bottom: 15px;
+}
+
+.icon {
+  color: white;
+}
+
+.iconbutton {
+  margin-right: 10px !important;
+  transition: background-color ease 0.2s;
+}
+
+.iconbutton.edit {
+  background-color: var(--primary50) !important;
+}
+
+.iconbutton.edit:hover {
+  background-color: var(--primaryColor) !important;
+}
+
+.iconbutton.delete {
+  background-color: var(--error50) !important;
+}
+
+.iconbutton.delete:hover {
+  background-color: var(--errorColor) !important;
+}
+
+.confirmdelete {
+  background-color: white;
+  position: absolute;
+  width: 100%;
+  height: 40px;
+  display: flex;
+  justify-content: space-between;
+  opacity: 0;
+  visibility: hidden;
+  align-items: center;
+  border-radius: 8px;
+}
+
+.confirmdelete .message {
+  margin-left: 20px;
+}
+
+.confirmdelete .buttons {
+  justify-self: flex-end;
+  margin: 0;
+}
+
+.confirmdelete .buttons .MuiIconButton-root .icon {
+  color: #aaa !important;
+}
+
+.confirmdelete .buttons .MuiIconButton-root:hover .icon {
+  color: var(--primary50) !important;
+}
+
+.confirmdelete.confirm {
+  opacity: 1;
+  visibility: visible;
+}

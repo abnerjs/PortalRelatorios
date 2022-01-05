@@ -12,13 +12,95 @@ import {
   arquivosUploadError,
   arquivosUploadRequest,
   arquivosUploadSuccess,
+  arquivosDeleteRequest,
+  arquivosDeleteSuccess,
+  arquivosDeleteError,
 } from 'src/store/ducks/relatoriosUpload';
 import { RespostaApi } from '../base/types';
 import { ArquivosByTipo } from './types';
 
 export function* sendGetRequest(action: ReturnType<typeof arquivosGetRequest>) {
   try {
-    const query = action.payload ?? '';
+    let query = '';
+    if (action.payload) {
+      query = '?';
+      if (
+        action.payload.periodoRef &&
+        action.payload.periodoRef[0] &&
+        action.payload.periodoRef[1]
+      ) {
+        query += `dtaIni=${
+          action.payload.periodoRef[0].toISOString().split('T')[0]
+        }&`;
+        query += `dtaFim=${
+          action.payload.periodoRef[1].toISOString().split('T')[0]
+        }`;
+      } else if (action.payload.periodoRef &&
+        action.payload.periodoRef[0]) {
+          query += `dtaIni=${
+            action.payload.periodoRef[0].toISOString().split('T')[0]
+          }`;
+      } else if (action.payload.periodoRef &&
+        action.payload.periodoRef[1]) {
+          query += `dtaFim=${
+            action.payload.periodoRef[1].toISOString().split('T')[0]
+          }`;
+      }
+
+      if (
+        action.payload.periodoUp &&
+        action.payload.periodoUp[0] &&
+        action.payload.periodoUp[1]
+      ) {
+        if (query !== '?') query += '&';
+        query += `dtaUploadIni=${
+          action.payload.periodoUp[0].toISOString().split('T')[0]
+        }&`;
+        query += `dtaUploadFim=${
+          action.payload.periodoUp[1].toISOString().split('T')[0]
+        }`;
+      }  else if (action.payload.periodoUp &&
+        action.payload.periodoUp[0]) {
+          if (query !== '?') query += '&';
+          query += `dtaIni=${
+            action.payload.periodoUp[0].toISOString().split('T')[0]
+          }`;
+      } else if (action.payload.periodoUp &&
+        action.payload.periodoUp[1]) {
+          if (query !== '?') query += '&';
+          query += `dtaFim=${
+            action.payload.periodoUp[1].toISOString().split('T')[0]
+          }`;
+      }
+
+      if (action.payload.prestadores) {
+        if (query !== '?') query += '&';
+        query += `lstCodPrestadores=`;
+
+        action.payload.prestadores.forEach((item, index) => {
+          query += item.codigo;
+          if (index !== (action.payload?.prestadores?.length || 0) - 1)
+            query += ',';
+        });
+      }
+
+      if (action.payload.fornecedores) {
+        if (query !== '?') query += '&';
+        query += `lstCodFornecedores=`;
+
+        action.payload.fornecedores.forEach((item, index) => {
+          query += item.codigo;
+          if (index !== (action.payload?.fornecedores?.length || 0) - 1)
+            query += ',';
+        });
+      }
+
+      if (action.payload.descricao) {
+        if (query !== '?') query += '&';
+        query += `filtroPadrao=`;
+      }
+
+    }
 
     const response: AxiosResponse<RespostaApi<ArquivosByTipo>> = yield call(
       api.get,
@@ -74,7 +156,7 @@ export function* sendDownloadRequest(
 
     const response: AxiosResponse<Blob> = yield call(
       api.get,
-      `Relatorios/v1/downloadRelatorio/?idRelArquivo=${query}`,
+      `Relatorios/v1/download/?idRelArquivo=${query}`,
       {
         responseType: 'blob',
       }
@@ -115,13 +197,30 @@ export function* sendUploadRequest(
   if (action.payload.codMes)
     formData.append('codMes', action.payload.codMes.toString());
   if (action.payload.desObs) formData.append('desObs', action.payload.desObs);
-  formData.append('forcarUpload', 'true');
+  if (action.payload.substituirExistentes)
+    formData.append(
+      'substituirExistentes',
+      action.payload.substituirExistentes.toString()
+    );
 
   try {
-    yield call(api.post, `Relatorios/v1/uploadRelatorio/`, formData);
+    yield call(api.post, `Relatorios/v1/`, formData);
     yield put(arquivosUploadSuccess());
   } catch (error: any) {
     yield put(arquivosUploadError(error));
+  }
+}
+
+export function* sendDeleteRequest(
+  action: ReturnType<typeof arquivosDeleteRequest>
+) {
+  try {
+    const query = `?idRelArquivo=${action.payload.idRelArquivo}`;
+
+    yield call(api.delete, `Relatorios/v1/${query}`);
+    yield put(arquivosDeleteSuccess());
+  } catch (error: any) {
+    yield put(arquivosDeleteError(error));
   }
 }
 
@@ -129,4 +228,5 @@ export default all([
   takeLatest(arquivosDownloadRequest, sendDownloadRequest),
   takeLatest(arquivosUploadRequest, sendUploadRequest),
   takeLatest(arquivosGetRequest, sendGetRequest),
+  takeLatest(arquivosDeleteRequest, sendDeleteRequest),
 ]);

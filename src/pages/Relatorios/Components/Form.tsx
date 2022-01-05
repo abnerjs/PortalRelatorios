@@ -8,7 +8,10 @@ import {
   Button,
   Card,
   CardContent,
+  Checkbox,
   CircularProgress,
+  FormControlLabel,
+  FormGroup,
   TextField,
 } from '@mui/material';
 import CheckIcon from '@mui/icons-material/Check';
@@ -21,7 +24,10 @@ import {
   ListboxComponent,
 } from 'src/pages/Cadastros/VinculosUsuarios/Components/Autocomplete';
 import { TipoArquivo } from 'src/store/ducks/tipoArquivo/types';
-import { ArquivoUpload } from 'src/store/ducks/relatoriosUpload/types';
+import {
+  ArquivoUpload,
+  ArquivoUploadReceiveFormat,
+} from 'src/store/ducks/relatoriosUpload/types';
 import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useAppDispatch, useAppSelector } from 'src/store';
@@ -44,6 +50,7 @@ type Props = {
   file: File | null;
   setFile: Function;
   setOpen: Function;
+  doc?: ArquivoUploadReceiveFormat;
 };
 
 const autocompleteProps = {
@@ -154,7 +161,7 @@ interface FormProps {
   lstCodPrestadores: Array<number>;
   desObs: string;
   nomArquivo: string;
-  forcarUpload: boolean;
+  substituirExistentes: boolean;
   formFile: File | null;
 }
 
@@ -168,7 +175,7 @@ const defaultValues: FormProps = {
   dtaIni: null,
   dtaFim: null,
   nomArquivo: '',
-  forcarUpload: false,
+  substituirExistentes: false,
   formFile: null,
 };
 
@@ -198,6 +205,29 @@ const Form = (props: Props) => {
   const lstPrestadores = useAppSelector(
     (state) => state.prestadores.filterList
   );
+  const [nomArqWhenDocExists, setNomArqWhenDocExists] = useState<string | null>(
+    null
+  );
+  const [desObsForm, setDesObsForm] = useState<string | null>(
+    null
+  );
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  useEffect(() => {
+    if (props.doc) {
+      setTipoArquivo(props.doc.idRelTpArquivo);
+      //setFornecedores(props.doc.lstCodFornecedores);
+      //setPrestadores(props.doc.lstCodPrestadores);
+      setNomArqWhenDocExists(props.doc.nomArquivo);
+      if (props.doc.desObs) setDesObsForm(props.doc.desObs);
+    }
+  }, [props.doc]);
+
+  useEffect(() => {
+    if (props.file) {
+      setNomArqWhenDocExists(props.file.name);
+    }
+  }, [props.file]);
 
   const dispatch = useAppDispatch();
   useEffect(() => {
@@ -287,7 +317,7 @@ const Form = (props: Props) => {
                     className="nameRegInput"
                     multiline
                     rows={4}
-                    defaultValue={props.file?.name}
+                    defaultValue={nomArqWhenDocExists || props.file?.name}
                     variant="filled"
                     autoFocus
                     error={!!fieldState.error}
@@ -604,6 +634,7 @@ const Form = (props: Props) => {
                   margin="normal"
                   variant="filled"
                   className="secondary"
+                  defaultValue={desObsForm}
                   InputProps={{
                     disableUnderline: true,
                     inputProps: {
@@ -925,6 +956,19 @@ const Form = (props: Props) => {
                 )}
               />
             </LocalizationProvider>
+
+            <FormGroup>
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    onChange={(_, value) => {
+                      setValue('substituirExistentes', value);
+                    }}
+                  />
+                }
+                label="Forçar upload"
+              />
+            </FormGroup>
 
             <div className="buttons">
               <Button

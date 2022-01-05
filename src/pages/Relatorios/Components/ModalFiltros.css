@@ -1,0 +1,42 @@
+.modalBox-root.filter {
+  width: 500px;
+}
+
+.modalBox-root.filter .row {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  margin-top: 15px;
+}
+
+.tooltip {
+  border: 2px solid #acacac;
+  width: 15px;
+  height: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  color: #acacac;
+  margin-left: 10px;
+  transition: all ease 0.2s;
+}
+
+.tooltip:hover {
+  border: 2px solid var(--primary50);
+  color: var(--primary50);
+}
+
+.modal.buttons {
+  display: flex;
+  width: 100%;
+  margin-top: 20px;
+}
+
+.css-17vdz66 {
+  width: 100%;
+}
+
+.MuiBox-root.modalBox-root.dateOpened {
+  transform: translate(-100%, -50%);
+}

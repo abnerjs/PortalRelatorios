@@ -104,6 +104,15 @@
   border: none;
 }
 
+.filterButton {
+  transition: all ease 0.2s;
+}
+
+.filterButton:hover {
+  color: var(--primaryColor);
+  background-color: var(--primary50);
+}
+
 /*CHECKBOX --------------------------------*/
 .MuiFormControlLabel-root .MuiTypography-root {
   transition: all ease 0.2s;
@@ -144,6 +153,12 @@
   font-weight: var(--extraBold);
   margin-bottom: 10px;
   color: #272727;
+}
+
+.MuiTypography-root.MuiTypography-body1.label-tooltip {
+  font-weight: var(--medium);
+  color: #272727;
+  font-size: 12pt;
 }
 
 /*DRAWER ---------------------------------------*/
@@ -282,7 +297,7 @@
 /*MODAL -------------------------------*/
 
 .MuiBox-root.modalBox-root {
-  position: absolute;
+  position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
@@ -296,4 +311,5 @@
   align-items: center;
   box-shadow: 10px 10px 40px rgba(0, 0, 0, 0.4);
   outline: none;
+  transition: all ease 0.2s;
 }
