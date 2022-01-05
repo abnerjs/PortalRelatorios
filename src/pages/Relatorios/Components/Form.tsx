@@ -215,13 +215,13 @@ const Form = (props: Props) => {
   const [desObsForm, setDesObsForm] = useState<string | null>(null);
 
   useEffect(() => {
-    if(props.doc) {
-      console.log(fileWhenGettingByPropsDoc)
+    if (props.doc) {
+      console.log(fileWhenGettingByPropsDoc);
       setValue('formFile', fileWhenGettingByPropsDoc || null);
       props.setFile(fileWhenGettingByPropsDoc);
-    } 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [fileWhenGettingByPropsDoc])
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [fileWhenGettingByPropsDoc]);
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
@@ -256,7 +256,7 @@ const Form = (props: Props) => {
       }
 
       setNomArqWhenDocExists(props.doc.nomArquivo);
-      setValue('nomArquivo', props.doc.nomArquivo);
+      setValue('nomArquivo', nomArqWhenDocExists || props.doc.nomArquivo);
 
       if (props.doc.desObs) {
         setDesObsForm(props.doc.desObs);
@@ -345,9 +345,9 @@ const Form = (props: Props) => {
   useEffect(() => {
     if (props.file) {
       setValue('formFile', props.file);
-      setValue('nomArquivo', props.file.name);
-      console.log(props.file)
+      if(!props.doc) setValue('nomArquivo', props.file.name);
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.file, setValue]);
 
   const [focusForn, setFocusForn] = useState(false);

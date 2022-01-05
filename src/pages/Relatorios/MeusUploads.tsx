@@ -32,14 +32,7 @@ export interface FiltrosRelatorios {
   prestadores?: Array<TipoFiltro>;
   periodoRef?: DateRange<Date>;
   periodoUp?: DateRange<Date>;
-}
-
-const defaultValuesFiltros: FiltrosRelatorios = {
-  descricao: '',
-  fornecedores: [],
-  prestadores: [],
-  periodoRef: [null, null],
-  periodoUp: [null, null],
+  usuarioUpload?: number;
 }
 
 const MeusUploads = () => {
@@ -49,16 +42,26 @@ const MeusUploads = () => {
   const arquivosByTipo = useAppSelector((state) => state.arquivoUpload.data);
   const arquivosState = useAppSelector((state) => state.arquivoUpload.state);
   const file = useAppSelector((state) => state.arquivoUpload.file);
+
+  const defaultValuesFiltros: FiltrosRelatorios = {
+    descricao: '',
+    fornecedores: [],
+    prestadores: [],
+    periodoRef: [null, null],
+    periodoUp: [null, null],
+    usuarioUpload: -1,
+  }
+
   const [filtros, setFiltros] = useState<FiltrosRelatorios>(defaultValuesFiltros);
 
   useEffect(() => {
-    dispatch(arquivosGetRequest());
+    dispatch(arquivosGetRequest(filtros));
 
     return () => {
       dispatch(arquivosDownloadIdle());
       dispatch(arquivosUploadIdle());
     };
-  }, [dispatch]);
+  }, [dispatch, filtros]);
 
   useEffect(() => {
     if (file) window.open(file);
@@ -68,7 +71,7 @@ const MeusUploads = () => {
     <div className="Dashboard">
       <div className="content">
         <div className="head">
-          <Header title="Meus uploads" />
+          <Header title="Gerenciamento" />
           <Typography variant="subtitle1">
             Relatórios e demonstrativos disponíveis para consulta
           </Typography>
@@ -107,8 +110,7 @@ const MeusUploads = () => {
           <div className="filters">
             <TextField
               id="desNome"
-              label="Descrição do arquivo"
-              placeholder="Ex.: João da Silva"
+              label="Nome do arquivo"
               color="primary"
               margin="none"
               variant="filled"
@@ -120,6 +122,14 @@ const MeusUploads = () => {
               }}
               InputProps={{
                 disableUnderline: true,
+              }}
+              onChange={(e) => {
+                setFiltros(
+                  {
+                    ...filtros,
+                    descricao: e.target.value,
+                  }
+                );
               }}
             />
             <IconButton className='filterButton' aria-label="add to shopping cart"

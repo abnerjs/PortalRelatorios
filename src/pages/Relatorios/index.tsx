@@ -31,6 +31,7 @@ const defaultValuesFiltros: FiltrosRelatorios = {
   prestadores: [],
   periodoRef: [null, null],
   periodoUp: [null, null],
+  usuarioUpload: undefined,
 }
 
 const Documentos = () => {
@@ -51,6 +52,15 @@ const Documentos = () => {
       dispatch(arquivosUploadIdle());
     };
   }, [dispatch]);
+
+  useEffect(() => {
+    dispatch(arquivosGetRequest(filtros));
+
+    return () => {
+      dispatch(arquivosDownloadIdle());
+      dispatch(arquivosUploadIdle());
+    };
+  }, [dispatch, filtros]);
 
   useEffect(() => {
     if (file) window.open(file);
@@ -120,8 +130,7 @@ const Documentos = () => {
           <div className="filters">
             <TextField
               id="desNome"
-              label="Descrição do arquivo"
-              placeholder="Ex.: João da Silva"
+              label="Nome do arquivo"
               color="primary"
               margin="none"
               variant="filled"
@@ -133,6 +142,14 @@ const Documentos = () => {
               }}
               InputProps={{
                 disableUnderline: true,
+              }}
+              onChange={(e) => {
+                setFiltros(
+                  {
+                    ...filtros,
+                    descricao: e.target.value,
+                  }
+                );
               }}
             />
             <IconButton

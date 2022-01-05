@@ -73,13 +73,15 @@ const Row = (props: Props) => {
           <div className="regname">{props.doc.nomArquivo}</div>
           <div
             className={`refdate${
-              !props.fullView ||
               descDateRef === undefined ||
               descDateRef === null ||
               descDateRef.trim() === ''
                 ? ' semiVisible'
                 : ''
             }`}
+            style={{
+              textAlign: !props.fullView ? 'right' : 'left',
+            }}
           >
             {descDateRef}
           </div>
@@ -92,10 +94,18 @@ const Row = (props: Props) => {
                 ? ' semiVisible'
                 : ''
             }`}
+            style={{
+              display: props.fullView ? 'block' : 'none',
+            }}
           >
             {props.doc.desObs}
           </div>
-          <div className="date">
+          <div
+            className="date"
+            style={{
+              display: props.fullView ? 'block' : 'none',
+            }}
+          >
             {props.fullView
               ? props.doc.desNomeUsuarioUpload +
                 ' - ' +
@@ -121,7 +131,9 @@ const Row = (props: Props) => {
                 aria-label="edit"
                 size="small"
                 className="iconbutton edit"
-                onClick={() => {setOpen(true);}}
+                onClick={() => {
+                  setOpen(true);
+                }}
               >
                 <Icon
                   icon="fluent:edit-24-regular"
@@ -189,11 +201,11 @@ const Row = (props: Props) => {
       >
         <div className="row">
           <span>Data do upload:&nbsp;</span>
-          {descDateRef}
+          {dateFormatter(props.doc.dtaUpload, 'pt-BR')}
         </div>
         <div className="row">
           <span>Observações:&nbsp;</span>
-          {props.doc.desObs}
+          {props.doc.desObs || 'Nenhuma observação'}
         </div>
       </div>
     </div>

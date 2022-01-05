@@ -98,7 +98,23 @@ export function* sendGetRequest(action: ReturnType<typeof arquivosGetRequest>) {
         if (query !== '?') query += '&';
         query += `filtroPadrao=${action.payload.descricao}`;
       }
+
+      if (action.payload.usuarioUpload) {
+        if (query !== '?') query += '&';
+        query += `filtroPadrao=${action.payload.usuarioUpload}`;
+      }
+
+      if (action.payload.usuarioUpload) {
+        if (query !== '?') query += '&';
+        query += `idRelUsuarioUpload=`;
+
+        query+= action.payload.usuarioUpload
+
+        
+      }
+
     }
+    
 
     const response: AxiosResponse<RespostaApi<ArquivosByTipo>> = yield call(
       api.get,
