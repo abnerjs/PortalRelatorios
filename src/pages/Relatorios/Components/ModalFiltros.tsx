@@ -16,7 +16,7 @@ import {
   ListboxComponent,
   StyledPopper,
 } from 'src/pages/Cadastros/VinculosUsuarios/Components/Autocomplete';
-import { useAppSelector } from 'src/store';
+import { useAppDispatch, useAppSelector } from 'src/store';
 import { DateRange } from '@mui/lab/DateRangePicker/RangeTypes';
 import { TipoFiltro } from 'src/store/ducks/base/types';
 import './ModalFiltros.css';
@@ -24,6 +24,9 @@ import { DateRangePicker, LocalizationProvider } from '@mui/lab';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import brLocale from 'date-fns/locale/pt-BR';
 import { FiltrosRelatorios } from '../Gerenciamento';
+import { usuariosGetFilterRequest } from 'src/store/ducks/usuarios';
+import { prestadoresGetFilterRequest } from 'src/store/ducks/prestadores';
+import { fornecedoresGetFilterRequest } from 'src/store/ducks/fornecedores';
 
 type Props = {
   open: boolean;
@@ -37,6 +40,13 @@ const ModalUpload = (props: Props) => {
   const [focusForn, setFocusForn] = useState(false);
   const [focusPrest, setFocusPrest] = useState(false);
   const [focusUsers, setFocusUsers] = useState(false);
+
+  const dispatch = useAppDispatch();
+  useEffect(() => {
+    dispatch(fornecedoresGetFilterRequest());
+    dispatch(prestadoresGetFilterRequest());
+    dispatch(usuariosGetFilterRequest());
+  }, [dispatch]);
 
   const lstFornecedores = useAppSelector(
     (state) => state.fornecedores.filterList
