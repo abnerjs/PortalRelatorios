@@ -11,7 +11,7 @@ import {
 } from '@mui/material';
 import CheckIcon from '@mui/icons-material/Check';
 import { Box } from '@mui/system';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   ListboxComponent,
   StyledPopper,
@@ -58,6 +58,10 @@ const ModalUpload = (props: Props) => {
     null,
     null,
   ]);
+
+  useEffect(() => {
+    console.log(lstFornecedores);
+  }, [lstFornecedores])
 
   return (
     <Modal

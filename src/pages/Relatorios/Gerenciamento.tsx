@@ -32,7 +32,7 @@ export interface FiltrosRelatorios {
   prestadores?: Array<TipoFiltro>;
   periodoRef?: DateRange<Date>;
   periodoUp?: DateRange<Date>;
-  usuarioUpload?: Array<TipoFiltro>;
+  usuarioUpload?: number;
 }
 
 const defaultValuesFiltros: FiltrosRelatorios = {
@@ -41,7 +41,7 @@ const defaultValuesFiltros: FiltrosRelatorios = {
   prestadores: [],
   periodoRef: [null, null],
   periodoUp: [null, null],
-  usuarioUpload: [],
+  usuarioUpload: undefined,
 }
 
 const Gerenciamento = () => {
@@ -110,7 +110,6 @@ const Gerenciamento = () => {
             <TextField
               id="desNome"
               label="Nome do arquivo"
-              placeholder="Ex.: João da Silva"
               color="primary"
               margin="none"
               variant="filled"
