@@ -9,9 +9,11 @@ export interface ArquivosState {
   pagination?: InfoPaginacao;
   error?: ErrorAPI;
   state?: string;
-  uploadError?: ErrorAPI;
   downloadError?: ErrorAPI;
+  uploadError?: ErrorAPI;
   uploadState?: string;
+  deleteError?: ErrorAPI;
+  deleteState?: string;
 }
 
 export interface ArquivoUpload {
@@ -24,13 +26,14 @@ export interface ArquivoUpload {
   dtaIni?: string;
   dtaFim?: string;
   nomArquivo: string;
-  forcarUpload?: boolean;
+  substituirExistentes?: boolean;
   formFile: File;
 }
 
 export interface ArquivoUploadReceiveFormat extends ArquivoUpload {
   dtaUpload: string;
   idRelArquivo: number;
+  desNomeUsuarioUpload: string;
 }
 
 export interface ArquivosByTipo {

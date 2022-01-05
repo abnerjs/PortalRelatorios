@@ -1,8 +1,9 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
+import { FiltrosRelatorios } from 'src/pages/Relatorios/Gerenciamento';
 import { Paginacao } from '../base';
 import { RespostaApi } from '../base/types';
 import { ErrorAPI } from '../types';
-import { ArquivosByTipo, ArquivosState, ArquivoUpload } from './types';
+import { ArquivosByTipo, ArquivosState, ArquivoUpload, ArquivoUploadReceiveFormat } from './types';
 
 const initialState: ArquivosState = {
   data: [],
@@ -10,17 +11,19 @@ const initialState: ArquivosState = {
   filterList: [],
   pagination: Paginacao.getValoresPadrao(),
   error: undefined,
-  uploadError: undefined,
   state: undefined,
   downloadError: undefined,
+  uploadError: undefined,
   uploadState: undefined, // undef- idle; s- success; e- error; l-loading
+  deleteError: undefined,
+  deleteState: undefined, // undef- idle; s- success; e- error; l-loading
 };
 
 export const arquivoUploadSlice = createSlice({
   name: 'arquivos',
   initialState: initialState,
   reducers: {
-    arquivosGetRequest: (state, action: PayloadAction<string | undefined>) => {
+    arquivosGetRequest: (state, action: PayloadAction<FiltrosRelatorios | undefined>) => {
       state.error = undefined;
       state.state = 'l';
     },
@@ -66,6 +69,22 @@ export const arquivoUploadSlice = createSlice({
       state.uploadState = undefined;
       state.uploadError = undefined;
     },
+    arquivosDeleteRequest: (state, action: PayloadAction<ArquivoUploadReceiveFormat>) => {
+      state.deleteError = undefined;
+      state.deleteState = 'l';
+    },
+    arquivosDeleteSuccess: (state) => {
+      state.deleteError = undefined;
+      state.deleteState = 's';
+    },
+    arquivosDeleteError: (state, action: PayloadAction<ErrorAPI>) => {
+      state.deleteError = action.payload;
+      state.deleteState = 'e';
+    },
+    arquivosDeleteIdle: (state) => {
+      state.uploadState = undefined;
+      state.deleteState = undefined;
+    },
   },
 });
 
@@ -81,6 +100,10 @@ export const {
   arquivosUploadSuccess,
   arquivosUploadError,
   arquivosUploadIdle,
+  arquivosDeleteRequest,
+  arquivosDeleteSuccess,
+  arquivosDeleteError,
+  arquivosDeleteIdle,
 } = arquivoUploadSlice.actions;
 
 export default arquivoUploadSlice.reducer;

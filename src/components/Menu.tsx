@@ -25,12 +25,39 @@ const menuItens = [
   },
 ];
 
+const menuItensRelatorios = [
+  {
+    label: 'Relatórios',
+    link: '/relatorios',
+    api: 'Relatorios',
+  },
+  {
+    label: 'Gerenciamento',
+    link: '/gerenciamento',
+    api: 'Relatorios',
+  },
+  {
+    label: 'Meus Uploads',
+    link: '/meusuploads',
+    api: 'Relatorios',
+  },
+];
+
 const Menu = () => {
   const objetos = useAppSelector((state) => state.session.objetos);
   const [state, setState] = React.useState(false);
+  const [stateRelatorios, setStateRelatorios] = React.useState(false);
 
   const buildMenu = () => {
     return menuItens.filter((menu) =>
+      objetos.find(
+        (objeto) => objeto.nomPagina.toLowerCase() === menu.api.toLowerCase()
+      )
+    );
+  };
+
+  const buildMenuRelatorios = () => {
+    return menuItensRelatorios.filter((menu) =>
       objetos.find(
         (objeto) => objeto.nomPagina.toLowerCase() === menu.api.toLowerCase()
       )
@@ -49,6 +76,18 @@ const Menu = () => {
 
       setState(open);
     };
+  const toggleDrawerRelatorios =
+    (open: boolean) => (event: React.KeyboardEvent | React.MouseEvent) => {
+      if (
+        event.type === 'keydown' &&
+        ((event as React.KeyboardEvent).key === 'Tab' ||
+          (event as React.KeyboardEvent).key === 'Shift')
+      ) {
+        return;
+      }
+
+      setStateRelatorios(open);
+    };
 
   const location = useLocation();
 
@@ -56,8 +95,14 @@ const Menu = () => {
     <Box
       sx={{ width: 250 }}
       role="presentation"
-      onClick={toggleDrawer(false)}
-      onKeyDown={toggleDrawer(false)}
+      onClick={() => {
+        toggleDrawer(false);
+        toggleDrawerRelatorios(false);
+      }}
+      onKeyDown={() => {
+        toggleDrawer(false);
+        toggleDrawerRelatorios(false);
+      }}
     >
       <List>
         {buildMenu().map((text, index) => (
@@ -74,10 +119,44 @@ const Menu = () => {
     </Box>
   );
 
+  const listRelatorios = () => (
+    <Box
+      sx={{ width: 250 }}
+      role="presentation"
+      onClick={() => {
+        toggleDrawer(false);
+        toggleDrawerRelatorios(false);
+      }}
+      onKeyDown={() => {
+        toggleDrawer(false);
+        toggleDrawerRelatorios(false);
+      }}
+    >
+      <List>
+        {buildMenuRelatorios().map((text, index) => (
+          <Link to={text.link} key={`submenu-${index}`} tabIndex={-1}>
+            <ListItem button key={text.link}>
+              <ListItemText
+                primary={text.label}
+                className={location.pathname === text.link ? 'active' : ''}
+              />
+            </ListItem>
+          </Link>
+        ))}
+      </List>
+    </Box>
+  );
+
   return (
     <div className="Menu">
       <Link to="/" tabIndex={-1}>
-        <div className="logo" onClick={() => setState(false)}>
+        <div
+          className="logo"
+          onClick={() => {
+            setState(false);
+            setStateRelatorios(false);
+          }}
+        >
           <DatamobIcon width={39} />
         </div>
       </Link>
@@ -88,34 +167,41 @@ const Menu = () => {
             className={
               `menuButton` + (location.pathname === '/' ? ' active' : '')
             }
-            onClick={() => setState(false)}
+            onClick={() => () => {
+              setState(false);
+              setStateRelatorios(false);
+            }}
           >
             <Icon icon="fluent:home-16-regular" />
           </div>
         </Link>
         {objetos.findIndex(
-          (objeto) => objeto.nomPagina.toLowerCase() === 'relatorios'
+          (t) => menuItensRelatorios.findIndex((x) => x.api === t.nomPagina) !== -1
         ) !== -1 && (
-          <Link to="/relatorios" tabIndex={-1}>
-            <div
-              className={
-                `menuButton` +
-                (location.pathname === '/relatorios' ||
-                location.pathname === '/relpreproducao' ||
-                location.pathname === '/relprecombustivel' ||
-                location.pathname === '/relpreextrato' ||
-                location.pathname === '/relprerecurso' ||
-                location.pathname === '/relforcarregamento' ||
-                location.pathname === '/relforpagamento' ||
-                location.pathname === '/relforcanaentregue'
-                  ? ' active'
-                  : '')
-              }
-              onClick={() => setState(false)}
-            >
-              <Icon icon="fluent:document-bullet-list-20-regular" />
-            </div>
-          </Link>
+          <div
+            className={
+              `menuButton` +
+              (menuItensRelatorios.findIndex(
+                (item) => item.link === location.pathname
+              ) !== -1
+                ? ' active'
+                : location.pathname === '/relpreproducao' ||
+                  location.pathname === '/relprecombustivel' ||
+                  location.pathname === '/relpreextrato' ||
+                  location.pathname === '/relprerecurso' ||
+                  location.pathname === '/relforcarregamento' ||
+                  location.pathname === '/relforpagamento' ||
+                  location.pathname === '/relforcanaentregue'
+                ? ' active'
+                : '')
+            }
+            onClick={() => {
+              setState(false);
+              setStateRelatorios((stateRelatorios) => !stateRelatorios);
+            }}
+          >
+            <Icon icon="fluent:document-bullet-list-20-regular" />
+          </div>
         )}
         {objetos.findIndex(
           (t) => menuItens.findIndex((x) => x.api === t.nomPagina) !== -1
@@ -129,22 +215,14 @@ const Menu = () => {
                 ? ' active'
                 : '')
             }
-            onClick={() => setState((state) => !state)}
+            onClick={() => {
+              setState((state) => !state);
+              setStateRelatorios(false);
+            }}
           >
             <Icon icon="fluent:person-20-regular" />
           </div>
         )}
-        <Link to="/tiposarquivos" tabIndex={-1}>
-          <div
-            className={
-              `menuButton` +
-              (location.pathname === '/tiposarquivos' ? ' active' : '')
-            }
-            onClick={() => setState(false)}
-          >
-            <Icon icon="fluent:document-pdf-16-regular" />
-          </div>
-        </Link>
         {/*
           <Link to="/usuarios">
             <div
@@ -166,6 +244,15 @@ const Menu = () => {
         PaperProps={{ style: { justifyContent: 'flex-start' } }}
       >
         {list()}
+      </Drawer>
+
+      <Drawer
+        anchor="left"
+        open={stateRelatorios}
+        onClose={toggleDrawerRelatorios(false)}
+        PaperProps={{ style: { justifyContent: 'flex-start' } }}
+      >
+        {listRelatorios()}
       </Drawer>
     </div>
   );

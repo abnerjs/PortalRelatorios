@@ -1,12 +1,13 @@
 import './Table.css';
 
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Button, Typography } from '@mui/material';
 import { ArquivoUploadReceiveFormat } from 'src/store/ducks/relatoriosUpload/types';
 import { arquivosDownloadRequest } from 'src/store/ducks/relatoriosUpload';
 import { useAppDispatch } from 'src/store';
 import { dateFormatter } from 'src/utils/StringUtils';
+import Row from './subcomponents/Row';
 
 export interface LinkProps {
   name: string;
@@ -18,12 +19,16 @@ type Props = {
   subtitle?: string;
   arr?: Array<LinkProps>;
   arrArquivo?: Array<ArquivoUploadReceiveFormat>;
+  fullView?: boolean;
 };
 
 const conditionalArrayTypeRender = (
   arr: Array<LinkProps> | undefined,
   arrArquivo: Array<ArquivoUploadReceiveFormat> | undefined,
-  dispatch: any
+  dispatch: any,
+  collapsed: boolean,
+  setCollapsed: Function,
+  fullView?: boolean
 ) => {
   let arrGui: JSX.Element[] = [];
 
@@ -49,22 +54,7 @@ const conditionalArrayTypeRender = (
   } else if (arrArquivo) {
     arrArquivo.forEach((doc, index) => {
       arrGui.push(
-        <div className="row" key={doc.idRelArquivo}>
-          <div className="textual">
-            <div className="regname">{doc.nomArquivo}</div>
-            <div className="date">{dateFormatter(doc.dtaUpload, 'pt-BR')}</div>
-          </div>
-          <Button
-            variant="contained"
-            fullWidth
-            className="reg"
-            onClick={() => {
-              dispatch(arquivosDownloadRequest(doc.idRelArquivo));
-            }}
-          >
-            BAIXAR
-          </Button>
-        </div>
+        <Row arrArquivo={arrArquivo} doc={doc} fullView={fullView} />
       );
     });
   }
@@ -73,6 +63,7 @@ const conditionalArrayTypeRender = (
 };
 
 const Table = (props: Props) => {
+  const [collapsed, setCollapsed] = useState(false);
   const dispatch = useAppDispatch();
   const node = useRef<HTMLDivElement>(null);
 
@@ -88,7 +79,14 @@ const Table = (props: Props) => {
       {subtitle}
       <div className="principalContent">
         <div className="scrollable">
-          {conditionalArrayTypeRender(props.arr, props.arrArquivo, dispatch)}
+          {conditionalArrayTypeRender(
+            props.arr,
+            props.arrArquivo,
+            dispatch,
+            collapsed,
+            setCollapsed,
+            props.fullView
+          )}
         </div>
       </div>
     </div>

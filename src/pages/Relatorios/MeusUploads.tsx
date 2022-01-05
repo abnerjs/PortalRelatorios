@@ -23,7 +23,16 @@ import {
 import { ArquivosByTipo } from 'src/store/ducks/relatoriosUpload/types';
 import { Icon } from '@iconify/react';
 import ModalFiltros from './Components/ModalFiltros';
-import { FiltrosRelatorios } from './Gerenciamento';
+import { TipoFiltro } from 'src/store/ducks/base/types';
+import { DateRange } from '@mui/lab/DateRangePicker/RangeTypes';
+
+export interface FiltrosRelatorios {
+  descricao?: string;
+  fornecedores?: Array<TipoFiltro>;
+  prestadores?: Array<TipoFiltro>;
+  periodoRef?: DateRange<Date>;
+  periodoUp?: DateRange<Date>;
+}
 
 const defaultValuesFiltros: FiltrosRelatorios = {
   descricao: '',
@@ -33,9 +42,8 @@ const defaultValuesFiltros: FiltrosRelatorios = {
   periodoUp: [null, null],
 }
 
-const Documentos = () => {
+const MeusUploads = () => {
   const dispatch = useAppDispatch();
-  const user = useAppSelector((state) => state.session.user);
   const [open, setOpen] = useState(false);
   const [openFilters, setOpenFilters] = useState(false);
   const arquivosByTipo = useAppSelector((state) => state.arquivoUpload.data);
@@ -56,32 +64,11 @@ const Documentos = () => {
     if (file) window.open(file);
   }, [file]);
 
-  function getObjetos(flgFiltro: string): Array<LinkProps> {
-    const objetos: Array<LinkProps> = [];
-
-    user?.lstSistemas?.forEach((sistema) =>
-      sistema.lstTiposObjetos?.forEach((tipoObjeto) => {
-        if (tipoObjeto.flgTipo === flgFiltro)
-          tipoObjeto.lstObjetos?.forEach((objeto) => {
-            objetos.push({
-              name: objeto.desObjeto,
-              linkTo: `/${objeto.nomPagina.toLowerCase()}`,
-            });
-          });
-      })
-    );
-
-    return objetos;
-  }
-
-  const prestadores = getObjetos('P');
-  const fornecedores = getObjetos('F');
-
   return (
     <div className="Dashboard">
       <div className="content">
         <div className="head">
-          <Header title="Relatórios" />
+          <Header title="Meus uploads" />
           <Typography variant="subtitle1">
             Relatórios e demonstrativos disponíveis para consulta
           </Typography>
@@ -126,7 +113,7 @@ const Documentos = () => {
               margin="none"
               variant="filled"
               className="smaller"
-              size="small"
+              size='small'
               sx={{
                 width: 700,
                 mr: 2,
@@ -135,24 +122,21 @@ const Documentos = () => {
                 disableUnderline: true,
               }}
             />
-            <IconButton
-              className="filterButton"
-              aria-label="add to shopping cart"
-              onClick={() => setOpenFilters(true)}
+            <IconButton className='filterButton' aria-label="add to shopping cart"
+              onClick={
+                () => setOpenFilters(true)
+              }
             >
               <Icon icon="ci:filter-outline" height={'30px'} />
             </IconButton>
-            <ModalFiltros
-              filtros={filtros}
-              setFiltros={setFiltros}
-              open={openFilters}
-              setOpen={setOpenFilters}
+            <ModalFiltros open={openFilters} setOpen={setOpenFilters}
+              filtros={filtros} setFiltros={setFiltros}
             />
           </div>
         </div>
 
         <div
-          className="row tables"
+          className="row overview"
           style={{
             gridTemplateColumns:
               arquivosState === 's' && arquivosByTipo?.length === 0
@@ -173,14 +157,6 @@ const Documentos = () => {
             transition: 'margin-left ease 0.4s',
           }}
         >
-          <div className="column">
-            {fornecedores.length !== 0 && (
-              <Table arr={fornecedores} title="Para fornecedores" />
-            )}
-            {prestadores.length !== 0 && (
-              <Table arr={prestadores} title="Para prestadores" />
-            )}
-          </div>
           <div
             className={`column${arquivosState === 'l' ? ' loading' : ''}`}
             style={{
@@ -202,7 +178,7 @@ const Documentos = () => {
   );
 };
 
-export default Documentos;
+export default MeusUploads;
 
 function filesTypes(arquivosByTipo: ArquivosByTipo[] | undefined): any {
   let arrAux: JSX.Element[] = [];
@@ -213,6 +189,7 @@ function filesTypes(arquivosByTipo: ArquivosByTipo[] | undefined): any {
         key={item.idRelTpArquivo}
         arrArquivo={item.arquivos}
         title={item.desTpArquivo}
+        fullView
       />
     );
   });

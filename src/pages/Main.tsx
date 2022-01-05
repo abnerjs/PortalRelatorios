@@ -17,6 +17,8 @@ import RelForPagamento from './Relatorios/Routes/RelForPagamento';
 import RelForCarregamento from './Relatorios/Routes/RelForCarregamento';
 import RelForCanaEntregue from './Relatorios/Routes/RelForCanaEntregue';
 import TiposArquivos from './Cadastros/TiposArquivos';
+import Gerenciamento from './Relatorios/Gerenciamento';
+import MeusUploads from './Relatorios/MeusUploads';
 
 const Main = () => {
   return (
@@ -32,6 +34,12 @@ const Main = () => {
         </Route>
         <Route path="/tiposarquivos">
           <TiposArquivos />
+        </Route>
+        <Route path="/gerenciamento">
+          <Gerenciamento />
+        </Route>
+        <Route path="/meusuploads">
+          <MeusUploads />
         </Route>
         <Route path="/vinculos-usuarios">
           <VinculosUsuarios />
