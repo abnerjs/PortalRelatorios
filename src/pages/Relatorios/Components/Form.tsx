@@ -1022,13 +1022,14 @@ const Form = (props: Props) => {
               />
             </LocalizationProvider>
 
-            <FormGroup>
+            <FormGroup
+              style={{
+                display: props.doc ? 'none' : 'flex',
+              }}
+            >
               <FormControlLabel
                 control={
                   <Checkbox
-                    style={{
-                      display: props.doc ? 'none' : 'flex',
-                    }}
                     onChange={(_, value) => {
                       setValue('substituirExistentes', value);
                     }}
