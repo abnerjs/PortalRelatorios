@@ -15,7 +15,7 @@ import {
   TextField,
 } from '@mui/material';
 import CheckIcon from '@mui/icons-material/Check';
-import { Box } from '@mui/system';
+import { Box, flexbox } from '@mui/system';
 import brLocale from 'date-fns/locale/pt-BR';
 import React, { useEffect, useState } from 'react';
 import { SubmitHandler, Controller, useForm } from 'react-hook-form';
@@ -25,6 +25,7 @@ import {
 } from 'src/pages/Cadastros/VinculosUsuarios/Components/Autocomplete';
 import { TipoArquivo } from 'src/store/ducks/tipoArquivo/types';
 import {
+  ArquivoUpdate,
   ArquivoUpload,
   ArquivoUploadReceiveFormat,
 } from 'src/store/ducks/relatoriosUpload/types';
@@ -37,10 +38,10 @@ import { prestadoresGetFilterRequest } from 'src/store/ducks/prestadores';
 import { tipoArquivoGetRequest } from 'src/store/ducks/tipoArquivo';
 import {
   arquivosGetRequest,
+  arquivosUpdateRequest,
   arquivosUploadError,
   arquivosUploadIdle,
   arquivosUploadRequest,
-  returnFileRequest,
 } from 'src/store/ducks/relatoriosUpload';
 import { DateRange } from '@mui/lab/DateRangePicker/RangeTypes';
 import DmCollapseHandler from 'src/components/DmCollapseHandler/DmCollapseHandler';
@@ -90,6 +91,8 @@ const schema = Yup.object({
     .nullable()
     .default(null)
     .required('Campo obrigatório!'),
+  idRelArquivo: Yup.number(),
+  substituirExistentes: Yup.boolean(),
   lstCodFornecedores: Yup.array(),
   lstCodPrestadores: Yup.array(),
   nomArquivo: Yup.string()
@@ -162,8 +165,9 @@ interface FormProps {
   lstCodPrestadores: Array<number>;
   desObs: string;
   nomArquivo: string;
-  substituirExistentes: boolean;
   formFile: File | null;
+  substituirExistentes?: boolean;
+  idRelArquivo?: number;
 }
 
 const defaultValues: FormProps = {
@@ -176,8 +180,9 @@ const defaultValues: FormProps = {
   dtaIni: null,
   dtaFim: null,
   nomArquivo: '',
-  substituirExistentes: false,
   formFile: null,
+  substituirExistentes: undefined,
+  idRelArquivo: undefined,
 };
 
 const Form = (props: Props) => {
@@ -194,9 +199,6 @@ const Form = (props: Props) => {
 
   const uploadError = useAppSelector(
     (state) => state.arquivoUpload.uploadError
-  );
-  const fileWhenGettingByPropsDoc = useAppSelector(
-    (state) => state.arquivoUpload.fileNotDownloadable
   );
   const uploadState = useAppSelector(
     (state) => state.arquivoUpload.uploadState
@@ -215,12 +217,10 @@ const Form = (props: Props) => {
   const [desObsForm, setDesObsForm] = useState<string | null>(null);
 
   useEffect(() => {
-    if (props.doc) {
-      setValue('formFile', fileWhenGettingByPropsDoc || null);
-      props.setFile(fileWhenGettingByPropsDoc);
+    if (!props.doc) {
+      setValue('substituirExistentes', false);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [fileWhenGettingByPropsDoc]);
+  }, []);
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
@@ -230,8 +230,6 @@ const Form = (props: Props) => {
           (item) => props.doc?.idRelTpArquivo === item.idRelTpArquivo
         ) || null
       );
-
-      dispatch(returnFileRequest(props.doc.idRelArquivo));
 
       clearErrors('idRelTpArquivo');
       setValue('idRelTpArquivo', props.doc?.idRelTpArquivo);
@@ -286,7 +284,8 @@ const Form = (props: Props) => {
         setValue('dtaIni', props.doc.dtaIni);
       }
 
-      setValue('substituirExistentes', true);
+      if (props.doc.idRelArquivo)
+        setValue('idRelArquivo', props.doc.idRelArquivo);
     }
   }, [props.doc]);
 
@@ -303,8 +302,12 @@ const Form = (props: Props) => {
       defaultValues: defaultValues,
     });
 
-  const onSubmit: SubmitHandler<ArquivoUpload> = (values) => {
-    dispatch(arquivosUploadRequest(values));
+  const onSubmit: SubmitHandler<ArquivoUpload | ArquivoUpdate> = (values) => {
+    if (props.doc) {
+      dispatch(arquivosUpdateRequest(values as ArquivoUpdate));
+    } else {
+      dispatch(arquivosUploadRequest(values as ArquivoUpload));
+    }
   };
 
   const onError = (error: any) => {
@@ -344,9 +347,9 @@ const Form = (props: Props) => {
   useEffect(() => {
     if (props.file) {
       setValue('formFile', props.file);
-      if(!props.doc) setValue('nomArquivo', props.file.name);
+      if (!props.doc) setValue('nomArquivo', props.file.name);
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.file, setValue]);
 
   const [focusForn, setFocusForn] = useState(false);
@@ -411,7 +414,6 @@ const Form = (props: Props) => {
                   {...autocompleteProps}
                   multiple
                   ChipProps={{ size: 'small' }}
-                  disabled={props.doc !== undefined}
                   PopperComponent={StyledPopper}
                   ListboxComponent={ListboxComponent}
                   noOptionsText="Nenhum fornecedor"
@@ -505,7 +507,6 @@ const Form = (props: Props) => {
                   {...autocompleteProps}
                   multiple
                   noOptionsText="Nenhum prestador"
-                  disabled={props.doc !== undefined}
                   PopperComponent={StyledPopper}
                   ListboxComponent={ListboxComponent}
                   options={lstPrestadores}
@@ -598,7 +599,6 @@ const Form = (props: Props) => {
                 <Autocomplete
                   {...autocompleteUniqueProps}
                   options={tiposArquivos}
-                  disabled={props.doc !== undefined}
                   getOptionLabel={(option) => option.desTpArquivo}
                   renderInput={(params) => (
                     <TextField
@@ -728,7 +728,6 @@ const Form = (props: Props) => {
                     openTo="year"
                     mask="____"
                     inputFormat="yyyy"
-                    disabled={props.doc !== undefined}
                     views={['year']}
                     disableMaskedInput={false}
                     value={yearOnlyDatePicker}
@@ -794,7 +793,6 @@ const Form = (props: Props) => {
                     label="Mês/Ano"
                     openTo="year"
                     mask="__/____"
-                    disabled={props.doc !== undefined}
                     inputFormat="MM/yyyy"
                     views={['year', 'month']}
                     disableFuture
@@ -872,7 +870,6 @@ const Form = (props: Props) => {
                       className: 'dateRangePickerModal',
                     }}
                     value={datePeriodo}
-                    disabled={props.doc !== undefined}
                     onChange={(value) => {
                       setDatePeriodo(value);
                       if (value[0] && value[1]) {
@@ -968,7 +965,6 @@ const Form = (props: Props) => {
                     label="Data do documento"
                     openTo="year"
                     disableFuture
-                    disabled={props.doc !== undefined}
                     disableMaskedInput={false}
                     value={null}
                     onChange={(value: any) => {
@@ -1030,8 +1026,9 @@ const Form = (props: Props) => {
               <FormControlLabel
                 control={
                   <Checkbox
-                    checked={props.doc !== undefined}
-                    disabled={props.doc !== undefined}
+                    style={{
+                      display: props.doc ? 'none' : 'flex',
+                    }}
                     onChange={(_, value) => {
                       setValue('substituirExistentes', value);
                     }}

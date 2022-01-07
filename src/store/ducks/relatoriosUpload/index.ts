@@ -3,7 +3,7 @@ import { FiltrosRelatorios } from 'src/pages/Relatorios/Gerenciamento';
 import { Paginacao } from '../base';
 import { RespostaApi } from '../base/types';
 import { ErrorAPI } from '../types';
-import { ArquivosByTipo, ArquivosState, ArquivoUpload, ArquivoUploadReceiveFormat } from './types';
+import { ArquivosByTipo, ArquivosState, ArquivoUpdate, ArquivoUpload, ArquivoUploadReceiveFormat } from './types';
 
 const initialState: ArquivosState = {
   data: [],
@@ -19,7 +19,6 @@ const initialState: ArquivosState = {
   deleteState: undefined, // undef- idle; s- success; e- error; l-loading
   fileRequestState: undefined,
   fileRequestError: undefined,
-  fileNotDownloadable: undefined,
 };
 
 export const arquivoUploadSlice = createSlice({
@@ -72,6 +71,22 @@ export const arquivoUploadSlice = createSlice({
       state.uploadState = undefined;
       state.uploadError = undefined;
     },
+    arquivosUpdateRequest: (state, action: PayloadAction<ArquivoUpdate>) => {
+      state.uploadError = undefined;
+      state.uploadState = 'l';
+    },
+    arquivosUpdateSuccess: (state) => {
+      state.uploadError = undefined;
+      state.uploadState = 's';
+    },
+    arquivosUpdateError: (state, action: PayloadAction<ErrorAPI>) => {
+      state.uploadError = action.payload;
+      state.uploadState = 'e';
+    },
+    arquivosUpdateIdle: (state) => {
+      state.uploadState = undefined;
+      state.uploadError = undefined;
+    },
     arquivosDeleteRequest: (state, action: PayloadAction<ArquivoUploadReceiveFormat>) => {
       state.deleteError = undefined;
       state.deleteState = 'l';
@@ -88,23 +103,6 @@ export const arquivoUploadSlice = createSlice({
       state.uploadState = undefined;
       state.deleteState = undefined;
     },
-    returnFileRequest: (state, action: PayloadAction<number>) => {
-      state.fileRequestError = undefined;
-      state.fileRequestState = 'l';
-    },
-    returnFileSuccess: (state, action: PayloadAction<File>) => {
-      state.fileRequestError = undefined;
-      state.fileRequestState = 's';
-      state.fileNotDownloadable = action.payload;
-    },
-    returnFileError: (state, action: PayloadAction<ErrorAPI>) => {
-      state.fileRequestError = action.payload;
-      state.fileRequestState = 'e';
-    },
-    returnFileIdle: (state) => {
-      state.fileNotDownloadable = undefined;
-      state.fileRequestError = undefined;
-    },
   },
 });
 
@@ -120,13 +118,14 @@ export const {
   arquivosUploadSuccess,
   arquivosUploadError,
   arquivosUploadIdle,
+  arquivosUpdateRequest,
+  arquivosUpdateSuccess,
+  arquivosUpdateError,
+  arquivosUpdateIdle,
   arquivosDeleteRequest,
   arquivosDeleteSuccess,
   arquivosDeleteError,
   arquivosDeleteIdle,
-  returnFileSuccess,
-  returnFileRequest,
-  returnFileError,
 } = arquivoUploadSlice.actions;
 
 export default arquivoUploadSlice.reducer;

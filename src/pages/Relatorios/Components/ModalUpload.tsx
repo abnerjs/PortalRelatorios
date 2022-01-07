@@ -35,15 +35,17 @@ const ModalUpload = (props: Props) => {
       BackdropProps={{ timeout: 500 }}
     >
       <Fade in={props.open}>
-        <Box  className={`modalBox-root${isDatePickerOpened ? ' dateOpened' : ''}`}>
+        <Box
+          className={`modalBox-root${isDatePickerOpened ? ' dateOpened' : ''}`}
+        >
           <Typography variant="h6" component="h2">
             Upload de relatórios
           </Typography>
 
           <div className="dropfiles">
             <Dropzone
-              noClick={file !== null}
-              noKeyboard={file !== null}
+              noClick={file !== null || props.doc !== undefined}
+              noKeyboard={file !== null || props.doc !== undefined}
               noDrag={false}
               accept=".pdf"
               onDropAccepted={(files) => {
@@ -67,7 +69,11 @@ const ModalUpload = (props: Props) => {
                         isUnsuportedFile && isUnsuportedStyle
                           ? ' unsuportedAlert'
                           : ''
-                      }${file !== null ? ' dropzoneFilled' : ''}`,
+                      }${
+                        file !== null || props.doc !== undefined
+                          ? ' dropzoneFilled'
+                          : ''
+                      }`,
                     })}
                     style={{
                       position: 'relative',
@@ -75,8 +81,14 @@ const ModalUpload = (props: Props) => {
                   >
                     <div
                       style={{
-                        position: file !== null ? 'absolute' : 'relative',
-                        visibility: file !== null ? 'hidden' : 'visible',
+                        position:
+                          file !== null || props.doc !== undefined
+                            ? 'absolute'
+                            : 'relative',
+                        visibility:
+                          file !== null || props.doc !== undefined
+                            ? 'hidden'
+                            : 'visible',
                         display: 'flex',
                         flexDirection: 'column',
                         alignItems: 'center',
@@ -97,12 +109,17 @@ const ModalUpload = (props: Props) => {
 
                     <div
                       className={`modalControllerContainer${
-                        file !== null ? ' filled' : ''
+                        file !== null || props.doc !== undefined
+                          ? ' filled'
+                          : ''
                       }`}
                     >
                       <div
                         style={{
-                          display: file === null ? 'none' : 'flex',
+                          display:
+                            file === null && props.doc === undefined
+                              ? 'none'
+                              : 'flex',
                           flexDirection: 'column',
                           width: '100%',
                         }}

@@ -1,5 +1,4 @@
 import { InfoPaginacao, TipoFiltro } from '../base/types';
-import { TipoArquivo } from '../tipoArquivo/types';
 import { ErrorAPI } from '../types';
 
 export interface ArquivosState {
@@ -16,10 +15,9 @@ export interface ArquivosState {
   deleteState?: string;
   fileRequestState?: string;
   fileRequestError?: ErrorAPI;
-  fileNotDownloadable?: File;
 }
 
-export interface ArquivoUpload {
+interface ArquivoBase {
   idRelTpArquivo: number;
   lstCodFornecedores?: Array<number>;
   lstCodPrestadores?: Array<number>;
@@ -29,6 +27,9 @@ export interface ArquivoUpload {
   dtaIni?: string;
   dtaFim?: string;
   nomArquivo: string;
+}
+
+export interface ArquivoUpload extends ArquivoBase {
   substituirExistentes?: boolean;
   formFile: File;
 }
@@ -37,6 +38,12 @@ export interface ArquivoUploadReceiveFormat extends ArquivoUpload {
   dtaUpload: string;
   idRelArquivo: number;
   desNomeUsuarioUpload: string;
+}
+
+export interface ArquivoUpdate extends ArquivoBase {
+  dtaUpload: string;
+  idRelArquivo: number;
+  formFile?: File;
 }
 
 export interface ArquivosByTipo {
