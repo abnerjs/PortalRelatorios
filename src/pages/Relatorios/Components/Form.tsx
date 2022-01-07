@@ -216,7 +216,6 @@ const Form = (props: Props) => {
 
   useEffect(() => {
     if (props.doc) {
-      console.log(fileWhenGettingByPropsDoc);
       setValue('formFile', fileWhenGettingByPropsDoc || null);
       props.setFile(fileWhenGettingByPropsDoc);
     }

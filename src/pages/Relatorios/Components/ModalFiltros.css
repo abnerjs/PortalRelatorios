@@ -27,6 +27,14 @@
   color: var(--primary50);
 }
 
+.tooltip svg {
+  transition: all ease 0.2s;
+}
+
+.tooltip:hover svg {
+  color: var(--primary50);
+}
+
 .modal.buttons {
   display: flex;
   width: 100%;
@@ -39,4 +47,8 @@
 
 .MuiBox-root.modalBox-root.dateOpened {
   transform: translate(-100%, -50%);
+}
+
+.modalBox-root.filter .row {
+  margin-bottom: 5px;  
 }

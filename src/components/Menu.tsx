@@ -41,6 +41,11 @@ const menuItensRelatorios = [
     link: '/meusuploads',
     api: 'Relatorios',
   },
+  {
+    label: 'Tipos de arquivos',
+    link: '/tiposarquivos',
+    api: 'TiposArquivos',
+  },
 ];
 
 const Menu = () => {
@@ -123,10 +128,6 @@ const Menu = () => {
     <Box
       sx={{ width: 250 }}
       role="presentation"
-      onClick={() => {
-        toggleDrawer(false);
-        toggleDrawerRelatorios(false);
-      }}
       onKeyDown={() => {
         toggleDrawer(false);
         toggleDrawerRelatorios(false);
@@ -135,7 +136,15 @@ const Menu = () => {
       <List>
         {buildMenuRelatorios().map((text, index) => (
           <Link to={text.link} key={`submenu-${index}`} tabIndex={-1}>
-            <ListItem button key={text.link}>
+            <ListItem
+              button
+              key={text.link}
+              onClick={(e) => {
+                toggleDrawer(false);
+                toggleDrawerRelatorios(false);
+                e.stopPropagation();
+              }}
+            >
               <ListItemText
                 primary={text.label}
                 className={location.pathname === text.link ? 'active' : ''}
@@ -176,7 +185,8 @@ const Menu = () => {
           </div>
         </Link>
         {objetos.findIndex(
-          (t) => menuItensRelatorios.findIndex((x) => x.api === t.nomPagina) !== -1
+          (t) =>
+            menuItensRelatorios.findIndex((x) => x.api === t.nomPagina) !== -1
         ) !== -1 && (
           <div
             className={

@@ -155,12 +155,6 @@
   color: #272727;
 }
 
-.MuiTypography-root.MuiTypography-body1.label-tooltip {
-  font-weight: var(--medium);
-  color: #272727;
-  font-size: 12pt;
-}
-
 /*DRAWER ---------------------------------------*/
 .MuiDrawer-paper {
   margin-left: 60px;
