@@ -24,6 +24,8 @@ import { ArquivosByTipo } from 'src/store/ducks/relatoriosUpload/types';
 import { Icon } from '@iconify/react';
 import ModalFiltros from './Components/ModalFiltros';
 import { FiltrosRelatorios } from './Gerenciamento';
+import { fornecedoresGetFilterRequest } from 'src/store/ducks/fornecedores';
+import { prestadoresGetFilterRequest } from 'src/store/ducks/prestadores';
 
 const defaultValuesFiltros: FiltrosRelatorios = {
   descricao: '',
@@ -52,6 +54,19 @@ const Documentos = () => {
       dispatch(arquivosUploadIdle());
     };
   }, [dispatch]);
+
+  
+  useEffect(() => {
+    dispatch(fornecedoresGetFilterRequest());
+    dispatch(prestadoresGetFilterRequest());
+  }, [dispatch]);
+
+  const lstFornecedores = useAppSelector(
+    (state) => state.fornecedores.filterList
+  );
+  const lstPrestadores = useAppSelector(
+    (state) => state.prestadores.filterList
+  );
 
   useEffect(() => {
     dispatch(arquivosGetRequest(filtros));
@@ -164,6 +179,8 @@ const Documentos = () => {
               setFiltros={setFiltros}
               open={openFilters}
               setOpen={setOpenFilters}
+              lstFornecedores={lstFornecedores}
+              lstPrestadores={lstPrestadores}
             />
           </div>
         </div>

@@ -1,5 +1,5 @@
 import { AxiosResponse } from 'axios';
-import { all, call, put, takeLatest } from 'redux-saga/effects';
+import { all, call, debounce, put, takeLatest } from 'redux-saga/effects';
 
 import api from 'src/services/api';
 import {
@@ -97,11 +97,6 @@ export function* sendGetRequest(action: ReturnType<typeof arquivosGetRequest>) {
       if (action.payload.descricao) {
         if (query !== '?') query += '&';
         query += `filtroPadrao=${action.payload.descricao}`;
-      }
-
-      if (action.payload.usuarioUpload) {
-        if (query !== '?') query += '&';
-        query += `filtroPadrao=${action.payload.usuarioUpload}`;
       }
 
       if (action.payload.usuarioUpload) {
@@ -263,7 +258,7 @@ export function* sendDeleteRequest(
 export default all([
   takeLatest(arquivosDownloadRequest, sendDownloadRequest),
   takeLatest(arquivosUploadRequest, sendUploadRequest),
-  takeLatest(arquivosGetRequest, sendGetRequest),
+  debounce(500, arquivosGetRequest, sendGetRequest),
   takeLatest(arquivosDeleteRequest, sendDeleteRequest),
   takeLatest(returnFileRequest, sendReturnFileRequest),
 ]);

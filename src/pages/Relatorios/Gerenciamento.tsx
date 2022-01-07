@@ -25,6 +25,9 @@ import { Icon } from '@iconify/react';
 import ModalFiltros from './Components/ModalFiltros';
 import { TipoFiltro } from 'src/store/ducks/base/types';
 import { DateRange } from '@mui/lab/DateRangePicker/RangeTypes';
+import { fornecedoresGetFilterRequest } from 'src/store/ducks/fornecedores';
+import { prestadoresGetFilterRequest } from 'src/store/ducks/prestadores';
+import { usuariosGetFilterRequest } from 'src/store/ducks/usuarios';
 
 export interface FiltrosRelatorios {
   descricao?: string;
@@ -42,7 +45,7 @@ const defaultValuesFiltros: FiltrosRelatorios = {
   periodoRef: [null, null],
   periodoUp: [null, null],
   usuarioUpload: undefined,
-}
+};
 
 const Gerenciamento = () => {
   const dispatch = useAppDispatch();
@@ -51,7 +54,8 @@ const Gerenciamento = () => {
   const arquivosByTipo = useAppSelector((state) => state.arquivoUpload.data);
   const arquivosState = useAppSelector((state) => state.arquivoUpload.state);
   const file = useAppSelector((state) => state.arquivoUpload.file);
-  const [filtros, setFiltros] = useState<FiltrosRelatorios>(defaultValuesFiltros);
+  const [filtros, setFiltros] =
+    useState<FiltrosRelatorios>(defaultValuesFiltros);
 
   useEffect(() => {
     dispatch(arquivosGetRequest(filtros));
@@ -61,6 +65,20 @@ const Gerenciamento = () => {
       dispatch(arquivosUploadIdle());
     };
   }, [dispatch, filtros]);
+
+  useEffect(() => {
+    dispatch(fornecedoresGetFilterRequest());
+    dispatch(prestadoresGetFilterRequest());
+    dispatch(usuariosGetFilterRequest());
+  }, [dispatch]);
+
+  const lstFornecedores = useAppSelector(
+    (state) => state.fornecedores.filterList
+  );
+  const lstPrestadores = useAppSelector(
+    (state) => state.prestadores.filterList
+  );
+  const lstUsuarios = useAppSelector((state) => state.usuarios.filterList);
 
   useEffect(() => {
     if (file) window.open(file);
@@ -114,7 +132,7 @@ const Gerenciamento = () => {
               margin="none"
               variant="filled"
               className="smaller"
-              size='small'
+              size="small"
               sx={{
                 width: 700,
                 mr: 2,
@@ -123,23 +141,28 @@ const Gerenciamento = () => {
                 disableUnderline: true,
               }}
               onChange={(e) => {
-                setFiltros(
-                  {
-                    ...filtros,
-                    descricao: e.target.value,
-                  }
-                );
+                setFiltros({
+                  ...filtros,
+                  descricao: e.target.value,
+                });
               }}
             />
-            <IconButton className='filterButton' aria-label="add to shopping cart"
-              onClick={
-                () => setOpenFilters(true)
-              }
+            <IconButton
+              className="filterButton"
+              aria-label="add to shopping cart"
+              onClick={() => setOpenFilters(true)}
             >
               <Icon icon="ci:filter-outline" height={'30px'} />
             </IconButton>
-            <ModalFiltros open={openFilters} setOpen={setOpenFilters}
-              filtros={filtros} setFiltros={setFiltros} admin
+            <ModalFiltros
+              open={openFilters}
+              setOpen={setOpenFilters}
+              filtros={filtros}
+              setFiltros={setFiltros}
+              lstFornecedores={lstFornecedores}
+              lstPrestadores={lstPrestadores}
+              lstUsuarios={lstUsuarios}
+              admin
             />
           </div>
         </div>

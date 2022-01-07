@@ -25,6 +25,8 @@ import { Icon } from '@iconify/react';
 import ModalFiltros from './Components/ModalFiltros';
 import { TipoFiltro } from 'src/store/ducks/base/types';
 import { DateRange } from '@mui/lab/DateRangePicker/RangeTypes';
+import { prestadoresGetFilterRequest } from 'src/store/ducks/prestadores';
+import { fornecedoresGetFilterRequest } from 'src/store/ducks/fornecedores';
 
 export interface FiltrosRelatorios {
   descricao?: string;
@@ -50,9 +52,10 @@ const MeusUploads = () => {
     periodoRef: [null, null],
     periodoUp: [null, null],
     usuarioUpload: -1,
-  }
+  };
 
-  const [filtros, setFiltros] = useState<FiltrosRelatorios>(defaultValuesFiltros);
+  const [filtros, setFiltros] =
+    useState<FiltrosRelatorios>(defaultValuesFiltros);
 
   useEffect(() => {
     dispatch(arquivosGetRequest(filtros));
@@ -64,6 +67,18 @@ const MeusUploads = () => {
   }, [dispatch, filtros]);
 
   useEffect(() => {
+    dispatch(fornecedoresGetFilterRequest());
+    dispatch(prestadoresGetFilterRequest());
+  }, [dispatch]);
+
+  const lstFornecedores = useAppSelector(
+    (state) => state.fornecedores.filterList
+  );
+  const lstPrestadores = useAppSelector(
+    (state) => state.prestadores.filterList
+  );
+
+  useEffect(() => {
     if (file) window.open(file);
   }, [file]);
 
@@ -71,7 +86,7 @@ const MeusUploads = () => {
     <div className="Dashboard">
       <div className="content">
         <div className="head">
-          <Header title="Gerenciamento" />
+          <Header title="Meus uploads" />
           <Typography variant="subtitle1">
             Relatórios e demonstrativos disponíveis para consulta
           </Typography>
@@ -115,7 +130,7 @@ const MeusUploads = () => {
               margin="none"
               variant="filled"
               className="smaller"
-              size='small'
+              size="small"
               sx={{
                 width: 700,
                 mr: 2,
@@ -124,23 +139,26 @@ const MeusUploads = () => {
                 disableUnderline: true,
               }}
               onChange={(e) => {
-                setFiltros(
-                  {
-                    ...filtros,
-                    descricao: e.target.value,
-                  }
-                );
+                setFiltros({
+                  ...filtros,
+                  descricao: e.target.value,
+                });
               }}
             />
-            <IconButton className='filterButton' aria-label="add to shopping cart"
-              onClick={
-                () => setOpenFilters(true)
-              }
+            <IconButton
+              className="filterButton"
+              aria-label="add to shopping cart"
+              onClick={() => setOpenFilters(true)}
             >
               <Icon icon="ci:filter-outline" height={'30px'} />
             </IconButton>
-            <ModalFiltros open={openFilters} setOpen={setOpenFilters}
-              filtros={filtros} setFiltros={setFiltros}
+            <ModalFiltros
+              open={openFilters}
+              setOpen={setOpenFilters}
+              filtros={filtros}
+              setFiltros={setFiltros}
+              lstFornecedores={lstFornecedores}
+              lstPrestadores={lstPrestadores}
             />
           </div>
         </div>

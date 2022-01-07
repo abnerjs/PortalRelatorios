@@ -5,8 +5,10 @@ import {
   Button,
   CircularProgress,
   Fade,
+  IconButton,
   Modal,
   TextField,
+  Tooltip,
   Typography,
 } from '@mui/material';
 import CheckIcon from '@mui/icons-material/Check';
@@ -33,6 +35,9 @@ type Props = {
   setOpen: Function;
   filtros: FiltrosRelatorios;
   setFiltros: Function;
+  lstFornecedores: TipoFiltro[];
+  lstPrestadores: TipoFiltro[];
+  lstUsuarios?: TipoFiltro[];
   admin?: boolean;
 };
 
@@ -41,22 +46,7 @@ const ModalUpload = (props: Props) => {
   const [focusPrest, setFocusPrest] = useState(false);
   const [focusUsers, setFocusUsers] = useState(false);
 
-  const dispatch = useAppDispatch();
-  useEffect(() => {
-    dispatch(fornecedoresGetFilterRequest());
-    dispatch(prestadoresGetFilterRequest());
-    dispatch(usuariosGetFilterRequest());
-  }, [dispatch]);
-
-  const lstFornecedores = useAppSelector(
-    (state) => state.fornecedores.filterList
-  );
-  const lstPrestadores = useAppSelector(
-    (state) => state.prestadores.filterList
-  );
-  const lstUsuarios = useAppSelector((state) => state.usuarios.filterList);
-
-  const [users, setUsers] = useState<TipoFiltro[]>([]);
+  const [users, setUsers] = useState<TipoFiltro | null>(null);
   const [forns, setFornecedores] = useState<TipoFiltro[]>([]);
   const [prests, setPrestadores] = useState<TipoFiltro[]>([]);
   const [isDatePickerOpened, setDatePickerOpened] = useState(false);
@@ -68,10 +58,6 @@ const ModalUpload = (props: Props) => {
     null,
     null,
   ]);
-
-  useEffect(() => {
-    console.log(lstFornecedores);
-  }, [lstFornecedores])
 
   return (
     <Modal
@@ -92,7 +78,6 @@ const ModalUpload = (props: Props) => {
           }`}
         >
           <Autocomplete
-            multiple
             fullWidth
             style={{
               display: props.admin ? 'flex' : 'none',
@@ -101,7 +86,7 @@ const ModalUpload = (props: Props) => {
             PopperComponent={StyledPopper}
             ListboxComponent={ListboxComponent}
             noOptionsText="Nenhum usuário"
-            options={lstUsuarios}
+            options={props.lstUsuarios || []}
             getOptionLabel={(option) => option.descricao}
             // renderTags={() => undefined}
             renderOption={(props, option, state) => {
@@ -152,9 +137,6 @@ const ModalUpload = (props: Props) => {
                       id: 'idRelUsuarioUpload',
                     },
                   }}
-                  InputLabelProps={{
-                    shrink: users.length > 0 || focusUsers,
-                  }}
                   onFocus={() => setFocusUsers(true)}
                   onBlur={() => setFocusUsers(false)}
                 />
@@ -176,7 +158,7 @@ const ModalUpload = (props: Props) => {
             PopperComponent={StyledPopper}
             ListboxComponent={ListboxComponent}
             noOptionsText="Nenhum fornecedor"
-            options={lstFornecedores}
+            options={props.lstFornecedores}
             getOptionLabel={(option) => option.descricao}
             // renderTags={() => undefined}
             renderOption={(props, option, state) => {
@@ -253,7 +235,7 @@ const ModalUpload = (props: Props) => {
             noOptionsText="Nenhum prestador"
             PopperComponent={StyledPopper}
             ListboxComponent={ListboxComponent}
-            options={lstPrestadores}
+            options={props.lstPrestadores}
             getOptionLabel={(option) => option.descricao}
             ChipProps={{ size: 'small' }}
             // renderTags={() => undefined}
@@ -328,7 +310,22 @@ const ModalUpload = (props: Props) => {
               Período da referência
             </Typography>
             <div className="tooltip">
-              <Icon icon="fluent:question-16-filled" width={15} />
+              <Tooltip
+                title={
+                  <React.Fragment>
+                    Ao selecionar uma data do tipo&nbsp;
+                    <b><em>{"dia/mês/ano"}</em></b>,&nbsp;
+                    referências do tipo <b><em>{"mês/ano"}</em></b>
+                    &nbsp;e <b><em>{"ano"}</em></b>&nbsp;
+                    também serão incluídas.
+                  </React.Fragment>
+                }
+                placement="right"
+              >
+                <IconButton>
+                  <Icon icon="fluent:question-16-filled" width={15} />
+                </IconButton>
+              </Tooltip>
             </div>
           </div>
           <LocalizationProvider dateAdapter={AdapterDateFns} locale={brLocale}>
@@ -472,7 +469,9 @@ const ModalUpload = (props: Props) => {
                 onClick={() => {
                   props.setFiltros({
                     descricao: props.filtros.descricao,
-                    usuarioUpload: props.admin ? props.filtros.usuarioUpload : users,
+                    usuarioUpload: props.admin
+                      ? props.filtros.usuarioUpload
+                      : users,
                     fornecedores: forns,
                     prestadores: prests,
                     periodoRef: datePeriodoRef,
