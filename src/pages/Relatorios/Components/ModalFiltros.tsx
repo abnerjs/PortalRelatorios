@@ -18,7 +18,6 @@ import {
   ListboxComponent,
   StyledPopper,
 } from 'src/pages/Cadastros/VinculosUsuarios/Components/Autocomplete';
-import { useAppDispatch, useAppSelector } from 'src/store';
 import { DateRange } from '@mui/lab/DateRangePicker/RangeTypes';
 import { TipoFiltro } from 'src/store/ducks/base/types';
 import './ModalFiltros.css';
@@ -26,9 +25,6 @@ import { DateRangePicker, LocalizationProvider } from '@mui/lab';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import brLocale from 'date-fns/locale/pt-BR';
 import { FiltrosRelatorios } from '../Gerenciamento';
-import { usuariosGetFilterRequest } from 'src/store/ducks/usuarios';
-import { prestadoresGetFilterRequest } from 'src/store/ducks/prestadores';
-import { fornecedoresGetFilterRequest } from 'src/store/ducks/fornecedores';
 
 type Props = {
   open: boolean;
@@ -44,7 +40,6 @@ type Props = {
 const ModalUpload = (props: Props) => {
   const [focusForn, setFocusForn] = useState(false);
   const [focusPrest, setFocusPrest] = useState(false);
-  const [focusUsers, setFocusUsers] = useState(false);
 
   const [users, setUsers] = useState<TipoFiltro | null>(null);
   const [forns, setFornecedores] = useState<TipoFiltro[]>([]);
@@ -137,8 +132,6 @@ const ModalUpload = (props: Props) => {
                       id: 'idRelUsuarioUpload',
                     },
                   }}
-                  onFocus={() => setFocusUsers(true)}
-                  onBlur={() => setFocusUsers(false)}
                 />
               );
             }}

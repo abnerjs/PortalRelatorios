@@ -15,9 +15,9 @@ import {
   arquivosDeleteRequest,
   arquivosDeleteSuccess,
   arquivosDeleteError,
-  returnFileRequest,
-  returnFileSuccess,
-  returnFileError,
+  arquivosUpdateRequest,
+  arquivosUpdateError,
+  arquivosUpdateSuccess,
 } from 'src/store/ducks/relatoriosUpload';
 import { RespostaApi } from '../base/types';
 import { ArquivosByTipo } from './types';
@@ -103,13 +103,9 @@ export function* sendGetRequest(action: ReturnType<typeof arquivosGetRequest>) {
         if (query !== '?') query += '&';
         query += `idRelUsuarioUpload=`;
 
-        query+= action.payload.usuarioUpload
-
-        
+        query += action.payload.usuarioUpload;
       }
-
     }
-    
 
     const response: AxiosResponse<RespostaApi<ArquivosByTipo>> = yield call(
       api.get,
@@ -154,31 +150,6 @@ function getFileNameFromHeader(responseHeaders: any): string | null {
     return fileName.substring(0, index).replaceAll('%20', ' ');
   } catch {
     return null;
-  }
-}
-
-export function* sendReturnFileRequest(
-  action: ReturnType<typeof returnFileRequest>
-) {
-  try {
-    const query = action.payload ?? '';
-
-    const response: AxiosResponse<Blob> = yield call(
-      api.get,
-      `Relatorios/v1/download/?idRelArquivo=${query}`,
-      {
-        responseType: 'blob',
-      }
-    );
-    const blob = new Blob([response.data])
-
-    const fileName = getFileNameFromHeader(response.headers);
-
-    var file = new File([blob], fileName + '.pdf' || 'file.pdf');
-
-    yield put(returnFileSuccess(file));
-  } catch (error: any) {
-    yield put(returnFileError(error));
   }
 }
 
@@ -255,10 +226,42 @@ export function* sendDeleteRequest(
   }
 }
 
+export function* sendUpdateRequest(
+  action: ReturnType<typeof arquivosUpdateRequest>
+) {
+  let formData = new FormData();
+  formData.append('nomArquivo', action.payload.nomArquivo);
+  formData.append('idRelTpArquivo', action.payload.idRelTpArquivo.toString());
+
+  action.payload.lstCodFornecedores?.forEach((item, index) =>
+    formData.append(`lstCodFornecedores[${index}]`, item.toString())
+  );
+  action.payload.lstCodPrestadores?.forEach((item, index) =>
+    formData.append(`lstCodPrestadores[${index}]`, item.toString())
+  );
+
+  if (action.payload.dtaFim) formData.append('dtaFim', action.payload.dtaFim);
+  if (action.payload.dtaIni) formData.append('dtaIni', action.payload.dtaIni);
+  if (action.payload.codAno)
+    formData.append('codAno', action.payload.codAno.toString());
+  if (action.payload.codMes)
+    formData.append('codMes', action.payload.codMes.toString());
+  if (action.payload.desObs) formData.append('desObs', action.payload.desObs);
+  if (action.payload.idRelArquivo)
+    formData.append('idRelArquivo', action.payload.idRelArquivo.toString());
+
+  try {
+    yield call(api.put, `Relatorios/v1/`, formData);
+    yield put(arquivosUpdateSuccess());
+  } catch (error: any) {
+    yield put(arquivosUpdateError(error));
+  }
+}
+
 export default all([
   takeLatest(arquivosDownloadRequest, sendDownloadRequest),
   takeLatest(arquivosUploadRequest, sendUploadRequest),
+  takeLatest(arquivosUpdateRequest, sendUpdateRequest),
   debounce(500, arquivosGetRequest, sendGetRequest),
   takeLatest(arquivosDeleteRequest, sendDeleteRequest),
-  takeLatest(returnFileRequest, sendReturnFileRequest),
 ]);
