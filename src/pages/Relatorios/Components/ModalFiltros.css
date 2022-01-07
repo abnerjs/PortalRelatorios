@@ -46,6 +46,7 @@
 }
 
 .MuiBox-root.modalBox-root.filter {
+  transform: translate(-50%,-50%);
   transition: all ease 0.3s;
 }
 

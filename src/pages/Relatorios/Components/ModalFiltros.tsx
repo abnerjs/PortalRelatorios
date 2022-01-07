@@ -114,19 +114,6 @@ const ModalUpload = (props: Props) => {
                   InputProps={{
                     ...restInputProps,
                     disableUnderline: true,
-                    startAdornment: (
-                      <div
-                        style={{
-                          maxHeight: 50,
-                          marginTop: 10,
-                          marginBottom: 5,
-                          marginLeft: 8,
-                          overflowY: 'auto',
-                        }}
-                      >
-                        {startAdornment}
-                      </div>
-                    ),
                     inputProps: {
                       ...params.inputProps,
                       id: 'idRelUsuarioUpload',
@@ -325,7 +312,7 @@ const ModalUpload = (props: Props) => {
             <DateRangePicker
               startText="Data inicial"
               endText="Data final"
-              desktopModeMediaQuery='@media (height: 770px)'
+              desktopModeMediaQuery='@media (min-height: 770px)'
               mask="__/__/____"
               className="modalDateRangePicker"
               onOpen={() => setDatePickerOpened(true)}
@@ -382,17 +369,13 @@ const ModalUpload = (props: Props) => {
             <DateRangePicker
               startText="Data inicial"
               endText="Data final"
+              desktopModeMediaQuery='@media (min-height: 770px)'
               mask="__/__/____"
               className="modalDateRangePicker"
               onOpen={() => setDatePickerOpened(true)}
               onClose={() => setDatePickerOpened(false)}
               PopperProps={{
                 disablePortal: true,
-                className: 'dateRangePickerModal',
-                placement: 'auto',
-                popperOptions: {
-                  strategy: 'absolute',
-                },
               }}
               value={datePeriodoUp}
               onChange={(value) => {
