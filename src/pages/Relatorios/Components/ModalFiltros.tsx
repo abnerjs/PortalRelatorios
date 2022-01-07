@@ -69,7 +69,7 @@ const ModalUpload = (props: Props) => {
       <Fade in={props.open}>
         <Box
           className={`modalBox-root filter${
-            isDatePickerOpened ? ' dateOpened' : ' teste'
+            isDatePickerOpened ? ' dateOpened' : ''
           }`}
         >
           <Autocomplete
@@ -325,13 +325,13 @@ const ModalUpload = (props: Props) => {
             <DateRangePicker
               startText="Data inicial"
               endText="Data final"
+              desktopModeMediaQuery='@media (height: 770px)'
               mask="__/__/____"
               className="modalDateRangePicker"
               onOpen={() => setDatePickerOpened(true)}
               onClose={() => setDatePickerOpened(false)}
               PopperProps={{
                 disablePortal: true,
-                className: 'dateRangePickerModal',
               }}
               value={datePeriodoRef}
               onChange={(value) => {

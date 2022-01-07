@@ -45,8 +45,12 @@
   width: 100%;
 }
 
-.MuiBox-root.modalBox-root.dateOpened {
-  transform: translate(-100%, -50%);
+.MuiBox-root.modalBox-root.filter {
+  transition: all ease 0.3s;
+}
+
+.MuiBox-root.modalBox-root.filter.dateOpened {
+  transform: translate(-50%, -65%);
 }
 
 .modalBox-root.filter .row {

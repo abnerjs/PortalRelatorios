@@ -47,7 +47,7 @@
 }
 
 /*BUTTON --------------------------------*/
-.MuiButton-root {
+.App .MuiButton-root {
   background-color: var(--primaryColor) !important;
   font-size: 16px !important;
   width: 100%;
@@ -59,27 +59,27 @@
   transition: all ease 0.3s !important;
 }
 
-.MuiBox-root .MuiButton-root.Mui-disabled {
+.App .MuiBox-root .MuiButton-root.Mui-disabled {
   color: white !important;
 }
 
-.MuiButton-root.errorColor {
+.App .MuiButton-root.errorColor {
   background-color: var(--errorColor) !important;
 }
 
-.MuiButton-root.errorSecondary {
+.App .MuiButton-root.errorSecondary {
   background-color: var(--error50) !important;
 }
 
-.MuiButton-root.secondary {
+.App .MuiButton-root.secondary {
   background-color: var(--primary50) !important;
 }
 
-.MuiButton-root.success {
+.App .MuiButton-root.success {
   background-color: #4bb543 !important;
 }
 
-.MuiButton-root.tertiary {
+.App .MuiButton-root.tertiary {
   background-color: transparent !important;
   color: #aaa;
   font-weight: var(--regular) !important;
@@ -88,33 +88,33 @@
   transition: all ease 0.3s;
 }
 
-.MuiButton-root.tertiary:hover:not(.Mui-focusVisible):not(.active) {
+.App .MuiButton-root.tertiary:hover:not(.Mui-focusVisible):not(.active) {
   border-color: var(--primary50) !important;
   color: var(--primary50) !important;
 }
 
-.MuiButton-root.tertiary.Mui-focusVisible:not(.active) {
+.App .MuiButton-root.tertiary.Mui-focusVisible:not(.active) {
   border-color: var(--primary50) !important;
   color: var(--primary50) !important;
 }
 
-.MuiButton-root.tertiary.active {
+.App .MuiButton-root.tertiary.active {
   background-color: var(--primaryColor) !important;
   color: white !important;
   border: none;
 }
 
-.filterButton {
+.App .filterButton {
   transition: all ease 0.2s;
 }
 
-.filterButton:hover {
+.App .filterButton:hover {
   color: var(--primaryColor);
   background-color: var(--primary50);
 }
 
 /*CHECKBOX --------------------------------*/
-.MuiFormControlLabel-root .MuiTypography-root {
+.App .MuiFormControlLabel-root .MuiTypography-root {
   transition: all ease 0.2s;
   color: #aaa;
 }
@@ -132,12 +132,12 @@
 }
 
 /*TYPOGRAPHY --------------------------------*/
-.MuiTypography-root.MuiTypography-subtitle1 {
+.App .MuiTypography-root.MuiTypography-subtitle1 {
   font-size: 12px;
   color: #AAA;
 }
 
-.MuiTypography-root.MuiTypography-h5 {
+.App .MuiTypography-root.MuiTypography-h5 {
   font-weight: var(--extraBold);
   margin-bottom: 10px;
   color: #272727;
@@ -149,7 +149,7 @@
   color: var(--primaryColor);
 }
 
-.MuiTypography-root.MuiTypography-h6 {
+.App .MuiTypography-root.MuiTypography-h6 {
   font-weight: var(--extraBold);
   margin-bottom: 10px;
   color: #272727;
@@ -307,3 +307,5 @@
   outline: none;
   transition: all ease 0.2s;
 }
+
+/*RANGEPICKER -----------------------------*/
