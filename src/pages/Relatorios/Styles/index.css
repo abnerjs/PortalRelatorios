@@ -155,8 +155,12 @@
   align-items: flex-end;
 }
 
+.row.up {
+  justify-content: space-between;
+}
+
 .filters {
-  flex: 1;
+  width: 50%;
   display: flex;
   justify-content: flex-end;
 }

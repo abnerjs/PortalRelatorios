@@ -112,7 +112,7 @@ const Documentos = () => {
           </Typography>
         </div>
 
-        <div className="row">
+        <div className="row up">
           <Box sx={{ m: 0, position: 'relative' }} className="btnUpload">
             <Button
               variant="contained"
@@ -151,8 +151,8 @@ const Documentos = () => {
               variant="filled"
               className="smaller"
               size="small"
+              fullWidth
               sx={{
-                width: 700,
                 mr: 2,
               }}
               InputProps={{
