@@ -52,7 +52,7 @@ const conditionalArrayTypeRender = (
   } else if (arrArquivo) {
     arrArquivo.forEach((doc, index) => {
       arrGui.push(
-        <Row arrArquivo={arrArquivo} doc={doc} fullView={fullView} />
+        <Row arrArquivo={arrArquivo} key={index} doc={doc} fullView={fullView} />
       );
     });
   }
