@@ -94,7 +94,7 @@ const Gerenciamento = () => {
           </Typography>
         </div>
 
-        <div className="row">
+        <div className="row up">
           <Box sx={{ m: 0, position: 'relative' }} className="btnUpload">
             <Button
               variant="contained"
@@ -133,8 +133,8 @@ const Gerenciamento = () => {
               variant="filled"
               className="smaller"
               size="small"
+              fullWidth
               sx={{
-                width: 700,
                 mr: 2,
               }}
               InputProps={{
