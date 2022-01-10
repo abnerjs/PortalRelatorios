@@ -100,14 +100,8 @@ const Menu = () => {
     <Box
       sx={{ width: 250 }}
       role="presentation"
-      onClick={() => {
-        toggleDrawer(false);
-        toggleDrawerRelatorios(false);
-      }}
-      onKeyDown={() => {
-        toggleDrawer(false);
-        toggleDrawerRelatorios(false);
-      }}
+      onClick={toggleDrawer(false)}
+      onKeyDown={toggleDrawer(false)}
     >
       <List>
         {buildMenu().map((text, index) => (
@@ -128,23 +122,13 @@ const Menu = () => {
     <Box
       sx={{ width: 250 }}
       role="presentation"
-      onKeyDown={() => {
-        toggleDrawer(false);
-        toggleDrawerRelatorios(false);
-      }}
+      onKeyDown={toggleDrawerRelatorios(false)}
+      onClick={toggleDrawerRelatorios(false)}
     >
       <List>
         {buildMenuRelatorios().map((text, index) => (
           <Link to={text.link} key={`submenu-${index}`} tabIndex={-1}>
-            <ListItem
-              button
-              key={text.link}
-              onClick={(e) => {
-                toggleDrawer(false);
-                toggleDrawerRelatorios(false);
-                e.stopPropagation();
-              }}
-            >
+            <ListItem button key={text.link}>
               <ListItemText
                 primary={text.label}
                 className={location.pathname === text.link ? 'active' : ''}
