@@ -27,6 +27,7 @@ import { TipoFiltro } from 'src/store/ducks/base/types';
 import { DateRange } from '@mui/lab/DateRangePicker/RangeTypes';
 import { prestadoresGetFilterRequest } from 'src/store/ducks/prestadores';
 import { fornecedoresGetFilterRequest } from 'src/store/ducks/fornecedores';
+import UncontrolledLottie from 'src/components/UncontrolledLottie';
 
 export interface FiltrosRelatorios {
   descricao?: string;
@@ -188,14 +189,18 @@ const MeusUploads = () => {
           <div
             className={`column${arquivosState === 'l' ? ' loading' : ''}`}
             style={{
-              display:
-                arquivosState === 's' && arquivosByTipo?.length === 0
-                  ? 'none'
-                  : 'flex',
+              display: 'flex',
             }}
           >
             {arquivosState === 'l' ? (
               loadingSkeletonElements()
+            ) : arquivosByTipo?.length === 0 ? (
+              <div className="unfound">
+                <UncontrolledLottie />
+                <Typography variant="h5">
+                  NÃO FORAM ENCONTRADOS REGISTROS
+                </Typography>
+              </div>
             ) : (
               <div className="filesTypes">{filesTypes(arquivosByTipo)}</div>
             )}
