@@ -4,14 +4,11 @@ import './ProfileMenu.css';
 import { Icon } from '@iconify/react';
 import useOutsideClick from 'src/hooks/useOutsideClick';
 import {
-  Alert,
   Avatar,
   Backdrop,
   Button,
   CircularProgress,
-  Collapse,
   Fade,
-  IconButton,
   Modal,
   Stack,
   TextField,

@@ -11,7 +11,6 @@ import {
 } from 'src/store/ducks/relatoriosUpload';
 import { ArquivoUploadReceiveFormat } from 'src/store/ducks/relatoriosUpload/types';
 import { dateFormatter } from 'src/utils/StringUtils';
-import { LinkProps } from '../Table';
 import './Row.css';
 
 interface Props {

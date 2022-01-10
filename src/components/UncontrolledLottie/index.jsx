@@ -13,6 +13,7 @@ const UncontrolledLottie = (props) => {
       ),
       animationData: animationData,
     });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
