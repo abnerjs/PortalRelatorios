@@ -164,3 +164,15 @@
   display: flex;
   justify-content: flex-end;
 }
+
+.unfound {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+.unfound h5 {
+  color: #aaa !important;
+}

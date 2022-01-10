@@ -26,6 +26,7 @@ import ModalFiltros from './Components/ModalFiltros';
 import { FiltrosRelatorios } from './Gerenciamento';
 import { fornecedoresGetFilterRequest } from 'src/store/ducks/fornecedores';
 import { prestadoresGetFilterRequest } from 'src/store/ducks/prestadores';
+import UncontrolledLottie from 'src/components/UncontrolledLottie';
 
 const defaultValuesFiltros: FiltrosRelatorios = {
   descricao: '',
@@ -34,7 +35,7 @@ const defaultValuesFiltros: FiltrosRelatorios = {
   periodoRef: [null, null],
   periodoUp: [null, null],
   usuarioUpload: undefined,
-}
+};
 
 const Documentos = () => {
   const dispatch = useAppDispatch();
@@ -44,7 +45,10 @@ const Documentos = () => {
   const arquivosByTipo = useAppSelector((state) => state.arquivoUpload.data);
   const arquivosState = useAppSelector((state) => state.arquivoUpload.state);
   const file = useAppSelector((state) => state.arquivoUpload.file);
-  const [filtros, setFiltros] = useState<FiltrosRelatorios>(defaultValuesFiltros);
+  const [filtros, setFiltros] =
+    useState<FiltrosRelatorios>(defaultValuesFiltros);
+  const [displayColumn, setDisplayColumn] = useState('flex');
+  const [showingAlert, setShowingAlert] = useState(false);
 
   useEffect(() => {
     dispatch(arquivosGetRequest());
@@ -55,7 +59,18 @@ const Documentos = () => {
     };
   }, [dispatch]);
 
-  
+  useEffect(() => {
+    if (arquivosState === 's' && arquivosByTipo?.length === 0) {
+      setShowingAlert(true);
+      setTimeout(() => {
+        setDisplayColumn('none');
+      }, 3000);
+    } else {
+      setShowingAlert(false);
+      setDisplayColumn('flex');
+    }
+  }, [arquivosState, arquivosByTipo]);
+
   useEffect(() => {
     dispatch(fornecedoresGetFilterRequest());
     dispatch(prestadoresGetFilterRequest());
@@ -159,12 +174,10 @@ const Documentos = () => {
                 disableUnderline: true,
               }}
               onChange={(e) => {
-                setFiltros(
-                  {
-                    ...filtros,
-                    descricao: e.target.value,
-                  }
-                );
+                setFiltros({
+                  ...filtros,
+                  descricao: e.target.value,
+                });
               }}
             />
             <IconButton
@@ -188,22 +201,10 @@ const Documentos = () => {
         <div
           className="row tables"
           style={{
-            gridTemplateColumns:
-              arquivosState === 's' && arquivosByTipo?.length === 0
-                ? '1fr'
-                : '1fr 1fr',
-            gap:
-              arquivosState === 's' && arquivosByTipo?.length === 0
-                ? '0'
-                : '30px',
-            width:
-              arquivosState === 's' && arquivosByTipo?.length === 0
-                ? '50%'
-                : '100%',
-            marginLeft:
-              arquivosState === 's' && arquivosByTipo?.length === 0
-                ? '25%'
-                : '0',
+            gridTemplateColumns: displayColumn === 'none' ? '1fr' : '1fr 1fr',
+            gap: displayColumn === 'none' ? '0' : '30px',
+            width: displayColumn === 'none' ? '50%' : '100%',
+            marginLeft: displayColumn === 'none' ? '25%' : '0',
             transition: 'margin-left ease 0.4s',
           }}
         >
@@ -216,16 +217,22 @@ const Documentos = () => {
             )}
           </div>
           <div
-            className={`column${arquivosState === 'l' ? ' loading' : ''}`}
+            className={`column${
+              arquivosState === 'l' || showingAlert ? ' loading' : ''
+            }`}
             style={{
-              display:
-                arquivosState === 's' && arquivosByTipo?.length === 0
-                  ? 'none'
-                  : 'flex',
+              display: displayColumn,
             }}
           >
             {arquivosState === 'l' ? (
               loadingSkeletonElements()
+            ) : arquivosByTipo?.length === 0 ? (
+              <div className="unfound">
+                <UncontrolledLottie />
+                <Typography variant="h5">
+                  NÃO FORAM ENCONTRADOS REGISTROS
+                </Typography>
+              </div>
             ) : (
               <div className="filesTypes">{filesTypes(arquivosByTipo)}</div>
             )}
@@ -238,7 +245,9 @@ const Documentos = () => {
 
 export default Documentos;
 
-function filesTypes(arquivosByTipo: ArquivosByTipo[] | undefined): any {
+function filesTypes(
+  arquivosByTipo: ArquivosByTipo[] | undefined
+): JSX.Element[] {
   let arrAux: JSX.Element[] = [];
 
   arquivosByTipo?.forEach((item, index) => {
