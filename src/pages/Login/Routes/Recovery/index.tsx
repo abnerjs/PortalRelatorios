@@ -6,13 +6,9 @@ import { Link } from 'react-router-dom';
 import * as Yup from 'yup';
 
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Icon } from '@iconify/react';
 import {
-  Alert,
   Button,
   CircularProgress,
-  Collapse,
-  IconButton,
   TextField,
   Typography,
 } from '@mui/material';

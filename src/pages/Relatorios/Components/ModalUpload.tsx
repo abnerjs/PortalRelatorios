@@ -1,7 +1,7 @@
 import { Icon } from '@iconify/react';
 import { Backdrop, Fade, Modal, Typography } from '@mui/material';
 import { Box } from '@mui/system';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import Dropzone from 'react-dropzone';
 import { ArquivoUploadReceiveFormat } from 'src/store/ducks/relatoriosUpload/types';
 import Form from './Form';
@@ -18,7 +18,6 @@ const ModalUpload = (props: Props) => {
   const [sectionModalController, setSectionModalController] = useState(0);
   const [isUnsuportedFile, setUnsuportedFile] = useState(false);
   const [isUnsuportedStyle, setUnsuportedStyle] = useState(false);
-  const [isDatePickerOpened, setDatePickerOpened] = useState(false);
 
   return (
     <Modal
@@ -36,7 +35,7 @@ const ModalUpload = (props: Props) => {
     >
       <Fade in={props.open}>
         <Box
-          className={`modalBox-root${isDatePickerOpened ? ' dateOpened' : ''}`}
+          className={`modalBox-root`}
         >
           <Typography variant="h6" component="h2">
             Upload de relatórios

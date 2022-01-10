@@ -15,7 +15,7 @@ import {
   TextField,
 } from '@mui/material';
 import CheckIcon from '@mui/icons-material/Check';
-import { Box, flexbox } from '@mui/system';
+import { Box } from '@mui/system';
 import brLocale from 'date-fns/locale/pt-BR';
 import React, { useEffect, useState } from 'react';
 import { SubmitHandler, Controller, useForm } from 'react-hook-form';
@@ -220,6 +220,7 @@ const Form = (props: Props) => {
     if (!props.doc) {
       setValue('substituirExistentes', false);
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -287,6 +288,7 @@ const Form = (props: Props) => {
       if (props.doc.idRelArquivo)
         setValue('idRelArquivo', props.doc.idRelArquivo);
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.doc]);
 
   const dispatch = useAppDispatch();

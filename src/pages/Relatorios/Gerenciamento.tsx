@@ -11,7 +11,7 @@ import {
 } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import Header from 'src/components/Header';
-import Table, { LinkProps } from 'src/components/Table/Table';
+import Table from 'src/components/Table/Table';
 import { useAppDispatch, useAppSelector } from 'src/store';
 import { Box } from '@mui/system';
 import ModalUpload from './Components/ModalUpload';

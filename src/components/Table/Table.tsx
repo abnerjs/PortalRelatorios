@@ -4,9 +4,7 @@ import React, { useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Button, Typography } from '@mui/material';
 import { ArquivoUploadReceiveFormat } from 'src/store/ducks/relatoriosUpload/types';
-import { arquivosDownloadRequest } from 'src/store/ducks/relatoriosUpload';
 import { useAppDispatch } from 'src/store';
-import { dateFormatter } from 'src/utils/StringUtils';
 import Row from './subcomponents/Row';
 
 export interface LinkProps {
@@ -35,7 +33,7 @@ const conditionalArrayTypeRender = (
   if (arr) {
     arr.forEach((doc, index) => {
       arrGui.push(
-        <div className="row" key={`${doc.linkTo}-${index}`}>
+        <div className="row" key={index}>
           <div className="textual">
             <div className="regname">{doc.name}</div>
           </div>
