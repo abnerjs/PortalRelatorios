@@ -13,6 +13,7 @@ import {
   FormControlLabel,
   FormGroup,
   TextField,
+  Tooltip,
 } from '@mui/material';
 import CheckIcon from '@mui/icons-material/Check';
 import { Box } from '@mui/system';
@@ -52,6 +53,7 @@ type Props = {
   file: File | null;
   setFile: Function;
   setOpen: Function;
+  setBlink: Function;
   doc?: ArquivoUploadReceiveFormat;
 };
 
@@ -220,17 +222,26 @@ const Form = (props: Props) => {
     if (!props.doc) {
       setValue('substituirExistentes', false);
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    if (props.file) {
+      setValue('nomArquivo', props.file.name);
+      setNomArqWhenDocExists(props.file.name);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [props.file]);
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
-    if (props.doc && props.doc.idRelTpArquivo) {
-      setTipoArquivo(
+    if (props.doc && props.doc.idRelTpArquivo && tiposArquivos) {
+      let tipoArquivoWhenEdit =
         tiposArquivos.find(
           (item) => props.doc?.idRelTpArquivo === item.idRelTpArquivo
-        ) || null
-      );
+        ) || null;
+
+      setTipoArquivo(tipoArquivoWhenEdit);
 
       clearErrors('idRelTpArquivo');
       setValue('idRelTpArquivo', props.doc?.idRelTpArquivo);
@@ -288,8 +299,8 @@ const Form = (props: Props) => {
       if (props.doc.idRelArquivo)
         setValue('idRelArquivo', props.doc.idRelArquivo);
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [props.doc]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [props.doc, tiposArquivos]);
 
   const dispatch = useAppDispatch();
   useEffect(() => {
@@ -369,7 +380,7 @@ const Form = (props: Props) => {
         }}
       />
       <form onSubmit={handleSubmit(onSubmit, onError)} className="formUpload">
-        <Card sx={{ mr: '20px' }} elevation={3}>
+        <Card elevation={3}>
           <CardContent>
             <Icon icon="fluent:document-bullet-list-20-regular" width={30} />
             {/* <p className="date">{new Date().toDateString()}</p> */}
@@ -405,7 +416,7 @@ const Form = (props: Props) => {
           <div
             className="sectionModal"
             style={{
-              marginLeft: `-${props.sectionModalController * 541}px`,
+              marginLeft: `-${props.sectionModalController * 581}px`,
             }}
           >
             <Controller
@@ -646,7 +657,6 @@ const Form = (props: Props) => {
               >
                 CANCELAR
               </Button>
-              <Box sx={{ width: '20px' }} />
               <Box
                 sx={{
                   m: 0,
@@ -1024,22 +1034,36 @@ const Form = (props: Props) => {
               />
             </LocalizationProvider>
 
-            <FormGroup
-              style={{
-                display: props.doc ? 'none' : 'flex',
-              }}
+            <Tooltip
+              title={
+                <React.Fragment>
+                  Ao fazer o upload de um&nbsp; 
+                  <b>arquivo </b>
+                  com os mesmos dados de um outro&nbsp;
+                  existente, será necessário&nbsp;
+                  <b>sobrescrevê-lo </b>
+                  . Marque a caixa para ativar a funcionalidade.
+                </React.Fragment>
+              }
+              placement="bottom"
             >
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    onChange={(_, value) => {
-                      setValue('substituirExistentes', value);
-                    }}
-                  />
-                }
-                label="Forçar upload"
-              />
-            </FormGroup>
+              <FormGroup
+                style={{
+                  display: props.doc ? 'none' : 'flex',
+                }}
+              >
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      onChange={(_, value) => {
+                        setValue('substituirExistentes', value);
+                      }}
+                    />
+                  }
+                  label="Substituir existentes"
+                />
+              </FormGroup>
+            </Tooltip>
 
             <div className="buttons">
               <Button
@@ -1053,7 +1077,6 @@ const Form = (props: Props) => {
               >
                 ANTERIOR
               </Button>
-              <Box sx={{ width: '20px' }} />
               <Box
                 sx={{
                   m: 0,

@@ -51,20 +51,11 @@ const Documentos = () => {
   const [showingAlert, setShowingAlert] = useState(false);
 
   useEffect(() => {
-    dispatch(arquivosGetRequest());
-
-    return () => {
-      dispatch(arquivosDownloadIdle());
-      dispatch(arquivosUploadIdle());
-    };
-  }, [dispatch]);
-
-  useEffect(() => {
     if (arquivosState === 's' && arquivosByTipo?.length === 0) {
       setShowingAlert(true);
       setTimeout(() => {
         setDisplayColumn('none');
-      }, 3000);
+      }, 8000);
     } else {
       setShowingAlert(false);
       setDisplayColumn('flex');
@@ -132,6 +123,7 @@ const Documentos = () => {
             <Button
               variant="contained"
               type="submit"
+              fullWidth
               className={false ? 'secondary' : ''}
               style={{ height: 48 }}
               onClick={() => {

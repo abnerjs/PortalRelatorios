@@ -50,12 +50,17 @@ export const usuariosSlice = createSlice({
     usuariosGetFilterRequest: (
       state,
       action: PayloadAction<string | undefined>
-    ) => {},
+    ) => {
+      state.error = undefined;
+    },
     usuariosGetFilterSuccess: (
       state,
       action: PayloadAction<RespostaApi<TipoFiltro>>
     ) => {
       state.filterList = action.payload.dados;
+    },
+    usuariosGetFilterError: (state, action: PayloadAction<ErrorAPI>) => {
+      state.error = action.payload;
     },
     usuariosPostRequest: (state, action: PayloadAction<Usuario>) => {
       state.operationState = 'request';
@@ -129,6 +134,7 @@ export const {
   usuariosGetError,
   usuariosGetFilterRequest,
   usuariosGetFilterSuccess,
+  usuariosGetFilterError,
   usuariosPostRequest,
   usuariosPutRequest,
   usuariosDeleteRequest,

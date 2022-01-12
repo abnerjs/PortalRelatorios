@@ -61,6 +61,15 @@ const ModalUpload = (props: Props) => {
       open={props.open}
       onClose={() => {
         props.setOpen(false);
+        setFornecedores(props.filtros.fornecedores || []);
+        setPrestadores(props.filtros.prestadores || []);
+        setDatePeriodoRef(props.filtros.periodoRef || [null, null]);
+        setDatePeriodoUp(props.filtros.periodoUp || [null, null]);
+        setUsers(
+          props.lstUsuarios?.find(
+            (item) => item.codigo === `${props.filtros.usuarioUpload}`
+          ) || null
+        );
       }}
       closeAfterTransition
       BackdropComponent={Backdrop}
@@ -294,10 +303,18 @@ const ModalUpload = (props: Props) => {
                 title={
                   <React.Fragment>
                     Ao selecionar uma data do tipo&nbsp;
-                    <b><em>{"dia/mês/ano"}</em></b>,&nbsp;
-                    referências do tipo <b><em>{"mês/ano"}</em></b>
-                    &nbsp;e <b><em>{"ano"}</em></b>&nbsp;
-                    também serão incluídas.
+                    <b>
+                      <em>{'dia/mês/ano'}</em>
+                    </b>
+                    ,&nbsp; referências do tipo{' '}
+                    <b>
+                      <em>{'mês/ano'}</em>
+                    </b>
+                    &nbsp;e{' '}
+                    <b>
+                      <em>{'ano'}</em>
+                    </b>
+                    &nbsp; também serão incluídas.
                   </React.Fragment>
                 }
                 placement="right"
@@ -312,7 +329,11 @@ const ModalUpload = (props: Props) => {
             <DateRangePicker
               startText="Data inicial"
               endText="Data final"
-              desktopModeMediaQuery='@media (min-height: 770px)'
+              cancelText="CANCELAR"
+              clearText="Limpar"
+              okText="OK"
+              toolbarTitle="SELECIONAR PERÍODO"
+              desktopModeMediaQuery="@media (min-height: 770px)"
               mask="__/__/____"
               className="modalDateRangePicker"
               onOpen={() => setDatePickerOpened(true)}
@@ -369,7 +390,11 @@ const ModalUpload = (props: Props) => {
             <DateRangePicker
               startText="Data inicial"
               endText="Data final"
-              desktopModeMediaQuery='@media (min-height: 770px)'
+              cancelText="CANCELAR"
+              clearText="Limpar"
+              okText="OK"
+              toolbarTitle="SELECIONAR PERÍODO"
+              desktopModeMediaQuery="@media (min-height: 770px)"
               mask="__/__/____"
               className="modalDateRangePicker"
               onOpen={() => setDatePickerOpened(true)}
@@ -424,11 +449,21 @@ const ModalUpload = (props: Props) => {
               variant="contained"
               className="secondary"
               fullWidth
-              onClick={() => props.setOpen(false)}
+              onClick={() => {
+                props.setOpen(false);
+                setFornecedores(props.filtros.fornecedores || []);
+                setPrestadores(props.filtros.prestadores || []);
+                setDatePeriodoRef(props.filtros.periodoRef || [null, null]);
+                setDatePeriodoUp(props.filtros.periodoUp || [null, null]);
+                setUsers(
+                  props.lstUsuarios?.find(
+                    (item) => item.codigo === `${props.filtros.usuarioUpload}`
+                  ) || null
+                );
+              }}
             >
               CANCELAR
             </Button>
-            <Box sx={{ width: '20px' }} />
             <Box
               sx={{
                 m: 0,
@@ -444,10 +479,11 @@ const ModalUpload = (props: Props) => {
                 type="submit"
                 onClick={() => {
                   props.setFiltros({
+                    ...props.filtros,
                     descricao: props.filtros.descricao,
-                    usuarioUpload: props.admin
+                    usuarioUpload: !props.admin
                       ? props.filtros.usuarioUpload
-                      : users,
+                      : users?.codigo,
                     fornecedores: forns,
                     prestadores: prests,
                     periodoRef: datePeriodoRef,
@@ -472,6 +508,34 @@ const ModalUpload = (props: Props) => {
                 />
               )}
             </Box>
+          </div>
+          <div className="btnLimparFiltros">
+          <Button
+              variant="contained"
+              className="default"
+              fullWidth
+              onClick={() => {
+                props.setOpen(false);
+                setFornecedores([]);
+                setPrestadores([]);
+                setDatePeriodoRef([null, null]);
+                setDatePeriodoUp([null, null]);
+                setUsers(null);
+                props.setFiltros({
+                  ...props.filtros,
+                  descricao: props.filtros.descricao,
+                  usuarioUpload: !props.admin
+                    ? props.filtros.usuarioUpload
+                    : undefined,
+                  fornecedores: [],
+                  prestadores: [],
+                  periodoRef: [null, null],
+                  periodoUp: [null, null],
+                });
+              }}
+            >
+              limpar filtros
+            </Button>
           </div>
         </Box>
       </Fade>

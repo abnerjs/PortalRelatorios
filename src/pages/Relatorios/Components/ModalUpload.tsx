@@ -18,6 +18,7 @@ const ModalUpload = (props: Props) => {
   const [sectionModalController, setSectionModalController] = useState(0);
   const [isUnsuportedFile, setUnsuportedFile] = useState(false);
   const [isUnsuportedStyle, setUnsuportedStyle] = useState(false);
+  const [blink, setBlink] = useState(false);
 
   return (
     <Modal
@@ -34,9 +35,7 @@ const ModalUpload = (props: Props) => {
       BackdropProps={{ timeout: 500 }}
     >
       <Fade in={props.open}>
-        <Box
-          className={`modalBox-root`}
-        >
+        <Box className={`modalBox-root`}>
           <Typography variant="h6" component="h2">
             Upload de relatórios
           </Typography>
@@ -45,7 +44,6 @@ const ModalUpload = (props: Props) => {
             <Dropzone
               noClick={file !== null || props.doc !== undefined}
               noKeyboard={file !== null || props.doc !== undefined}
-              noDrag={false}
               accept=".pdf"
               onDropAccepted={(files) => {
                 setFile(files[files.length - 1]);
@@ -61,80 +59,96 @@ const ModalUpload = (props: Props) => {
               }}
             >
               {({ getRootProps, getInputProps }) => (
-                <section className="dropfilesContainer">
-                  <div
-                    {...getRootProps({
-                      className: `dropzone${
-                        isUnsuportedFile && isUnsuportedStyle
-                          ? ' unsuportedAlert'
-                          : ''
-                      }${
-                        file !== null || props.doc !== undefined
-                          ? ' dropzoneFilled'
-                          : ''
-                      }`,
-                    })}
-                    style={{
-                      position: 'relative',
-                    }}
-                  >
+                <>
+                  <section className="dropfilesContainer">
                     <div
+                      {...getRootProps({
+                        className: `dropzone${
+                          isUnsuportedFile && isUnsuportedStyle
+                            ? ' unsuportedAlert'
+                            : ''
+                        }${
+                          file !== null || props.doc !== undefined
+                            ? ' dropzoneFilled'
+                            : ''
+                        }${blink ? ' blink' : ''}`,
+                      })}
                       style={{
-                        position:
-                          file !== null || props.doc !== undefined
-                            ? 'absolute'
-                            : 'relative',
-                        visibility:
-                          file !== null || props.doc !== undefined
-                            ? 'hidden'
-                            : 'visible',
-                        display: 'flex',
-                        flexDirection: 'column',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        height: '100%',
-                        width: '100%',
-                        zIndex: 1001,
+                        position: 'relative',
                       }}
-                    >
-                      <input {...getInputProps()} />
-                      <Icon icon="fluent:arrow-upload-16-regular" width={25} />
-                      <p>
-                        {isUnsuportedFile
-                          ? 'FORMATO DE ARQUIVO NÃO SUPORTADO! ESPERA-SE: .pdf'
-                          : 'CLIQUE OU ARRASTE UM ARQUIVO PARA EFETUAR UPLOAD'}
-                      </p>
-                    </div>
-
-                    <div
-                      className={`modalControllerContainer${
-                        file !== null || props.doc !== undefined
-                          ? ' filled'
-                          : ''
-                      }`}
                     >
                       <div
                         style={{
-                          display:
-                            file === null && props.doc === undefined
-                              ? 'none'
-                              : 'flex',
+                          position:
+                            file !== null || props.doc !== undefined
+                              ? 'absolute'
+                              : 'relative',
+                          opacity:
+                            file !== null || props.doc !== undefined
+                              ? '0'
+                              : '1',
+                          visibility:
+                            file !== null || props.doc !== undefined
+                              ? 'hidden'
+                              : 'visible',
+                          display: 'flex',
                           flexDirection: 'column',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          height: '100%',
                           width: '100%',
+                          zIndex: 1001,
                         }}
                       >
-                        <Form
-                          sectionModalController={sectionModalController}
-                          setSectionModalController={setSectionModalController}
-                          file={file}
-                          setFile={setFile}
-                          setOpen={props.setOpen}
-                          doc={props.doc}
+                        <input {...getInputProps()} />
+                        <Icon
+                          icon="fluent:arrow-upload-16-regular"
+                          width={25}
                         />
+                        <p>
+                          {isUnsuportedFile
+                            ? 'FORMATO DE ARQUIVO NÃO SUPORTADO! ESPERA-SE: .pdf'
+                            : 'CLIQUE OU ARRASTE UM ARQUIVO PARA EFETUAR UPLOAD'}
+                        </p>
+                      </div>
+
+                      <div
+                        className={`modalControllerContainer${
+                          file !== null || props.doc !== undefined
+                            ? ' filled'
+                            : ''
+                        }`}
+                      >
+                        <div
+                          style={{
+                            display:
+                              file === null && props.doc === undefined
+                                ? 'none'
+                                : 'flex',
+                            flexDirection: 'column',
+                            width: '100%',
+                          }}
+                        >
+                          <Form
+                            sectionModalController={sectionModalController}
+                            setSectionModalController={
+                              setSectionModalController
+                            }
+                            file={file}
+                            setFile={setFile}
+                            setOpen={props.setOpen}
+                            doc={props.doc}
+                            setBlink={setBlink}
+                          />
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </section>
+                  </section>
+                  
+                  <Typography variant="subtitle1">
+                    <i>* arraste e solte para atualizar o arquivo</i>
+                  </Typography>
+                </>
               )}
             </Dropzone>
           </div>

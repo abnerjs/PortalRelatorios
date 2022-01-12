@@ -47,10 +47,11 @@
 }
 
 /*BUTTON --------------------------------*/
-.App .MuiButton-root, .filter .MuiButton-root {
+.App .MuiButton-root,
+.filter .MuiButton-root,
+.dropfiles .MuiButton-root {
   background-color: var(--primaryColor) !important;
   font-size: 16px !important;
-  width: 100%;
   font-weight: var(--extraBold) !important;
   border-radius: 4px !important;
   height: 50px;
@@ -59,27 +60,47 @@
   transition: all ease 0.3s !important;
 }
 
-.App .MuiBox-root .MuiButton-root.Mui-disabled, .filter .MuiBox-root .MuiButton-root.Mui-disabled {
+.App .MuiBox-root .MuiButton-root.Mui-disabled,
+.filter .MuiBox-root .MuiButton-root.Mui-disabled,
+.dropfiles .MuiBox-root .MuiButton-root.Mui-disabled {
   color: white !important;
 }
 
-.App .MuiButton-root.errorColor, .filter .MuiButton-root.errorColor {
+.App .MuiButton-root.errorColor,
+.filter .MuiButton-root.errorColor,
+.dropfiles .MuiButton-root.errorColor {
   background-color: var(--errorColor) !important;
 }
 
-.App .MuiButton-root.errorSecondary, .filter .MuiButton-root.errorSecondary {
+.App .MuiButton-root.errorSecondary,
+.filter .MuiButton-root.errorSecondary,
+.dropfiles .MuiButton-root.errorSecondary {
   background-color: var(--error50) !important;
 }
 
-.App .MuiButton-root.secondary, .filter .MuiButton-root.secondary {
+.App .MuiButton-root.secondary,
+.filter .MuiButton-root.secondary,
+.dropfiles .MuiButton-root.secondary {
   background-color: var(--primary50) !important;
 }
 
-.App .MuiButton-root.success, .filter .MuiButton-root.success {
+.filter .MuiButton-root.default {
+  background-color: unset !important;
+  color: var(--primary50) !important;
+  font-weight: var(--medium) !important;
+  height: 32px;
+  transition: all ease 0.3s;
+}
+
+.App .MuiButton-root.success,
+.filter .MuiButton-root.success,
+.dropfiles .MuiButton-root.success {
   background-color: #4bb543 !important;
 }
 
-.App .MuiButton-root.tertiary, .filter .MuiButton-root.tertiary {
+.App .MuiButton-root.tertiary,
+.filter .MuiButton-root.tertiary,
+.dropfiles .MuiButton-root.tertiary {
   background-color: transparent !important;
   color: #aaa;
   font-weight: var(--regular) !important;
@@ -89,19 +110,22 @@
 }
 
 .App .MuiButton-root.tertiary:hover:not(.Mui-focusVisible):not(.active),
-.filter .MuiButton-root.tertiary:hover:not(.Mui-focusVisible):not(.active) {
+.filter .MuiButton-root.tertiary:hover:not(.Mui-focusVisible):not(.active),
+.dropfiles .MuiButton-root.tertiary:hover:not(.Mui-focusVisible):not(.active) {
   border-color: var(--primary50) !important;
   color: var(--primary50) !important;
 }
 
 .App .MuiButton-root.tertiary.Mui-focusVisible:not(.active),
-.filter .MuiButton-root.tertiary.Mui-focusVisible:not(.active) {
+.filter .MuiButton-root.tertiary.Mui-focusVisible:not(.active),
+.dropfiles .MuiButton-root.tertiary.Mui-focusVisible:not(.active) {
   border-color: var(--primary50) !important;
   color: var(--primary50) !important;
 }
 
-.App .MuiButton-root.tertiary.active, .filter .MuiButton-root.tertiary.active,
-.filter .MuiButton-root.tertiary.active, .filter .MuiButton-root.tertiary.active {
+.App .MuiButton-root.tertiary.active,
+.filter .MuiButton-root.tertiary.active,
+.dropfiles .MuiButton-root.tertiary.active {
   background-color: var(--primaryColor) !important;
   color: white !important;
   border: none;
@@ -117,12 +141,13 @@
 }
 
 /*CHECKBOX --------------------------------*/
-.App .MuiFormControlLabel-root .MuiTypography-root, .filter .MuiTypography-root.MuiTypography-h5 {
+.App .MuiFormControlLabel-root .MuiTypography-root,
+.filter .MuiTypography-root.MuiTypography-h5 {
   transition: all ease 0.2s;
   color: #aaa;
 }
 
-.MuiFormControlLabel-root .Mui-checked~.MuiTypography-root {
+.MuiFormControlLabel-root .Mui-checked ~ .MuiTypography-root {
   color: var(--primaryColor);
 }
 
@@ -135,24 +160,27 @@
 }
 
 /*TYPOGRAPHY --------------------------------*/
-.App .MuiTypography-root.MuiTypography-subtitle1, .filter .MuiTypography-root.MuiTypography-subtitle1 {
+.MuiTypography-root.MuiTypography-subtitle1 {
   font-size: 12px;
-  color: #AAA;
+  color: #aaa;
 }
 
-.App .MuiTypography-root.MuiTypography-h5, .filter .MuiTypography-root.MuiTypography-h5 {
+.App .MuiTypography-root.MuiTypography-h5,
+.filter .MuiTypography-root.MuiTypography-h5 {
   font-weight: var(--extraBold);
   margin-bottom: 10px;
   color: #272727;
 }
 
-.MuiTypography-root.MuiTypography-h5.primary, .filter .MuiTypography-root.MuiTypography-h5 {
+.MuiTypography-root.MuiTypography-h5.primary,
+.filter .MuiTypography-root.MuiTypography-h5 {
   font-weight: var(--extraBold);
   margin-bottom: 10px;
   color: var(--primaryColor);
 }
 
-.App .MuiTypography-root.MuiTypography-h6, .filter .MuiTypography-root.MuiTypography-h5 {
+.App .MuiTypography-root.MuiTypography-h6,
+.filter .MuiTypography-root.MuiTypography-h5 {
   font-weight: var(--extraBold);
   margin-bottom: 10px;
   color: #272727;
@@ -163,7 +191,7 @@
   margin-left: 60px;
   display: flex;
   justify-content: center;
-  background-color: #E5E5EF !important;
+  background-color: #e5e5ef !important;
 }
 
 .MuiDrawer-paper .MuiListItemText-root {
@@ -215,7 +243,7 @@
   display: none;
 }
 
-.MuiAutocomplete-root.displayNone+.MuiAutocomplete-popper {
+.MuiAutocomplete-root.displayNone + .MuiAutocomplete-popper {
   display: none !important;
 }
 
@@ -240,8 +268,7 @@
   text-transform: uppercase;
   background-color: white;
   border: none;
-  box-shadow: 2px 2px 5px #d3d3d3,
-    -3px -3px 6px #ffffff;
+  box-shadow: 2px 2px 5px #d3d3d3, -3px -3px 6px #ffffff;
   border-radius: 8px;
   transition: all ease 0.3s;
 }
@@ -270,7 +297,7 @@
 .MuiCard-root .MuiCardContent-root p.date {
   font-size: 10px;
   line-height: 10px;
-  color: #AAA;
+  color: #aaa;
   margin: 0;
   margin-top: 10px;
 }

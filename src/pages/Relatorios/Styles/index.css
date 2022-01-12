@@ -130,24 +130,24 @@
 
 .sectionController {
   display: flex;
-  width: 200%;
   height: 100%;
   overflow: hidden;
-  width: 491px;
+  width: 531px;
 }
 
 .sectionController .sectionModal {
-  width: 491px;
-  min-width: 491px;
+  width: 511px;
+  min-width: 511px;
   display: flex;
   flex-direction: column;
   flex: 1;
   transition: all ease 0.4s;
   overflow: hidden;
+  padding-left: 20px;
 }
 
-.sectionController .sectionModal:not(:first-child) {
-  margin-left: 50px;
+.sectionController .sectionModal:first-child {
+  margin-right: 50px;
 }
 
 .sectionController .sectionModal .buttons {
