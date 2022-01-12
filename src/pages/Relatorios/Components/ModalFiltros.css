@@ -36,9 +36,17 @@
 }
 
 .modal.buttons {
-  display: flex;
+  display: grid;
   width: 100%;
-  margin-top: 20px;
+
+  grid-template-columns: 1fr 1fr;
+  gap: 9.8px;
+
+  margin-top: 10px;
+}
+
+.btnLimparFiltros {
+  margin-top: 10px;
 }
 
 .css-17vdz66 {

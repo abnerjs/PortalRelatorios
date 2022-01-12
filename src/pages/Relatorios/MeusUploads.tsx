@@ -98,6 +98,7 @@ const MeusUploads = () => {
             <Button
               variant="contained"
               type="submit"
+              fullWidth
               className={false ? 'secondary' : ''}
               style={{ height: 48 }}
               onClick={() => {

@@ -19,6 +19,7 @@ import {
   changeUsuarioPasswordRequest,
   changeUsuarioPasswordSuccess,
   changeUsuarioPasswordError,
+  usuariosGetFilterError,
 } from 'src/store/ducks/usuarios';
 import { Usuario } from 'src/store/ducks/usuarios/types';
 
@@ -45,11 +46,13 @@ export function* sendGetFilterRequest(
 
     const response: AxiosResponse<RespostaApi<TipoFiltro>> = yield call(
       api.get,
-      `Usuarios/v1/consultarParaFiltrosTela/${query}}`
+      `Usuarios/v1/consultarParaFiltrosTela/${query}`
     );
 
     yield put(usuariosGetFilterSuccess(response.data));
-  } catch (error) {}
+  } catch (error: any) {
+    yield put(usuariosGetFilterError(error));
+  }
 }
 
 export function* sendPostRequest(

@@ -11,9 +11,11 @@
 }
 
 .dropfilesContainer .dropzone.dropzoneFilled .formUpload .buttons {
-  display: flex;
+  display: inline-grid;
   width: 100%;
-  align-self: flex-end;
+
+  grid-template-columns: 1fr 1fr;
+  gap: 9.8px;
 
   margin-top: 10px;
 }
