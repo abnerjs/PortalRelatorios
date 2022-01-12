@@ -1,5 +1,6 @@
 .modalBox-root.filter {
   width: 500px;
+  overflow: auto;
 }
 
 .modalBox-root.filter .row {
@@ -42,7 +43,7 @@
   grid-template-columns: 1fr 1fr;
   gap: 9.8px;
 
-  margin-top: 10px;
+  margin-top: 25px;
 }
 
 .btnLimparFiltros {
