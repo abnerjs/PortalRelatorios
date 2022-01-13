@@ -1,9 +1,9 @@
-import { Typography } from '@mui/material';
+import { Card, CardContent, Typography } from '@mui/material';
 import React from 'react';
-import Card from '../components/Card';
 import Header from '../components/Header';
 import Table from 'src/components/Table/Table';
 import './Dashboard.css';
+import { Icon } from '@iconify/react';
 
 const Dashboard = () => {
   return (
@@ -17,11 +17,56 @@ const Dashboard = () => {
         </div>
         <div className="row">
           <div className="cards">
-            <Card reg="Nome do registro" date="02/05/2021" />
-            <Card reg="Nome do registro" date="02/05/2021" />
-            <Card reg="Nome do registro" date="02/05/2021" />
-            <Card reg="Nome do registro" date="02/05/2021" />
-            <Card reg="Nome do registro" date="02/05/2021" />
+            <Card elevation={3}>
+              <CardContent>
+                <Icon
+                  icon="fluent:document-bullet-list-20-regular"
+                  width={30}
+                />
+                <p className="date">{new Date().toDateString()}</p>
+                <h2 className="nameReg">Nome do registro</h2>
+              </CardContent>
+            </Card>
+            <Card elevation={3}>
+              <CardContent>
+                <Icon
+                  icon="fluent:document-bullet-list-20-regular"
+                  width={30}
+                />
+                <p className="date">{new Date().toDateString()}</p>
+                <h2 className="nameReg">Nome do registro só que mais longo</h2>
+              </CardContent>
+            </Card>
+            <Card elevation={3}>
+              <CardContent>
+                <Icon
+                  icon="fluent:document-bullet-list-20-regular"
+                  width={30}
+                />
+                <p className="date">{new Date().toDateString()}</p>
+                <h2 className="nameReg">Nome do registro</h2>
+              </CardContent>
+            </Card>
+            <Card elevation={3}>
+              <CardContent>
+                <Icon
+                  icon="fluent:document-bullet-list-20-regular"
+                  width={30}
+                />
+                <p className="date">{new Date().toDateString()}</p>
+                <h2 className="nameReg">Nome do registro</h2>
+              </CardContent>
+            </Card>
+            <Card elevation={3}>
+              <CardContent>
+                <Icon
+                  icon="fluent:document-bullet-list-20-regular"
+                  width={30}
+                />
+                <p className="date">{new Date().toDateString()}</p>
+                <h2 className="nameReg">Nome do registro</h2>
+              </CardContent>
+            </Card>
           </div>
           <div className="comp">
             <Typography variant="h5">Nome da empresa</Typography>

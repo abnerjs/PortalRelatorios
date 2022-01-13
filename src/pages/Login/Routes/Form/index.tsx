@@ -7,8 +7,6 @@ import * as Yup from 'yup';
 
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Button, CircularProgress, TextField, Typography } from '@mui/material';
-
-// import Checkbox from 'src/components/Checkbox';
 import { useAppDispatch, useAppSelector } from 'src/store';
 import { loginRequest } from 'src/store/ducks/login';
 import { Box } from '@mui/system';
