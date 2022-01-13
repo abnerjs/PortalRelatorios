@@ -338,9 +338,6 @@ const ModalUpload = (props: Props) => {
               className="modalDateRangePicker"
               onOpen={() => setDatePickerOpened(true)}
               onClose={() => setDatePickerOpened(false)}
-              PopperProps={{
-                disablePortal: true,
-              }}
               value={datePeriodoRef}
               onChange={(value) => {
                 setDatePeriodoRef(value);
@@ -399,9 +396,6 @@ const ModalUpload = (props: Props) => {
               className="modalDateRangePicker"
               onOpen={() => setDatePickerOpened(true)}
               onClose={() => setDatePickerOpened(false)}
-              PopperProps={{
-                disablePortal: true,
-              }}
               value={datePeriodoUp}
               onChange={(value) => {
                 setDatePeriodoUp(value);
