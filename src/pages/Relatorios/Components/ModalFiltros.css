@@ -1,5 +1,6 @@
 .modalBox-root.filter {
   width: 500px;
+  overflow: auto;
 }
 
 .modalBox-root.filter .row {
