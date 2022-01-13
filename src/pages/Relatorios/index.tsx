@@ -8,6 +8,7 @@ import {
   Skeleton,
   TextField,
   IconButton,
+  Badge,
 } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import Header from 'src/components/Header';
@@ -177,7 +178,20 @@ const Documentos = () => {
               aria-label="add to shopping cart"
               onClick={() => setOpenFilters(true)}
             >
-              <Icon icon="ci:filter-outline" height={'30px'} />
+              <Badge
+                color="primary"
+                variant="dot"
+                invisible={
+                  JSON.stringify(filtros.fornecedores) === JSON.stringify([]) &&
+                  JSON.stringify(filtros.prestadores) === JSON.stringify([]) &&
+                  JSON.stringify(filtros.periodoRef) ===
+                    JSON.stringify([null, null]) &&
+                  JSON.stringify(filtros.periodoUp) ===
+                    JSON.stringify([null, null])
+                }
+              >
+                <Icon icon="ci:filter-outline" height={'30px'} />
+              </Badge>
             </IconButton>
             <ModalFiltros
               filtros={filtros}
