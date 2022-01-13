@@ -1,6 +1,5 @@
 .modalBox-root.filter {
   width: 500px;
-  overflow: auto;
 }
 
 .modalBox-root.filter .row {
@@ -60,7 +59,7 @@
 }
 
 .MuiBox-root.modalBox-root.filter.dateOpened {
-  transform: translate(-50%, -65%);
+  transform: translate(-50%, -50%);
 }
 
 .modalBox-root.filter .row {
