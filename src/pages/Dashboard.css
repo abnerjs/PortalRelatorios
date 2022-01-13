@@ -5,6 +5,11 @@
     display: flex;
 }
 
+.Dashboard .MuiCard-root {
+    width: 100px;
+    height: 145px;
+}
+
 .Dashboard .content {
     margin: 40px;
     width: 100%;

@@ -3,24 +3,32 @@ import 'src/pages/Login/Routes/Confirmation/Styles/index.css';
 import React from 'react';
 import { Link } from 'react-router-dom';
 import ReactCodeInput from 'react-verification-code-input';
-
-import Button from 'src/components/Button';
-import { Typography } from '@mui/material';
+import { Button, Typography } from '@mui/material';
 
 const Confirmation: React.FC = (props: any) => {
   return (
     <form className="form Confirmation" action="">
-      <Typography variant="h5" className="primary">Recuperação de senha</Typography>
+      <Typography variant="h5" className="primary">
+        Recuperação de senha
+      </Typography>
       <div className="recoveryinfo">
         <p>Um código foi enviado para:</p>
         <span>r●●●●●●●●@gmail.com</span>
       </div>
       <ReactCodeInput fields={6} className="VerifyCodeInput" autoFocus={true} />
       <Link to="/change-password">
-        <Button content="CONFIRMAR" />
+        <Button type="submit" variant="contained">
+          CONFIRMAR
+        </Button>
       </Link>
       <Link to="/">
-        <Button secondary content="CANCELAR" />
+        <Button
+          variant="contained"
+          className="secondary"
+          style={{ marginTop: 8 }}
+        >
+          CANCELAR
+        </Button>
       </Link>
       <h4 className="hint">
         Caso não tenha acesso a esse email, entre em contato com um
