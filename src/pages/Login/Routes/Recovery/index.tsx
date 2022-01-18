@@ -117,6 +117,7 @@ const Recovery: React.FC = () => {
               : ''
           }
           style={{ display: operationState !== 'success' ? 'block' : 'none' }}
+          fullWidth
         >
           ENVIAR
         </Button>
@@ -139,6 +140,7 @@ const Recovery: React.FC = () => {
           variant="contained"
           className={operationState !== 'success' ? 'secondary' : ''}
           style={{ marginTop: 8 }}
+          fullWidth
         >
           {operationState !== 'success' ? 'CANCELAR' : 'VOLTAR'}
         </Button>

@@ -20,6 +20,7 @@ import {
   arquivosGetRequest,
   arquivosUploadIdle,
   arquivosDownloadIdle,
+  arquivosDeleteIdle,
 } from 'src/store/ducks/relatoriosUpload';
 import { ArquivosByTipo } from 'src/store/ducks/relatoriosUpload/types';
 import { Icon } from '@iconify/react';
@@ -51,12 +52,27 @@ const Documentos = () => {
   const [displayColumn, setDisplayColumn] = useState('flex');
   const [showingAlert, setShowingAlert] = useState(false);
 
+  const deleteState = useAppSelector(
+    (state) => state.arquivoUpload.deleteState
+  );
+
+  useEffect(() => {
+    if (deleteState === 's') {
+      dispatch(arquivosGetRequest(filtros));
+      dispatch(arquivosDeleteIdle());
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [deleteState]);
+
   useEffect(() => {
     if (arquivosState === 's' && arquivosByTipo?.length === 0) {
       setShowingAlert(true);
-      setTimeout(() => {
+      const timeout = setTimeout(() => {
         setDisplayColumn('none');
       }, 8000);
+
+      return () => clearTimeout(timeout);
     } else {
       setShowingAlert(false);
       setDisplayColumn('flex');
@@ -86,6 +102,11 @@ const Documentos = () => {
 
   useEffect(() => {
     if (file) window.open(file);
+
+    return () => {
+      dispatch(arquivosDownloadIdle());
+    };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [file]);
 
   function getObjetos(flgFiltro: string): Array<LinkProps> {

@@ -254,6 +254,7 @@ const Usuarios = () => {
                   className="icon"
                 />
               }
+              fullWidth
             >
               NOVO USUÁRIO
             </Button>
@@ -293,6 +294,7 @@ const Usuarios = () => {
               }}
               closeAfterTransition
               keepMounted
+              disablePortal
               BackdropComponent={Backdrop}
               BackdropProps={{ timeout: 500 }}
               aria-labelledby="transition-modal-title"
@@ -332,6 +334,7 @@ const Usuarios = () => {
                       }}
                       variant="contained"
                       className="secondary"
+                      fullWidth
                     >
                       CANCELAR
                     </Button>
@@ -348,6 +351,7 @@ const Usuarios = () => {
                             ? 'errorSecondary'
                             : 'errorColor'
                         }
+                        fullWidth
                       >
                         DELETAR
                       </Button>

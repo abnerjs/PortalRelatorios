@@ -183,6 +183,7 @@ const TiposArquivos = () => {
               className={`tertiary${
                 isFormOpened && isNewUserSection ? ' active' : ''
               }`}
+              fullWidth
               startIcon={
                 <Icon
                   icon="fluent:add-16-regular"
@@ -268,6 +269,7 @@ const TiposArquivos = () => {
                         }}
                         variant="contained"
                         className="secondary"
+                        fullWidth
                       >
                         CANCELAR
                       </Button>
@@ -288,6 +290,7 @@ const TiposArquivos = () => {
                               ? 'errorSecondary'
                               : 'errorColor'
                           }
+                          fullWidth
                         >
                           DELETAR
                         </Button>

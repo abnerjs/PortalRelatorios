@@ -17,7 +17,8 @@ const Confirmation: React.FC = (props: any) => {
       </div>
       <ReactCodeInput fields={6} className="VerifyCodeInput" autoFocus={true} />
       <Link to="/change-password">
-        <Button type="submit" variant="contained">
+        <Button type="submit" variant="contained"
+          fullWidth>
           CONFIRMAR
         </Button>
       </Link>
@@ -26,6 +27,7 @@ const Confirmation: React.FC = (props: any) => {
           variant="contained"
           className="secondary"
           style={{ marginTop: 8 }}
+          fullWidth
         >
           CANCELAR
         </Button>

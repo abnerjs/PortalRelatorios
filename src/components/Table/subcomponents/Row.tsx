@@ -31,12 +31,7 @@ const Row = (props: Props) => {
   useEffect(() => {
     if (deleteState === 's') {
       showConfirmDelete(false);
-
-      dispatch(arquivosGetRequest());
-      dispatch(arquivosDeleteIdle());
     }
-
-    //setErrorCollapseOpened(errors !== undefined);
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [deleteState]);
