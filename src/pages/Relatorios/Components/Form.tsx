@@ -469,7 +469,7 @@ const Form = (props: Props) => {
                                 maxHeight: 50,
                                 marginTop: 10,
                                 marginBottom: 5,
-                                marginLeft: 8,
+                                marginLeft: 20,
                                 overflowY: 'auto',
                               }}
                             >
@@ -562,7 +562,7 @@ const Form = (props: Props) => {
                                 maxHeight: 50,
                                 marginTop: 10,
                                 marginBottom: 5,
-                                marginLeft: 8,
+                                marginLeft: 20,
                                 overflowY: 'auto',
                               }}
                             >
@@ -640,6 +640,28 @@ const Form = (props: Props) => {
                     clearErrors('idRelTpArquivo');
                     setTipoArquivo(data);
                     setValue('idRelTpArquivo', data?.idRelTpArquivo || null);
+
+                    switch (tipoArquivo?.flgReferencia) {
+                      case 'A':
+                        setValue('codMes', null);
+                        setValue('dtaIni', null);
+                        setValue('dtaFim', null);
+                        break;
+                      case 'M':
+                        setValue('codAno', null);
+                        setValue('dtaIni', null);
+                        setValue('dtaFim', null);
+                        break;
+                      case 'P':
+                        setValue('codMes', null);
+                        setValue('codAno', null);
+                        break;
+                      case 'D':
+                        setValue('codMes', null);
+                        setValue('codAno', null);
+                        setValue('dtaFim', null);
+                        break;
+                    }
                   }}
                 />
               )}
@@ -649,6 +671,9 @@ const Form = (props: Props) => {
               <Button
                 onClick={() => {
                   props.setFile(null);
+                  if (props.doc) {
+                    props.setOpen(false);
+                  }
                 }}
                 variant="contained"
                 className="secondary"
@@ -1037,12 +1062,12 @@ const Form = (props: Props) => {
             <Tooltip
               title={
                 <React.Fragment>
-                  Ao fazer o upload de um&nbsp; 
+                  Ao fazer o upload de um&nbsp;
                   <b>arquivo </b>
-                  com os mesmos dados de um outro&nbsp;
-                  existente, será necessário&nbsp;
-                  <b>sobrescrevê-lo </b>
-                  . Marque a caixa para ativar a funcionalidade.
+                  com os mesmos dados de um outro&nbsp; existente, será
+                  necessário&nbsp;
+                  <b>sobrescrevê-lo </b>. Marque a caixa para ativar a
+                  funcionalidade.
                 </React.Fragment>
               }
               placement="bottom"

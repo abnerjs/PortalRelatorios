@@ -432,6 +432,7 @@ const Form: React.FC<FormProps> = ({
           tabIndex={isFormOpened ? 0 : -1}
           variant="contained"
           className="secondary"
+          fullWidth
         >
           CANCELAR
         </Button>
@@ -447,6 +448,7 @@ const Form: React.FC<FormProps> = ({
                 ? 'secondary'
                 : ''
             }
+            fullWidth
           >
             SALVAR
           </Button>

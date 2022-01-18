@@ -199,6 +199,7 @@ const Form: React.FC<FormProps> = ({ data, isFormOpened }: FormProps) => {
             onCancel();
             setErrorCollapseOpened(false);
           }}
+          fullWidth
         >
           CANCELAR
         </Button>
@@ -213,6 +214,7 @@ const Form: React.FC<FormProps> = ({ data, isFormOpened }: FormProps) => {
                 ? 'secondary'
                 : ''
             }
+            fullWidth
           >
             SALVAR
           </Button>

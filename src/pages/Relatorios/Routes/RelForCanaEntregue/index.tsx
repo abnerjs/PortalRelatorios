@@ -107,8 +107,11 @@ const RelForCanaEntregue = () => {
 
   useEffect(() => {
     if (pdf) global.window.open(pdf);
-    else setErrorCollapseOpened(true);
   }, [pdf]);
+
+  useEffect(() => {
+    if (pdfError) setErrorCollapseOpened(true);
+  }, [pdfError]);
 
   useEffect(() => {
     dispatch(usuariosFornecedoresGetFilterRequest());
@@ -282,6 +285,7 @@ const RelForCanaEntregue = () => {
                 variant="contained"
                 className="secondary"
                 onClick={() => history.goBack()}
+                fullWidth
               >
                 VOLTAR
               </Button>
@@ -293,6 +297,7 @@ const RelForCanaEntregue = () => {
                   className={
                     formState.isSubmitting || isLoading ? 'secondary' : ''
                   }
+                  fullWidth
                 >
                   GERAR
                 </Button>

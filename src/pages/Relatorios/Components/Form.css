@@ -61,5 +61,9 @@
 
 #lstCodFornecedores,
 #lstCodPrestadores {
-  padding-left: 12px !important;
+  padding-left: 0 !important;
+}
+
+div.MuiInputBase-root {
+  padding-left: 0 !important;
 }

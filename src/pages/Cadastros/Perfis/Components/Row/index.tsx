@@ -53,6 +53,7 @@ const Row: React.FC<RowProps> = ({
           disabled={flgAcesso !== 'A'}
           variant="contained"
           tabIndex={indexSelected === index ? 0 : -1}
+          fullWidth
         >
           ALTERAR
         </Button>
@@ -62,6 +63,7 @@ const Row: React.FC<RowProps> = ({
           tabIndex={indexSelected === index ? 0 : -1}
           variant="contained"
           className="errorColor"
+          fullWidth
         >
           DELETAR
         </Button>

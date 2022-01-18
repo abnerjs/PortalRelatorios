@@ -98,8 +98,11 @@ const RelPreRecurso = () => {
 
   useEffect(() => {
     if (pdf) global.window.open(pdf);
-    else setErrorCollapseOpened(true);
   }, [pdf]);
+
+  useEffect(() => {
+    if (pdfError) setErrorCollapseOpened(true);
+  }, [pdfError]);
 
   useEffect(() => {
     dispatch(usuariosPrestadoresGetFilterRequest());
@@ -254,6 +257,7 @@ const RelPreRecurso = () => {
                 variant="contained"
                 className="secondary"
                 onClick={() => history.goBack()}
+                fullWidth
               >
                 VOLTAR
               </Button>
@@ -265,6 +269,7 @@ const RelPreRecurso = () => {
                   className={
                     formState.isSubmitting || isLoading ? 'secondary' : ''
                   }
+                  fullWidth
                 >
                   GERAR
                 </Button>

@@ -87,6 +87,8 @@
   font-weight: var(--medium) !important;
   border-radius: 8px !important;
   font-size: 12px !important;
+  vertical-align: center;
+  line-height: 12px;
 }
 
 .SectionizedTable .rows .row .buttons .MuiButton-root:first-child {

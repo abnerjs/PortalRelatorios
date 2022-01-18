@@ -91,8 +91,11 @@ const RelPreExtrato = () => {
 
   useEffect(() => {
     if (pdf) global.window.open(pdf);
-    else setErrorCollapseOpened(true);
   }, [pdf]);
+
+  useEffect(() => {
+    if (pdfError) setErrorCollapseOpened(true);
+  }, [pdfError]);
 
   useEffect(() => {
     dispatch(usuariosPrestadoresGetFilterRequest());
@@ -212,6 +215,7 @@ const RelPreExtrato = () => {
                 variant="contained"
                 className="secondary"
                 onClick={() => history.goBack()}
+                fullWidth
               >
                 VOLTAR
               </Button>
@@ -223,6 +227,7 @@ const RelPreExtrato = () => {
                   className={
                     formState.isSubmitting || isLoading ? 'secondary' : ''
                   }
+                  fullWidth
                 >
                   GERAR
                 </Button>

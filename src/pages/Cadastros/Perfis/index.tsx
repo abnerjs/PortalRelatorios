@@ -267,6 +267,7 @@ const Perfis = () => {
                             dispatch(perfisCancelDelete());
                           }, 500);
                         }}
+                        fullWidth
                         variant="contained"
                         className="secondary"
                       >
@@ -280,6 +281,7 @@ const Perfis = () => {
                           }
                           disabled={deleteState === 'request'}
                           type="submit"
+                          fullWidth
                           className={
                             deleteState === 'request'
                               ? 'errorSecondary'

@@ -20,6 +20,7 @@ import {
   arquivosGetRequest,
   arquivosUploadIdle,
   arquivosDownloadIdle,
+  arquivosDeleteIdle,
 } from 'src/store/ducks/relatoriosUpload';
 import { ArquivosByTipo } from 'src/store/ducks/relatoriosUpload/types';
 import { Icon } from '@iconify/react';
@@ -46,6 +47,19 @@ const MeusUploads = () => {
   const arquivosByTipo = useAppSelector((state) => state.arquivoUpload.data);
   const arquivosState = useAppSelector((state) => state.arquivoUpload.state);
   const file = useAppSelector((state) => state.arquivoUpload.file);
+  const deleteState = useAppSelector(
+    (state) => state.arquivoUpload.deleteState
+  );
+
+  useEffect(() => {
+    if (deleteState === 's') {
+
+      dispatch(arquivosGetRequest(filtros));
+      dispatch(arquivosDeleteIdle());
+    }
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [deleteState]);
 
   const defaultValuesFiltros: FiltrosRelatorios = {
     descricao: '',
@@ -82,6 +96,10 @@ const MeusUploads = () => {
 
   useEffect(() => {
     if (file) window.open(file);
+    return () => {
+      dispatch(arquivosDownloadIdle());
+    };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [file]);
 
   return (

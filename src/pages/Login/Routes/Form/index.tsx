@@ -26,7 +26,7 @@ const Login: React.FC = () => {
   const history = useHistory();
   const dispatch = useAppDispatch();
   const loginError = useAppSelector((state) => state.session.error);
-  const isLoading = useAppSelector((state) => state.session.loading);
+  const operationState = useAppSelector((state) => state.session.operationState);
   const [isErrorCollapseOpened, setErrorCollapseOpened] = useState(false);
 
   const { register, handleSubmit, formState } = useForm<FormInputs>({
@@ -93,14 +93,15 @@ const Login: React.FC = () => {
       <Box sx={{ m: 0, position: 'relative' }}>
         <Button
           variant="contained"
-          disabled={formState.isSubmitting || isLoading}
+          disabled={formState.isSubmitting || operationState === 'request'}
           type="submit"
-          className={formState.isSubmitting || isLoading ? 'secondary' : ''}
+          className={formState.isSubmitting || operationState === 'request' ? 'secondary' : ''}
           style={{ marginTop: 8 }}
+          fullWidth
         >
           ENTRAR
         </Button>
-        {(formState.isSubmitting || isLoading) && (
+        {(formState.isSubmitting || operationState === 'request') && (
           <CircularProgress
             size={24}
             sx={{
