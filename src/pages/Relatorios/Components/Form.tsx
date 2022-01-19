@@ -94,6 +94,7 @@ const schema = Yup.object({
     .default(null)
     .required('Campo obrigatório!'),
   idRelArquivo: Yup.number(),
+  formFile: Yup.mixed().notRequired(),
   substituirExistentes: Yup.boolean(),
   lstCodFornecedores: Yup.array(),
   lstCodPrestadores: Yup.array(),
@@ -194,29 +195,29 @@ const Form = (props: Props) => {
   const [yearOnlyDatePicker, setYearOnlyDatePicker] = useState<Date | null>(
     null
   );
+  const [dateOnly, setDateOnly] = useState<Date | null>(null);
   const [yearAndMonthDatePicker, setYearAndMonthDatePicker] =
     useState<Date | null>(null);
   const [datePeriodo, setDatePeriodo] = useState<DateRange<Date>>([null, null]);
-  const tiposArquivos = useAppSelector((state) => state.tipoArquivo.data);
+  const [nomArqWhenDocExists, setNomArqWhenDocExists] = useState<string | null>(
+    null
+  );
+  const [isErrorCollapseOpened, setErrorCollapseOpened] = useState(false);
+  const [desObsForm, setDesObsForm] = useState<string | null>(null);
 
+  const tiposArquivos = useAppSelector((state) => state.tipoArquivo.data);
   const uploadError = useAppSelector(
     (state) => state.arquivoUpload.uploadError
   );
   const uploadState = useAppSelector(
     (state) => state.arquivoUpload.uploadState
   );
-  const [isErrorCollapseOpened, setErrorCollapseOpened] = useState(false);
-
   const lstFornecedores = useAppSelector(
     (state) => state.fornecedores.filterList
   );
   const lstPrestadores = useAppSelector(
     (state) => state.prestadores.filterList
   );
-  const [nomArqWhenDocExists, setNomArqWhenDocExists] = useState<string | null>(
-    null
-  );
-  const [desObsForm, setDesObsForm] = useState<string | null>(null);
 
   useEffect(() => {
     if (!props.doc) {
@@ -229,6 +230,7 @@ const Form = (props: Props) => {
     if (props.file) {
       setValue('nomArquivo', props.file.name);
       setNomArqWhenDocExists(props.file.name);
+      setValue('formFile', props.file);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.file]);
@@ -292,7 +294,7 @@ const Form = (props: Props) => {
         setDatePeriodo([dtaIni, dtaFim]);
       } else if (props.doc.dtaIni) {
         let dtaIni = new Date(props.doc.dtaIni);
-        setYearOnlyDatePicker(dtaIni);
+        setDateOnly(dtaIni);
         setValue('dtaIni', props.doc.dtaIni);
       }
 
@@ -324,7 +326,7 @@ const Form = (props: Props) => {
         setValue('dtaFim', null);
         break;
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [tipoArquivo]);
 
   const dispatch = useAppDispatch();
@@ -381,14 +383,6 @@ const Form = (props: Props) => {
     setErrorCollapseOpened(uploadError !== undefined);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [uploadState]);
-
-  useEffect(() => {
-    if (props.file) {
-      setValue('formFile', props.file);
-      if (!props.doc) setValue('nomArquivo', props.file.name);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [props.file, setValue]);
 
   const [focusForn, setFocusForn] = useState(false);
   const [focusPrest, setFocusPrest] = useState(false);
@@ -1011,11 +1005,10 @@ const Form = (props: Props) => {
                     openTo="year"
                     disableFuture
                     disableMaskedInput={false}
-                    value={null}
+                    value={dateOnly}
                     onChange={(value: any) => {
-                      setYearOnlyDatePicker(value);
-                      if (value instanceof Date &&
-                        !isNaN(value.getTime()))
+                      setDateOnly(value);
+                      if (value instanceof Date && !isNaN(value.getTime()))
                         setValue('dtaIni', value.toISOString().split('T')[0]);
                       else setValue('dtaIni', null);
                     }}

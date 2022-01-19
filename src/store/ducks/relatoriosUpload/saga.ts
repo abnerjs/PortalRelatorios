@@ -249,7 +249,9 @@ export function* sendUpdateRequest(
   if (action.payload.desObs) formData.append('desObs', action.payload.desObs);
   if (action.payload.idRelArquivo)
     formData.append('idRelArquivo', action.payload.idRelArquivo.toString());
-
+  if (action.payload.formFile)
+    formData.append('formFile', action.payload.formFile);
+    
   try {
     yield call(api.put, `Relatorios/v1/`, formData);
     yield put(arquivosUpdateSuccess());
