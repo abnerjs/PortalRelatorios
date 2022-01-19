@@ -119,6 +119,7 @@ const Form: React.FC<FormProps> = ({
   const [initials, setInitials] = useState('');
   const [flgTipo, setFlgTipo] = useState('I');
   const [perfil, setPerfil] = useState<TipoFiltro | null>(null);
+  const [focusPerfil, setFocusPerfil] = useState(false);
 
   const dispatch = useAppDispatch();
   const perfis = useAppSelector((state) => state.perfis.filterList);
@@ -351,25 +352,47 @@ const Form: React.FC<FormProps> = ({
         noOptionsText="Sem opções"
         options={perfis}
         getOptionLabel={(option) => option.descricao}
-        renderInput={(params) => (
-          <TextField
-            {...params}
-            label="Selecione o perfil"
-            placeholder="Procurar..."
-            margin="dense"
-            variant="filled"
-            InputProps={{
-              ...params.InputProps,
-              disableUnderline: true,
-              inputProps: {
-                ...params.inputProps,
-                tabIndex: isFormOpened ? 0 : -1,
-              },
-            }}
-            error={!!formState.errors.idRelPerfil}
-            helperText={formState.errors.idRelPerfil?.message}
-          />
-        )}
+        renderInput={(params) => {
+          const { InputProps, ...restParams } = params;
+          const { startAdornment, ...restInputProps } = InputProps;
+          return (
+            <TextField
+              {...restParams}
+              label="Selecione o perfil"
+              placeholder="Procurar..."
+              margin="dense"
+              variant="filled"
+              InputProps={{
+                ...restInputProps,
+                disableUnderline: true,
+                inputProps: {
+                  ...restParams.inputProps,
+                  tabIndex: isFormOpened ? 0 : -1,
+                },
+                startAdornment: (
+                  <div
+                    style={{
+                      maxHeight: 50,
+                      marginTop: 10,
+                      marginBottom: 5,
+                      marginLeft: 8,
+                      overflowY: 'auto',
+                    }}
+                  >
+                    {startAdornment}
+                  </div>
+                ),
+              }}
+              InputLabelProps={{
+                shrink: perfil !== null || focusPerfil,
+              }}
+              onFocus={() => setFocusPerfil(true)}
+              onBlur={() => setFocusPerfil(false)}
+              error={!!formState.errors.idRelPerfil}
+              helperText={formState.errors.idRelPerfil?.message}
+            />
+          );
+        }}
         value={perfil}
         onChange={(_, data) => {
           clearErrors('idRelPerfil');

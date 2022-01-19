@@ -61,6 +61,7 @@ const referenciaToStringLabel = (referencia: string | null) => {
 const Form: React.FC<FormProps> = ({ data, isFormOpened }: FormProps) => {
   const dispatch = useAppDispatch();
   const [referencia, setReferencia] = useState<string | null>(null);
+  const [focusRef, setFocusRef] = useState(false);
   const errors = useAppSelector((state) => state.tipoArquivo.operationError);
   const operationState = useAppSelector(
     (state) => state.tipoArquivo.operationState
@@ -165,24 +166,46 @@ const Form: React.FC<FormProps> = ({ data, isFormOpened }: FormProps) => {
         noOptionsText="Sem opções"
         options={referencias}
         getOptionLabel={(option) => referenciaToStringLabel(option)}
-        renderInput={(params) => (
-          <TextField
-            {...params}
-            label="Selecione o tipo de referência de datas"
-            margin="dense"
-            variant="filled"
-            InputProps={{
-              ...params.InputProps,
-              disableUnderline: true,
-              inputProps: {
-                ...params.inputProps,
-                tabIndex: isFormOpened ? 0 : -1,
-              },
-            }}
-            error={!!formState.errors.flgReferencia}
-            helperText={formState.errors.flgReferencia?.message}
-          />
-        )}
+        renderInput={(params) => {
+          const { InputProps, ...restParams } = params;
+          const { startAdornment, ...restInputProps } = InputProps;
+          return (
+            <TextField
+              {...params}
+              label="Selecione o tipo de referência de datas"
+              margin="dense"
+              variant="filled"
+              InputProps={{
+                ...params.InputProps,
+                disableUnderline: true,
+                inputProps: {
+                  ...params.inputProps,
+                  tabIndex: isFormOpened ? 0 : -1,
+                },
+                startAdornment: (
+                  <div
+                    style={{
+                      maxHeight: 50,
+                      marginTop: 10,
+                      marginBottom: 5,
+                      marginLeft: 8,
+                      overflowY: 'auto',
+                    }}
+                  >
+                    {startAdornment}
+                  </div>
+                ),
+              }}
+              InputLabelProps={{
+                shrink: referencia !== null || focusRef,
+              }}
+              onFocus={() => setFocusRef(true)}
+              onBlur={() => setFocusRef(false)}
+              error={!!formState.errors.flgReferencia}
+              helperText={formState.errors.flgReferencia?.message}
+            />
+          );
+        }}
         value={referencia}
         onChange={(_, data) => {
           clearErrors('flgReferencia');

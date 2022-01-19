@@ -302,6 +302,31 @@ const Form = (props: Props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.doc, tiposArquivos]);
 
+  useEffect(() => {
+    switch (tipoArquivo?.flgReferencia) {
+      case 'A':
+        setValue('codMes', null);
+        setValue('dtaIni', null);
+        setValue('dtaFim', null);
+        break;
+      case 'M':
+        setValue('codAno', null);
+        setValue('dtaIni', null);
+        setValue('dtaFim', null);
+        break;
+      case 'P':
+        setValue('codMes', null);
+        setValue('codAno', null);
+        break;
+      case 'D':
+        setValue('codMes', null);
+        setValue('codAno', null);
+        setValue('dtaFim', null);
+        break;
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [tipoArquivo]);
+
   const dispatch = useAppDispatch();
   useEffect(() => {
     dispatch(fornecedoresGetFilterRequest());
@@ -640,28 +665,6 @@ const Form = (props: Props) => {
                     clearErrors('idRelTpArquivo');
                     setTipoArquivo(data);
                     setValue('idRelTpArquivo', data?.idRelTpArquivo || null);
-
-                    switch (tipoArquivo?.flgReferencia) {
-                      case 'A':
-                        setValue('codMes', null);
-                        setValue('dtaIni', null);
-                        setValue('dtaFim', null);
-                        break;
-                      case 'M':
-                        setValue('codAno', null);
-                        setValue('dtaIni', null);
-                        setValue('dtaFim', null);
-                        break;
-                      case 'P':
-                        setValue('codMes', null);
-                        setValue('codAno', null);
-                        break;
-                      case 'D':
-                        setValue('codMes', null);
-                        setValue('codAno', null);
-                        setValue('dtaFim', null);
-                        break;
-                    }
                   }}
                 />
               )}
@@ -909,7 +912,12 @@ const Form = (props: Props) => {
                     value={datePeriodo}
                     onChange={(value) => {
                       setDatePeriodo(value);
-                      if (value[0] && value[1]) {
+                      if (
+                        value[0] instanceof Date &&
+                        value[1] instanceof Date &&
+                        !isNaN(value[0].getTime()) &&
+                        !isNaN(value[1].getTime())
+                      ) {
                         setValue(
                           'dtaIni',
                           value[0].toISOString().split('T')[0]
@@ -1006,9 +1014,10 @@ const Form = (props: Props) => {
                     value={null}
                     onChange={(value: any) => {
                       setYearOnlyDatePicker(value);
-                      if (value !== null)
+                      if (value instanceof Date &&
+                        !isNaN(value.getTime()))
                         setValue('dtaIni', value.toISOString().split('T')[0]);
-                      else setValue('dtaIni', value);
+                      else setValue('dtaIni', null);
                     }}
                     InputAdornmentProps={{
                       style: {
