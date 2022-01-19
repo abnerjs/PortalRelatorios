@@ -85,6 +85,11 @@
   transition: all ease 0.3s;
 }
 
+.errorPanel .message {
+  margin-left: 20px;
+  font-weight: var(--medium);
+}
+
 .errorPanel.fullHeight {
   height: 105px;
   transition: all ease 0.1s;
