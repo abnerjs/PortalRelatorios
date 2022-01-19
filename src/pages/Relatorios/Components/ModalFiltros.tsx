@@ -189,7 +189,7 @@ const ModalUpload = (props: Props) => {
                           maxHeight: 50,
                           marginTop: 10,
                           marginBottom: 5,
-                          marginLeft: 8,
+                          marginLeft: 20,
                           overflowY: 'auto',
                         }}
                       >
@@ -265,7 +265,7 @@ const ModalUpload = (props: Props) => {
                           maxHeight: 50,
                           marginTop: 10,
                           marginBottom: 5,
-                          marginLeft: 8,
+                          marginLeft: 20,
                           overflowY: 'auto',
                         }}
                       >

@@ -48,8 +48,8 @@ const Row = (props: Props) => {
       dateFormatter(props.doc.dtaIni, 'pt-BR').slice(0, 10) +
       ' - ' +
       dateFormatter(props.doc.dtaFim, 'pt-BR').slice(0, 10);
-  } else if (props.doc.dtaFim) {
-    descDateRef = dateFormatter(props.doc.dtaFim, 'pt-BR');
+  } else if (props.doc.dtaIni) {
+    descDateRef = dateFormatter(props.doc.dtaIni, 'pt-BR').slice(0, 10);
   } else descDateRef = '';
 
   return (
