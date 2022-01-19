@@ -4,10 +4,8 @@ import React, { useEffect, useState } from 'react';
 import ModalUpload from 'src/pages/Relatorios/Components/ModalUpload';
 import { useAppDispatch, useAppSelector } from 'src/store';
 import {
-  arquivosDeleteIdle,
   arquivosDeleteRequest,
   arquivosDownloadRequest,
-  arquivosGetRequest,
 } from 'src/store/ducks/relatoriosUpload';
 import { ArquivoUploadReceiveFormat } from 'src/store/ducks/relatoriosUpload/types';
 import { dateFormatter } from 'src/utils/StringUtils';
@@ -22,9 +20,14 @@ interface Props {
 const Row = (props: Props) => {
   const [collapsed, setCollapsed] = useState(false);
   const [isConfirmDeleteView, showConfirmDelete] = useState(false);
+  const [isErrorView, showErrorView] = useState(false);
+  const [isDownloading, setDownloading] = useState(false);
   const dispatch = useAppDispatch();
   const deleteState = useAppSelector(
     (state) => state.arquivoUpload.deleteState
+  );
+  const downloadError = useAppSelector(
+    (state) => state.arquivoUpload.downloadError
   );
   const [open, setOpen] = useState(false);
 
@@ -35,6 +38,13 @@ const Row = (props: Props) => {
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [deleteState]);
+  
+  useEffect(() => {
+    if (downloadError) {
+      showErrorView(true);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [downloadError]);
 
   let descDateRef = '';
 
@@ -114,6 +124,7 @@ const Row = (props: Props) => {
             className="reg"
             onClick={(e) => {
               dispatch(arquivosDownloadRequest(props.doc.idRelArquivo));
+              setDownloading(true);
               e.stopPropagation();
             }}
           >
@@ -176,6 +187,31 @@ const Row = (props: Props) => {
             className="iconbutton"
             onClick={(e) => {
               showConfirmDelete(false);
+              e.stopPropagation();
+            }}
+          >
+            <Icon
+              icon="fluent:dismiss-24-filled"
+              width={25}
+              className="icon delete"
+            />
+          </IconButton>
+        </div>
+      </div>
+      <div
+        className={`errorPanel${
+          isErrorView && isDownloading ? ' confirm' : ''
+        }${!props.fullView && collapsed ? ' fullHeight' : ''}`}
+      >
+        <div className="message">{downloadError?.mensagem}</div>
+        <div className="buttons">
+          <IconButton
+            aria-label="delete"
+            size="small"
+            className="iconbutton"
+            onClick={(e) => {
+              showErrorView(false);
+              setDownloading(false);
               e.stopPropagation();
             }}
           >
