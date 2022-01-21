@@ -14,6 +14,8 @@ import './Row.css';
 interface Props {
   arrArquivo: Array<ArquivoUploadReceiveFormat> | undefined;
   doc: ArquivoUploadReceiveFormat;
+  tableIndex: number;
+  rowIndex: number;
   fullView?: boolean;
 }
 
@@ -38,10 +40,17 @@ const Row = (props: Props) => {
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [deleteState]);
-  
+
   useEffect(() => {
-    if (downloadError) {
+    if (
+      downloadError &&
+      downloadError?.find(
+        (item) =>
+          item?.table === props.tableIndex && item?.line === props.rowIndex
+      )
+    ) {
       showErrorView(true);
+      console.log(downloadError);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [downloadError]);
@@ -123,7 +132,13 @@ const Row = (props: Props) => {
             fullWidth
             className="reg"
             onClick={(e) => {
-              dispatch(arquivosDownloadRequest(props.doc.idRelArquivo));
+              dispatch(
+                arquivosDownloadRequest([
+                  props.doc.idRelArquivo,
+                  props.tableIndex,
+                  props.rowIndex,
+                ])
+              );
               setDownloading(true);
               e.stopPropagation();
             }}
@@ -203,7 +218,15 @@ const Row = (props: Props) => {
           isErrorView && isDownloading ? ' confirm' : ''
         }${!props.fullView && collapsed ? ' fullHeight' : ''}`}
       >
-        <div className="message">{downloadError?.mensagem}</div>
+        <div className="message">
+          {
+            downloadError?.find(
+              (item) =>
+                item?.table === props.tableIndex &&
+                item?.line === props.rowIndex
+            )?.error?.mensagem
+          }
+        </div>
         <div className="buttons">
           <IconButton
             aria-label="delete"

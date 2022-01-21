@@ -14,6 +14,7 @@ export interface LinkProps {
 
 type Props = {
   title: string;
+  tableIndex: number;
   subtitle?: string;
   arr?: Array<LinkProps>;
   arrArquivo?: Array<ArquivoUploadReceiveFormat>;
@@ -26,7 +27,8 @@ const conditionalArrayTypeRender = (
   dispatch: any,
   collapsed: boolean,
   setCollapsed: Function,
-  fullView?: boolean
+  tableIndex: number,
+  fullView?: boolean,
 ) => {
   let arrGui: JSX.Element[] = [];
 
@@ -52,7 +54,14 @@ const conditionalArrayTypeRender = (
   } else if (arrArquivo) {
     arrArquivo.forEach((doc, index) => {
       arrGui.push(
-        <Row arrArquivo={arrArquivo} key={index} doc={doc} fullView={fullView} />
+        <Row
+          arrArquivo={arrArquivo}
+          tableIndex={tableIndex}
+          rowIndex={index}
+          key={index}
+          doc={doc}
+          fullView={fullView}
+        />
       );
     });
   }
@@ -83,7 +92,8 @@ const Table = (props: Props) => {
             dispatch,
             collapsed,
             setCollapsed,
-            props.fullView
+            props.tableIndex,
+            props.fullView,
           )}
         </div>
       </div>
