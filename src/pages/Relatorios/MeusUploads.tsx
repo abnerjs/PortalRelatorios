@@ -256,6 +256,7 @@ function filesTypes(arquivosByTipo: ArquivosByTipo[] | undefined): any {
         arrArquivo={item.arquivos}
         title={item.desTpArquivo}
         fullView
+        tableIndex={index}
       />
     );
   });

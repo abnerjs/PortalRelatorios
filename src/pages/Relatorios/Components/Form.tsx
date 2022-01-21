@@ -893,12 +893,16 @@ const Form = (props: Props) => {
               <Controller
                 name="dtaFim"
                 control={control}
-                render={({ field: { ref, onChange, ...rest }, fieldState }) => (
+                render={({
+                  field: { ref, onChange, onBlur, ...rest },
+                  fieldState,
+                }) => (
                   <DateRangePicker
                     startText="Data inicial"
                     endText="Data final"
                     mask="__/__/____"
                     className="modalDateRangePicker"
+                    desktopModeMediaQuery="@media (min-height: 770px)"
                     PopperProps={{
                       disablePortal: true,
                       className: 'dateRangePickerModal',
@@ -989,6 +993,26 @@ const Form = (props: Props) => {
                           helperText={fieldState.error?.message}
                           inputRef={ref}
                           {...rest}
+                          onBlur={() => {
+                            if (
+                              datePeriodo[0] instanceof Date &&
+                              datePeriodo[1] instanceof Date &&
+                              !isNaN(datePeriodo[0].getTime()) &&
+                              !isNaN(datePeriodo[1].getTime()) &&
+                              datePeriodo[0].getTime() >
+                                datePeriodo[1].getTime()
+                            ) {
+                              setDatePeriodo([datePeriodo[1], datePeriodo[0]]);
+                              setValue(
+                                'dtaIni',
+                                datePeriodo[1].toISOString().split('T')[0]
+                              );
+                              setValue(
+                                'dtaFim',
+                                datePeriodo[0].toISOString().split('T')[0]
+                              );
+                            }
+                          }}
                         />
                       </React.Fragment>
                     )}

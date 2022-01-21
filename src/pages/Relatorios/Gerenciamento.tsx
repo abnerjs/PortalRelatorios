@@ -101,7 +101,6 @@ const Gerenciamento = () => {
       dispatch(arquivosDownloadIdle());
     };
   // eslint-disable-next-line react-hooks/exhaustive-deps
-
   }, [file]);
 
   return (
@@ -263,6 +262,7 @@ function filesTypes(arquivosByTipo: ArquivosByTipo[] | undefined): any {
         arrArquivo={item.arquivos}
         title={item.desTpArquivo}
         fullView
+        tableIndex={index}
       />
     );
   });

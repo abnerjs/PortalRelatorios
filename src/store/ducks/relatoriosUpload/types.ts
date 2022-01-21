@@ -2,19 +2,25 @@ import { InfoPaginacao, TipoFiltro } from '../base/types';
 import { ErrorAPI } from '../types';
 
 export interface ArquivosState {
+  downloadError: Array<MultipleLineErrorAPI | undefined>;
   data?: Array<ArquivosByTipo>;
   file?: any;
   filterList: Array<TipoFiltro>;
   pagination?: InfoPaginacao;
   error?: ErrorAPI;
   state?: string;
-  downloadError?: ErrorAPI;
   uploadError?: ErrorAPI;
   uploadState?: string;
   deleteError?: ErrorAPI;
   deleteState?: string;
   fileRequestState?: string;
   fileRequestError?: ErrorAPI;
+}
+
+export interface MultipleLineErrorAPI {
+  error?: ErrorAPI;
+  table?: number;
+  line?: number;
 }
 
 interface ArquivoBase {

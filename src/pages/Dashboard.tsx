@@ -79,11 +79,13 @@ const Dashboard = () => {
             arr={[]}
             title="Novos arquivos"
             subtitle="Tudo o que você não viu desde o seu último acesso"
+            tableIndex={-1}
           />
           <Table
             arr={[]}
             title="Últimas atualizações"
             subtitle="Tudo o que você não viu desde o seu último acesso"
+            tableIndex={-1}
           />
         </div>
       </div>

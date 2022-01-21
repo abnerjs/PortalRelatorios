@@ -157,7 +157,7 @@ export function* sendDownloadRequest(
   action: ReturnType<typeof arquivosDownloadRequest>
 ) {
   try {
-    const query = action.payload ?? '';
+    const query = action.payload[0] ?? '';
 
     const response: AxiosResponse<Blob> = yield call(
       api.get,
@@ -171,9 +171,9 @@ export function* sendDownloadRequest(
 
     downloadFile(response.data, fileName, 'pdf');
 
-    yield put(arquivosDownloadSuccess(blobURL));
+    yield put(arquivosDownloadSuccess([blobURL, action.payload[1], action.payload[2]]));
   } catch (error: any) {
-    yield put(arquivosDownloadError(error));
+    yield put(arquivosDownloadError([error, action.payload[1], action.payload[2]]));
   }
 }
 
@@ -251,7 +251,6 @@ export function* sendUpdateRequest(
     formData.append('idRelArquivo', action.payload.idRelArquivo.toString());
   if (action.payload.formFile)
     formData.append('formFile', action.payload.formFile);
-    
   try {
     yield call(api.put, `Relatorios/v1/`, formData);
     yield put(arquivosUpdateSuccess());

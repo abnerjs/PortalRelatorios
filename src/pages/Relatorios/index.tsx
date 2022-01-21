@@ -237,10 +237,10 @@ const Documentos = () => {
         >
           <div className="column">
             {fornecedores.length !== 0 && (
-              <Table arr={fornecedores} title="Para fornecedores" />
+              <Table arr={fornecedores} title="Para fornecedores" tableIndex={-1} />
             )}
             {prestadores.length !== 0 && (
-              <Table arr={prestadores} title="Para prestadores" />
+              <Table arr={prestadores} title="Para prestadores" tableIndex={-1} />
             )}
           </div>
           <div
@@ -283,6 +283,7 @@ function filesTypes(
         key={item.idRelTpArquivo}
         arrArquivo={item.arquivos}
         title={item.desTpArquivo}
+        tableIndex={index}
       />
     );
   });
