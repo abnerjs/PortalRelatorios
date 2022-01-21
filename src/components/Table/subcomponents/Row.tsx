@@ -50,7 +50,6 @@ const Row = (props: Props) => {
       )
     ) {
       showErrorView(true);
-      console.log(downloadError);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [downloadError]);
