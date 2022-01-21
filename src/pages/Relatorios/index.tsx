@@ -46,6 +46,7 @@ const Documentos = () => {
   const [openFilters, setOpenFilters] = useState(false);
   const arquivosByTipo = useAppSelector((state) => state.arquivoUpload.data);
   const arquivosState = useAppSelector((state) => state.arquivoUpload.state);
+  const getError = useAppSelector((state) => state.arquivoUpload.error);
   const file = useAppSelector((state) => state.arquivoUpload.file);
   const [filtros, setFiltros] =
     useState<FiltrosRelatorios>(defaultValuesFiltros);
@@ -257,7 +258,7 @@ const Documentos = () => {
               <div className="unfound">
                 <UncontrolledLottie />
                 <Typography variant="h5">
-                  NÃO FORAM ENCONTRADOS REGISTROS
+                  {getError ? getError : 'NÃO FORAM ENCONTRADOS REGISTROS'}
                 </Typography>
               </div>
             ) : (
