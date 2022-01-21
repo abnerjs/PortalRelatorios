@@ -57,6 +57,7 @@ const Gerenciamento = () => {
   const arquivosByTipo = useAppSelector((state) => state.arquivoUpload.data);
   const arquivosState = useAppSelector((state) => state.arquivoUpload.state);
   const file = useAppSelector((state) => state.arquivoUpload.file);
+  const getError = useAppSelector((state) => state.arquivoUpload.error);
   const [filtros, setFiltros] =
     useState<FiltrosRelatorios>(defaultValuesFiltros);
   const deleteState = useAppSelector(
@@ -237,7 +238,7 @@ const Gerenciamento = () => {
               <div className="unfound">
                 <UncontrolledLottie />
                 <Typography variant="h5">
-                  NÃO FORAM ENCONTRADOS REGISTROS
+                  {getError ? getError : 'NÃO FORAM ENCONTRADOS REGISTROS'}
                 </Typography>
               </div>
             ) : (

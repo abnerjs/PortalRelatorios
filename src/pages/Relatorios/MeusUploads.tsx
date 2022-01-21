@@ -46,6 +46,7 @@ const MeusUploads = () => {
   const [openFilters, setOpenFilters] = useState(false);
   const arquivosByTipo = useAppSelector((state) => state.arquivoUpload.data);
   const arquivosState = useAppSelector((state) => state.arquivoUpload.state);
+  const getError = useAppSelector((state) => state.arquivoUpload.error);
   const file = useAppSelector((state) => state.arquivoUpload.file);
   const deleteState = useAppSelector(
     (state) => state.arquivoUpload.deleteState
@@ -231,7 +232,7 @@ const MeusUploads = () => {
               <div className="unfound">
                 <UncontrolledLottie />
                 <Typography variant="h5">
-                  NÃO FORAM ENCONTRADOS REGISTROS
+                  {getError ? getError : 'NÃO FORAM ENCONTRADOS REGISTROS'}
                 </Typography>
               </div>
             ) : (
