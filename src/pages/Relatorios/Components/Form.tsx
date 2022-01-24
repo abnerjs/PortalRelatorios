@@ -38,7 +38,6 @@ import { fornecedoresGetFilterRequest } from 'src/store/ducks/fornecedores';
 import { prestadoresGetFilterRequest } from 'src/store/ducks/prestadores';
 import { tipoArquivoGetRequest } from 'src/store/ducks/tipoArquivo';
 import {
-  arquivosGetRequest,
   arquivosUpdateRequest,
   arquivosUploadError,
   arquivosUploadIdle,
@@ -370,8 +369,6 @@ const Form = (props: Props) => {
 
   useEffect(() => {
     if (uploadState === 's') {
-      dispatch(arquivosGetRequest());
-
       setTimeout(() => {
         dispatch(arquivosUploadIdle());
         props.setFile(null);

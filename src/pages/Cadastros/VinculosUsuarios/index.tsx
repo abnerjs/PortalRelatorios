@@ -6,7 +6,7 @@ import React, { useEffect, useState } from 'react';
 import { Icon } from '@iconify/react';
 import { Skeleton, Tab, Tabs, TextField, Typography } from '@mui/material';
 
-import Header from 'src/components/Header';
+import Header from 'src/components/Header/Header';
 import { usePesquisa } from 'src/hooks/usePesquisa';
 import Form from 'src/pages/Cadastros/VinculosUsuarios/Components/Form';
 import Row from 'src/pages/Cadastros/VinculosUsuarios/Components/Row';

@@ -11,7 +11,7 @@ import {
   Badge,
 } from '@mui/material';
 import React, { useEffect, useState } from 'react';
-import Header from 'src/components/Header';
+import Header from 'src/components/Header/Header';
 import Table from 'src/components/Table/Table';
 import { useAppDispatch, useAppSelector } from 'src/store';
 import { Box } from '@mui/system';
@@ -63,6 +63,9 @@ const Gerenciamento = () => {
   const deleteState = useAppSelector(
     (state) => state.arquivoUpload.deleteState
   );
+  const uploadState = useAppSelector(
+    (state) => state.arquivoUpload.uploadState
+  );
 
   useEffect(() => {
     if (deleteState === 's') {
@@ -72,6 +75,14 @@ const Gerenciamento = () => {
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [deleteState]);
+
+  useEffect(() => {
+    if (uploadState === 's') {
+      dispatch(arquivosGetRequest(filtros));
+    }
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [uploadState]);
 
   useEffect(() => {
     dispatch(arquivosGetRequest(filtros));

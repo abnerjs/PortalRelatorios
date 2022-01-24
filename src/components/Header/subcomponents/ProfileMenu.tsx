@@ -25,7 +25,7 @@ import {
   changeUsuarioPasswordIdle,
   changeUsuarioPasswordRequest,
 } from 'src/store/ducks/usuarios';
-import DmCollapseHandler from './DmCollapseHandler/DmCollapseHandler';
+import DmCollapseHandler from '../../DmCollapseHandler/DmCollapseHandler';
 
 interface ProfileMenuProps {
   onLogout?: React.MouseEventHandler<HTMLDivElement> | undefined;
