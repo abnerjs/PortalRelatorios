@@ -16,7 +16,7 @@ import {
   Typography,
 } from '@mui/material';
 
-import Header from 'src/components/Header';
+import Header from 'src/components/Header/Header';
 import Form from 'src/pages/Cadastros/TiposArquivos/Components/Form';
 import Row from 'src/pages/Cadastros/TiposArquivos/Components/Row';
 

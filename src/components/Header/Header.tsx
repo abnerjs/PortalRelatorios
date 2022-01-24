@@ -1,6 +1,6 @@
 import React from 'react';
 import './Header.css';
-import ProfileMenu from './ProfileMenu';
+import ProfileMenu from './subcomponents/ProfileMenu';
 import { Typography } from '@mui/material';
 
 import { useAppDispatch } from 'src/store';

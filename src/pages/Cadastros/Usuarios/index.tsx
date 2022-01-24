@@ -18,7 +18,7 @@ import {
   Typography,
 } from '@mui/material';
 
-import Header from 'src/components/Header';
+import Header from 'src/components/Header/Header';
 import Row from 'src/pages/Cadastros/Usuarios/Components/Row';
 import Form from 'src/pages/Cadastros/Usuarios/Components/Form';
 import { usePesquisa } from 'src/hooks/usePesquisa';

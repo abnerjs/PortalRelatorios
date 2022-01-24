@@ -1,6 +1,6 @@
 import { Card, CardContent, Typography } from '@mui/material';
 import React from 'react';
-import Header from '../components/Header';
+import Header from '../components/Header/Header';
 import Table from 'src/components/Table/Table';
 import './Dashboard.css';
 import { Icon } from '@iconify/react';
