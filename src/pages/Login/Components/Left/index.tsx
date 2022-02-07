@@ -10,7 +10,7 @@ import mobile1 from 'src/assets/carousel/1-mobile.png';
 import mobile2 from 'src/assets/carousel/2-mobile.png';
 import mobile3 from 'src/assets/carousel/3-mobile.png';
 
-import Carousel from 'src/components/Carousel';
+import Carousel from './Carousel/Carousel';
 import { Typography } from '@mui/material';
 
 const Left: React.FC = (props: any) => {

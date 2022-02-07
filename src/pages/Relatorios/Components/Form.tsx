@@ -45,6 +45,10 @@ import {
 } from 'src/store/ducks/relatoriosUpload';
 import { DateRange } from '@mui/lab/DateRangePicker/RangeTypes';
 import DmCollapseHandler from 'src/components/DmCollapseHandler/DmCollapseHandler';
+import DmTextField from 'src/components/DmTextField/DmTextField';
+import DmAutocomplete, {
+  AutocompleteOptions,
+} from 'src/components/DmAutocomplete/DmAutocomplete';
 
 type Props = {
   sectionModalController: number;
@@ -629,16 +633,32 @@ const Form = (props: Props) => {
                   {...autocompleteUniqueProps}
                   options={tiposArquivos}
                   getOptionLabel={(option) => option.desTpArquivo}
-                  renderInput={(params) => (
-                    <TextField
-                      {...params}
+                  renderInput={(params) => {
+                    const { InputProps, ...restParams } = params;
+                    const { startAdornment, ...restInputProps } = InputProps;
+                    return (
+                      <TextField
+                      {...restParams}
                       label="Selecione o tipo de arquivo"
                       placeholder="Procurar"
                       margin="normal"
                       variant="filled"
                       className="secondary"
                       InputProps={{
-                        ...params.InputProps,
+                        ...restInputProps,
+                        startAdornment: (
+                          <div
+                            style={{
+                              maxHeight: 50,
+                              marginTop: 10,
+                              marginBottom: 5,
+                              marginLeft: 20,
+                              overflowY: 'auto',
+                            }}
+                          >
+                            {startAdornment}
+                          </div>
+                        ),
                         disableUnderline: true,
                         inputProps: {
                           ...params.inputProps,
@@ -650,13 +670,16 @@ const Form = (props: Props) => {
                       inputRef={ref}
                       {...rest}
                     />
-                  )}
+                    )
+                  }}
                   value={tipoArquivo}
                   onChange={(_, data) => {
                     clearErrors('idRelTpArquivo');
                     setTipoArquivo(data);
                     setValue('idRelTpArquivo', data?.idRelTpArquivo || null);
                   }}
+                        onFocus={() => setFocusPrest(true)}
+                        onBlur={() => setFocusPrest(false)}
                 />
               )}
             />
@@ -722,26 +745,15 @@ const Form = (props: Props) => {
               name="desObs"
               control={control}
               render={({ field: { ref, value, ...rest }, fieldState }) => (
-                <TextField
-                  id="desObs"
-                  fullWidth
+                <DmTextField
                   label="Observação"
-                  color="primary"
-                  margin="normal"
-                  variant="filled"
-                  className="secondary"
-                  defaultValue={desObsForm}
-                  InputProps={{
-                    disableUnderline: true,
-                    inputProps: {
-                      tabIndex: props.sectionModalController === 1 ? 0 : -1,
-                    },
-                  }}
+                  secondary
+                  tabIndex={props.sectionModalController === 1 ? 0 : -1}
                   error={!!fieldState.error}
                   helperText={fieldState.error?.message}
                   value={value || ''}
-                  inputRef={ref}
-                  {...rest}
+                  ref={ref}
+                  rest={rest}
                 />
               )}
             />
@@ -795,7 +807,7 @@ const Form = (props: Props) => {
                         }}
                         margin="normal"
                         variant="filled"
-                        className="secondary"
+                        className="secondary DmTextField"
                         fullWidth
                         InputProps={{
                           ...params.InputProps,
@@ -866,7 +878,7 @@ const Form = (props: Props) => {
                         }}
                         margin="normal"
                         variant="filled"
-                        className="secondary"
+                        className="secondary DmTextField"
                         fullWidth
                         InputProps={{
                           ...params.InputProps,
@@ -939,7 +951,7 @@ const Form = (props: Props) => {
                           margin="normal"
                           variant="filled"
                           fullWidth
-                          className="secondary"
+                          className="secondary DmTextField"
                           InputProps={{
                             ...startProps.InputProps,
                             disableUnderline: true,
@@ -975,7 +987,7 @@ const Form = (props: Props) => {
                           margin="normal"
                           variant="filled"
                           fullWidth
-                          className="secondary"
+                          className="secondary DmTextField"
                           InputProps={{
                             ...endProps.InputProps,
                             disableUnderline: true,
@@ -1060,7 +1072,7 @@ const Form = (props: Props) => {
                         }}
                         margin="normal"
                         variant="filled"
-                        className="secondary"
+                        className="secondary DmTextField"
                         fullWidth
                         InputProps={{
                           ...params.InputProps,

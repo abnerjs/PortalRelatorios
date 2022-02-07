@@ -13,7 +13,11 @@
   margin-left: 8px;
 }
 
-.MuiInputBase-input {
+.MuiFormControl-root:not(.DmTextField):not(.iconified) .MuiInputBase-input {
+  padding-left: 0 !important;
+}
+
+.MuiFormControl-root.DmTextField .MuiInputBase-input {
   padding-left: 20px !important;
 }
 
@@ -47,9 +51,7 @@
 }
 
 /*BUTTON --------------------------------*/
-.App .MuiButton-root,
-.filter .MuiButton-root,
-.dropfiles .MuiButton-root {
+.MuiButton-root {
   background-color: var(--primaryColor) !important;
   font-size: 16px !important;
   font-weight: var(--extraBold) !important;
@@ -60,27 +62,29 @@
   transition: all ease 0.3s !important;
 }
 
-.App .MuiBox-root .MuiButton-root.Mui-disabled,
-.filter .MuiBox-root .MuiButton-root.Mui-disabled,
-.dropfiles .MuiBox-root .MuiButton-root.Mui-disabled {
+.MuiDialog-container>div.MuiDialog-paperWidthSm .MuiButton-root {
+  background-color: unset !important;
+  font-size: unset !important;
+  font-weight: 600 !important;
+  border-radius: inherit !important;
+  height: unset;
+  box-shadow: unset !important;
+  font-family: unset !important;
+  transition: all ease 0.3s !important;
+}
+
+:not(.MuiDialog-paperWidthSm) .MuiBox-root .MuiButton-root.Mui-disabled {
   color: white !important;
 }
 
-.App .MuiButton-root.errorColor,
-.filter .MuiButton-root.errorColor,
-.dropfiles .MuiButton-root.errorColor {
+:not(.MuiDialog-paperWidthSm) .MuiButton-root.errorColor {
   background-color: var(--errorColor) !important;
 }
 
-.App .MuiButton-root.errorSecondary,
-.filter .MuiButton-root.errorSecondary,
-.dropfiles .MuiButton-root.errorSecondary {
+:not(.MuiDialog-paperWidthSm) .MuiButton-root.errorSecondary {
   background-color: var(--error50) !important;
 }
-
-.App .MuiButton-root.secondary,
-.filter .MuiButton-root.secondary,
-.dropfiles .MuiButton-root.secondary {
+:not(.MuiDialog-paperWidthSm) .MuiButton-root.secondary {
   background-color: var(--primary50) !important;
 }
 
@@ -92,15 +96,11 @@
   transition: all ease 0.3s;
 }
 
-.App .MuiButton-root.success,
-.filter .MuiButton-root.success,
-.dropfiles .MuiButton-root.success {
+:not(.MuiDialog-paperWidthSm) .MuiButton-root.success {
   background-color: #4bb543 !important;
 }
 
-.App .MuiButton-root.tertiary,
-.filter .MuiButton-root.tertiary,
-.dropfiles .MuiButton-root.tertiary {
+:not(.MuiDialog-paperWidthSm) .MuiButton-root.tertiary {
   background-color: transparent !important;
   color: #aaa;
   font-weight: var(--regular) !important;
@@ -109,23 +109,17 @@
   transition: all ease 0.3s;
 }
 
-.App .MuiButton-root.tertiary:hover:not(.Mui-focusVisible):not(.active),
-.filter .MuiButton-root.tertiary:hover:not(.Mui-focusVisible):not(.active),
-.dropfiles .MuiButton-root.tertiary:hover:not(.Mui-focusVisible):not(.active) {
+:not(.MuiDialog-paperWidthSm) .MuiButton-root.tertiary:hover:not(.Mui-focusVisible):not(.active) {
   border-color: var(--primary50) !important;
   color: var(--primary50) !important;
 }
 
-.App .MuiButton-root.tertiary.Mui-focusVisible:not(.active),
-.filter .MuiButton-root.tertiary.Mui-focusVisible:not(.active),
-.dropfiles .MuiButton-root.tertiary.Mui-focusVisible:not(.active) {
+:not(.MuiDialog-paperWidthSm) .MuiButton-root.tertiary.Mui-focusVisible:not(.active) {
   border-color: var(--primary50) !important;
   color: var(--primary50) !important;
 }
 
-.App .MuiButton-root.tertiary.active,
-.filter .MuiButton-root.tertiary.active,
-.dropfiles .MuiButton-root.tertiary.active {
+:not(.MuiDialog-paperWidthSm) .MuiButton-root.tertiary.active {
   background-color: var(--primaryColor) !important;
   color: white !important;
   border: none;
@@ -138,6 +132,14 @@
 .filterButton:hover {
   color: var(--primaryColor);
   background-color: var(--primary50);
+}
+
+.form-buttons {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 20px;
+  margin-top: 20px;
+  transition: all ease 0.2px;
 }
 
 /*CHECKBOX --------------------------------*/

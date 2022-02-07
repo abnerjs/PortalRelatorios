@@ -1,7 +1,6 @@
 import 'src/pages/Usuarios.css';
 import 'src/pages/Relatorios/Styles/index.css';
 import 'src/pages/FormUser.css';
-import 'src/pages/SectionizedTable.css';
 
 import React, { useEffect, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';

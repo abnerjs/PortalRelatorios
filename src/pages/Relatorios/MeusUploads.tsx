@@ -30,6 +30,7 @@ import { DateRange } from '@mui/lab/DateRangePicker/RangeTypes';
 import { prestadoresGetFilterRequest } from 'src/store/ducks/prestadores';
 import { fornecedoresGetFilterRequest } from 'src/store/ducks/fornecedores';
 import UncontrolledLottie from 'src/components/UncontrolledLottie';
+import DmTextField from 'src/components/DmTextField/DmTextField';
 
 export interface FiltrosRelatorios {
   descricao?: string;
@@ -57,12 +58,11 @@ const MeusUploads = () => {
 
   useEffect(() => {
     if (deleteState === 's') {
-
       dispatch(arquivosGetRequest(filtros));
       dispatch(arquivosDeleteIdle());
     }
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [deleteState]);
 
   useEffect(() => {
@@ -70,7 +70,7 @@ const MeusUploads = () => {
       dispatch(arquivosGetRequest(filtros));
     }
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [uploadState]);
 
   const defaultValuesFiltros: FiltrosRelatorios = {
@@ -111,7 +111,7 @@ const MeusUploads = () => {
     return () => {
       dispatch(arquivosDownloadIdle());
     };
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [file]);
 
   return (
@@ -156,32 +156,23 @@ const MeusUploads = () => {
           <ModalUpload open={open} setOpen={setOpen} />
 
           <div className="filters">
-            <TextField
-              id="desNome"
+            <DmTextField
               label="Nome do arquivo"
-              color="primary"
-              margin="none"
-              variant="filled"
-              className="smaller"
               size="small"
-              fullWidth
-              sx={{
-                mr: 2,
-              }}
-              InputProps={{
-                disableUnderline: true,
-              }}
-              onChange={(e) => {
+              onChange={(e: any) => {
                 setFiltros({
                   ...filtros,
                   descricao: e.target.value,
                 });
               }}
+              sx={{
+                mr: 2,
+              }}
             />
             <IconButton
               className="filterButton"
-              aria-label="add to shopping cart"
               onClick={() => setOpenFilters(true)}
+              style={{ width: 45, height: 45 }}
             >
               <Badge
                 color="primary"

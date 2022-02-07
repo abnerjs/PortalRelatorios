@@ -26,6 +26,7 @@ import {
   changeUsuarioPasswordRequest,
 } from 'src/store/ducks/usuarios';
 import DmCollapseHandler from '../../DmCollapseHandler/DmCollapseHandler';
+import DmTextField from 'src/components/DmTextField/DmTextField';
 
 interface ProfileMenuProps {
   onLogout?: React.MouseEventHandler<HTMLDivElement> | undefined;
@@ -247,27 +248,17 @@ const ProfileMenu = (props: ProfileMenuProps) => {
                 name="desLogin"
                 control={control}
                 render={({ field: { ref, onChange, ...rest }, fieldState }) => (
-                  <TextField
-                    id="desLogin"
-                    fullWidth
+                  <DmTextField
                     label="Nome de usuário"
-                    placeholder="Ex.: joao_silva"
-                    className="secondary"
-                    margin="dense"
-                    variant="filled"
-                    InputProps={{
-                      disableUnderline: true,
-                      inputProps: {
-                        maxLength: 200,
-                      },
-                    }}
+                    secondary
+                    inputProps={{maxLenght: 200}}
                     error={!!fieldState.error}
-                    helperText={fieldState.error?.message}
-                    onChange={(event) =>
+                    onChange={(event: any) =>
                       onChange(event.target.value.toLowerCase())
                     }
-                    inputRef={ref}
-                    {...rest}
+                    helperText={fieldState.error?.message}
+                    ref={ref}
+                    rest={rest}
                   />
                 )}
               />
@@ -276,24 +267,15 @@ const ProfileMenu = (props: ProfileMenuProps) => {
                 name="desSenha"
                 control={control}
                 render={({ field: { ref, ...rest }, fieldState }) => (
-                  <TextField
-                    id="desSenha"
-                    fullWidth
+                  <DmTextField
                     label="Senha atual"
-                    type="password"
-                    className="secondary"
-                    margin="dense"
-                    variant="filled"
-                    InputProps={{
-                      disableUnderline: true,
-                      inputProps: {
-                        maxLength: 128,
-                      },
-                    }}
+                    secondary
+                    inputProps={{maxLenght: 128}}
                     error={!!fieldState.error}
+                    type="password"
                     helperText={fieldState.error?.message}
-                    inputRef={ref}
-                    {...rest}
+                    ref={ref}
+                    rest={rest}
                   />
                 )}
               />
@@ -302,24 +284,15 @@ const ProfileMenu = (props: ProfileMenuProps) => {
                 name="desNovaSenha"
                 control={control}
                 render={({ field: { ref, ...rest }, fieldState }) => (
-                  <TextField
-                    id="desNovaSenha"
-                    fullWidth
+                  <DmTextField
                     label="Nova senha"
-                    type="password"
-                    className="secondary"
-                    margin="dense"
-                    variant="filled"
-                    InputProps={{
-                      disableUnderline: true,
-                      inputProps: {
-                        maxLength: 128,
-                      },
-                    }}
+                    secondary
+                    inputProps={{maxLenght: 128}}
                     error={!!fieldState.error}
+                    type="password"
                     helperText={fieldState.error?.message}
-                    inputRef={ref}
-                    {...rest}
+                    ref={ref}
+                    rest={rest}
                   />
                 )}
               />
@@ -328,29 +301,20 @@ const ProfileMenu = (props: ProfileMenuProps) => {
                 name="desConfirmaNovaSenha"
                 control={control}
                 render={({ field: { ref, ...rest }, fieldState }) => (
-                  <TextField
-                    id="desConfirmaNovaSenha"
-                    fullWidth
+                  <DmTextField
                     label="Confirmar nova senha"
-                    type="password"
-                    className="secondary"
-                    margin="dense"
-                    variant="filled"
-                    InputProps={{
-                      disableUnderline: true,
-                      inputProps: {
-                        maxLength: 128,
-                      },
-                    }}
+                    secondary
+                    inputProps={{maxLenght: 128}}
                     error={!!fieldState.error}
+                    type="password"
                     helperText={fieldState.error?.message}
-                    inputRef={ref}
-                    {...rest}
+                    ref={ref}
+                    rest={rest}
                   />
                 )}
               />
-              <Stack direction="row" sx={{ mt: 2 }}>
-                <Button
+              <div className="form-buttons">
+              <Button
                   onClick={() => {
                     onCancel();
                     handleClose();
@@ -361,7 +325,6 @@ const ProfileMenu = (props: ProfileMenuProps) => {
                 >
                   CANCELAR
                 </Button>
-                <Box sx={{ mx: '6px' }} />
                 <Box sx={{ m: 0, position: 'relative', width: '100%' }}>
                   <Button
                     variant="contained"
@@ -395,7 +358,7 @@ const ProfileMenu = (props: ProfileMenuProps) => {
                     />
                   )}
                 </Box>
-              </Stack>
+              </div>
             </form>
           </Box>
         </Fade>

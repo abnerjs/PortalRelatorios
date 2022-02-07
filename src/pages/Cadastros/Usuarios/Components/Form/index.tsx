@@ -24,6 +24,7 @@ import {
 import { Usuario } from 'src/store/ducks/usuarios/types';
 import { getInitialsFromString } from 'src/utils/StringUtils';
 import DmCollapseHandler from 'src/components/DmCollapseHandler/DmCollapseHandler';
+import DmTextField from 'src/components/DmTextField/DmTextField';
 
 const maskCpfCnpj = (value: string) => {
   value = value.replace(/\D/g, '');
@@ -208,6 +209,7 @@ const Form: React.FC<FormProps> = ({
       onSubmit={handleSubmit(onSubmit)}
       className={`FormUser${isFormOpened ? '' : ' invi'}`}
     >
+      <div className="formFields">
       <DmCollapseHandler
         error={errors}
         isErrorCollapseOpened={isErrorCollapseOpened}
@@ -229,29 +231,20 @@ const Form: React.FC<FormProps> = ({
             name="desNome"
             control={control}
             render={({ field: { ref, onChange, ...rest }, fieldState }) => (
-              <TextField
-                id="desNome"
-                fullWidth
+              <DmTextField
                 label="Nome completo"
-                placeholder="Ex.: João da Silva"
-                color="primary"
-                margin="dense"
-                variant="filled"
-                InputProps={{
-                  disableUnderline: true,
-                  inputProps: {
-                    tabIndex: isFormOpened ? 0 : -1,
-                    maxLength: 100,
-                  },
-                }}
+                tabIndex={isFormOpened ? 0 : -1}
                 error={!!fieldState.error}
                 helperText={fieldState.error?.message}
-                onChange={(event) => {
+                ref={ref}
+                rest={rest}
+                onChange={(event: any) => {
                   onChange(event);
                   handleInitials(event.target.value);
                 }}
-                inputRef={ref}
-                {...rest}
+                inputProps={{
+                  maxLength: 100,
+                }}
               />
             )}
           />
@@ -262,27 +255,19 @@ const Form: React.FC<FormProps> = ({
               field: { value, ref, onChange, ...rest },
               fieldState,
             }) => (
-              <TextField
-                id="cpfCnpjExterno"
-                fullWidth
+              <DmTextField
                 label={flgTipo === 'E' ? 'CPF/CNPJ' : 'CPF'}
-                placeholder="Ex.: 123.456.789-09"
-                color="primary"
-                margin="dense"
-                variant="filled"
-                InputProps={{
-                  disableUnderline: true,
-                  inputProps: {
-                    tabIndex: isFormOpened ? 0 : -1,
-                    maxLength: flgTipo === 'E' ? 18 : 14,
-                  },
-                }}
+                tabIndex={isFormOpened ? 0 : -1}
                 error={!!fieldState.error}
                 helperText={fieldState.error?.message || 'Opcional'}
-                value={value || ''}
-                onChange={(event) => onChange(maskCpfCnpj(event.target.value))}
-                inputRef={ref}
-                {...rest}
+                ref={ref}
+                rest={rest}
+                onChange={(event: any) =>
+                  onChange(maskCpfCnpj(event.target.value))
+                }
+                inputProps={{
+                  maxLength: flgTipo === 'E' ? 18 : 14,
+                }}
               />
             )}
           />
@@ -292,24 +277,18 @@ const Form: React.FC<FormProps> = ({
         name="codColaborador"
         control={control}
         render={({ field: { value, ref, ...rest }, fieldState }) => (
-          <TextField
-            id="codColaborador"
-            fullWidth
+          <DmTextField
             label="Matrícula"
-            placeholder="Ex.: 1234"
-            style={{ display: flgTipo === 'I' ? 'block' : 'none' }}
-            color="primary"
-            margin="dense"
-            variant="filled"
-            InputProps={{
-              disableUnderline: true,
-              inputProps: { tabIndex: isFormOpened ? 0 : -1, maxLength: 10 },
-            }}
+            tabIndex={isFormOpened ? 0 : -1}
             error={!!fieldState.error}
             helperText={fieldState.error?.message || 'Opcional'}
+            ref={ref}
+            rest={rest}
+            inputProps={{
+              maxLength: 10,
+            }}
+            style={{ display: flgTipo === 'I' ? 'flex' : 'none' }}
             value={value || ''}
-            inputRef={ref}
-            {...rest}
           />
         )}
       />
@@ -317,23 +296,18 @@ const Form: React.FC<FormProps> = ({
         name="desEmail"
         control={control}
         render={({ field: { ref, value, ...rest }, fieldState }) => (
-          <TextField
-            id="desEmail"
-            fullWidth
+          <DmTextField
             label="E-mail"
-            placeholder="Ex.: joao@email.com"
-            color="primary"
-            margin="dense"
-            variant="filled"
-            InputProps={{
-              disableUnderline: true,
-              inputProps: { tabIndex: isFormOpened ? 0 : -1, maxLength: 200 },
-            }}
+            type="email"
+            tabIndex={isFormOpened ? 0 : -1}
             error={!!fieldState.error}
             helperText={fieldState.error?.message || 'Opcional'}
+            ref={ref}
+            rest={rest}
+            inputProps={{
+              maxLength: 200,
+            }}
             value={value || ''}
-            inputRef={ref}
-            {...rest}
           />
         )}
       />
@@ -404,23 +378,16 @@ const Form: React.FC<FormProps> = ({
         name="desLogin"
         control={control}
         render={({ field: { ref, onChange, ...rest }, fieldState }) => (
-          <TextField
-            id="desLogin"
-            fullWidth
+          <DmTextField
             label="Nome de usuário"
-            placeholder="Ex.: joao_silva"
-            color="primary"
-            margin="dense"
-            variant="filled"
-            InputProps={{
-              disableUnderline: true,
-              inputProps: { tabIndex: isFormOpened ? 0 : -1, maxLength: 200 },
-            }}
+            tabIndex={isFormOpened ? 0 : -1}
             error={!!fieldState.error}
-            helperText={fieldState.error?.message}
-            onChange={(event) => onChange(event.target.value.toLowerCase())}
-            inputRef={ref}
-            {...rest}
+            ref={ref}
+            rest={rest}
+            onChange={(event: any) => onChange(event.target.value.toLowerCase())}
+            inputProps={{
+              maxLength: 200,
+            }}
           />
         )}
       />
@@ -428,25 +395,20 @@ const Form: React.FC<FormProps> = ({
         name="desSenha"
         control={control}
         render={({ field: { ref, ...rest }, fieldState }) => (
-          <TextField
-            id="desSenha"
-            fullWidth
+          <DmTextField
             label="Senha"
             type="password"
-            color="primary"
-            margin="dense"
-            variant="filled"
-            InputProps={{
-              disableUnderline: true,
-              inputProps: { tabIndex: isFormOpened ? 0 : -1, maxLength: 128 },
-            }}
+            tabIndex={isFormOpened ? 0 : -1}
             error={!!fieldState.error}
-            helperText={fieldState.error?.message}
-            inputRef={ref}
-            {...rest}
+            ref={ref}
+            rest={rest}
+            inputProps={{
+              maxLength: 128,
+            }}
           />
         )}
       />
+      </div>
       <div className="buttons">
         <Button
           onClick={() => {

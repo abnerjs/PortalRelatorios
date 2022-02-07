@@ -1,7 +1,6 @@
 import 'src/pages/Usuarios.css';
 import 'src/pages/Relatorios/Styles/index.css';
 import 'src/pages/FormUser.css';
-import 'src/pages/SectionizedTable.css';
 
 import React, { useEffect, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
@@ -12,7 +11,6 @@ import { format } from 'date-fns';
 import brLocale from 'date-fns/locale/pt-BR';
 import { yupResolver } from '@hookform/resolvers/yup';
 import {
-  Autocomplete,
   Box,
   Button,
   CircularProgress,
@@ -25,7 +23,6 @@ import LocalizationProvider from '@mui/lab/LocalizationProvider';
 
 import Header from 'src/components/Header/Header';
 import { useAppDispatch, useAppSelector } from 'src/store';
-import { TipoFiltro } from 'src/store/ducks/base/types';
 import { fazendasGetFilterRequest } from 'src/store/ducks/fazendas';
 import { usuariosFornecedoresGetFilterRequest } from 'src/store/ducks/usuariosFornecedores';
 import {
@@ -33,6 +30,9 @@ import {
   relatoriosDownloadRequest,
 } from 'src/store/ducks/relatorios';
 import DmCollapseHandler from 'src/components/DmCollapseHandler/DmCollapseHandler';
+import DmAutocomplete, {
+  AutocompleteOptions,
+} from 'src/components/DmAutocomplete/DmAutocomplete';
 
 interface FormProps {
   dtaInicio: Date | null;
@@ -67,12 +67,41 @@ const defaultValues: FormProps = {
 
 const RelForCarregamento = () => {
   const [date, setDate] = useState<DateRange<Date>>([null, null]);
-  const [fazendas, setFazendas] = useState<TipoFiltro[]>([]);
-  const [fornecedores, setFornecedores] = useState<TipoFiltro[]>([]);
+  const [fazendas, setFazendas] = useState<AutocompleteOptions[]>([]);
+  const [fornecedores, setFornecedores] = useState<AutocompleteOptions[]>([]);
 
   const dispatch = useAppDispatch();
   const forn = useAppSelector((state) => state.usuariosFornecedores.filterList);
   const faz = useAppSelector((state) => state.fazendas.filterList);
+  const [fazendasOptions, setFazendasOptions] = useState<AutocompleteOptions[]>(
+    []
+  );
+  const [fornecedoresOptions, setFornecedoresOptions] = useState<
+    AutocompleteOptions[]
+  >([]);
+
+  useEffect(() => {
+    const x = forn.map((item) => {
+      return {
+        optionLabel: item.descricao,
+        value: item.codigo,
+        codigo: item.codigo,
+      };
+    });
+    setFornecedoresOptions(x);
+  }, [forn]);
+
+  useEffect(() => {
+    const x = faz.map((item) => {
+      return {
+        optionLabel: item.descricao,
+        value: item.codigo,
+        codigo: item.codigo,
+      };
+    });
+    setFazendasOptions(x);
+  }, [faz]);
+
   const pdf = useAppSelector((state) => state.relatorios.data);
   const pdfError = useAppSelector((state) => state.relatorios.error);
   const isLoading = useAppSelector((state) => state.relatorios.loading);
@@ -120,7 +149,7 @@ const RelForCarregamento = () => {
 
   useEffect(() => {
     if (fornecedores.length !== 0) {
-      const fornec = fornecedores.map((x) => x.codigo).join(',');
+      const fornec = fornecedores.map((x) => x.value).join(',');
       const query = `?lstCodFornecedores=${fornec}`;
 
       dispatch(fazendasGetFilterRequest(query));
@@ -170,6 +199,7 @@ const RelForCarregamento = () => {
                       margin="dense"
                       variant="filled"
                       fullWidth
+                      className="DmTextField"
                       InputProps={{ disableUnderline: true }}
                       inputProps={{
                         ...startProps.inputProps,
@@ -184,6 +214,7 @@ const RelForCarregamento = () => {
                       margin="dense"
                       variant="filled"
                       fullWidth
+                      className="DmTextField"
                       InputProps={{ disableUnderline: true }}
                       inputProps={{
                         ...endProps.inputProps,
@@ -196,89 +227,41 @@ const RelForCarregamento = () => {
                 )}
               />
             </LocalizationProvider>
-            <Autocomplete
+            <DmAutocomplete
               multiple
-              fullWidth
-              clearOnBlur
-              blurOnSelect
-              selectOnFocus
-              disableListWrap
-              handleHomeEndKeys
-              disableCloseOnSelect={true}
-              filterSelectedOptions
-              openText="Abrir"
-              closeText="Fechar"
-              clearText="Limpar"
-              loadingText="Carregando"
-              noOptionsText="Sem opções"
-              options={forn}
-              limitTags={1}
-              ChipProps={{ size: `small` }}
-              getOptionLabel={(option) => option.descricao}
-              renderInput={(params) => (
-                <TextField
-                  {...params}
-                  label="Fornecedores"
-                  margin="dense"
-                  variant="filled"
-                  InputProps={{ ...params.InputProps, disableUnderline: true }}
-                  error={!!formState.errors.lstCodFornecedores}
-                  helperText={
-                    formState.errors.lstCodFornecedores?.message || 'Opcional'
-                  }
-                />
-              )}
+              options={fornecedoresOptions}
               value={fornecedores}
-              onChange={(_, data) => {
+              onChange={(_: any, data: AutocompleteOptions[]) => {
                 setValue(
                   'lstCodFornecedores',
-                  data.map((x) => x.codigo).join(',')
+                  data.map((x) => x.value).join(',')
                 );
 
                 setFornecedores(data);
               }}
+              label="Fornecedores"
+              error={!!formState.errors.lstCodFornecedores}
+              helperText={
+                formState.errors.lstCodFornecedores?.message || 'Opcional'
+              }
             />
-            <Autocomplete
+            <DmAutocomplete
               multiple
-              fullWidth
-              clearOnBlur
-              blurOnSelect
-              selectOnFocus
-              disableListWrap
-              handleHomeEndKeys
-              disableCloseOnSelect={true}
-              filterSelectedOptions
-              openText="Abrir"
-              closeText="Fechar"
-              clearText="Limpar"
-              loadingText="Carregando"
-              noOptionsText="Sem opções"
-              options={fornecedores.length === 0 ? [] : faz}
-              limitTags={1}
-              ChipProps={{ size: `small` }}
-              getOptionLabel={(option) => option.descricao}
-              renderInput={(params) => (
-                <TextField
-                  {...params}
-                  label="Fazendas"
-                  margin="dense"
-                  variant="filled"
-                  InputProps={{ ...params.InputProps, disableUnderline: true }}
-                  error={!!formState.errors.lstCodFazendas}
-                  helperText={
-                    formState.errors.lstCodFazendas?.message
-                      ? formState.errors.lstCodFazendas.message
-                      : fornecedores.length === 0
-                      ? 'Opcional'
-                      : undefined
-                  }
-                />
-              )}
+              options={fazendasOptions.length === 0 ? [] : fazendasOptions}
               value={fazendas}
-              onChange={(_, data) => {
-                setValue('lstCodFazendas', data.map((x) => x.codigo).join(','));
+              onChange={(_: any, data: AutocompleteOptions[]) => {
+                setValue('lstCodFazendas', data.map((x) => x.value).join(','));
                 setFazendas(data);
               }}
+              label="Fazendas"
+              error={!!formState.errors.lstCodFazendas}
+              helperText={
+                formState.errors.lstCodFazendas?.message
+                  ? formState.errors.lstCodFazendas.message
+                  : fornecedores.length === 0
+                  ? 'Opcional'
+                  : undefined
+              }
             />
             <div className="buttons">
               <Button
