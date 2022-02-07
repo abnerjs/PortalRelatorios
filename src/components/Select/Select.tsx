@@ -4,7 +4,6 @@ import React, { useRef, useState } from 'react';
 import { ReactNode } from 'react';
 import useOutsideClick from 'src/hooks/useOutsideClick';
 import './Select.css';
-import SelectButton from './SelectButton';
 
 type Props = {
   options?: string[];
@@ -101,12 +100,20 @@ const Select: React.FC<Props> = (props: Props) => {
             </div>
 
             <div className="newprofile">
-              <SelectButton
-                tabIndex={props.tabIndex}
-                active={active}
-                content="Novo perfil"
-                onclick={active ? setFormActive : () => {}}
-              />
+            <Button
+              onClick={active ? () => {setFormActive(true)} : () => {}}
+              variant="contained"
+              className={`tertiary`}
+              startIcon={
+                <Icon
+                  icon="fluent:add-16-regular"
+                  width={25}
+                  className="icon"
+                />
+              }
+            >
+              NOVO PERFIL
+            </Button>
             </div>
           </div>
           <div

@@ -1,6 +1,7 @@
 import 'src/pages/Usuarios.css';
 import 'src/pages/FormUser.css';
 import 'src/pages/SectionizedTable.css';
+import 'src/pages/ModalDelete.css';
 
 import React, { useEffect, useState } from 'react';
 import { Icon } from '@iconify/react';

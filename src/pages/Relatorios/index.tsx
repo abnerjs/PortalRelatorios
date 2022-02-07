@@ -29,6 +29,7 @@ import { FiltrosRelatorios } from './Gerenciamento';
 import { fornecedoresGetFilterRequest } from 'src/store/ducks/fornecedores';
 import { prestadoresGetFilterRequest } from 'src/store/ducks/prestadores';
 import UncontrolledLottie from 'src/components/UncontrolledLottie';
+import DmTextField from 'src/components/DmTextField/DmTextField';
 
 const defaultValuesFiltros: FiltrosRelatorios = {
   descricao: '',
@@ -74,7 +75,7 @@ const Documentos = () => {
       dispatch(arquivosGetRequest(filtros));
     }
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [uploadState]);
 
   useEffect(() => {
@@ -118,7 +119,7 @@ const Documentos = () => {
     return () => {
       dispatch(arquivosDownloadIdle());
     };
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [file]);
 
   function getObjetos(flgFiltro: string): Array<LinkProps> {
@@ -184,32 +185,23 @@ const Documentos = () => {
           <ModalUpload open={open} setOpen={setOpen} />
 
           <div className="filters">
-            <TextField
-              id="desNome"
+            <DmTextField
               label="Nome do arquivo"
-              color="primary"
-              margin="none"
-              variant="filled"
-              className="smaller"
               size="small"
-              fullWidth
-              sx={{
-                mr: 2,
-              }}
-              InputProps={{
-                disableUnderline: true,
-              }}
-              onChange={(e) => {
+              onChange={(e: any) => {
                 setFiltros({
                   ...filtros,
                   descricao: e.target.value,
                 });
               }}
+              sx={{
+                mr: 2,
+              }}
             />
             <IconButton
               className="filterButton"
-              aria-label="add to shopping cart"
               onClick={() => setOpenFilters(true)}
+              style={{ width: 45, height: 45 }}
             >
               <Badge
                 color="primary"
@@ -249,10 +241,18 @@ const Documentos = () => {
         >
           <div className="column">
             {fornecedores.length !== 0 && (
-              <Table arr={fornecedores} title="Para fornecedores" tableIndex={-1} />
+              <Table
+                arr={fornecedores}
+                title="Para fornecedores"
+                tableIndex={-1}
+              />
             )}
             {prestadores.length !== 0 && (
-              <Table arr={prestadores} title="Para prestadores" tableIndex={-1} />
+              <Table
+                arr={prestadores}
+                title="Para prestadores"
+                tableIndex={-1}
+              />
             )}
           </div>
           <div

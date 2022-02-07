@@ -1,6 +1,7 @@
 import 'src/pages/Usuarios.css';
 import 'src/pages/FormUser.css';
 import 'src/pages/SectionizedTable.css';
+import 'src/pages/ModalDelete.css';
 
 import React, { useEffect, useState } from 'react';
 
@@ -240,9 +241,25 @@ const Form: React.FC<FormProps> = ({
           <TextField
             {...params}
             label="Fornecedores"
-            placeholder="Pesquisar..."
+            className="DmTextField"
             variant="filled"
-            InputProps={{ ...params.InputProps, disableUnderline: true }}
+            InputProps={{
+              ...params.InputProps,
+              disableUnderline: true,
+              startAdornment: (
+                <div
+                  style={{
+                    maxHeight: 50,
+                    marginTop: 10,
+                    marginBottom: 5,
+                    marginLeft: 20,
+                    overflowY: 'auto',
+                  }}
+                >
+                  {params.InputProps.startAdornment}
+                </div>
+              ),
+            }}
             InputLabelProps={{ shrink: undefined }}
           />
         )}

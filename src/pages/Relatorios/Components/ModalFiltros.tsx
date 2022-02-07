@@ -349,7 +349,7 @@ const ModalUpload = (props: Props) => {
                     margin="none"
                     variant="filled"
                     fullWidth
-                    className="secondary"
+                    className="secondary DmTextField"
                     InputProps={{
                       ...startProps.InputProps,
                       disableUnderline: true,
@@ -365,7 +365,7 @@ const ModalUpload = (props: Props) => {
                     margin="none"
                     variant="filled"
                     fullWidth
-                    className="secondary"
+                    className="secondary DmTextField"
                     InputProps={{
                       ...endProps.InputProps,
                       disableUnderline: true,
@@ -407,7 +407,7 @@ const ModalUpload = (props: Props) => {
                     margin="none"
                     variant="filled"
                     fullWidth
-                    className="secondary"
+                    className="secondary DmTextField"
                     InputProps={{
                       ...startProps.InputProps,
                       disableUnderline: true,
@@ -423,7 +423,7 @@ const ModalUpload = (props: Props) => {
                     margin="none"
                     variant="filled"
                     fullWidth
-                    className="secondary"
+                    className="secondary DmTextField"
                     InputProps={{
                       ...endProps.InputProps,
                       disableUnderline: true,

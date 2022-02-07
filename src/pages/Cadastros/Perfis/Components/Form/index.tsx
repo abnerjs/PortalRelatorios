@@ -1,6 +1,7 @@
 import 'src/pages/Usuarios.css';
 import 'src/pages/FormUser.css';
 import 'src/pages/SectionizedTable.css';
+import 'src/pages/ModalDelete.css';
 
 import React, { useEffect, useState } from 'react';
 import { SubmitHandler, Controller, useForm } from 'react-hook-form';
@@ -22,6 +23,7 @@ import { objetosGetFilterRequest } from 'src/store/ducks/objetos';
 import { CircularProgress } from '@mui/material';
 import { Box } from '@mui/system';
 import DmCollapseHandler from 'src/components/DmCollapseHandler/DmCollapseHandler';
+import DmTextField from 'src/components/DmTextField/DmTextField';
 
 interface FormProps {
   data: Perfil | null;
@@ -83,47 +85,40 @@ const Form: React.FC<FormProps> = ({ data, isFormOpened }: FormProps) => {
       onSubmit={handleSubmit(onSubmit)}
       className={`FormUser${isFormOpened ? '' : ' invi'}`}
     >
-      <DmCollapseHandler
-        error={errors}
-        isErrorCollapseOpened={isErrorCollapseOpened}
-        setErrorCollapseOpened={setErrorCollapseOpened}
-      />
-      <input type="hidden" {...register('idRelPerfil')} />
-      <Controller
-        name="desPerfil"
-        control={control}
-        render={({ field: { ref, ...rest }, fieldState }) => (
-          <TextField
-            id="desPerfil"
-            fullWidth
-            label="Descrição do perfil"
-            placeholder="Ex.: Acesso aos relatórios"
-            color="primary"
-            margin="normal"
-            variant="filled"
-            InputProps={{
-              disableUnderline: true,
-              inputProps: { tabIndex: isFormOpened ? 0 : -1 },
-            }}
-            error={!!fieldState.error}
-            helperText={fieldState.error?.message}
-            inputRef={ref}
-            {...rest}
-          />
-        )}
-      />
-      <Controller
-        name="lstPerfisObjetos"
-        control={control}
-        render={({ field }) => (
-          <InputSwitch
-            options={objetos}
-            value={field.value}
-            onChange={(event) => field.onChange(event)}
-            isFormOpened={isFormOpened}
-          />
-        )}
-      />
+      <div className="formFields">
+        <DmCollapseHandler
+          error={errors}
+          isErrorCollapseOpened={isErrorCollapseOpened}
+          setErrorCollapseOpened={setErrorCollapseOpened}
+        />
+        <input type="hidden" {...register('idRelPerfil')} />
+        <Controller
+          name="desPerfil"
+          control={control}
+          render={({ field: { ref, ...rest }, fieldState }) => (
+            <DmTextField
+              label="Descrição do perfil"
+              tabIndex={isFormOpened ? 0 : -1}
+              error={!!fieldState.error}
+              helperText={fieldState.error?.message}
+              ref={ref}
+              rest={rest}
+            />
+          )}
+        />
+        <Controller
+          name="lstPerfisObjetos"
+          control={control}
+          render={({ field }) => (
+            <InputSwitch
+              options={objetos}
+              value={field.value}
+              onChange={(event) => field.onChange(event)}
+              isFormOpened={isFormOpened}
+            />
+          )}
+        />
+      </div>
       <div className="buttons">
         <Button
           variant="contained"

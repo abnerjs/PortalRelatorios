@@ -1,3 +1,5 @@
+import { AutocompleteOptions } from 'src/components/DmAutocomplete/DmAutocomplete';
+
 export type RespostaApi<T> = {
   dados: Array<T>;
   paginacao?: InfoPaginacao;

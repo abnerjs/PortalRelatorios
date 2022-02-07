@@ -1,6 +1,7 @@
 import 'src/pages/Usuarios.css';
 import 'src/pages/FormUser.css';
 import 'src/pages/SectionizedTable.css';
+import 'src/pages/ModalDelete.css';
 
 import React, { useEffect, useState } from 'react';
 import { SubmitHandler, Controller, useForm } from 'react-hook-form';
@@ -23,6 +24,8 @@ import {
 import { Box } from '@mui/system';
 import { TipoArquivo } from 'src/store/ducks/tipoArquivo/types';
 import DmCollapseHandler from 'src/components/DmCollapseHandler/DmCollapseHandler';
+import DmAutocomplete, { AutocompleteOptions } from 'src/components/DmAutocomplete/DmAutocomplete';
+import DmTextField from 'src/components/DmTextField/DmTextField';
 
 interface FormProps {
   data: TipoArquivo | null;
@@ -129,90 +132,47 @@ const Form: React.FC<FormProps> = ({ data, isFormOpened }: FormProps) => {
         setErrorCollapseOpened={setErrorCollapseOpened}
       />
       <input type="hidden" {...register('idRelTpArquivo')} />
+
       <Controller
         name="desTpArquivo"
         control={control}
         render={({ field: { ref, ...rest }, fieldState }) => (
-          <TextField
-            id="desTpArquivo"
-            fullWidth
+          <DmTextField
             label="Descrição do tipo de arquivo"
-            color="primary"
-            margin="normal"
-            variant="filled"
-            InputProps={{
-              disableUnderline: true,
-              inputProps: { tabIndex: isFormOpened ? 0 : -1 },
-            }}
+            tabIndex={isFormOpened ? 0 : -1}
             error={!!fieldState.error}
             helperText={fieldState.error?.message}
-            inputRef={ref}
-            {...rest}
+            ref={ref}
+            rest={rest}
           />
         )}
       />
-      <Autocomplete
-        fullWidth
-        blurOnSelect
-        clearOnBlur
-        selectOnFocus
-        handleHomeEndKeys
-        disableCloseOnSelect
-        filterSelectedOptions
-        openText="Abrir"
-        closeText="Fechar"
-        clearText="Limpar"
-        loadingText="Carregando"
-        noOptionsText="Sem opções"
-        options={referencias}
-        getOptionLabel={(option) => referenciaToStringLabel(option)}
-        renderInput={(params) => {
-          const { InputProps, ...restParams } = params;
-          const { startAdornment, ...restInputProps } = InputProps;
-          return (
-            <TextField
-              {...params}
-              label="Selecione o tipo de referência de datas"
-              margin="dense"
-              variant="filled"
-              InputProps={{
-                ...params.InputProps,
-                disableUnderline: true,
-                inputProps: {
-                  ...params.inputProps,
-                  tabIndex: isFormOpened ? 0 : -1,
-                },
-                startAdornment: (
-                  <div
-                    style={{
-                      maxHeight: 50,
-                      marginTop: 10,
-                      marginBottom: 5,
-                      marginLeft: 8,
-                      overflowY: 'auto',
-                    }}
-                  >
-                    {startAdornment}
-                  </div>
-                ),
-              }}
-              InputLabelProps={{
-                shrink: referencia !== null || focusRef,
-              }}
-              onFocus={() => setFocusRef(true)}
-              onBlur={() => setFocusRef(false)}
-              error={!!formState.errors.flgReferencia}
-              helperText={formState.errors.flgReferencia?.message}
-            />
-          );
-        }}
-        value={referencia}
-        onChange={(_, data) => {
+      <DmAutocomplete
+        options={referencias.map((item) => {
+          return {
+            optionLabel: referenciaToStringLabel(item),
+            codigo: item,
+            value: item,
+          }
+        })}
+        value={(referencia) ?
+          {
+            optionLabel: referenciaToStringLabel(referencia),
+            codigo: referencia,
+            value: referencia,
+          } :
+          null
+        }
+        onChange={(_: any, data: AutocompleteOptions) => {
           clearErrors('flgReferencia');
-          setValue('flgReferencia', data);
-          setReferencia(data);
+          setValue('flgReferencia', data.value);
+          setReferencia(data.value);
         }}
+        label="Selecione o tipo de referência de datas"
+        error={!!formState.errors.flgReferencia}
+        helperText={formState.errors.flgReferencia?.message}
       />
+
       <div className="buttons">
         <Button
           variant="contained"
