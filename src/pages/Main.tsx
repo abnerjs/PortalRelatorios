@@ -3,7 +3,7 @@ import './Main.css';
 import React from 'react';
 import { Route, Switch } from 'react-router';
 
-import Menu from 'src/components/Menu';
+import Menu from 'src/components/Menu/Menu';
 import Dashboard from './Dashboard';
 import Usuarios from './Cadastros/Usuarios';
 import Perfis from './Cadastros/Perfis';
