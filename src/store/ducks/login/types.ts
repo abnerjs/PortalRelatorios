@@ -30,7 +30,7 @@ export interface UserLogin {
 }
 
 export interface Sistema {
-  nomSistema: string;
+  desSistema: string;
   lstTiposObjetos: Array<TipoObjeto>;
 }
 
@@ -39,6 +39,7 @@ export interface TipoObjeto {
   desTipo: string;
   flgMapeado: string;
   lstObjetos: Array<Objeto>;
+  icon?: string;
 }
 
 export interface Objeto {
