@@ -131,7 +131,7 @@ const Documentos = () => {
           tipoObjeto.lstObjetos?.forEach((objeto) => {
             objetos.push({
               name: objeto.desObjeto,
-              linkTo: `/${objeto.nomPagina.toLowerCase()}`,
+              linkTo: objeto.nomPagina.toLowerCase(),
             });
           });
       })
