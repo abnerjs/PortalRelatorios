@@ -35,37 +35,37 @@ const Main = () => {
         <Route path="/tiposarquivos">
           <TiposArquivos />
         </Route>
-        <Route path="/gerenciamento">
+        <Route path="/gerenciarrelatorios">
           <Gerenciamento />
         </Route>
         <Route path="/meusuploads">
           <MeusUploads />
         </Route>
-        <Route path="/vinculos-usuarios">
+        <Route path="/vinculosusuarios">
           <VinculosUsuarios />
         </Route>
-        <Route path="/relatorios">
+        <Route exact path="/relatorios">
           <Relatorios />
         </Route>
-        <Route path="/relpreextrato">
+        <Route path="/relatorios/relpreextrato">
           <RelPreExtrato />
         </Route>
-        <Route path="/relprecombustivel">
+        <Route path="/relatorios/relprecombustivel">
           <RelPreCombustivel />
         </Route>
-        <Route path="/relpreproducao">
+        <Route path="/relatorios/relpreproducao">
           <RelPreProducao />
         </Route>
-        <Route path="/relprerecurso">
+        <Route path="/relatorios/relprerecurso">
           <RelPreRecurso />
         </Route>
-        <Route path="/relforpagamento">
+        <Route path="/relatorios/relforpagamento">
           <RelForPagamento />
         </Route>
-        <Route path="/relforcarregamento">
+        <Route path="/relatorios/relforcarregamento">
           <RelForCarregamento />
         </Route>
-        <Route path="/relforcanaentregue">
+        <Route path="/relatorios/relforcanaentregue">
           <RelForCanaEntregue />
         </Route>
         <Route path="/">

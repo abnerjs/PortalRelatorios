@@ -40,7 +40,7 @@ const conditionalArrayTypeRender = (
             <div className="regname">{doc.name}</div>
           </div>
           <Link
-            to={doc.linkTo}
+            to={'/relatorios/'+ doc.linkTo}
             tabIndex={-1}
             style={{ textDecoration: 'none' }}
           >
