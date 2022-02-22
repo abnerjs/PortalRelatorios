@@ -1,19 +1,50 @@
+
+
+.expand-btn {
+    background-color: #fff !important;
+    width: 30px;
+    height: 30px;
+    margin-top: 120px !important;
+    position: absolute !important;
+    transition: margin ease 0.3s, background-color ease 0.3s, transform ease 0.6s !important;
+    margin-left: 42px !important;
+    z-index: 1202;
+}
+
+.expand-btn.expanse {
+    margin-left: 207px !important;
+    transform: rotateY(180deg);
+}
+
+.expand-btn:hover {
+    background-color: #00000010 !important;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+}
+
 .Menu {
     background-color: #ECECF6;
     width: 60px;
     height: 100vh;
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: flex-start;
     z-index: 1201;
+    transition: all ease 0.3s;
+    overflow: hidden;
+}
+
+.Menu.expanse {
+    width: 250px;
 }
 
 .Menu .logo {
-    width: 60px;
+    width: 100%;
     height: 60px;
     display: flex;
     justify-content: center;
     align-items: center;
+    margin: auto;
     margin-top: 40px;
 }
 
@@ -21,42 +52,83 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    margin-top: 100px;
+    margin-top: 90px;
+    width: 100%;
 }
 
 .menuButton {
-    width: 60px;
+    width: 100%;
     height: 60px;
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
+}
+
+.menuButton .textual {
+    flex: 1;
+    padding-left: 65px;
+    color: #aaa;
+    font-weight: var(--medium);
 }
 
 .menuButton svg {
     font-size: 25px;
     color: #AAA;
+    width: 60px;
+    position: absolute;
 }
 
 .menuButton.active {
     border-right: 2px solid var(--primaryColor);
-    width: 58px;
+    width: calc(100% - 2px);
 }
 
-.menuButton.active svg {
+.menuButton.active:not(.expanded) svg {
     color: var(--primaryColor);
-    margin-left: 2px;
 }
 
-.menuButton:hover:not(.active) svg {
+.menuButton:hover:not(.active):not(.expanded) svg {
     color: var(--primary50);
-    margin-left: 2px;
 }
 
-.menuButton:hover:not(.active) {
+.menuButton:hover:not(.active):not(.expanded) {
     border-right: 2px solid var(--primary50);
-    width: 58px;
+    width: calc(100% - 2px);
 }
 
-.menuButton:hover {
+.menuButton.active:not(.expanded) .textual {
+    color: var(--primaryColor);
+}
+
+.menuButton:hover:not(.active):not(.expanded) .textual {
+    color: var(--primary50);
+}
+
+.menuButton:not(.expanded):hover {
     cursor: pointer;
+}
+
+.menuButton.expanded .textual {
+    color: #555;
+}
+
+.menuButton.expanded svg {
+    color: #555;
+}
+
+.fullWidthList {
+    overflow: hidden;
+    min-width: 250px;
+}
+
+.fullWidthList .itemlist:not(.active) {
+    color: #aaa;
+}
+
+.fullWidthList .itemlist.active {
+    color: var(--primaryColor);
+}
+
+.fullWidthList .itemlist-btn:hover .itemlist:not(.active) {
+    color: var(--primary50) !important;
 }
