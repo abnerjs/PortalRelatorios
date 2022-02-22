@@ -17,7 +17,7 @@ const Dashboard = () => {
         </div>
         <div className="row">
           <div className="cards">
-            <Card elevation={3}>
+            <Card>
               <CardContent>
                 <Icon
                   icon="fluent:document-bullet-list-20-regular"
@@ -27,7 +27,7 @@ const Dashboard = () => {
                 <h2 className="nameReg">Nome do registro</h2>
               </CardContent>
             </Card>
-            <Card elevation={3}>
+            <Card>
               <CardContent>
                 <Icon
                   icon="fluent:document-bullet-list-20-regular"
@@ -37,7 +37,7 @@ const Dashboard = () => {
                 <h2 className="nameReg">Nome do registro só que mais longo</h2>
               </CardContent>
             </Card>
-            <Card elevation={3}>
+            <Card>
               <CardContent>
                 <Icon
                   icon="fluent:document-bullet-list-20-regular"
@@ -47,7 +47,7 @@ const Dashboard = () => {
                 <h2 className="nameReg">Nome do registro</h2>
               </CardContent>
             </Card>
-            <Card elevation={3}>
+            <Card>
               <CardContent>
                 <Icon
                   icon="fluent:document-bullet-list-20-regular"
@@ -57,7 +57,7 @@ const Dashboard = () => {
                 <h2 className="nameReg">Nome do registro</h2>
               </CardContent>
             </Card>
-            <Card elevation={3}>
+            <Card>
               <CardContent>
                 <Icon
                   icon="fluent:document-bullet-list-20-regular"

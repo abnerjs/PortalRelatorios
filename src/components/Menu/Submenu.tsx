@@ -1,12 +1,22 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Box, Drawer, List, ListItem, ListItemText } from '@mui/material';
+import {
+  Box,
+  Collapse,
+  Drawer,
+  List,
+  ListItem,
+  ListItemText,
+  Tooltip,
+} from '@mui/material';
 import { Icon } from '@iconify/react';
 import { Objeto } from 'src/store/ducks/login/types';
 import './Menu.css';
 
 type Props = {
   icon: string;
+  listDescription: string;
+  expanded: boolean;
   list: any;
   index: number;
   submenuIndexActive: number;
@@ -19,13 +29,16 @@ const Submenu = (props: Props) => {
   const location = useLocation();
 
   useEffect(() => {
-    if(props.submenuIndexActive !== props.index) setState(false)
-  }, [props.submenuIndexActive, props.index])
-  
+    if (props.submenuIndexActive !== props.index) setState(false);
+  }, [props.submenuIndexActive, props.index]);
+
+  useEffect(() => {
+    if (props.expanded) setState(false);
+  }, [props.expanded]);
 
   useEffect(() => {
     if (state) props.setSubmenuIndexActive(props.index);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state]);
 
   const list = (array: Array<Objeto>) => (
@@ -47,7 +60,9 @@ const Submenu = (props: Props) => {
               <ListItemText
                 primary={obj.desObjeto}
                 className={
-                  location.pathname === obj.nomPagina.toLowerCase()
+                  location.pathname
+                    .toLowerCase()
+                    .includes(obj.nomPagina.toLowerCase())
                     ? 'active'
                     : ''
                 }
@@ -59,29 +74,83 @@ const Submenu = (props: Props) => {
     </Box>
   );
 
-  const isActiveClassName = (list: Array<Objeto>) => {
+  const fullWidthList = (array: Array<Objeto>, expanded: boolean) => {
+    return (
+      <Collapse in={expanded} className="fullWidthList">
+        <List component="div" disablePadding>
+          {array.map((obj, index) => (
+            <Link
+              to={obj.nomPagina.toLowerCase()}
+              key={`submenu-${index}`}
+              tabIndex={-1}
+              style={{ textDecoration: 'none' }}
+            >
+              <ListItem
+                button
+                key={obj.nomPagina.toLowerCase()}
+                className={`itemlist-btn${
+                  location.pathname
+                    .toLowerCase()
+                    .includes(obj.nomPagina.toLowerCase())
+                    ? ' active'
+                    : ''
+                }`}
+              >
+                <ListItemText
+                  primary={obj.desObjeto}
+                  className={
+                    location.pathname
+                      .toLowerCase()
+                      .includes(obj.nomPagina.toLowerCase())
+                      ? 'itemlist active'
+                      : 'itemlist'
+                  }
+                />
+              </ListItem>
+            </Link>
+          ))}
+        </List>
+      </Collapse>
+    );
+  };
+
+  const isActiveClassName = (list: Array<Objeto>, expanded: boolean) => {
     let aux = false;
+    let str = 'menuButton';
 
     list.forEach((item) => {
-      if(location.pathname.toLowerCase().includes(item.nomPagina.toLowerCase())) aux = true;
-    })
-
-    return (aux) ? 'menuButton active' : 'menuButton';
-  }
+      if (
+        location.pathname.toLowerCase().includes(item.nomPagina.toLowerCase())
+      )
+        aux = true;
+    });
+    if (aux) str += ' active';
+    if (expanded) str += ' expanded';
+    return str;
+  };
 
   return (
     <>
-      <div
-        onClick={() => {
-          setState(!state);
-        }}
-        className={isActiveClassName(props.list)}
+      <Tooltip
+        title={props.listDescription}
+        enterDelay={500}
+        placement="right"
+        disableHoverListener={props.expanded}
       >
-        <Icon icon={props.icon} />
-      </div>
+        <div
+          onClick={() => {
+            setState(!state);
+          }}
+          className={isActiveClassName(props.list, props.expanded)}
+        >
+          <Icon icon={props.icon} />
+          <div className="textual">{props.listDescription}</div>
+        </div>
+      </Tooltip>
+      <div className="items">{fullWidthList(props.list, props.expanded)}</div>
       <Drawer
         anchor="left"
-        open={state}
+        open={state && !props.expanded}
         onClose={() => setState(false)}
         PaperProps={{ style: { justifyContent: 'flex-start' } }}
       >
