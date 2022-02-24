@@ -2,6 +2,7 @@
   display: flex;
   flex-direction: column;
   max-height: 100%;
+  height: 100%;
   transition: all ease 0.5s;
   /*align-items: center;*/
 }
@@ -9,6 +10,13 @@
 .SectionizedTable.formInvi {
   width: 100%;
   margin-left: 32.5%;
+}
+
+.SectionizedTable .MuiTablePagination-root {
+  width: 500px;
+  margin: 10px 30px 0 30px;
+  display: flex;
+  justify-content: center;
 }
 
 .SectionizedTable .tabs {
@@ -32,7 +40,7 @@
 }
 
 .SectionizedTable .rows {
-  height: 100%;
+  flex: 1;
   width: 560px;
   margin-top: 20px;
   overflow: auto;
@@ -173,4 +181,8 @@
 
 .SectionizedTable.fornprestadores .MuiFilledInput-root {
   margin-bottom: 0;
+}
+
+.SectionizedTable .pagination-table {
+  bottom: 40px;
 }
