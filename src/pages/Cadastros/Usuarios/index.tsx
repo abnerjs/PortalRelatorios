@@ -14,7 +14,6 @@ import {
   Modal,
   Skeleton,
   Tab,
-  TablePagination,
   Tabs,
   TextField,
   Typography,
@@ -53,22 +52,6 @@ const Usuarios = () => {
   const { pesquisa, handlePesquisa, handleCustomParameters } = usePesquisa({
     params: [{ key: 'flgTipo', value: 'I' }],
   });
-  const [page, setPage] = React.useState(2);
-  const [rowsPerPage, setRowsPerPage] = React.useState(10);
-
-  const handleChangePage = (
-    event: React.MouseEvent<HTMLButtonElement> | null,
-    newPage: number
-  ) => {
-    setPage(newPage);
-  };
-
-  const handleChangeRowsPerPage = (
-    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
-  };
 
   const dispatch = useAppDispatch();
   const usuarios = useAppSelector((state) => state.usuarios.data);
@@ -301,16 +284,6 @@ const Usuarios = () => {
                     />
                   ))}
             </div>
-            <TablePagination
-              component="div"
-              count={100}
-              page={page}
-              onPageChange={handleChangePage}
-              rowsPerPage={rowsPerPage}
-              labelRowsPerPage="Registros por página:"
-              labelDisplayedRows={function defaultLabelDisplayedRows({ from, to, count }) { return `${from}–${to} de ${count !== -1 ? count : `more than ${to}`}`; }}
-              onRowsPerPageChange={handleChangeRowsPerPage}
-            />
             <Modal
               open={isModalOpen}
               onClose={() => {
