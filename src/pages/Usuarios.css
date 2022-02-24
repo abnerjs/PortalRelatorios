@@ -1,5 +1,5 @@
 .Usuarios {
-    width: 100%;
+    flex: 1;
     height: 100vh;
     background-color: var(--bgColor);
     display: flex;
