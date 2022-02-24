@@ -14,6 +14,7 @@ import {
   Modal,
   Skeleton,
   Tab,
+  TablePagination,
   Tabs,
   TextField,
   Typography,
@@ -67,6 +68,25 @@ const Usuarios = () => {
   );
   const [isErrorCollapseOpened, setErrorCollapseOpened] = useState(false);
   const [isGetErrorCollapseOpened, setGetErrorCollapseOpened] = useState(false);
+
+  /*PAGINACAO */
+  const [page, setPage] = React.useState(2);
+  const [rowsPerPage, setRowsPerPage] = React.useState(10);
+
+  const handleChangePage = (
+    event: React.MouseEvent<HTMLButtonElement> | null,
+    newPage: number
+  ) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
+  /*FIM PAGINACAO */
 
   useEffect(() => {
     dispatch(usuariosCleanError());
@@ -284,6 +304,21 @@ const Usuarios = () => {
                     />
                   ))}
             </div>
+            <TablePagination
+              className="pagination-table"
+              component="div"
+              count={100}
+              page={page}
+              onPageChange={handleChangePage}
+              rowsPerPage={rowsPerPage}
+              labelRowsPerPage="Registros por página:"
+              labelDisplayedRows={function labelRows({ from, to, count }) {
+                return `${from}–${to} de ${
+                  count !== -1 ? count : `mais que ${to}`
+                }`;
+              }}
+              onRowsPerPageChange={handleChangeRowsPerPage}
+            />
             <Modal
               open={isModalOpen}
               onClose={() => {
