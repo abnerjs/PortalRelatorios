@@ -1,19 +1,17 @@
 
-
 .expand-btn {
     background-color: #fff !important;
     width: 30px;
     height: 30px;
-    margin-top: 120px !important;
-    position: absolute !important;
+    margin-top: 30px !important;
     transition: margin ease 0.3s, background-color ease 0.3s, transform ease 0.6s !important;
-    margin-left: 42px !important;
     z-index: 1202;
+    align-self: flex-end !important;
+    transform: translateX(50%);
 }
 
 .expand-btn.expanse {
-    margin-left: 207px !important;
-    transform: rotateY(180deg);
+    transform: rotateY(180deg) translateX(-50%);
 }
 
 .expand-btn:hover {
@@ -31,7 +29,6 @@
     align-items: flex-start;
     z-index: 1201;
     transition: all ease 0.3s;
-    overflow: hidden;
 }
 
 .Menu.expanse {
@@ -51,9 +48,12 @@
 .Menu .links {
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    margin-top: 90px;
+    justify-content: flex-start;
+    margin-top: 30px;
     width: 100%;
+    flex: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
 }
 
 .menuButton {
@@ -66,7 +66,7 @@
 
 .menuButton .textual {
     flex: 1;
-    padding-left: 65px;
+    padding-left: 5px;
     color: #aaa;
     font-weight: var(--medium);
 }
@@ -75,7 +75,11 @@
     font-size: 25px;
     color: #AAA;
     width: 60px;
-    position: absolute;
+    min-width: 60px;
+}
+
+.links .items .MuiList-root .MuiListItem-root .Mui-focusVisible {
+    background-color: black;
 }
 
 .menuButton.active {
@@ -117,12 +121,12 @@
 }
 
 .fullWidthList {
-    overflow: hidden;
+    width: 250px;
     min-width: 250px;
 }
 
 .fullWidthList .itemlist:not(.active) {
-    color: #aaa;
+    color: #666;
 }
 
 .fullWidthList .itemlist.active {
@@ -130,5 +134,9 @@
 }
 
 .fullWidthList .itemlist-btn:hover .itemlist:not(.active) {
+    color: var(--primaryColor) !important;
+}
+
+.fullWidthList .itemlist-btn {
     color: var(--primary50) !important;
 }

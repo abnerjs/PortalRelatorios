@@ -106,12 +106,6 @@ const Menu = () => {
 
   return (
     <>
-      <IconButton
-        className={`expand-btn${open ? ' expanse' : ''}`}
-        onClick={() => setOpen(!open)}
-      >
-        <Icon icon="fluent:arrow-swap-20-filled" />
-      </IconButton>
       <div className={`Menu${open ? ' expanse' : ''}`}>
         <Link to="/" tabIndex={-1} style={{ width: '100%' }}>
           <div
@@ -123,6 +117,12 @@ const Menu = () => {
             <DatamobIcon width={39} />
           </div>
         </Link>
+        <IconButton
+        className={`expand-btn${open ? ' expanse' : ''}`}
+        onClick={() => setOpen(!open)}
+      >
+        <Icon icon="fluent:arrow-swap-20-filled" />
+      </IconButton>
 
         <div className="links">
           <Tooltip

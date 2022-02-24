@@ -12,6 +12,7 @@ import {
 import { Icon } from '@iconify/react';
 import { Objeto } from 'src/store/ducks/login/types';
 import './Menu.css';
+import { createTheme } from '@mui/system';
 
 type Props = {
   icon: string;
@@ -62,7 +63,7 @@ const Submenu = (props: Props) => {
                 className={
                   location.pathname
                     .toLowerCase()
-                    .includes(obj.nomPagina.toLowerCase())
+                    .includes('/' + obj.nomPagina.toLowerCase())
                     ? 'active'
                     : ''
                 }
@@ -101,7 +102,7 @@ const Submenu = (props: Props) => {
                   className={
                     location.pathname
                       .toLowerCase()
-                      .includes(obj.nomPagina.toLowerCase())
+                      .includes('/' + obj.nomPagina.toLowerCase())
                       ? 'itemlist active'
                       : 'itemlist'
                   }
@@ -120,7 +121,7 @@ const Submenu = (props: Props) => {
 
     list.forEach((item) => {
       if (
-        location.pathname.toLowerCase().includes(item.nomPagina.toLowerCase())
+        location.pathname.toLowerCase().includes('/' + item.nomPagina.toLowerCase())
       )
         aux = true;
     });
@@ -139,7 +140,7 @@ const Submenu = (props: Props) => {
       >
         <div
           onClick={() => {
-            setState(!state);
+            if(!props.expanded) setState(!state);
           }}
           className={isActiveClassName(props.list, props.expanded)}
         >
