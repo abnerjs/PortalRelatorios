@@ -1,20 +1,25 @@
+import { Icon } from '@iconify/react';
+import { Skeleton, TablePagination, Typography } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { usePesquisa } from 'src/hooks/usePesquisa';
 import { useAppDispatch, useAppSelector } from 'src/store';
 import { usuariosGetRequest, usuariosPutRequest } from 'src/store/ducks/usuarios';
+import { Usuario } from 'src/store/ducks/usuarios/types';
 import DmCollapseHandler from '../DmCollapseHandler/DmCollapseHandler';
 import Row from './Row';
 
-interface Props {
+interface Props<T> {
   handleFormOpen: Function,
-  handleFormOpen: Function,
+  isFormOpened: boolean,
+  list: Array<T>;
+  loading: boolean;
+  switchFunction?: Function;
 }
 
-const DmList = (props: Props) => {
+const DmList = <T extends unknown>(props: Props<T>) => {
   const getError = useAppSelector((state) => state.usuarios.error);
+  const errors = useAppSelector((state) => state.usuarios.deleteError);
   const [isGetErrorCollapseOpened, setGetErrorCollapseOpened] = useState(false);
-  const loading = useAppSelector((state) => state.usuarios.loading);
-  const usuarios = useAppSelector((state) => state.usuarios.data);
   const deleteState = useAppSelector((state) => state.usuarios.deleteState);
   const [isErrorCollapseOpened, setErrorCollapseOpened] = useState(false);
   const [rowSelected, setRowSelected] = useState(-1);
@@ -22,8 +27,6 @@ const DmList = (props: Props) => {
   const { pesquisa, handlePesquisa, handleCustomParameters } = usePesquisa({
     params: [{ key: 'flgTipo', value: 'I' }],
   });
-
-  const dispatch = useAppDispatch();
 
   /*PAGINACAO */
   const [page, setPage] = React.useState(2);
@@ -44,31 +47,6 @@ const DmList = (props: Props) => {
   };
   /*FIM PAGINACAO */
 
-  const handleUpdate = (index: number, flgAtivo: string) => {
-    const data = { ...usuarios[index] };
-    data.flgAtivo = flgAtivo;
-
-    dispatch(usuariosPutRequest(data));
-    dispatch(usuariosGetRequest(pesquisa.toString()));
-  };
-
-  useEffect(() => {
-    if (deleteState === 'success') {
-      if (usuario?.idRelUsuario === usuarios[rowSelected]?.idRelUsuario) {
-        props.handleFormOpen(false);
-      }
-
-      setModalOpen(false);
-      setRowSelected(-1);
-
-      dispatch(usuariosGetRequest(pesquisa.toString()));
-    }
-
-    setErrorCollapseOpened(errors !== undefined);
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [deleteState]);
-
   return (
     <>
       <DmCollapseHandler
@@ -76,10 +54,10 @@ const DmList = (props: Props) => {
         isErrorCollapseOpened={isGetErrorCollapseOpened}
         setErrorCollapseOpened={setGetErrorCollapseOpened}
       />
-      <div className="rows" style={{ overflow: loading ? 'hidden' : 'auto' }}>
-        {loading
+      <div className="rows" style={{ overflow: props.loading ? 'hidden' : 'auto' }}>
+        {props.loading
           ? loadingUsersRows()
-          : usuarios.map((item, index) => (
+          : props.list.map((item, index) => (
               <Row
                 key={`usuario-${index}`}
                 data={item}
@@ -88,8 +66,8 @@ const DmList = (props: Props) => {
                 handleFormOpen={props.handleFormOpen}
                 handleModalOpen={setModalOpen}
                 handleIndexSelected={setRowSelected}
-                handleChangeFlgAtivo={handleUpdate}
-                isFormOpened={isFormOpened}
+                handleChangeFlgAtivo={props.switchFunction}
+                isFormOpened={props.isFormOpened}
               />
             ))}
       </div>
