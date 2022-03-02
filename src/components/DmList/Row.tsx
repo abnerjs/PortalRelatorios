@@ -19,17 +19,21 @@ interface RowProps<T> {
   handleModalOpen: Function;
   handleIndexSelected: Function;
   isFormOpened: boolean;
+  labelKey: string;
+  actions?: boolean;
   handleChangeFlgAtivo?: Function;
 }
 
-const Row = <T extends unknown, K extends keyof T>(props: RowProps<T>, key: K) => {
+function getProperty<Type, Key extends keyof Type>(obj: Type, key: Key) {
+  return obj[key];
+}
+
+const Row = <T extends unknown>(props: RowProps<T>) => {
   const objetos = useAppSelector((state) => state.session.objetos);
   const loggedUser = useAppSelector((state) => state.session.user);
   const flgAcesso =
     objetos.find((x) => x.nomPagina.toLowerCase() === 'usuarios')?.flgAcesso ||
     'N';
-
-    const ref = useRef();
 
   return (
     <div
@@ -38,7 +42,9 @@ const Row = <T extends unknown, K extends keyof T>(props: RowProps<T>, key: K) =
     >
       <div
         onClick={() =>
-          props.handleIndexSelected(props.indexSelected !== props.index ? props.index : -1)
+          props.handleIndexSelected(
+            props.indexSelected !== props.index ? props.index : -1
+          )
         }
         className="header"
       >
@@ -50,22 +56,37 @@ const Row = <T extends unknown, K extends keyof T>(props: RowProps<T>, key: K) =
             margin: '0 10px 0 0',
             fontWeight: 400,
             fontSize: '12pt',
+            display: getProperty(props.data, 'desLogin' as any)
+              ? 'flex'
+              : 'none',
           }}
           children={getInitialsFromString('teste')}
         />
         <div className="textual">
-          <div className="nome">{props.data.desNome}</div>
-          <div className="email">{props.data.desEmail}</div>
+          <div className="nome">
+            {getProperty(props.data, props.labelKey as any)}
+          </div>
+          <div className="email">
+            {getProperty(props.data, 'desEmail' as any)}
+          </div>
         </div>
-        <DmIconifiedSwitch
+        {props.handleChangeFlgAtivo ? <DmIconifiedSwitch
           noIcon
-          value={props.data.flgAtivo === 'S' ? 'N' : 'S'}
-          checked={props.data.flgAtivo === 'S'}
+          value={getProperty(props.data, 'flgAtivo' as any) === 'S' ? 'N' : 'S'}
+          checked={getProperty(props.data, 'flgAtivo' as any) === 'S'}
           onClick={(e) => e.stopPropagation()}
-          onChange={(e) => props.handleChangeFlgAtivo(props.index, e.target.value)}
-          disabled={props.isFormOpened || loggedUser?.desLogin === props.data.desLogin}
+          onChange={(e) => {
+            if (props.handleChangeFlgAtivo)
+              props.handleChangeFlgAtivo(props.index, e.target.value);
+          }}
+          disabled={
+            props.isFormOpened ||
+            loggedUser?.desLogin ===
+              getProperty(props.data, 'desLogin' as any) ||
+            props.handleChangeFlgAtivo === undefined
+          }
           tabIndex={-1}
-        />
+        /> : ''}
         <Icon
           icon="fluent:chevron-right-16-filled"
           width={16}
@@ -89,7 +110,11 @@ const Row = <T extends unknown, K extends keyof T>(props: RowProps<T>, key: K) =
           variant="contained"
           className="errorColor"
           style={{
-            display: loggedUser?.desLogin === props.data.desLogin ? 'none' : 'block',
+            display:
+              loggedUser?.desLogin ===
+              getProperty(props.data, 'desLogin' as any)
+                ? 'none'
+                : 'block',
           }}
           fullWidth
         >
