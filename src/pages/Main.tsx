@@ -19,6 +19,7 @@ import RelForCanaEntregue from './Relatorios/Routes/RelForCanaEntregue';
 import TiposArquivos from './Cadastros/TiposArquivos';
 import Gerenciamento from './Relatorios/Gerenciamento';
 import MeusUploads from './Relatorios/MeusUploads';
+import Teste from './Teste/Teste';
 
 const Main = () => {
   return (
@@ -31,6 +32,9 @@ const Main = () => {
         </Route>
         <Route path="/perfis">
           <Perfis />
+        </Route>
+        <Route path="/teste">
+          <Teste />
         </Route>
         <Route path="/tiposarquivos">
           <TiposArquivos />
