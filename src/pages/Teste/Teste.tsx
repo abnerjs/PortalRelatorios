@@ -34,6 +34,14 @@ import { Perfil } from 'src/store/ducks/perfis/types';
 import DmCollapseHandler from 'src/components/DmCollapseHandler/DmCollapseHandler';
 import DmList from 'src/components/DmList/DmList';
 
+const searchInitValues = {
+  init: {
+    itensPorPagina: 10,
+    novaOrdenacao: 'desPerfil',
+    numPagina: 1,
+  },
+};
+
 const Teste = () => {
   const objetos = useAppSelector((state) => state.session.objetos);
   const flgAcesso =
@@ -41,16 +49,18 @@ const Teste = () => {
     'N';
 
   const [rowSelected, setRowSelected] = useState(-1);
-  const [isModalOpen, setModalOpen] = useState(false);
   const [isFormOpened, setFormOpened] = useState(false);
   const [isSearchFocused, setSearchFocused] = useState(false);
   const [isNewUserSection, setNewUserSection] = useState(false);
 
   const [perfil, setPerfil] = useState<Perfil | null>(null);
-  const { pesquisa, handlePesquisa } = usePesquisa();
+  const { pesquisa, handlePesquisa } = usePesquisa({
+    ...searchInitValues,
+  });
 
   const dispatch = useAppDispatch();
   const perfis = useAppSelector((state) => state.perfis.data);
+  const pagination = useAppSelector((state) => state.perfis.pagination);
   const loading = useAppSelector((state) => state.perfis.loading);
   const getError = useAppSelector((state) => state.perfis.error);
   const errors = useAppSelector((state) => state.perfis.deleteError);
@@ -129,21 +139,6 @@ const Teste = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [operationState]);
 
-  useEffect(() => {
-    if (deleteState === 'success') {
-      if (perfil?.idRelPerfil === perfis[rowSelected]?.idRelPerfil) {
-        setFormOpened(false);
-      }
-
-      setModalOpen(false);
-      setRowSelected(-1);
-
-      dispatch(perfisGetRequest(pesquisa.toString()));
-    }
-    setErrorCollapseOpened(errors !== undefined);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [deleteState]);
-
   return (
     <div className="Usuarios">
       <div className="content">
@@ -196,15 +191,24 @@ const Teste = () => {
             >
               NOVO PERFIL
             </Button>
-            
+
             <DmList
-              handleFormOpen={handleFormOpen}
-              isFormOpened={isFormOpened}
               list={perfis}
-              labelKey='desPerfil'
-              loading={loading}
+              object={perfil}
+              getError={getError}
+              errors={errors}
+              deleteState={deleteState}
               cancelDelete={perfisCancelDelete}
               deleteRequest={perfisDeleteRequest}
+              handleFormOpen={handleFormOpen}
+              isFormOpened={isFormOpened}
+              key='idRelPerfil'
+              labelKey="desPerfil"
+              loading={loading}
+              request={perfisGetRequest}
+              pesquisa={handlePesquisa}
+              setObject={setPerfil}
+              pagination={pagination}
             />
           </div>
           <Form data={perfil} isFormOpened={isFormOpened} />

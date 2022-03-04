@@ -8,7 +8,7 @@ type CustomParametersOptions = {
   remove?: boolean;
 };
 
-type PesquisaHandler = (
+export type PesquisaHandler = (
   key: keyof InfoPesquisaProps,
   value?: number | string
 ) => void;
@@ -31,7 +31,10 @@ export function usePesquisa(values?: InitialState): PesquisaHook {
     new Pesquisa(values?.init, values?.params)
   );
 
-  const handlePesquisa = (key: keyof InfoPesquisa, value?: number | string) => {
+  const handlePesquisa = (
+    key: keyof InfoPesquisa,
+    value?: number | string
+  ) => {
     const novaPesquisa = pesquisa.clone();
     novaPesquisa.numPagina = 1;
 

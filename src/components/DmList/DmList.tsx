@@ -11,39 +11,49 @@ import {
   Typography,
 } from '@mui/material';
 import React, { useEffect, useState } from 'react';
+import { PesquisaHandler } from 'src/hooks/usePesquisa';
 import { useAppDispatch, useAppSelector } from 'src/store';
+import { InfoPaginacao, InfoPesquisaProps } from 'src/store/ducks/base/types';
+import { ErrorAPI } from 'src/store/ducks/types';
 import { Usuario } from 'src/store/ducks/usuarios/types';
 import DmCollapseHandler from '../DmCollapseHandler/DmCollapseHandler';
 import Row from './Row';
 
 interface Props<T> {
+  list: Array<T>;
+  object: T;
+  getError: ErrorAPI | undefined;
   handleFormOpen: Function;
   isFormOpened: boolean;
-  list: Array<T>;
+  setObject: Function;
+  key: string;
   labelKey: string;
   loading: boolean;
+  errors: ErrorAPI | undefined;
+  deleteState: string | undefined;
   cancelDelete: any;
   deleteRequest: any;
+  request: any;
+  pesquisa: PesquisaHandler;
+  pagination: InfoPaginacao | undefined;
   actions?: boolean;
   switchFunction?: Function;
 }
 
 function getProperty<Type, Key extends keyof Type>(obj: Type, key: Key) {
-  return obj[key];
+  if (obj && obj[key]) return obj[key];
+  else return '';
 }
 
 const DmList = <T extends unknown>(props: Props<T>) => {
-  const getError = useAppSelector((state) => state.usuarios.error);
-  const errors = useAppSelector((state) => state.usuarios.deleteError);
   const [isGetErrorCollapseOpened, setGetErrorCollapseOpened] = useState(false);
-  const deleteState = useAppSelector((state) => state.usuarios.deleteState);
   const [isErrorCollapseOpened, setErrorCollapseOpened] = useState(false);
   const [rowSelected, setRowSelected] = useState(-1);
   const [isModalOpen, setModalOpen] = useState(false);
   const dispatch = useAppDispatch();
 
   /*PAGINACAO */
-  const [page, setPage] = React.useState(2);
+  const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
   const handleChangePage = (
@@ -51,6 +61,7 @@ const DmList = <T extends unknown>(props: Props<T>) => {
     newPage: number
   ) => {
     setPage(newPage);
+    props.pesquisa('numPagina', newPage + 1);
   };
 
   const handleChangeRowsPerPage = (
@@ -58,13 +69,33 @@ const DmList = <T extends unknown>(props: Props<T>) => {
   ) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
+    props.pesquisa('itensPorPagina', parseInt(event.target.value));
+    props.pesquisa('numPagina', 1);
   };
   /*FIM PAGINACAO */
+
+  useEffect(() => {
+    if (props.deleteState === 'success') {
+      if (
+        getProperty(props.list[rowSelected], props.key as any) ===
+        getProperty(props.object, props.key as any)
+      ) {
+        props.handleFormOpen(false, true);
+      }
+
+      setModalOpen(false);
+      setRowSelected(-1);
+
+      dispatch(props.request(props.pesquisa.toString()));
+    }
+    setErrorCollapseOpened(props.errors !== undefined);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [props.deleteState]);
 
   return (
     <>
       <DmCollapseHandler
-        error={getError}
+        error={props.getError}
         isErrorCollapseOpened={isGetErrorCollapseOpened}
         setErrorCollapseOpened={setGetErrorCollapseOpened}
       />
@@ -76,7 +107,7 @@ const DmList = <T extends unknown>(props: Props<T>) => {
           ? loadingUsersRows(props)
           : props.list.map((item, index) => (
               <Row
-                key={`usuario-${index}`}
+                key={`objeto-${index}`}
                 data={item}
                 index={index}
                 labelKey={props.labelKey}
@@ -84,9 +115,11 @@ const DmList = <T extends unknown>(props: Props<T>) => {
                 actions={props.actions}
                 handleFormOpen={props.handleFormOpen}
                 handleModalOpen={setModalOpen}
+                deleteState={props.deleteState}
                 handleIndexSelected={setRowSelected}
                 handleChangeFlgAtivo={props.switchFunction}
                 isFormOpened={props.isFormOpened}
+                setObject={props.setObject}
               />
             ))}
         {rowSelected !== -1 && (
@@ -110,7 +143,7 @@ const DmList = <T extends unknown>(props: Props<T>) => {
             <Fade in={isModalOpen}>
               <Box className="modal-confirm-delete">
                 <DmCollapseHandler
-                  error={errors}
+                  error={props.errors}
                   isErrorCollapseOpened={isErrorCollapseOpened}
                   setErrorCollapseOpened={setErrorCollapseOpened}
                 />
@@ -154,18 +187,18 @@ const DmList = <T extends unknown>(props: Props<T>) => {
                       onClick={() =>
                         dispatch(props.deleteRequest(props.list[rowSelected]))
                       }
-                      disabled={deleteState === 'request'}
+                      disabled={props.deleteState === 'request'}
                       type="submit"
                       fullWidth
                       className={
-                        deleteState === 'request'
+                        props.deleteState === 'request'
                           ? 'errorSecondary'
                           : 'errorColor'
                       }
                     >
                       DELETAR
                     </Button>
-                    {deleteState === 'request' && (
+                    {props.deleteState === 'request' && (
                       <CircularProgress
                         size={24}
                         sx={{
@@ -188,8 +221,14 @@ const DmList = <T extends unknown>(props: Props<T>) => {
       <TablePagination
         className="pagination-table"
         component="div"
-        count={100}
-        page={page}
+        count={props.pagination?.totRegistros || 0}
+        page={
+          props.pagination
+            ? props.pagination.numPagina
+              ? props.pagination.numPagina - 1
+              : 0
+            : 0
+        }
         onPageChange={handleChangePage}
         rowsPerPage={rowsPerPage}
         labelRowsPerPage="Registros por página:"
@@ -216,9 +255,10 @@ const loadingUsersRows = <T extends unknown>(props: Props<T>) => {
             variant="circular"
             width={36}
             height={36}
-            style={{ marginRight: '10px',
-            display: props.switchFunction ? 'flex' : 'none'
-          }}
+            style={{
+              marginRight: '10px',
+              display: props.switchFunction ? 'flex' : 'none',
+            }}
           />
           <Typography component="div" variant="body1" style={{ flex: 1 }}>
             <Skeleton animation="wave" />
