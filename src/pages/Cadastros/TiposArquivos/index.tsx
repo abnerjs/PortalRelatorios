@@ -6,20 +6,13 @@ import 'src/pages/ModalDelete.css';
 import React, { useEffect, useState } from 'react';
 import { Icon } from '@iconify/react';
 import {
-  Backdrop,
-  Box,
   Button,
-  CircularProgress,
-  Fade,
-  Modal,
-  Skeleton,
   TextField,
   Typography,
 } from '@mui/material';
 
 import Header from 'src/components/Header/Header';
 import Form from 'src/pages/Cadastros/TiposArquivos/Components/Form';
-import Row from 'src/pages/Cadastros/TiposArquivos/Components/Row';
 
 import { usePesquisa } from 'src/hooks/usePesquisa';
 import { useAppDispatch, useAppSelector } from 'src/store';
@@ -31,20 +24,30 @@ import {
   tipoArquivoCleanError,
 } from 'src/store/ducks/tipoArquivo';
 import { TipoArquivo } from 'src/store/ducks/tipoArquivo/types';
-import DmCollapseHandler from 'src/components/DmCollapseHandler/DmCollapseHandler';
+import DmList from 'src/components/DmList/DmList';
+
+const searchInitValues = {
+  init: {
+    itensPorPagina: 10,
+    novaOrdenacao: 'desTpArquivo',
+    numPagina: 1,
+  },
+};
 
 const TiposArquivos = () => {
   const [rowSelected, setRowSelected] = useState(-1);
-  const [isModalOpen, setModalOpen] = useState(false);
   const [isFormOpened, setFormOpened] = useState(false);
   const [isSearchFocused, setSearchFocused] = useState(false);
   const [isNewUserSection, setNewUserSection] = useState(false);
 
   const [tipoArquivo, setTipoArquivo] = useState<TipoArquivo | null>(null);
-  const { pesquisa, handlePesquisa } = usePesquisa();
+  const { pesquisa, handlePesquisa } = usePesquisa({
+    ...searchInitValues
+  });
 
   const dispatch = useAppDispatch();
   const tiposArquivos = useAppSelector((state) => state.tipoArquivo.data);
+  const pagination = useAppSelector((state) => state.tipoArquivo.pagination);
   const loading = useAppSelector((state) => state.tipoArquivo.loading);
   const getError = useAppSelector((state) => state.tipoArquivo.error);
   const errors = useAppSelector((state) => state.tipoArquivo.deleteError);
@@ -53,7 +56,6 @@ const TiposArquivos = () => {
     (state) => state.tipoArquivo.operationState
   );
   const [isErrorCollapseOpened, setErrorCollapseOpened] = useState(false);
-  const [isGetErrorCollapseOpened, setGetErrorCollapseOpened] = useState(false);
 
   const handleChangeSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
     handlePesquisa('filtroPadrao', event.target.value);
@@ -125,24 +127,6 @@ const TiposArquivos = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [operationState]);
 
-  useEffect(() => {
-    if (deleteState === 'success') {
-      if (
-        tipoArquivo?.idRelTpArquivo ===
-        tiposArquivos[rowSelected]?.idRelTpArquivo
-      ) {
-        setFormOpened(false);
-      }
-
-      setModalOpen(false);
-      setRowSelected(-1);
-
-      dispatch(tipoArquivoGetRequest(pesquisa.toString()));
-    }
-    setErrorCollapseOpened(errors !== undefined);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [deleteState]);
-
   return (
     <div className="Usuarios">
       <div className="content">
@@ -195,125 +179,25 @@ const TiposArquivos = () => {
             >
               NOVO TIPO DE ARQUIVO
             </Button>
-            <DmCollapseHandler
-              error={getError}
-              isErrorCollapseOpened={isGetErrorCollapseOpened}
-              setErrorCollapseOpened={setGetErrorCollapseOpened}
+            <DmList
+              list={tiposArquivos}
+              object={tipoArquivo}
+              getError={getError}
+              errors={errors}
+              deleteState={deleteState}
+              cancelDelete={tipoArquivoCancelDelete}
+              deleteRequest={tipoArquivoDeleteRequest}
+              handleFormOpen={handleFormOpen}
+              isFormOpened={isFormOpened}
+              key='idRelTpArquivo'
+              labelKey="desTpArquivo"
+              loading={loading}
+              request={tipoArquivoGetRequest}
+              handlePesquisa={handlePesquisa}
+              pesquisa={pesquisa}
+              setObject={setTipoArquivo}
+              pagination={pagination}
             />
-            <div
-              className="rows"
-              style={{ overflow: loading ? 'hidden' : 'auto' }}
-            >
-              {loading
-                ? loadingProfilesRows()
-                : tiposArquivos.map((item, index) => (
-                    <Row
-                      key={`tipoArquivo-${index}`}
-                      data={item}
-                      index={index}
-                      indexSelected={rowSelected}
-                      handleFormOpen={handleFormOpen}
-                      handleModalOpen={setModalOpen}
-                      handleIndexSelected={setRowSelected}
-                    />
-                  ))}
-            </div>
-            {rowSelected !== -1 && (
-              <Modal
-                open={isModalOpen}
-                onClose={() => {
-                  setModalOpen(false);
-                  setErrorCollapseOpened(false);
-                  setTimeout(() => {
-                    dispatch(tipoArquivoCancelDelete());
-                  }, 500);
-                }}
-                closeAfterTransition
-                keepMounted
-                disablePortal
-                BackdropComponent={Backdrop}
-                BackdropProps={{ timeout: 500 }}
-                aria-labelledby="transition-modal-title"
-                aria-describedby="transition-modal-description"
-              >
-                <Fade in={isModalOpen}>
-                  <Box className="modal-confirm-delete">
-                    <DmCollapseHandler
-                      error={errors}
-                      isErrorCollapseOpened={isErrorCollapseOpened}
-                      setErrorCollapseOpened={setErrorCollapseOpened}
-                    />
-                    <Typography id="transition-modal-title">
-                      Tem certeza que quer deletar o tipoArquivo?
-                    </Typography>
-                    <div className="userInfo">
-                      <Typography className="modal-user-info">
-                        {tiposArquivos[rowSelected]?.desTpArquivo}
-                      </Typography>
-                    </div>
-                    <hr
-                      style={{
-                        width: '100%',
-                        height: 1,
-                        border: 'none',
-                        backgroundColor: 'rgba(0,0,0,0.2)',
-                      }}
-                    />
-                    <div className="buttons">
-                      <Button
-                        onClick={() => {
-                          setModalOpen(false);
-                          setErrorCollapseOpened(false);
-                          setTimeout(() => {
-                            dispatch(tipoArquivoCancelDelete());
-                          }, 500);
-                        }}
-                        variant="contained"
-                        className="secondary"
-                        fullWidth
-                      >
-                        CANCELAR
-                      </Button>
-                      <Box sx={{ m: 0, position: 'relative' }}>
-                        <Button
-                          variant="contained"
-                          onClick={() =>
-                            dispatch(
-                              tipoArquivoDeleteRequest(
-                                tiposArquivos[rowSelected]
-                              )
-                            )
-                          }
-                          disabled={deleteState === 'request'}
-                          type="submit"
-                          className={
-                            deleteState === 'request'
-                              ? 'errorSecondary'
-                              : 'errorColor'
-                          }
-                          fullWidth
-                        >
-                          DELETAR
-                        </Button>
-                        {deleteState === 'request' && (
-                          <CircularProgress
-                            size={24}
-                            sx={{
-                              color: '#CA4539',
-                              position: 'absolute',
-                              top: '50%',
-                              left: '50%',
-                              marginTop: '-12px',
-                              marginLeft: '-12px',
-                            }}
-                          />
-                        )}
-                      </Box>
-                    </div>
-                  </Box>
-                </Fade>
-              </Modal>
-            )}
           </div>
           <Form data={tipoArquivo} isFormOpened={isFormOpened} />
         </div>
@@ -323,26 +207,3 @@ const TiposArquivos = () => {
 };
 
 export default TiposArquivos;
-
-const loadingProfilesRows = () => {
-  let arr = [];
-
-  for (let i = 0; i < 25; i++) {
-    arr.push(
-      <div key={`loadingRow-${i}`} className={`row`}>
-        <div className="header">
-          <Typography component="div" variant="body1" style={{ flex: 1 }}>
-            <Skeleton animation="wave" />
-          </Typography>
-          <Icon
-            icon="fluent:chevron-right-16-filled"
-            width={16}
-            className="icon"
-          />
-        </div>
-      </div>
-    );
-  }
-
-  return arr;
-};

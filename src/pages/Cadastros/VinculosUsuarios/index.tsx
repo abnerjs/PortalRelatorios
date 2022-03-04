@@ -5,19 +5,26 @@ import 'src/pages/ModalDelete.css';
 
 import React, { useEffect, useState } from 'react';
 import { Icon } from '@iconify/react';
-import { Skeleton, Tab, Tabs, TextField, Typography } from '@mui/material';
+import { Tab, Tabs, TextField, Typography } from '@mui/material';
 
 import Header from 'src/components/Header/Header';
 import { usePesquisa } from 'src/hooks/usePesquisa';
 import Form from 'src/pages/Cadastros/VinculosUsuarios/Components/Form';
-import Row from 'src/pages/Cadastros/VinculosUsuarios/Components/Row';
 import { useAppDispatch, useAppSelector } from 'src/store';
 import {
   usuariosCleanError,
   usuariosGetRequest,
 } from 'src/store/ducks/usuarios';
 import { Usuario } from 'src/store/ducks/usuarios/types';
-import DmCollapseHandler from 'src/components/DmCollapseHandler/DmCollapseHandler';
+import DmList from 'src/components/DmList/DmList';
+
+const searchInitValues = {
+  init: {
+    itensPorPagina: 10,
+    novaOrdenacao: 'desNome',
+    numPagina: 1,
+  },
+};
 
 const VinculosUsuarios = () => {
   const [flgTipo, setFlgTipo] = useState('I');
@@ -27,17 +34,18 @@ const VinculosUsuarios = () => {
 
   const [usuario, setUsuario] = useState<Usuario | null>(null);
   const { pesquisa, handlePesquisa, handleCustomParameters } = usePesquisa({
+    ...searchInitValues,
     params: [{ key: 'flgTipo', value: 'I' }],
   });
 
   const dispatch = useAppDispatch();
   const usuarios = useAppSelector((state) => state.usuarios.data);
+  const pagination = useAppSelector((state) => state.usuarios.pagination);
   const loading = useAppSelector((state) => state.usuarios.loading);
   const getError = useAppSelector((state) => state.usuarios.error);
   const ufOperationState = useAppSelector(
     (state) => state.usuariosFornecedores.operationState
   );
-  const [isGetErrorCollapseOpened, setGetErrorCollapseOpened] = useState(false);
 
   useEffect(() => {
     dispatch(usuariosCleanError());
@@ -58,10 +66,13 @@ const VinculosUsuarios = () => {
     }
   };
 
-  const handleIndexSelected = (value: number) => {
-    setUsuario(value !== -1 ? usuarios[value] : null);
-    setFormOpened(value !== -1 ? true : false);
-    setRowSelected(value);
+  const handleFormOpen = (open: boolean, newUser: boolean) => {
+    setFormOpened(open);
+
+    if (!open) {
+      setUsuario(null);
+      setRowSelected(-1);
+    }
   };
 
   const handleChangeSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -73,7 +84,7 @@ const VinculosUsuarios = () => {
       setUsuario(null);
       setRowSelected(-1);
       setFormOpened(false);
-
+      
       dispatch(usuariosGetRequest(pesquisa.toString()));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -154,27 +165,23 @@ const VinculosUsuarios = () => {
                 }}
               />
             </div>
-            <DmCollapseHandler
-              error={getError}
-              isErrorCollapseOpened={isGetErrorCollapseOpened}
-              setErrorCollapseOpened={setGetErrorCollapseOpened}
+
+            <DmList
+              list={usuarios}
+              object={usuario}
+              getError={getError}
+              handleFormOpen={handleFormOpen}
+              isFormOpened={isFormOpened}
+              key="idRelUsuario"
+              labelKey="desNome"
+              loading={loading}
+              request={usuariosGetRequest}
+              handlePesquisa={handlePesquisa}
+              pesquisa={pesquisa}
+              setObject={setUsuario}
+              pagination={pagination}
+              noAction
             />
-            <div
-              className="rows forprestadores"
-              style={{ overflow: loading ? 'hidden' : 'auto' }}
-            >
-              {loading
-                ? loadingUsersRows()
-                : usuarios.map((item, index) => (
-                    <Row
-                      key={`usuario-${index}`}
-                      data={item}
-                      index={index}
-                      indexSelected={rowSelected}
-                      handleIndexSelected={handleIndexSelected}
-                    />
-                  ))}
-            </div>
           </div>
           <Form
             data={usuario}
@@ -188,28 +195,3 @@ const VinculosUsuarios = () => {
 };
 
 export default VinculosUsuarios;
-
-const loadingUsersRows = () => {
-  let arr = [];
-
-  for (let i = 0; i < 25; i++) {
-    arr.push(
-      <div key={`loadingRow-${i}`} className={`row`}>
-        <div className="header">
-          <Skeleton
-            animation="wave"
-            variant="circular"
-            width={36}
-            height={36}
-            style={{ marginRight: '10px' }}
-          />
-          <Typography component="div" variant="body1" style={{ flex: 1 }}>
-            <Skeleton animation="wave" />
-          </Typography>
-        </div>
-      </div>
-    );
-  }
-
-  return arr;
-};

@@ -12,10 +12,9 @@ import {
 } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { PesquisaHandler } from 'src/hooks/usePesquisa';
-import { useAppDispatch, useAppSelector } from 'src/store';
+import { useAppDispatch } from 'src/store';
 import { InfoPaginacao, InfoPesquisaProps } from 'src/store/ducks/base/types';
 import { ErrorAPI } from 'src/store/ducks/types';
-import { Usuario } from 'src/store/ducks/usuarios/types';
 import DmCollapseHandler from '../DmCollapseHandler/DmCollapseHandler';
 import Row from './Row';
 
@@ -29,14 +28,15 @@ interface Props<T> {
   key: string;
   labelKey: string;
   loading: boolean;
-  errors: ErrorAPI | undefined;
-  deleteState: string | undefined;
-  cancelDelete: any;
-  deleteRequest: any;
   request: any;
-  pesquisa: PesquisaHandler;
+  pesquisa: Readonly<InfoPesquisaProps>;
+  handlePesquisa: PesquisaHandler;
   pagination: InfoPaginacao | undefined;
-  actions?: boolean;
+  errors?: ErrorAPI | undefined;
+  deleteState?: string | undefined;
+  cancelDelete?: any;
+  deleteRequest?: any;
+  noAction?: boolean;
   switchFunction?: Function;
 }
 
@@ -53,24 +53,21 @@ const DmList = <T extends unknown>(props: Props<T>) => {
   const dispatch = useAppDispatch();
 
   /*PAGINACAO */
-  const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
   const handleChangePage = (
     event: React.MouseEvent<HTMLButtonElement> | null,
     newPage: number
   ) => {
-    setPage(newPage);
-    props.pesquisa('numPagina', newPage + 1);
+    props.handlePesquisa('numPagina', newPage + 1);
   };
 
   const handleChangeRowsPerPage = (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
-    props.pesquisa('itensPorPagina', parseInt(event.target.value));
-    props.pesquisa('numPagina', 1);
+    props.handlePesquisa('itensPorPagina', parseInt(event.target.value));
+    props.handlePesquisa('numPagina', 1);
   };
   /*FIM PAGINACAO */
 
@@ -88,7 +85,7 @@ const DmList = <T extends unknown>(props: Props<T>) => {
 
       dispatch(props.request(props.pesquisa.toString()));
     }
-    setErrorCollapseOpened(props.errors !== undefined);
+    if (props.errors) setErrorCollapseOpened(props.errors !== undefined);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.deleteState]);
 
@@ -112,7 +109,7 @@ const DmList = <T extends unknown>(props: Props<T>) => {
                 index={index}
                 labelKey={props.labelKey}
                 indexSelected={rowSelected}
-                actions={props.actions}
+                noAction={props.noAction}
                 handleFormOpen={props.handleFormOpen}
                 handleModalOpen={setModalOpen}
                 deleteState={props.deleteState}
@@ -142,11 +139,15 @@ const DmList = <T extends unknown>(props: Props<T>) => {
           >
             <Fade in={isModalOpen}>
               <Box className="modal-confirm-delete">
-                <DmCollapseHandler
-                  error={props.errors}
-                  isErrorCollapseOpened={isErrorCollapseOpened}
-                  setErrorCollapseOpened={setErrorCollapseOpened}
-                />
+                {props.errors ? (
+                  <DmCollapseHandler
+                    error={props.errors}
+                    isErrorCollapseOpened={isErrorCollapseOpened}
+                    setErrorCollapseOpened={setErrorCollapseOpened}
+                  />
+                ) : (
+                  ''
+                )}
                 <Typography id="transition-modal-title">
                   Tem certeza que quer deletar o perfil?
                 </Typography>

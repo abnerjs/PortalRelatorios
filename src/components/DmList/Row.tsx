@@ -3,7 +3,6 @@ import 'src/pages/FormUser.css';
 import 'src/pages/SectionizedTable.css';
 import 'src/pages/ModalDelete.css';
 
-import React, { useEffect, useRef } from 'react';
 import { Icon } from '@iconify/react';
 import { Avatar, Button } from '@mui/material';
 
@@ -22,7 +21,7 @@ interface RowProps<T> {
   labelKey: string;
   setObject: Function;
   deleteState: string | undefined;
-  actions?: boolean;
+  noAction?: boolean;
   handleChangeFlgAtivo?: Function;
 }
 
@@ -37,22 +36,23 @@ const Row = <T extends unknown>(props: RowProps<T>) => {
     objetos.find((x) => x.nomPagina.toLowerCase() === 'usuarios')?.flgAcesso ||
     'N';
 
-    useEffect(() => {
-      console.log(props.indexSelected);
-    }, [props.indexSelected])
-    
-
   return (
     <div
-      className={`row${props.indexSelected === props.index ? ' selected' : ''}`}
+      className={`row${props.indexSelected === props.index ? ' selected' : ''}${
+        props.noAction ? ' noAction' : ''
+      }`}
       id={'linha' + props.index}
     >
       <div
-        onClick={() =>
+        onClick={() => {
           props.handleIndexSelected(
             props.indexSelected !== props.index ? props.index : -1
-          )
-        }
+          );
+          if (props.noAction) {
+            props.handleFormOpen(true, false);
+            props.setObject(props.data);
+          }
+        }}
         className="header"
       >
         <Avatar
@@ -67,7 +67,9 @@ const Row = <T extends unknown>(props: RowProps<T>) => {
               ? 'flex'
               : 'none',
           }}
-          children={getInitialsFromString('teste')}
+          children={getInitialsFromString(
+            getProperty(props.data, props.labelKey as any)
+          )}
         />
         <div className="textual">
           <div className="nome">
