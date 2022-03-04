@@ -3,7 +3,7 @@ import 'src/pages/FormUser.css';
 import 'src/pages/SectionizedTable.css';
 import 'src/pages/ModalDelete.css';
 
-import React, { useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { Icon } from '@iconify/react';
 import { Avatar, Button } from '@mui/material';
 
@@ -20,6 +20,8 @@ interface RowProps<T> {
   handleIndexSelected: Function;
   isFormOpened: boolean;
   labelKey: string;
+  setObject: Function;
+  deleteState: string | undefined;
   actions?: boolean;
   handleChangeFlgAtivo?: Function;
 }
@@ -34,6 +36,11 @@ const Row = <T extends unknown>(props: RowProps<T>) => {
   const flgAcesso =
     objetos.find((x) => x.nomPagina.toLowerCase() === 'usuarios')?.flgAcesso ||
     'N';
+
+    useEffect(() => {
+      console.log(props.indexSelected);
+    }, [props.indexSelected])
+    
 
   return (
     <div
@@ -70,23 +77,29 @@ const Row = <T extends unknown>(props: RowProps<T>) => {
             {getProperty(props.data, 'desEmail' as any)}
           </div>
         </div>
-        {props.handleChangeFlgAtivo ? <DmIconifiedSwitch
-          noIcon
-          value={getProperty(props.data, 'flgAtivo' as any) === 'S' ? 'N' : 'S'}
-          checked={getProperty(props.data, 'flgAtivo' as any) === 'S'}
-          onClick={(e) => e.stopPropagation()}
-          onChange={(e) => {
-            if (props.handleChangeFlgAtivo)
-              props.handleChangeFlgAtivo(props.index, e.target.value);
-          }}
-          disabled={
-            props.isFormOpened ||
-            loggedUser?.desLogin ===
-              getProperty(props.data, 'desLogin' as any) ||
-            props.handleChangeFlgAtivo === undefined
-          }
-          tabIndex={-1}
-        /> : ''}
+        {props.handleChangeFlgAtivo ? (
+          <DmIconifiedSwitch
+            noIcon
+            value={
+              getProperty(props.data, 'flgAtivo' as any) === 'S' ? 'N' : 'S'
+            }
+            checked={getProperty(props.data, 'flgAtivo' as any) === 'S'}
+            onClick={(e) => e.stopPropagation()}
+            onChange={(e) => {
+              if (props.handleChangeFlgAtivo)
+                props.handleChangeFlgAtivo(props.index, e.target.value);
+            }}
+            disabled={
+              props.isFormOpened ||
+              loggedUser?.desLogin ===
+                getProperty(props.data, 'desLogin' as any) ||
+              props.handleChangeFlgAtivo === undefined
+            }
+            tabIndex={-1}
+          />
+        ) : (
+          ''
+        )}
         <Icon
           icon="fluent:chevron-right-16-filled"
           width={16}
@@ -95,7 +108,10 @@ const Row = <T extends unknown>(props: RowProps<T>) => {
       </div>
       <div className="buttons">
         <Button
-          onClick={() => props.handleFormOpen(true, false)}
+          onClick={() => {
+            props.handleFormOpen(true, false);
+            props.setObject(props.data);
+          }}
           disabled={flgAcesso !== 'A'}
           tabIndex={props.indexSelected === props.index ? 0 : -1}
           variant="contained"
@@ -104,7 +120,9 @@ const Row = <T extends unknown>(props: RowProps<T>) => {
           ALTERAR
         </Button>
         <Button
-          onClick={() => props.handleModalOpen(true)}
+          onClick={() => {
+            props.handleModalOpen(true);
+          }}
           disabled={flgAcesso !== 'A'}
           tabIndex={props.indexSelected === props.index ? 0 : -1}
           variant="contained"
