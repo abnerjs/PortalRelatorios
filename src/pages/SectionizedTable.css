@@ -78,6 +78,11 @@
   height: 89.5px;
 }
 
+.SectionizedTable .rows .row.selected.noAction {
+  background-color: white;
+  height: 46px;
+}
+
 .SectionizedTable .rows .row.forprestadores.selected {
   height: 46px;
 }
@@ -160,6 +165,10 @@
 
 .SectionizedTable .rows .row.selected .header .icon {
   transform: rotate(90deg);
+}
+
+.SectionizedTable .rows .row.selected.noAction .header .icon {
+  transform: rotate(0);
 }
 
 .SectionizedTable .search .icon {

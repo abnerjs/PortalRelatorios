@@ -6,35 +6,34 @@ import 'src/pages/ModalDelete.css';
 import React, { useEffect, useState } from 'react';
 import { Icon } from '@iconify/react';
 import {
-  Backdrop,
-  Box,
   Button,
-  CircularProgress,
-  Fade,
-  Modal,
-  Skeleton,
   Tab,
-  TablePagination,
   Tabs,
   TextField,
   Typography,
 } from '@mui/material';
 
 import Header from 'src/components/Header/Header';
-import Row from 'src/pages/Cadastros/Usuarios/Components/Row';
 import Form from 'src/pages/Cadastros/Usuarios/Components/Form';
 import { usePesquisa } from 'src/hooks/usePesquisa';
 import { useAppSelector, useAppDispatch } from 'src/store';
 import {
   usuariosGetRequest,
-  usuariosPutRequest,
   usuariosDeleteRequest,
   usuariosIdleOperation,
   usuariosCancelDelete,
   usuariosCleanError,
 } from 'src/store/ducks/usuarios';
 import { Usuario } from 'src/store/ducks/usuarios/types';
-import DmCollapseHandler from 'src/components/DmCollapseHandler/DmCollapseHandler';
+import DmList from 'src/components/DmList/DmList';
+
+const searchInitValues = {
+  init: {
+    itensPorPagina: 10,
+    novaOrdenacao: 'desNome',
+    numPagina: 1,
+  },
+};
 
 const Usuarios = () => {
   const objetos = useAppSelector((state) => state.session.objetos);
@@ -44,18 +43,19 @@ const Usuarios = () => {
 
   const [flgTipo, setFlgTipo] = useState('I');
   const [rowSelected, setRowSelected] = useState(-1);
-  const [isModalOpen, setModalOpen] = useState(false);
   const [isFormOpened, setFormOpened] = useState(false);
   const [isSearchFocused, setSearchFocused] = useState(false);
   const [isNewUserSection, setNewUserSection] = useState(false);
 
   const [usuario, setUsuario] = useState<Usuario | null>(null);
   const { pesquisa, handlePesquisa, handleCustomParameters } = usePesquisa({
+    ...searchInitValues,
     params: [{ key: 'flgTipo', value: 'I' }],
   });
 
   const dispatch = useAppDispatch();
   const usuarios = useAppSelector((state) => state.usuarios.data);
+  const pagination = useAppSelector((state) => state.usuarios.pagination);
   const loading = useAppSelector((state) => state.usuarios.loading);
   const getError = useAppSelector((state) => state.usuarios.error);
   const errors = useAppSelector((state) => state.usuarios.deleteError);
@@ -67,26 +67,6 @@ const Usuarios = () => {
     (state) => state.usuarios.operationState
   );
   const [isErrorCollapseOpened, setErrorCollapseOpened] = useState(false);
-  const [isGetErrorCollapseOpened, setGetErrorCollapseOpened] = useState(false);
-
-  /*PAGINACAO */
-  const [page, setPage] = React.useState(2);
-  const [rowsPerPage, setRowsPerPage] = React.useState(10);
-
-  const handleChangePage = (
-    event: React.MouseEvent<HTMLButtonElement> | null,
-    newPage: number
-  ) => {
-    setPage(newPage);
-  };
-
-  const handleChangeRowsPerPage = (
-    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
-  };
-  /*FIM PAGINACAO */
 
   useEffect(() => {
     dispatch(usuariosCleanError());
@@ -99,14 +79,6 @@ const Usuarios = () => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [changePassword]);
-
-  useEffect(() => {
-    setGetErrorCollapseOpened(getError !== undefined);
-    setUsuario(null);
-    setRowSelected(-1);
-    setFormOpened(false);
-    setNewUserSection(false);
-  }, [getError]);
 
   const handleChangeSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
     handlePesquisa('filtroPadrao', event.target.value);
@@ -147,23 +119,6 @@ const Usuarios = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [operationState]);
 
-  useEffect(() => {
-    if (deleteState === 'success') {
-      if (usuario?.idRelUsuario === usuarios[rowSelected]?.idRelUsuario) {
-        setFormOpened(false);
-      }
-
-      setModalOpen(false);
-      setRowSelected(-1);
-
-      dispatch(usuariosGetRequest(pesquisa.toString()));
-    }
-
-    setErrorCollapseOpened(errors !== undefined);
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [deleteState]);
-
   const handleChangeFlgTipo = (
     event: React.SyntheticEvent,
     newValue: string
@@ -175,14 +130,6 @@ const Usuarios = () => {
       setUsuario(null);
       setRowSelected(-1);
     }
-  };
-
-  const handleUpdate = (index: number, flgAtivo: string) => {
-    const data = { ...usuarios[index] };
-    data.flgAtivo = flgAtivo;
-
-    dispatch(usuariosPutRequest(data));
-    dispatch(usuariosGetRequest(pesquisa.toString()));
   };
 
   useEffect(() => {
@@ -279,136 +226,25 @@ const Usuarios = () => {
             >
               NOVO USUÁRIO
             </Button>
-            <DmCollapseHandler
-              error={getError}
-              isErrorCollapseOpened={isGetErrorCollapseOpened}
-              setErrorCollapseOpened={setGetErrorCollapseOpened}
+            <DmList
+              list={usuarios}
+              object={usuario}
+              getError={getError}
+              errors={errors}
+              deleteState={deleteState}
+              cancelDelete={usuariosCancelDelete}
+              deleteRequest={usuariosDeleteRequest}
+              handleFormOpen={handleFormOpen}
+              isFormOpened={isFormOpened}
+              key='idRelUsuario'
+              labelKey="desNome"
+              loading={loading}
+              request={usuariosGetRequest}
+              handlePesquisa={handlePesquisa}
+              pesquisa={pesquisa}
+              setObject={setUsuario}
+              pagination={pagination}
             />
-            <div
-              className="rows"
-              style={{ overflow: loading ? 'hidden' : 'auto' }}
-            >
-              {loading
-                ? loadingUsersRows()
-                : usuarios.map((item, index) => (
-                    <Row
-                      key={`usuario-${index}`}
-                      data={item}
-                      index={index}
-                      indexSelected={rowSelected}
-                      handleFormOpen={handleFormOpen}
-                      handleModalOpen={setModalOpen}
-                      handleIndexSelected={setRowSelected}
-                      handleChangeFlgAtivo={handleUpdate}
-                      isFormOpened={isFormOpened}
-                    />
-                  ))}
-            </div>
-            <TablePagination
-              className="pagination-table"
-              component="div"
-              count={100}
-              page={page}
-              onPageChange={handleChangePage}
-              rowsPerPage={rowsPerPage}
-              labelRowsPerPage="Registros por página:"
-              labelDisplayedRows={function labelRows({ from, to, count }) {
-                return `${from}–${to} de ${
-                  count !== -1 ? count : `mais que ${to}`
-                }`;
-              }}
-              onRowsPerPageChange={handleChangeRowsPerPage}
-            />
-            <Modal
-              open={isModalOpen}
-              onClose={() => {
-                setModalOpen(false);
-                setErrorCollapseOpened(false);
-                setTimeout(() => {
-                  dispatch(usuariosCancelDelete());
-                }, 500);
-              }}
-              closeAfterTransition
-              keepMounted
-              disablePortal
-              BackdropComponent={Backdrop}
-              BackdropProps={{ timeout: 500 }}
-              aria-labelledby="transition-modal-title"
-              aria-describedby="transition-modal-description"
-            >
-              <Fade in={isModalOpen}>
-                <Box className="modal-confirm-delete">
-                  <DmCollapseHandler
-                    error={errors}
-                    isErrorCollapseOpened={isErrorCollapseOpened}
-                    setErrorCollapseOpened={setErrorCollapseOpened}
-                  />
-                  <Typography id="transition-modal-title">
-                    Tem certeza que quer deletar o usuário?
-                  </Typography>
-                  <div className="userInfo">
-                    <Typography className="modal-user-info">
-                      {usuarios[rowSelected]?.desNome}
-                    </Typography>
-                  </div>
-                  <hr
-                    style={{
-                      width: '100%',
-                      height: 1,
-                      border: 'none',
-                      backgroundColor: 'rgba(0,0,0,0.2)',
-                    }}
-                  />
-                  <div className="buttons">
-                    <Button
-                      onClick={() => {
-                        setModalOpen(false);
-                        setErrorCollapseOpened(false);
-                        setTimeout(() => {
-                          dispatch(usuariosCancelDelete());
-                        }, 500);
-                      }}
-                      variant="contained"
-                      className="secondary"
-                      fullWidth
-                    >
-                      CANCELAR
-                    </Button>
-                    <Box sx={{ m: 0, position: 'relative' }}>
-                      <Button
-                        variant="contained"
-                        onClick={() =>
-                          dispatch(usuariosDeleteRequest(usuarios[rowSelected]))
-                        }
-                        disabled={deleteState === 'request'}
-                        type="submit"
-                        className={
-                          deleteState === 'request'
-                            ? 'errorSecondary'
-                            : 'errorColor'
-                        }
-                        fullWidth
-                      >
-                        DELETAR
-                      </Button>
-                      {deleteState === 'request' && (
-                        <CircularProgress
-                          size={24}
-                          sx={{
-                            color: '#CA4539',
-                            position: 'absolute',
-                            top: '50%',
-                            left: '50%',
-                            marginTop: '-12px',
-                            marginLeft: '-12px',
-                          }}
-                        />
-                      )}
-                    </Box>
-                  </div>
-                </Box>
-              </Fade>
-            </Modal>
           </div>
           <Form
             data={usuario}
@@ -422,33 +258,3 @@ const Usuarios = () => {
 };
 
 export default Usuarios;
-
-const loadingUsersRows = () => {
-  let arr = [];
-
-  for (let i = 0; i < 25; i++) {
-    arr.push(
-      <div key={`loadingRow-${i}`} className={`row`}>
-        <div className="header">
-          <Skeleton
-            animation="wave"
-            variant="circular"
-            width={36}
-            height={36}
-            style={{ marginRight: '10px' }}
-          />
-          <Typography component="div" variant="body1" style={{ flex: 1 }}>
-            <Skeleton animation="wave" />
-          </Typography>
-          <Icon
-            icon="fluent:chevron-right-16-filled"
-            width={16}
-            className="icon"
-          />
-        </div>
-      </div>
-    );
-  }
-
-  return arr;
-};
