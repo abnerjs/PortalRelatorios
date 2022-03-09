@@ -181,6 +181,8 @@ const VinculosUsuarios = () => {
               setObject={setUsuario}
               pagination={pagination}
               noAction
+              rowSelected={rowSelected}
+              setRowSelected={setRowSelected}
             />
           </div>
           <Form

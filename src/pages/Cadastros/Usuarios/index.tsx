@@ -252,6 +252,8 @@ const Usuarios = () => {
               setObject={setUsuario}
               pagination={pagination}
               switchFunction={handleChangeFlgAtivo}
+              rowSelected={rowSelected}
+              setRowSelected={setRowSelected}
             />
           </div>
           <Form

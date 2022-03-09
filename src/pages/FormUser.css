@@ -122,7 +122,9 @@
 
 .FormUser .formFields {
   height: calc(100% - 60px);
-  overflow-y: auto;
+  width: calc(100% + 10px);
+  padding-right: 20px;
+  overflow-y: scroll;
 }
 
 .FormUser .buttons {
