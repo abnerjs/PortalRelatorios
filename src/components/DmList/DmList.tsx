@@ -25,6 +25,8 @@ interface Props<T> {
   handleFormOpen: Function;
   isFormOpened: boolean;
   setObject: Function;
+  rowSelected: number;
+  setRowSelected: Function;
   key: string;
   labelKey: string;
   loading: boolean;
@@ -48,7 +50,6 @@ function getProperty<Type, Key extends keyof Type>(obj: Type, key: Key) {
 const DmList = <T extends unknown>(props: Props<T>) => {
   const [isGetErrorCollapseOpened, setGetErrorCollapseOpened] = useState(false);
   const [isErrorCollapseOpened, setErrorCollapseOpened] = useState(false);
-  const [rowSelected, setRowSelected] = useState(-1);
   const [isModalOpen, setModalOpen] = useState(false);
   const dispatch = useAppDispatch();
 
@@ -76,20 +77,28 @@ const DmList = <T extends unknown>(props: Props<T>) => {
   useEffect(() => {
     if (props.deleteState === 'success') {
       if (
-        getProperty(props.list[rowSelected], props.key as any) ===
+        getProperty(props.list[props.rowSelected], props.key as any) ===
         getProperty(props.object, props.key as any)
       ) {
         props.handleFormOpen(false, true);
       }
 
       setModalOpen(false);
-      setRowSelected(-1);
+      props.setRowSelected(-1);
 
       dispatch(props.request(props.pesquisa.toString()));
     }
     if (props.errors) setErrorCollapseOpened(props.errors !== undefined);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.deleteState]);
+
+  useEffect(() => {
+    if(props.object === null) {
+      props.setRowSelected(-1);
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [props.object])
+  
 
   return (
     <>
@@ -110,18 +119,18 @@ const DmList = <T extends unknown>(props: Props<T>) => {
                 data={item}
                 index={index}
                 labelKey={props.labelKey}
-                indexSelected={rowSelected}
+                indexSelected={props.rowSelected}
                 noAction={props.noAction}
                 handleFormOpen={props.handleFormOpen}
                 handleModalOpen={setModalOpen}
                 deleteState={props.deleteState}
-                handleIndexSelected={setRowSelected}
+                handleIndexSelected={props.setRowSelected}
                 handleChangeFlgAtivo={props.switchFunction}
                 isFormOpened={props.isFormOpened}
                 setObject={props.setObject}
               />
             ))}
-        {rowSelected !== -1 && (
+        {props.rowSelected !== -1 && (
           <Modal
             open={isModalOpen}
             onClose={() => {
@@ -156,7 +165,7 @@ const DmList = <T extends unknown>(props: Props<T>) => {
                 <div className="userInfo">
                   <Typography className="modal-user-info">
                     {getProperty(
-                      props.list[rowSelected],
+                      props.list[props.rowSelected],
                       props.labelKey as any
                     )}
                   </Typography>
@@ -188,7 +197,7 @@ const DmList = <T extends unknown>(props: Props<T>) => {
                     <Button
                       variant="contained"
                       onClick={() =>
-                        dispatch(props.deleteRequest(props.list[rowSelected]))
+                        dispatch(props.deleteRequest(props.list[props.rowSelected]))
                       }
                       disabled={props.deleteState === 'request'}
                       type="submit"

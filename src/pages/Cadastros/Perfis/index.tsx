@@ -201,6 +201,8 @@ const Perfis = () => {
               pesquisa={pesquisa}
               setObject={setPerfil}
               pagination={pagination}
+              rowSelected={rowSelected}
+              setRowSelected={setRowSelected}
             />
           </div>
           <Form data={perfil} isFormOpened={isFormOpened} />

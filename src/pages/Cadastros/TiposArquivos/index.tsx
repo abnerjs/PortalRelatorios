@@ -197,6 +197,8 @@ const TiposArquivos = () => {
               pesquisa={pesquisa}
               setObject={setTipoArquivo}
               pagination={pagination}
+              rowSelected={rowSelected}
+              setRowSelected={setRowSelected}
             />
           </div>
           <Form data={tipoArquivo} isFormOpened={isFormOpened} />
