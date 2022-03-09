@@ -2,10 +2,11 @@ import './Table.css';
 
 import React, { useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Button, Typography } from '@mui/material';
+import { Button, Pagination, Typography } from '@mui/material';
 import { ArquivoUploadReceiveFormat } from 'src/store/ducks/relatoriosUpload/types';
 import { useAppDispatch } from 'src/store';
 import Row from './subcomponents/Row';
+import { array } from 'yup/lib/locale';
 
 export interface LinkProps {
   name: string;
@@ -96,6 +97,7 @@ const Table = (props: Props) => {
             props.fullView,
           )}
         </div>
+        {/*<Pagination count={1} shape="rounded" /> */}
       </div>
     </div>
   );

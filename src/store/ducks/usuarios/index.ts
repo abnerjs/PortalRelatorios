@@ -68,6 +68,9 @@ export const usuariosSlice = createSlice({
     usuariosPutRequest: (state, action: PayloadAction<Usuario>) => {
       state.operationState = 'request';
     },
+    usuariosChangeFlagActiveRequest: (state, action: PayloadAction<Usuario>) => {
+      state.operationState = 'request';
+    },
     usuariosOperationSuccess: (state) => {
       state.operationError = undefined;
       state.operationState = 'success';
@@ -137,6 +140,7 @@ export const {
   usuariosGetFilterError,
   usuariosPostRequest,
   usuariosPutRequest,
+  usuariosChangeFlagActiveRequest,
   usuariosDeleteRequest,
   usuariosOperationSuccess,
   usuariosOperationError,

@@ -128,7 +128,7 @@
   margin-right: 10px;
 }
 
-.SectionizedTable .rows .row .header div:not(:first-child) {
+.SectionizedTable .rows .row .header.user div:not(.MuiAvatar-root) {
   font-size: 12px;
 }
 

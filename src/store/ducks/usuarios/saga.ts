@@ -1,5 +1,6 @@
 import { AxiosResponse } from 'axios';
 import { all, call, debounce, put, takeLatest } from 'redux-saga/effects';
+import Usuarios from 'src/pages/Cadastros/Usuarios';
 
 import api from 'src/services/api';
 import { RespostaApi, TipoFiltro } from 'src/store/ducks/base/types';
@@ -20,6 +21,7 @@ import {
   changeUsuarioPasswordSuccess,
   changeUsuarioPasswordError,
   usuariosGetFilterError,
+  usuariosChangeFlagActiveRequest,
 } from 'src/store/ducks/usuarios';
 import { Usuario } from 'src/store/ducks/usuarios/types';
 
@@ -99,11 +101,36 @@ export function* sendChangePasswordRequest(
   }
 }
 
+export function* sendChangeActiveFlagRequest(
+  action: ReturnType<typeof usuariosChangeFlagActiveRequest>
+) {
+  try {
+    let u: Usuario = {
+      codColaborador: action.payload.codColaborador,
+      desLogin: action.payload.desLogin,
+      desNome: action.payload.desNome,
+      desSenha: action.payload.desSenha,
+      flgAtivo: action.payload.flgAtivo === 'S' ? 'N' : 'S',
+      flgTipo: action.payload.flgTipo,
+      idRelPerfil: action.payload.idRelPerfil,
+      idRelUsuario: action.payload.idRelUsuario,
+      desCpfCnpj: action.payload.desCpfCnpj,
+      desEmail: action.payload.desEmail,
+    };
+
+    yield call(api.put, `Usuarios/v1/`, u);
+    yield put(usuariosOperationSuccess());
+  } catch (error: any) {
+    yield put(usuariosOperationError(error));
+  }
+}
+
 export default all([
   debounce(500, usuariosGetRequest, sendGetRequest),
   takeLatest(usuariosGetFilterRequest, sendGetFilterRequest),
   takeLatest(usuariosPostRequest, sendPostRequest),
   takeLatest(usuariosPutRequest, sendPutRequest),
+  takeLatest(usuariosChangeFlagActiveRequest, sendChangeActiveFlagRequest),
   takeLatest(usuariosDeleteRequest, sendDeleteRequest),
   takeLatest(changeUsuarioPasswordRequest, sendChangePasswordRequest),
 ]);

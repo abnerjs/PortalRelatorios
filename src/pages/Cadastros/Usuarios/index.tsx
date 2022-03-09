@@ -23,6 +23,8 @@ import {
   usuariosIdleOperation,
   usuariosCancelDelete,
   usuariosCleanError,
+  usuariosPutRequest,
+  usuariosChangeFlagActiveRequest,
 } from 'src/store/ducks/usuarios';
 import { Usuario } from 'src/store/ducks/usuarios/types';
 import DmList from 'src/components/DmList/DmList';
@@ -66,6 +68,7 @@ const Usuarios = () => {
   const operationState = useAppSelector(
     (state) => state.usuarios.operationState
   );
+  
   const [isErrorCollapseOpened, setErrorCollapseOpened] = useState(false);
 
   useEffect(() => {
@@ -130,6 +133,10 @@ const Usuarios = () => {
       setUsuario(null);
       setRowSelected(-1);
     }
+  };
+
+  const handleChangeFlgAtivo = (id: number) => {
+    dispatch(usuariosChangeFlagActiveRequest(usuarios[id]));
   };
 
   useEffect(() => {
@@ -244,6 +251,7 @@ const Usuarios = () => {
               pesquisa={pesquisa}
               setObject={setUsuario}
               pagination={pagination}
+              switchFunction={handleChangeFlgAtivo}
             />
           </div>
           <Form

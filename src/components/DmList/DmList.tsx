@@ -59,6 +59,7 @@ const DmList = <T extends unknown>(props: Props<T>) => {
     event: React.MouseEvent<HTMLButtonElement> | null,
     newPage: number
   ) => {
+    props.handleFormOpen(false);
     props.handlePesquisa('numPagina', newPage + 1);
   };
 
@@ -66,8 +67,9 @@ const DmList = <T extends unknown>(props: Props<T>) => {
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     setRowsPerPage(parseInt(event.target.value, 10));
-    props.handlePesquisa('itensPorPagina', parseInt(event.target.value));
-    props.handlePesquisa('numPagina', 1);
+    props.handleFormOpen(false);
+    props.handlePesquisa('numPagina', 2);
+    props.handlePesquisa('itensPorPagina', event.target.value);
   };
   /*FIM PAGINACAO */
 
@@ -251,24 +253,9 @@ const loadingUsersRows = <T extends unknown>(props: Props<T>) => {
     arr.push(
       <div key={`loadingRow-${i}`} className={`row`}>
         <div className="header">
-          <Skeleton
-            animation="wave"
-            variant="circular"
-            width={36}
-            height={36}
-            style={{
-              marginRight: '10px',
-              display: props.switchFunction ? 'flex' : 'none',
-            }}
-          />
           <Typography component="div" variant="body1" style={{ flex: 1 }}>
             <Skeleton animation="wave" />
           </Typography>
-          <Icon
-            icon="fluent:chevron-right-16-filled"
-            width={16}
-            className="icon"
-          />
         </div>
       </div>
     );

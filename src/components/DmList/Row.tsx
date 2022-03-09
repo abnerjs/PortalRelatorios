@@ -53,7 +53,10 @@ const Row = <T extends unknown>(props: RowProps<T>) => {
             props.setObject(props.data);
           }
         }}
-        className="header"
+        className={getProperty(props.data, 'desLogin' as any)
+            ? 'header user'
+            : 'header'
+        }
       >
         <Avatar
           sx={{ bgcolor: '#1878a1' }}
@@ -89,7 +92,7 @@ const Row = <T extends unknown>(props: RowProps<T>) => {
             onClick={(e) => e.stopPropagation()}
             onChange={(e) => {
               if (props.handleChangeFlgAtivo)
-                props.handleChangeFlgAtivo(props.index, e.target.value);
+                props.handleChangeFlgAtivo(props.index);
             }}
             disabled={
               props.isFormOpened ||
