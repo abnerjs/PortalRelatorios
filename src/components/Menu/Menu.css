@@ -31,6 +31,37 @@
   transition: all ease 0.3s;
 }
 
+.MuiBottomNavigation-root {
+  bottom: 0;
+  width: 100vw !important;
+  background-color: #ececf6 !important;
+  height: 55px !important;
+  position: fixed;
+}
+
+.MuiBottomNavigation-root .MuiBottomNavigationAction-root {
+  height: 55px;
+  transition-property: all !important;
+}
+
+.MuiBottomNavigation-root .MuiBottomNavigationAction-root:not(.Mui-selected) {
+  padding: 8px 6px;
+}
+
+.MuiBottomNavigation-root .MuiBottomNavigationAction-root:not(.Mui-selected) .MuiBottomNavigationAction-label {
+  height: 0;
+}
+
+.MuiBottomNavigation-root .MuiBottomNavigationAction-root.Mui-selected svg {
+  width: 20px !important;
+  height: 20px;
+}
+
+.MuiBottomNavigation-root .MuiBottomNavigationAction-root:not(.Mui-selected) svg {
+  width: 30px !important;
+  height: 30px;
+}
+
 .Menu.expanse {
   width: 250px;
 }

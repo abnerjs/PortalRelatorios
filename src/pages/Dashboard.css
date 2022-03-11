@@ -12,7 +12,7 @@
 
 .Dashboard .content {
   margin: 40px;
-  width: 100%;
+  width: calc(100% - 80px);
   display: flex;
   flex-direction: column;
 }
@@ -59,4 +59,55 @@
   gap: 30px;
   flex: 1;
   overflow: hidden;
+}
+
+@media screen and (max-width: 1254px) {
+  .Dashboard {
+      height: calc(100% - 52px);
+      position: fixed;
+      top: 0;
+  }
+
+  .Dashboard .content {
+    margin: 20px;
+    width: calc(100% - 40px);
+  }
+
+  .Dashboard .row.cardsUp {
+    overflow-x: scroll;
+    width: calc(100% + 40px);
+    transform: translateX(-20px);
+  }
+
+  .Dashboard .row.cardsUp>div {
+   margin-left: 10px;
+  }
+
+  .Dashboard .row.cardsUp::-webkit-scrollbar {
+    display: none;
+  }
+  
+  .Dashboard .row.cardsUp::-webkit-scrollbar-thumb {
+    display: none;
+  }
+
+  .Dashboard .row .comp {
+    display: none;
+  }
+
+  .Dashboard .cards > div {
+    box-shadow: none;
+    user-select: none;
+  }
+
+  .Dashboard .cards {
+    user-select: none;
+  }
+
+  .Dashboard .cards > div:hover {
+    transform: scale(1.0);
+    box-shadow: none;
+    z-index: 1002;
+    user-select: none;
+  }
 }

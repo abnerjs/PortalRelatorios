@@ -15,7 +15,7 @@ const Dashboard = () => {
             Últimos relatórios acessados
           </Typography>
         </div>
-        <div className="row">
+        <div className="row cardsUp">
           <div className="cards">
             <Card>
               <CardContent>

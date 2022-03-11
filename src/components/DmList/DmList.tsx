@@ -17,6 +17,7 @@ import { InfoPaginacao, InfoPesquisaProps } from 'src/store/ducks/base/types';
 import { ErrorAPI } from 'src/store/ducks/types';
 import DmCollapseHandler from '../DmCollapseHandler/DmCollapseHandler';
 import Row from './Row';
+import './DmList.css';
 
 interface Props<T> {
   list: Array<T>;
@@ -93,12 +94,11 @@ const DmList = <T extends unknown>(props: Props<T>) => {
   }, [props.deleteState]);
 
   useEffect(() => {
-    if(props.object === null) {
+    if (props.object === null) {
       props.setRowSelected(-1);
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [props.object])
-  
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [props.object]);
 
   return (
     <>
@@ -108,8 +108,11 @@ const DmList = <T extends unknown>(props: Props<T>) => {
         setErrorCollapseOpened={setGetErrorCollapseOpened}
       />
       <div
-        className="rows"
-        style={{ overflow: props.loading ? 'hidden' : 'auto' }}
+        className={`rows${props.loading ? ' loading' : ''}`}
+        style={{
+          overflow: props.loading ? 'hidden' : 'auto',
+          height: props.loading ? '100px !important' : 'calc(100% -62px) !important',
+        }}
       >
         {props.loading
           ? loadingUsersRows(props)
@@ -197,7 +200,9 @@ const DmList = <T extends unknown>(props: Props<T>) => {
                     <Button
                       variant="contained"
                       onClick={() =>
-                        dispatch(props.deleteRequest(props.list[props.rowSelected]))
+                        dispatch(
+                          props.deleteRequest(props.list[props.rowSelected])
+                        )
                       }
                       disabled={props.deleteState === 'request'}
                       type="submit"
@@ -231,7 +236,7 @@ const DmList = <T extends unknown>(props: Props<T>) => {
         )}
       </div>
       <TablePagination
-        className="pagination-table"
+        className={`pagination-table${props.loading? ' loading' : ''}`}
         component="div"
         count={props.pagination?.totRegistros || 0}
         page={
@@ -270,5 +275,7 @@ const loadingUsersRows = <T extends unknown>(props: Props<T>) => {
     );
   }
 
-  return arr;
+  const comp = <div className="loadingSection">{arr}</div>
+
+  return comp;
 };
