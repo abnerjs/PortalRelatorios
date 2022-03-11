@@ -19,10 +19,13 @@ import RelForCanaEntregue from './Relatorios/Routes/RelForCanaEntregue';
 import TiposArquivos from './Cadastros/TiposArquivos';
 import Gerenciamento from './Relatorios/Gerenciamento';
 import MeusUploads from './Relatorios/MeusUploads';
+import useResponsivity from 'src/hooks/useResponsivity';
 
 const Main = () => {
+  const isMobileView = useResponsivity();
+
   return (
-    <div className="Main">
+    <div className={`Main${isMobileView ? ' mobile' : ''}`}>
       <Menu />
 
       <Switch>

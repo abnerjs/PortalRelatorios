@@ -1,6 +1,11 @@
+.head {
+    width: 100%;
+}
+
 .Header {
     display: flex;
     align-items: center;
+    width: 100%;
 }
 
 .Header .MuiTypography-root {
@@ -16,6 +21,16 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
+}
+
+@media screen and (max-width: 1245px) {
+    .Header .acesso {
+        display: none;
+    }
+
+    .head>.MuiTypography-root {
+        display: none;
+    }
 }
 
 .Header .MuiTypography-root.MuiTypography-subtitle1 {

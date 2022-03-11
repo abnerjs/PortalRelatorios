@@ -1,0 +1,11 @@
+.SectionizedTable .rows.loading {
+  overflow: hidden !important;
+}
+
+.rows .loadingSection {
+  overflow: hidden;
+}
+
+.pagination-table.loading {
+  display: none;
+}
