@@ -7,6 +7,7 @@ import { IconButton, Tooltip } from '@mui/material';
 import { TipoObjeto, Objeto } from 'src/store/ducks/login/types';
 import { useAppSelector } from 'src/store';
 import Submenu from './Submenu';
+import useResponsivity, { useMenuResponsivity } from 'src/hooks/useResponsivity';
 
 const menuFromAPI = [
   {
@@ -58,11 +59,14 @@ const Menu = () => {
   const [submenuRender, setSubmenuRender] = React.useState<MenuButton[]>([]);
   const [open, setOpen] = React.useState(false);
 
+  const isMobileView = useResponsivity();
+  const isMenuExpansive = useMenuResponsivity();
+  
+
   const location = useLocation();
   useEffect(() => {
-    if(location.pathname === '/') setOpen(true);
-  }, [location.pathname])
-  
+    if (location.pathname === '/') setOpen(true);
+  }, [location.pathname]);
 
   useEffect(() => {
     if (sistemas) {
@@ -106,7 +110,7 @@ const Menu = () => {
 
   return (
     <>
-      <div className={`Menu${open ? ' expanse' : ''}`}>
+      <div className={`Menu${open && isMenuExpansive ? ' expanse' : ''}`}>
         <Link to="/" tabIndex={-1} style={{ width: '100%' }}>
           <div
             className="logo"
@@ -118,18 +122,22 @@ const Menu = () => {
           </div>
         </Link>
         <IconButton
-        className={`expand-btn${open ? ' expanse' : ''}`}
-        onClick={() => setOpen(!open)}
-      >
-        <Icon icon="fluent:arrow-swap-20-filled" />
-      </IconButton>
+          className={`expand-btn${open ? ' expanse' : ''}`}
+          onClick={() => setOpen(!open)}
+          style={{
+            opacity: isMenuExpansive ? 1 : 0,
+            visibility: isMenuExpansive ? 'visible' : 'hidden',
+          }}
+        >
+          <Icon icon="fluent:arrow-swap-20-filled" />
+        </IconButton>
 
         <div className="links">
           <Tooltip
             title="Início"
             enterDelay={500}
             placement="right"
-            disableHoverListener={open}
+            disableHoverListener={open && isMenuExpansive}
           >
             <Link to="/" tabIndex={-1} style={{ textDecoration: 'none' }}>
               <div
@@ -137,7 +145,7 @@ const Menu = () => {
                   `menuButton` +
                   (location.pathname === '/'
                     ? ' active'
-                    : '' + (open ? ' expanded' : ''))
+                    : (open && isMenuExpansive ? ' expanded' : ''))
                 }
                 onClick={() => () => {
                   setSubmenuIndexActive(-1);
@@ -157,6 +165,7 @@ const Menu = () => {
                 listDescription={item.listDescription}
                 index={item.index}
                 expanded={open}
+                isMenuExpansive={isMenuExpansive}
                 submenuIndexActive={submenuIndexActive}
                 setSubmenuIndexActive={setSubmenuIndexActive}
               />

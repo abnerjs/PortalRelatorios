@@ -1,142 +1,142 @@
-
 .expand-btn {
-    background-color: #fff !important;
-    width: 30px;
-    height: 30px;
-    margin-top: 30px !important;
-    transition: margin ease 0.3s, background-color ease 0.3s, transform ease 0.6s !important;
-    z-index: 1202;
-    align-self: flex-end !important;
-    transform: translateX(50%);
+  background-color: #fff !important;
+  width: 30px;
+  height: 30px;
+  margin-top: 30px !important;
+  transition: margin ease 0.3s, background-color ease 0.3s, opacity ease 0.6s,
+    transform ease 0.6s !important;
+  z-index: 1202;
+  align-self: flex-end !important;
+  transform: translateX(50%);
 }
 
 .expand-btn.expanse {
-    transform: rotateY(180deg) translateX(-50%);
+  transform: rotateY(180deg) translateX(-50%);
 }
 
 .expand-btn:hover {
-    background-color: #00000010 !important;
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
+  background-color: #00000010 !important;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
 }
 
 .Menu {
-    background-color: #ECECF6;
-    width: 60px;
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    z-index: 1201;
-    transition: all ease 0.3s;
+  background-color: #ececf6;
+  width: 60px;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  z-index: 1201;
+  transition: all ease 0.3s;
 }
 
 .Menu.expanse {
-    width: 250px;
+  width: 250px;
 }
 
 .Menu .logo {
-    width: 100%;
-    height: 60px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: auto;
-    margin-top: 40px;
+  width: 100%;
+  height: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: auto;
+  margin-top: 40px;
 }
 
 .Menu .links {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    margin-top: 30px;
-    width: 100%;
-    flex: 1;
-    overflow-y: auto;
-    overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  margin-top: 30px;
+  width: 100%;
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 .menuButton {
-    width: 100%;
-    height: 60px;
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
+  width: 100%;
+  height: 60px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
 }
 
 .menuButton .textual {
-    flex: 1;
-    padding-left: 5px;
-    color: #aaa;
-    font-weight: var(--medium);
+  flex: 1;
+  padding-left: 5px;
+  color: #aaa;
+  font-weight: var(--medium);
 }
 
 .menuButton svg {
-    font-size: 25px;
-    color: #AAA;
-    width: 60px;
-    min-width: 60px;
+  font-size: 25px;
+  color: #aaa;
+  width: 60px;
+  min-width: 60px;
 }
 
 .links .items .MuiList-root .MuiListItem-root .Mui-focusVisible {
-    background-color: black;
+  background-color: black;
 }
 
 .menuButton.active {
-    border-right: 2px solid var(--primaryColor);
-    width: calc(100% - 2px);
+  border-right: 2px solid var(--primaryColor);
+  width: calc(100% - 2px);
 }
 
 .menuButton.active:not(.expanded) svg {
-    color: var(--primaryColor);
+  color: var(--primaryColor);
 }
 
 .menuButton:hover:not(.active):not(.expanded) svg {
-    color: var(--primary50);
+  color: var(--primary50);
 }
 
 .menuButton:hover:not(.active):not(.expanded) {
-    border-right: 2px solid var(--primary50);
-    width: calc(100% - 2px);
+  border-right: 2px solid var(--primary50);
+  width: calc(100% - 2px);
 }
 
 .menuButton.active:not(.expanded) .textual {
-    color: var(--primaryColor);
+  color: var(--primaryColor);
 }
 
 .menuButton:hover:not(.active):not(.expanded) .textual {
-    color: var(--primary50);
+  color: var(--primary50);
 }
 
 .menuButton:not(.expanded):hover {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 .menuButton.expanded .textual {
-    color: #555;
+  color: #555;
 }
 
 .menuButton.expanded svg {
-    color: #555;
+  color: #555;
 }
 
 .fullWidthList {
-    width: 250px;
-    min-width: 250px;
+  width: 250px;
+  min-width: 250px;
 }
 
 .fullWidthList .itemlist:not(.active) {
-    color: #666;
+  color: #666;
 }
 
 .fullWidthList .itemlist.active {
-    color: var(--primaryColor);
+  color: var(--primaryColor);
 }
 
 .fullWidthList .itemlist-btn:hover .itemlist:not(.active) {
-    color: var(--primaryColor) !important;
+  color: var(--primaryColor) !important;
 }
 
 .fullWidthList .itemlist-btn {
-    color: var(--primary50) !important;
+  color: var(--primary50) !important;
 }
