@@ -160,7 +160,7 @@ const DmList = <T extends unknown>(props: Props<T>) => {
                   ''
                 )}
                 <Typography id="transition-modal-title">
-                  Tem certeza que quer deletar o perfil?
+                  Tem certeza que quer deletar o registro?
                 </Typography>
                 <div className="userInfo">
                   <Typography className="modal-user-info">

@@ -18,6 +18,7 @@ type Props = {
   icon: string;
   listDescription: string;
   expanded: boolean;
+  isMenuExpansive: boolean;
   list: any;
   index: number;
   submenuIndexActive: number;
@@ -77,7 +78,10 @@ const Submenu = (props: Props) => {
 
   const fullWidthList = (array: Array<Objeto>, expanded: boolean) => {
     return (
-      <Collapse in={expanded} className="fullWidthList">
+      <Collapse
+        in={expanded && props.isMenuExpansive}
+        className="fullWidthList"
+      >
         <List component="div" disablePadding>
           {array.map((obj, index) => (
             <Link
@@ -121,12 +125,14 @@ const Submenu = (props: Props) => {
 
     list.forEach((item) => {
       if (
-        location.pathname.toLowerCase().includes('/' + item.nomPagina.toLowerCase())
+        location.pathname
+          .toLowerCase()
+          .includes('/' + item.nomPagina.toLowerCase())
       )
         aux = true;
     });
     if (aux) str += ' active';
-    if (expanded) str += ' expanded';
+    if (expanded && props.isMenuExpansive) str += ' expanded';
     return str;
   };
 
@@ -136,11 +142,12 @@ const Submenu = (props: Props) => {
         title={props.listDescription}
         enterDelay={500}
         placement="right"
-        disableHoverListener={props.expanded}
+        disableHoverListener={props.expanded && props.isMenuExpansive}
       >
         <div
           onClick={() => {
-            if(!props.expanded) setState(!state);
+            if (!props.expanded || (!props.isMenuExpansive && props.expanded))
+              setState(!state);
           }}
           className={isActiveClassName(props.list, props.expanded)}
         >
@@ -151,7 +158,10 @@ const Submenu = (props: Props) => {
       <div className="items">{fullWidthList(props.list, props.expanded)}</div>
       <Drawer
         anchor="left"
-        open={state && !props.expanded}
+        open={
+          state &&
+          (!props.expanded || (!props.isMenuExpansive && props.expanded))
+        }
         onClose={() => setState(false)}
         PaperProps={{ style: { justifyContent: 'flex-start' } }}
       >
