@@ -81,7 +81,7 @@ const Recovery: React.FC = () => {
         color="primary"
         margin="dense"
         variant="filled"
-        className="secondary"
+        className="secondary DmTextField"
         InputProps={{
           disableUnderline: true,
           readOnly: operationState === 'success',
@@ -97,7 +97,7 @@ const Recovery: React.FC = () => {
         color="primary"
         margin="dense"
         variant="filled"
-        className="secondary"
+        className="secondary DmTextField"
         InputProps={{
           disableUnderline: true,
           readOnly: operationState === 'success',

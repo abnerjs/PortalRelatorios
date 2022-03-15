@@ -17,3 +17,9 @@
 .Canvas .iconified svg {
     margin-right: 10px;
 }
+
+@media screen and (max-width: 1254px) {
+    .Canvas .left {
+        display: none;
+    }
+}

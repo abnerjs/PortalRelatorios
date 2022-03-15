@@ -1,21 +1,34 @@
 .Canvas {
-    width: 100%;
-    display: flex;
+  width: 100%;
+  display: flex;
 }
 
 .Canvas .right {
-    width: 50%;
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+  width: 50%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 .Canvas .right .form {
-    width: 450px;
+  max-width: 450px;
+  width: calc(100% - 40px);
 }
 
 .Canvas .right .form p {
-    font-size: 14px;
+  font-size: 14px;
+}
+
+@media screen and (max-width: 1254px) {
+  .Canvas .right {
+    width: 100%;
+  }
+
+  .Canvas .right .iconified {
+    position: absolute;
+    top: 40px;
+    transform: scale(0.8);
+  }
 }

@@ -11,6 +11,7 @@ import { useAppDispatch, useAppSelector } from 'src/store';
 import { loginRequest } from 'src/store/ducks/login';
 import { Box } from '@mui/system';
 import DmCollapseHandler from 'src/components/DmCollapseHandler/DmCollapseHandler';
+import DmTextField from 'src/components/DmTextField/DmTextField';
 
 interface FormInputs {
   desLogin: string;
@@ -26,7 +27,9 @@ const Login: React.FC = () => {
   const history = useHistory();
   const dispatch = useAppDispatch();
   const loginError = useAppSelector((state) => state.session.error);
-  const operationState = useAppSelector((state) => state.session.operationState);
+  const operationState = useAppSelector(
+    (state) => state.session.operationState
+  );
   const [isErrorCollapseOpened, setErrorCollapseOpened] = useState(false);
 
   const { register, handleSubmit, formState } = useForm<FormInputs>({
@@ -67,9 +70,14 @@ const Login: React.FC = () => {
         color="primary"
         margin="dense"
         variant="filled"
-        className="secondary"
+        className="secondary DmTextField"
         InputProps={{
           disableUnderline: true,
+        }}
+        inputProps={{
+          style: {
+            paddingLeft: '20px !important',
+          },
         }}
         error={!!formState.errors.desLogin}
         {...register('desLogin')}
@@ -81,10 +89,15 @@ const Login: React.FC = () => {
         color="primary"
         margin="dense"
         variant="filled"
-        className="secondary"
+        className="secondary DmTextField"
         type="password"
         InputProps={{
           disableUnderline: true,
+        }}
+        inputProps={{
+          style: {
+            paddingLeft: '20px !important',
+          },
         }}
         error={!!formState.errors.desSenha}
         {...register('desSenha')}
@@ -95,7 +108,11 @@ const Login: React.FC = () => {
           variant="contained"
           disabled={formState.isSubmitting || operationState === 'request'}
           type="submit"
-          className={formState.isSubmitting || operationState === 'request' ? 'secondary' : ''}
+          className={
+            formState.isSubmitting || operationState === 'request'
+              ? 'secondary'
+              : ''
+          }
           style={{ marginTop: 8 }}
           fullWidth
         >

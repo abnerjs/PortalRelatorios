@@ -8,12 +8,20 @@ import Confirmation from 'src/pages/Login/Routes/Confirmation';
 import Form from 'src/pages/Login/Routes/Form';
 import NewPassword from 'src/pages/Login/Routes/NewPassword';
 import Recovery from 'src/pages/Login/Routes/Recovery';
+import DatamobIcon from 'src/assets/DatamobIcon';
+import { Typography } from '@mui/material';
 
 const Canvas: React.FC = () => {
   return (
     <div className="Canvas">
       <Left />
       <div className="right">
+        <div className="iconified">
+          <DatamobIcon width={49} height={52} />
+          <Typography variant="h5" className="primary">
+            PORTAL DE RELATÓRIOS
+          </Typography>
+        </div>
         <Switch>
           <Route path="/recovery">
             <Recovery />
