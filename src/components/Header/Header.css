@@ -1,38 +1,54 @@
 .head {
-    width: 100%;
+  width: 100%;
 }
 
 .Header {
-    display: flex;
-    align-items: center;
-    width: 100%;
-}
-
-.Header .MuiTypography-root {
-    flex: 1;
+  display: flex;
+  align-items: center;
+  width: 100%;
 }
 
 .Header .right {
     display: flex;
 }
 
+.Header .MuiTypography-root {
+  flex: 1;
+}
+
+.Header {
+  display: flex;
+  justify-content: flex-end;
+}
+
 .Header .acesso {
-    margin-right: 20px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+  margin-right: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 @media screen and (max-width: 1245px) {
-    .Header .acesso {
-        display: none;
-    }
+  .Header .acesso {
+    display: none;
+  }
 
-    .head>.MuiTypography-root {
-        display: none;
-    }
+  .head > .MuiTypography-root {
+    display: none;
+  }
+
+  .Header {
+    flex-flow: row wrap;
+  }
+
+  .Header::before,
+  .Header::after {
+    content: '';
+    width: 100%;
+    order: 1;
+  }
 }
 
 .Header .MuiTypography-root.MuiTypography-subtitle1 {
-    text-align: right;
+  text-align: right;
 }
