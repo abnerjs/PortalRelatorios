@@ -12,6 +12,10 @@
   justify-content: center;
 }
 
+.Canvas .right .iconified {
+  display: none;
+}
+
 .Canvas .right .form {
   max-width: 450px;
   width: calc(100% - 40px);
@@ -27,6 +31,7 @@
   }
 
   .Canvas .right .iconified {
+    display: flex;
     position: absolute;
     top: 40px;
     transform: scale(0.8);

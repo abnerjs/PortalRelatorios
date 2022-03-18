@@ -203,256 +203,264 @@ const Form: React.FC<FormProps> = ({
   }, [isFormOpened, flgTipo, setValue, reset]);
 
   return (
-    <form
-      noValidate
-      autoComplete="off"
-      onSubmit={handleSubmit(onSubmit)}
-      className={`FormUser${isFormOpened ? '' : ' invi'}`}
-    >
-      <div className="formFields">
-      <DmCollapseHandler
-        error={errors}
-        isErrorCollapseOpened={isErrorCollapseOpened}
-        setErrorCollapseOpened={setErrorCollapseOpened}
-      />
-      <div className="sectionImage">
-        <div className="image">
-          <div className="text"></div>
-          <div className="img">
-            <div className={`initial${initials !== '' ? ' active' : ''}`}>
-              {initials}
-            </div>
-            <Icon icon="fluent:person-16-filled" width={120} className="icon" />
-          </div>
-        </div>
-        <div className="inputs">
-          <input type="hidden" {...register('idRelUsuario')} />
-          <Controller
-            name="desNome"
-            control={control}
-            render={({ field: { ref, onChange, ...rest }, fieldState }) => (
-              <DmTextField
-                label="Nome completo"
-                tabIndex={isFormOpened ? 0 : -1}
-                error={!!fieldState.error}
-                helperText={fieldState.error?.message}
-                ref={ref}
-                rest={rest}
-                onChange={(event: any) => {
-                  onChange(event);
-                  handleInitials(event.target.value);
-                }}
-                inputProps={{
-                  maxLength: 100,
-                }}
-              />
-            )}
+    <div className={`formContainer${isFormOpened ? '' : ' invi'}`}>
+      <form
+        noValidate
+        autoComplete="off"
+        onSubmit={handleSubmit(onSubmit)}
+        className={`FormUser${isFormOpened ? '' : ' invi'}`}
+      >
+        <div className="formFields">
+          <DmCollapseHandler
+            error={errors}
+            isErrorCollapseOpened={isErrorCollapseOpened}
+            setErrorCollapseOpened={setErrorCollapseOpened}
           />
+          <div className="sectionImage">
+            <div className="image">
+              <div className="text"></div>
+              <div className="img">
+                <div className={`initial${initials !== '' ? ' active' : ''}`}>
+                  {initials}
+                </div>
+                <Icon
+                  icon="fluent:person-16-filled"
+                  width={120}
+                  className="icon"
+                />
+              </div>
+            </div>
+            <div className="inputs">
+              <input type="hidden" {...register('idRelUsuario')} />
+              <Controller
+                name="desNome"
+                control={control}
+                render={({ field: { ref, onChange, ...rest }, fieldState }) => (
+                  <DmTextField
+                    label="Nome completo"
+                    tabIndex={isFormOpened ? 0 : -1}
+                    error={!!fieldState.error}
+                    helperText={fieldState.error?.message}
+                    ref={ref}
+                    rest={rest}
+                    onChange={(event: any) => {
+                      onChange(event);
+                      handleInitials(event.target.value);
+                    }}
+                    inputProps={{
+                      maxLength: 100,
+                    }}
+                  />
+                )}
+              />
+              <Controller
+                name="desCpfCnpj"
+                control={control}
+                render={({
+                  field: { value, ref, onChange, ...rest },
+                  fieldState,
+                }) => (
+                  <DmTextField
+                    label={flgTipo === 'E' ? 'CPF/CNPJ' : 'CPF'}
+                    tabIndex={isFormOpened ? 0 : -1}
+                    error={!!fieldState.error}
+                    helperText={fieldState.error?.message || 'Opcional'}
+                    ref={ref}
+                    rest={rest}
+                    onChange={(event: any) =>
+                      onChange(maskCpfCnpj(event.target.value))
+                    }
+                    inputProps={{
+                      maxLength: flgTipo === 'E' ? 18 : 14,
+                    }}
+                  />
+                )}
+              />
+            </div>
+          </div>
           <Controller
-            name="desCpfCnpj"
+            name="codColaborador"
             control={control}
-            render={({
-              field: { value, ref, onChange, ...rest },
-              fieldState,
-            }) => (
+            render={({ field: { value, ref, ...rest }, fieldState }) => (
               <DmTextField
-                label={flgTipo === 'E' ? 'CPF/CNPJ' : 'CPF'}
+                label="Matrícula"
                 tabIndex={isFormOpened ? 0 : -1}
                 error={!!fieldState.error}
                 helperText={fieldState.error?.message || 'Opcional'}
                 ref={ref}
                 rest={rest}
+                inputProps={{
+                  maxLength: 10,
+                }}
+                style={{ display: flgTipo === 'I' ? 'flex' : 'none' }}
+                value={value || ''}
+              />
+            )}
+          />
+          <Controller
+            name="desEmail"
+            control={control}
+            render={({ field: { ref, value, ...rest }, fieldState }) => (
+              <DmTextField
+                label="E-mail"
+                type="email"
+                tabIndex={isFormOpened ? 0 : -1}
+                error={!!fieldState.error}
+                helperText={fieldState.error?.message || 'Opcional'}
+                ref={ref}
+                rest={rest}
+                inputProps={{
+                  maxLength: 200,
+                }}
+                value={value || ''}
+              />
+            )}
+          />
+          <Autocomplete
+            fullWidth
+            blurOnSelect
+            clearOnBlur
+            selectOnFocus
+            handleHomeEndKeys
+            disableCloseOnSelect
+            filterSelectedOptions
+            openText="Abrir"
+            closeText="Fechar"
+            clearText="Limpar"
+            loadingText="Carregando"
+            noOptionsText="Sem opções"
+            options={perfis}
+            getOptionLabel={(option) => option.descricao}
+            renderInput={(params) => {
+              const { InputProps, ...restParams } = params;
+              const { startAdornment, ...restInputProps } = InputProps;
+              return (
+                <TextField
+                  {...restParams}
+                  label="Selecione o perfil"
+                  placeholder="Procurar..."
+                  margin="dense"
+                  variant="filled"
+                  InputProps={{
+                    ...restInputProps,
+                    disableUnderline: true,
+                    inputProps: {
+                      ...restParams.inputProps,
+                      tabIndex: isFormOpened ? 0 : -1,
+                    },
+                    startAdornment: (
+                      <div
+                        style={{
+                          maxHeight: 50,
+                          marginTop: 10,
+                          marginBottom: 5,
+                          marginLeft: 8,
+                          overflowY: 'auto',
+                        }}
+                      >
+                        {startAdornment}
+                      </div>
+                    ),
+                  }}
+                  InputLabelProps={{
+                    shrink: perfil !== null || focusPerfil,
+                  }}
+                  onFocus={() => setFocusPerfil(true)}
+                  onBlur={() => setFocusPerfil(false)}
+                  error={!!formState.errors.idRelPerfil}
+                  helperText={formState.errors.idRelPerfil?.message}
+                />
+              );
+            }}
+            value={perfil}
+            onChange={(_, data) => {
+              clearErrors('idRelPerfil');
+              setValue('idRelPerfil', parseInt(data?.codigo || ''));
+              setPerfil(data);
+            }}
+          />
+          <Controller
+            name="desLogin"
+            control={control}
+            render={({ field: { ref, onChange, ...rest }, fieldState }) => (
+              <DmTextField
+                label="Nome de usuário"
+                tabIndex={isFormOpened ? 0 : -1}
+                error={!!fieldState.error}
+                ref={ref}
+                rest={rest}
                 onChange={(event: any) =>
-                  onChange(maskCpfCnpj(event.target.value))
+                  onChange(event.target.value.toLowerCase())
                 }
                 inputProps={{
-                  maxLength: flgTipo === 'E' ? 18 : 14,
+                  maxLength: 200,
+                }}
+              />
+            )}
+          />
+          <Controller
+            name="desSenha"
+            control={control}
+            render={({ field: { ref, ...rest }, fieldState }) => (
+              <DmTextField
+                label="Senha"
+                type="password"
+                tabIndex={isFormOpened ? 0 : -1}
+                error={!!fieldState.error}
+                ref={ref}
+                rest={rest}
+                inputProps={{
+                  maxLength: 128,
                 }}
               />
             )}
           />
         </div>
-      </div>
-      <Controller
-        name="codColaborador"
-        control={control}
-        render={({ field: { value, ref, ...rest }, fieldState }) => (
-          <DmTextField
-            label="Matrícula"
-            tabIndex={isFormOpened ? 0 : -1}
-            error={!!fieldState.error}
-            helperText={fieldState.error?.message || 'Opcional'}
-            ref={ref}
-            rest={rest}
-            inputProps={{
-              maxLength: 10,
-            }}
-            style={{ display: flgTipo === 'I' ? 'flex' : 'none' }}
-            value={value || ''}
-          />
-        )}
-      />
-      <Controller
-        name="desEmail"
-        control={control}
-        render={({ field: { ref, value, ...rest }, fieldState }) => (
-          <DmTextField
-            label="E-mail"
-            type="email"
-            tabIndex={isFormOpened ? 0 : -1}
-            error={!!fieldState.error}
-            helperText={fieldState.error?.message || 'Opcional'}
-            ref={ref}
-            rest={rest}
-            inputProps={{
-              maxLength: 200,
-            }}
-            value={value || ''}
-          />
-        )}
-      />
-      <Autocomplete
-        fullWidth
-        blurOnSelect
-        clearOnBlur
-        selectOnFocus
-        handleHomeEndKeys
-        disableCloseOnSelect
-        filterSelectedOptions
-        openText="Abrir"
-        closeText="Fechar"
-        clearText="Limpar"
-        loadingText="Carregando"
-        noOptionsText="Sem opções"
-        options={perfis}
-        getOptionLabel={(option) => option.descricao}
-        renderInput={(params) => {
-          const { InputProps, ...restParams } = params;
-          const { startAdornment, ...restInputProps } = InputProps;
-          return (
-            <TextField
-              {...restParams}
-              label="Selecione o perfil"
-              placeholder="Procurar..."
-              margin="dense"
-              variant="filled"
-              InputProps={{
-                ...restInputProps,
-                disableUnderline: true,
-                inputProps: {
-                  ...restParams.inputProps,
-                  tabIndex: isFormOpened ? 0 : -1,
-                },
-                startAdornment: (
-                  <div
-                    style={{
-                      maxHeight: 50,
-                      marginTop: 10,
-                      marginBottom: 5,
-                      marginLeft: 8,
-                      overflowY: 'auto',
-                    }}
-                  >
-                    {startAdornment}
-                  </div>
-                ),
-              }}
-              InputLabelProps={{
-                shrink: perfil !== null || focusPerfil,
-              }}
-              onFocus={() => setFocusPerfil(true)}
-              onBlur={() => setFocusPerfil(false)}
-              error={!!formState.errors.idRelPerfil}
-              helperText={formState.errors.idRelPerfil?.message}
-            />
-          );
-        }}
-        value={perfil}
-        onChange={(_, data) => {
-          clearErrors('idRelPerfil');
-          setValue('idRelPerfil', parseInt(data?.codigo || ''));
-          setPerfil(data);
-        }}
-      />
-      <Controller
-        name="desLogin"
-        control={control}
-        render={({ field: { ref, onChange, ...rest }, fieldState }) => (
-          <DmTextField
-            label="Nome de usuário"
-            tabIndex={isFormOpened ? 0 : -1}
-            error={!!fieldState.error}
-            ref={ref}
-            rest={rest}
-            onChange={(event: any) => onChange(event.target.value.toLowerCase())}
-            inputProps={{
-              maxLength: 200,
-            }}
-          />
-        )}
-      />
-      <Controller
-        name="desSenha"
-        control={control}
-        render={({ field: { ref, ...rest }, fieldState }) => (
-          <DmTextField
-            label="Senha"
-            type="password"
-            tabIndex={isFormOpened ? 0 : -1}
-            error={!!fieldState.error}
-            ref={ref}
-            rest={rest}
-            inputProps={{
-              maxLength: 128,
-            }}
-          />
-        )}
-      />
-      </div>
-      <div className="buttons">
-        <Button
-          onClick={() => {
-            onCancel();
-          }}
-          tabIndex={isFormOpened ? 0 : -1}
-          variant="contained"
-          className="secondary"
-          fullWidth
-        >
-          CANCELAR
-        </Button>
-
-        <Box sx={{ m: 0, position: 'relative' }}>
+        <div className="buttons">
           <Button
-            variant="contained"
+            onClick={() => {
+              onCancel();
+            }}
             tabIndex={isFormOpened ? 0 : -1}
-            disabled={formState.isSubmitting || operationState === 'request'}
-            type="submit"
-            className={
-              formState.isSubmitting || operationState === 'request'
-                ? 'secondary'
-                : ''
-            }
+            variant="contained"
+            className="secondary"
             fullWidth
           >
-            SALVAR
+            CANCELAR
           </Button>
-          {(formState.isSubmitting || operationState === 'request') && (
-            <CircularProgress
-              size={24}
-              sx={{
-                color: '#23ACE6',
-                position: 'absolute',
-                top: '50%',
-                left: '50%',
-                marginTop: '-12px',
-                marginLeft: '-12px',
-              }}
-            />
-          )}
-        </Box>
-      </div>
-    </form>
+
+          <Box sx={{ m: 0, position: 'relative' }}>
+            <Button
+              variant="contained"
+              tabIndex={isFormOpened ? 0 : -1}
+              disabled={formState.isSubmitting || operationState === 'request'}
+              type="submit"
+              className={
+                formState.isSubmitting || operationState === 'request'
+                  ? 'secondary'
+                  : ''
+              }
+              fullWidth
+            >
+              SALVAR
+            </Button>
+            {(formState.isSubmitting || operationState === 'request') && (
+              <CircularProgress
+                size={24}
+                sx={{
+                  color: '#23ACE6',
+                  position: 'absolute',
+                  top: '50%',
+                  left: '50%',
+                  marginTop: '-12px',
+                  marginLeft: '-12px',
+                }}
+              />
+            )}
+          </Box>
+        </div>
+      </form>
+    </div>
   );
 };
 

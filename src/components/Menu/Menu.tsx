@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import DatamobIcon from 'src/assets/DatamobIcon';
 import './Menu.css';
@@ -65,13 +65,17 @@ const Menu = () => {
   const [submenuIndexActive, setSubmenuIndexActive] = React.useState(-1);
   const [submenuRender, setSubmenuRender] = React.useState<MenuButton[]>([]);
   const [open, setOpen] = React.useState(false);
-  const [bottomNavigationDisplay, setBottomNavigationDisplay] =
-    React.useState('/');
 
   const isMobileView = useResponsivity();
   const isMenuExpansive = useMenuResponsivity();
 
   const location = useLocation();
+
+  const [bottomNavigationDisplay, setBottomNavigationDisplay] =
+    useState<string>('/');
+
+  const [listDescriptionActive, setListDescriptionActive] = useState('/');
+
   useEffect(() => {
     if (location.pathname === '/') setOpen(true);
   }, [location.pathname]);
@@ -115,6 +119,28 @@ const Menu = () => {
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sistemas, tiposObjetos, submenuIndexActive]);
+
+  useEffect(() => {
+    setBottomNavigationDisplay(
+      submenuRender
+        .map((item) => {
+          let str = location.pathname;
+          item.list.forEach((item2) => {
+            if (
+              ('/' + item2.nomPagina).toLowerCase() ===
+              location.pathname.toLowerCase()
+            )
+              str = item.listDescription;
+          });
+          return str;
+        })
+        .find((element) => element !== location.pathname) || location.pathname
+    );
+
+    console.log(bottomNavigationDisplay);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [submenuRender, location.pathname]);
 
   return (
     <>
@@ -187,29 +213,67 @@ const Menu = () => {
       ) : (
         <>
           <BottomNavigation value={bottomNavigationDisplay}>
-          <BottomNavigationAction
-            component={Link}
-            to="/"
-            label="Início"
-            value="/"
-            icon={<Icon icon="fluent:home-16-regular" />}
-            onClick={() =>
-              setBottomNavigationDisplay('/')
-            }
-          />
+            <BottomNavigationAction
+              component={Link}
+              to="/"
+              label="Início"
+              value="/"
+              icon={<Icon icon="fluent:home-16-regular" />}
+              onClick={() => setBottomNavigationDisplay('/')}
+            />
+            {submenuRender.map((item) => {
+              return (
+                <BottomNavigationAction
+                  icon={<Icon icon={item.icon} />}
+                  value={item.listDescription}
+                  label={item.listDescription}
+                  onClick={() => {
+                    setListDescriptionActive(item.listDescription);
+                  }}
+                />
+              );
+            })}
+          </BottomNavigation>
           {submenuRender.map((item) => {
             return (
-              <BottomNavigationAction
-                icon={<Icon icon={item.icon} />}
-                value={'/' + item.listDescription}
-                label={item.listDescription}
-                onClick={() =>
-                  setBottomNavigationDisplay('/' + item.listDescription)
-                }
-              />
+              <BottomNavigation
+                value={location.pathname}
+                className={`subMenuBottomAction${
+                  listDescriptionActive === item.listDescription
+                    ? ' active'
+                    : ''
+                }`}
+                showLabels
+              >
+                {item.list.map((sublistItem) => {
+                  return (
+                    <BottomNavigationAction
+                      component={Link}
+                      to={sublistItem.nomPagina}
+                      icon={<Icon icon={item.icon} />}
+                      value={'/' + sublistItem.nomPagina}
+                      label={sublistItem.desObjeto}
+                      onClick={(e: any) => {
+                        setBottomNavigationDisplay(item.listDescription);
+                        setListDescriptionActive('/');
+                        e.stopPropagation();
+                      }}
+                    />
+                  );
+                })}
+
+                <BottomNavigationAction
+                  icon={<Icon icon="fluent:dismiss-12-regular" />}
+                  value={'unvalued'}
+                  label={''}
+                  onClick={(e) => {
+                    setListDescriptionActive('/');
+                    e.stopPropagation();
+                  }}
+                />
+              </BottomNavigation>
             );
           })}
-        </BottomNavigation>        
         </>
       )}
     </>

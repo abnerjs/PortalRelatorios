@@ -137,7 +137,12 @@ const MeusUploads = () => {
                 dispatch(arquivosUploadIdle());
               }}
             >
-              UPLOAD DE RELATÓRIOS
+              <div className="uploadButtonText">UPLOAD DE RELATÓRIOS</div>
+              <Icon
+                className="uploadButtonIcon"
+                icon="fluent:arrow-upload-16-filled"
+                height={'30px'}
+              />
             </Button>
             {false && (
               <CircularProgress
@@ -159,6 +164,7 @@ const MeusUploads = () => {
             <DmTextField
               label="Nome do arquivo"
               size="small"
+              margin="none"
               onChange={(e: any) => {
                 setFiltros({
                   ...filtros,

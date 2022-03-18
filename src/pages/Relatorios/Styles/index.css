@@ -78,9 +78,8 @@
 }
 
 .row.tables .column {
-  flex: 1;
+  width: 100%;
   overflow: auto;
-  margin-right: 20px;
   display: flex;
   flex-direction: column;
   height: 100%;
@@ -94,7 +93,7 @@
 .row .column:last-child .Table {
   position: relative;
   height: fit-content;
-  max-height: 255px;
+  max-height: 265px;
 }
 
 .row.tables .column:not(.loading):last-child {
@@ -159,6 +158,10 @@
   justify-content: space-between;
 }
 
+.row.up .uploadButtonIcon {
+  display: none;
+}
+
 .filters {
   width: 50%;
   display: flex;
@@ -176,4 +179,58 @@
 
 .unfound h5 {
   color: #aaa !important;
+}
+
+.sectionsController {
+  display: none;
+}
+
+.sectionsController .dot {
+  background-color: #ccc;
+  width: 10px;
+  height: 10px;
+  border-radius: 10px;
+  transition: all ease .4s;
+}
+
+.sectionsController .dot.active {
+  background-color: var(--primary50);
+}
+
+@media screen and (max-width: 1254px) {
+  .row.up .uploadButtonIcon {
+    display: block;
+  }
+  .row.up .uploadButtonText {
+    display: none;
+  }
+
+  .btnUpload {
+    width: 100px;
+  }
+
+  .filters {
+    width: 100%;
+    margin-left: 10px;
+  }
+
+  .row.tables .column {
+    width: calc(100vw - 20px) !important;
+    transition: all ease 0.4s;
+  }
+
+  .row.tables.drag .column {
+    transform: translateX(calc(-100vw - 10px));
+  }
+
+  .sectionsController {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    gap: 5px;
+  }
+
+  .row .column:last-child .Table {
+    max-height: 305px;
+  }
 }

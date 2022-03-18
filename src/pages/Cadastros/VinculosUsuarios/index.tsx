@@ -84,7 +84,7 @@ const VinculosUsuarios = () => {
       setUsuario(null);
       setRowSelected(-1);
       setFormOpened(false);
-      
+
       dispatch(usuariosGetRequest(pesquisa.toString()));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -123,67 +123,69 @@ const VinculosUsuarios = () => {
           </Typography>
         </div>
         <div className="row">
-          <div
-            className={`SectionizedTable fornprestadores${
-              isFormOpened ? '' : ' formInvi'
-            }`}
-          >
-            <Tabs
-              value={flgTipo}
-              onChange={handleChangeFlgTipo}
-              className={`tabs${isFormOpened ? '' : ' middle'}`}
-              aria-label="Form section controller"
+          <div className={`tableContainer${isFormOpened ? '' : ' formInvi'}`}>
+            <div
+              className={`SectionizedTable fornprestadores${
+                isFormOpened ? '' : ' formInvi'
+              }`}
             >
-              <Tab disableRipple value="I" label="INTERNO" />
-              <Tab disableRipple value="E" label="EXTERNO" />
-            </Tabs>
-            <div className="search">
-              <Icon
-                icon="fluent:search-12-regular"
-                width={25}
-                className={`icon${isSearchFocused ? ' active' : ''}`}
-              />
-              <TextField
-                id="searchbar"
-                value={pesquisa.filtroPadrao}
-                onChange={handleChangeSearch}
-                onFocus={() => setSearchFocused(true)}
-                onBlur={() => setSearchFocused(false)}
-                autoComplete="off"
-                fullWidth
-                color="primary"
-                label={
-                  flgTipo === 'I'
-                    ? 'Nome, matrícula, CPF ou e-mail'
-                    : 'Nome, CPF/CNPJ ou e-mail'
-                }
-                margin="normal"
-                variant="filled"
-                className="iconified"
-                InputProps={{
-                  disableUnderline: true,
-                }}
+              <Tabs
+                value={flgTipo}
+                onChange={handleChangeFlgTipo}
+                className={`tabs${isFormOpened ? '' : ' middle'}`}
+                aria-label="Form section controller"
+              >
+                <Tab disableRipple value="I" label="INTERNO" />
+                <Tab disableRipple value="E" label="EXTERNO" />
+              </Tabs>
+              <div className="search">
+                <Icon
+                  icon="fluent:search-12-regular"
+                  width={25}
+                  className={`icon${isSearchFocused ? ' active' : ''}`}
+                />
+                <TextField
+                  id="searchbar"
+                  value={pesquisa.filtroPadrao}
+                  onChange={handleChangeSearch}
+                  onFocus={() => setSearchFocused(true)}
+                  onBlur={() => setSearchFocused(false)}
+                  autoComplete="off"
+                  fullWidth
+                  color="primary"
+                  label={
+                    flgTipo === 'I'
+                      ? 'Nome, matrícula, CPF ou e-mail'
+                      : 'Nome, CPF/CNPJ ou e-mail'
+                  }
+                  margin="normal"
+                  variant="filled"
+                  className="iconified"
+                  InputProps={{
+                    disableUnderline: true,
+                  }}
+                />
+              </div>
+
+              <DmList
+                list={usuarios}
+                object={usuario}
+                getError={getError}
+                handleFormOpen={handleFormOpen}
+                isFormOpened={isFormOpened}
+                key="idRelUsuario"
+                labelKey="desNome"
+                loading={loading}
+                request={usuariosGetRequest}
+                handlePesquisa={handlePesquisa}
+                pesquisa={pesquisa}
+                setObject={setUsuario}
+                pagination={pagination}
+                noAction
+                rowSelected={rowSelected}
+                setRowSelected={setRowSelected}
               />
             </div>
-
-            <DmList
-              list={usuarios}
-              object={usuario}
-              getError={getError}
-              handleFormOpen={handleFormOpen}
-              isFormOpened={isFormOpened}
-              key="idRelUsuario"
-              labelKey="desNome"
-              loading={loading}
-              request={usuariosGetRequest}
-              handlePesquisa={handlePesquisa}
-              pesquisa={pesquisa}
-              setObject={setUsuario}
-              pagination={pagination}
-              noAction
-              rowSelected={rowSelected}
-              setRowSelected={setRowSelected}
-            />
           </div>
           <Form
             data={usuario}

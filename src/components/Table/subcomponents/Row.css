@@ -112,3 +112,13 @@
   opacity: 1;
   visibility: visible;
 }
+
+@media screen and (max-width: 1254px) {
+  .Table .row .textual {
+    margin: 0;
+  }
+
+  .Table .MuiTypography-root.MuiTypography-h5 {
+    margin: 0 !important;
+  }
+}

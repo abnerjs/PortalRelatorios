@@ -24,7 +24,9 @@ import {
 import { Box } from '@mui/system';
 import { TipoArquivo } from 'src/store/ducks/tipoArquivo/types';
 import DmCollapseHandler from 'src/components/DmCollapseHandler/DmCollapseHandler';
-import DmAutocomplete, { AutocompleteOptions } from 'src/components/DmAutocomplete/DmAutocomplete';
+import DmAutocomplete, {
+  AutocompleteOptions,
+} from 'src/components/DmAutocomplete/DmAutocomplete';
 import DmTextField from 'src/components/DmTextField/DmTextField';
 
 interface FormProps {
@@ -120,103 +122,108 @@ const Form: React.FC<FormProps> = ({ data, isFormOpened }: FormProps) => {
   }, [data, clearErrors, setValue]);
 
   return (
-    <form
-      noValidate
-      autoComplete="off"
-      onSubmit={handleSubmit(onSubmit)}
-      className={`FormUser${isFormOpened ? '' : ' invi'}`}
-    >
-      <DmCollapseHandler
-        error={errors}
-        isErrorCollapseOpened={isErrorCollapseOpened}
-        setErrorCollapseOpened={setErrorCollapseOpened}
-      />
-      <input type="hidden" {...register('idRelTpArquivo')} />
-
-      <Controller
-        name="desTpArquivo"
-        control={control}
-        render={({ field: { ref, ...rest }, fieldState }) => (
-          <DmTextField
-            label="Descrição do tipo de arquivo"
-            tabIndex={isFormOpened ? 0 : -1}
-            error={!!fieldState.error}
-            helperText={fieldState.error?.message}
-            ref={ref}
-            rest={rest}
+    <div className={`formContainer${isFormOpened ? '' : ' invi'}`}>
+      <form
+        noValidate
+        autoComplete="off"
+        onSubmit={handleSubmit(onSubmit)}
+        className={`FormUser${isFormOpened ? '' : ' invi'}`}
+      >
+        <div className="formFields">
+          <DmCollapseHandler
+            error={errors}
+            isErrorCollapseOpened={isErrorCollapseOpened}
+            setErrorCollapseOpened={setErrorCollapseOpened}
           />
-        )}
-      />
-      <DmAutocomplete
-        options={referencias.map((item) => {
-          return {
-            optionLabel: referenciaToStringLabel(item),
-            codigo: item,
-            value: item,
-          }
-        })}
-        value={(referencia) ?
-          {
-            optionLabel: referenciaToStringLabel(referencia),
-            codigo: referencia,
-            value: referencia,
-          } :
-          null
-        }
-        onChange={(_: any, data: AutocompleteOptions) => {
-          clearErrors('flgReferencia');
-          setValue('flgReferencia', data.value);
-          setReferencia(data.value);
-        }}
-        label="Selecione o tipo de referência de datas"
-        error={!!formState.errors.flgReferencia}
-        helperText={formState.errors.flgReferencia?.message}
-      />
+          <input type="hidden" {...register('idRelTpArquivo')} />
 
-      <div className="buttons">
-        <Button
-          variant="contained"
-          tabIndex={isFormOpened ? 0 : -1}
-          className="secondary"
-          onClick={() => {
-            onCancel();
-            setErrorCollapseOpened(false);
-          }}
-          fullWidth
-        >
-          CANCELAR
-        </Button>
-        <Box sx={{ m: 0, position: 'relative' }}>
+          <Controller
+            name="desTpArquivo"
+            control={control}
+            render={({ field: { ref, ...rest }, fieldState }) => (
+              <DmTextField
+                label="Descrição do tipo de arquivo"
+                tabIndex={isFormOpened ? 0 : -1}
+                error={!!fieldState.error}
+                helperText={fieldState.error?.message}
+                ref={ref}
+                rest={rest}
+              />
+            )}
+          />
+          <DmAutocomplete
+            options={referencias.map((item) => {
+              return {
+                optionLabel: referenciaToStringLabel(item),
+                codigo: item,
+                value: item,
+              };
+            })}
+            value={
+              referencia
+                ? {
+                    optionLabel: referenciaToStringLabel(referencia),
+                    codigo: referencia,
+                    value: referencia,
+                  }
+                : null
+            }
+            onChange={(_: any, data: AutocompleteOptions) => {
+              clearErrors('flgReferencia');
+              setValue('flgReferencia', data.value);
+              setReferencia(data.value);
+            }}
+            label="Selecione o tipo de referência de datas"
+            error={!!formState.errors.flgReferencia}
+            helperText={formState.errors.flgReferencia?.message}
+          />
+        </div>
+
+        <div className="buttons">
           <Button
             variant="contained"
             tabIndex={isFormOpened ? 0 : -1}
-            disabled={formState.isSubmitting || operationState === 'request'}
-            type="submit"
-            className={
-              formState.isSubmitting || operationState === 'request'
-                ? 'secondary'
-                : ''
-            }
+            className="secondary"
+            onClick={() => {
+              onCancel();
+              setErrorCollapseOpened(false);
+            }}
             fullWidth
           >
-            SALVAR
+            CANCELAR
           </Button>
-          {(formState.isSubmitting || operationState === 'request') && (
-            <CircularProgress
-              size={24}
-              sx={{
-                color: '#23ACE6',
-                position: 'absolute',
-                top: '50%',
-                left: '50%',
-                marginTop: '-12px',
-                marginLeft: '-12px',
-              }}
-            />
-          )}
-        </Box>
-      </div>
-    </form>
+          <Box sx={{ m: 0, position: 'relative' }}>
+            <Button
+              variant="contained"
+              tabIndex={isFormOpened ? 0 : -1}
+              disabled={formState.isSubmitting || operationState === 'request'}
+              type="submit"
+              className={
+                formState.isSubmitting || operationState === 'request'
+                  ? 'secondary'
+                  : ''
+              }
+              fullWidth
+            >
+              SALVAR
+            </Button>
+            {(formState.isSubmitting || operationState === 'request') && (
+              <CircularProgress
+                size={24}
+                sx={{
+                  color: '#23ACE6',
+                  position: 'absolute',
+                  top: '50%',
+                  left: '50%',
+                  marginTop: '-12px',
+                  marginLeft: '-12px',
+                }}
+              />
+            )}
+          </Box>
+        </div>
+      </form>
+    </div>
   );
 };
 

@@ -35,12 +35,12 @@
   bottom: 0;
   width: 100vw !important;
   background-color: #ececf6 !important;
-  height: 55px !important;
+  height: 52px !important;
   position: fixed;
 }
 
 .MuiBottomNavigation-root .MuiBottomNavigationAction-root {
-  height: 55px;
+  height: 52px;
   transition-property: all !important;
 }
 
@@ -170,4 +170,26 @@
 
 .fullWidthList .itemlist-btn {
   color: var(--primary50) !important;
+}
+
+.subMenuBottomAction {
+  display: none !important;
+  position: fixed;
+  height: 52px;
+  width: 100%;
+  background-color: #ececf6;
+}
+
+.subMenuBottomAction.active {
+  display: flex !important;
+  z-index: 10002;
+}
+
+.subMenuBottomAction .MuiBottomNavigationAction-root:not(:last-child) svg {
+  display: none;  
+  transform: none;
+}
+
+.subMenuBottomAction .MuiBottomNavigationAction-root:not(.Mui-selected) .MuiBottomNavigationAction-label {
+  height: unset;
 }

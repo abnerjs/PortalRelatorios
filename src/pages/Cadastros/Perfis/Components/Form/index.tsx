@@ -79,90 +79,92 @@ const Form: React.FC<FormProps> = ({ data, isFormOpened }: FormProps) => {
   }, [data, isFormOpened, reset]);
 
   return (
-    <form
-      noValidate
-      autoComplete="off"
-      onSubmit={handleSubmit(onSubmit)}
-      className={`FormUser${isFormOpened ? '' : ' invi'}`}
-    >
-      <div className="formFields">
-        <DmCollapseHandler
-          error={errors}
-          isErrorCollapseOpened={isErrorCollapseOpened}
-          setErrorCollapseOpened={setErrorCollapseOpened}
-        />
-        <input type="hidden" {...register('idRelPerfil')} />
-        <Controller
-          name="desPerfil"
-          control={control}
-          render={({ field: { ref, ...rest }, fieldState }) => (
-            <DmTextField
-              label="Descrição do perfil"
-              tabIndex={isFormOpened ? 0 : -1}
-              error={!!fieldState.error}
-              helperText={fieldState.error?.message}
-              ref={ref}
-              rest={rest}
-            />
-          )}
-        />
-        <Controller
-          name="lstPerfisObjetos"
-          control={control}
-          render={({ field }) => (
-            <InputSwitch
-              options={objetos}
-              value={field.value}
-              onChange={(event) => field.onChange(event)}
-              isFormOpened={isFormOpened}
-            />
-          )}
-        />
-      </div>
-      <div className="buttons">
-        <Button
-          variant="contained"
-          tabIndex={isFormOpened ? 0 : -1}
-          className="secondary"
-          onClick={() => {
-            onCancel();
-            setErrorCollapseOpened(false);
-          }}
-          fullWidth
-        >
-          CANCELAR
-        </Button>
-        <Box sx={{ m: 0, position: 'relative' }}>
+    <div className={`formContainer${isFormOpened ? '' : ' invi'}`}>
+      <form
+        noValidate
+        autoComplete="off"
+        onSubmit={handleSubmit(onSubmit)}
+        className={`FormUser${isFormOpened ? '' : ' invi'}`}
+      >
+        <div className="formFields">
+          <DmCollapseHandler
+            error={errors}
+            isErrorCollapseOpened={isErrorCollapseOpened}
+            setErrorCollapseOpened={setErrorCollapseOpened}
+          />
+          <input type="hidden" {...register('idRelPerfil')} />
+          <Controller
+            name="desPerfil"
+            control={control}
+            render={({ field: { ref, ...rest }, fieldState }) => (
+              <DmTextField
+                label="Descrição do perfil"
+                tabIndex={isFormOpened ? 0 : -1}
+                error={!!fieldState.error}
+                helperText={fieldState.error?.message}
+                ref={ref}
+                rest={rest}
+              />
+            )}
+          />
+          <Controller
+            name="lstPerfisObjetos"
+            control={control}
+            render={({ field }) => (
+              <InputSwitch
+                options={objetos}
+                value={field.value}
+                onChange={(event) => field.onChange(event)}
+                isFormOpened={isFormOpened}
+              />
+            )}
+          />
+        </div>
+        <div className="buttons">
           <Button
             variant="contained"
             tabIndex={isFormOpened ? 0 : -1}
-            disabled={formState.isSubmitting || operationState === 'request'}
-            type="submit"
-            className={
-              formState.isSubmitting || operationState === 'request'
-                ? 'secondary'
-                : ''
-            }
+            className="secondary"
+            onClick={() => {
+              onCancel();
+              setErrorCollapseOpened(false);
+            }}
             fullWidth
           >
-            SALVAR
+            CANCELAR
           </Button>
-          {(formState.isSubmitting || operationState === 'request') && (
-            <CircularProgress
-              size={24}
-              sx={{
-                color: '#23ACE6',
-                position: 'absolute',
-                top: '50%',
-                left: '50%',
-                marginTop: '-12px',
-                marginLeft: '-12px',
-              }}
-            />
-          )}
-        </Box>
-      </div>
-    </form>
+          <Box sx={{ m: 0, position: 'relative' }}>
+            <Button
+              variant="contained"
+              tabIndex={isFormOpened ? 0 : -1}
+              disabled={formState.isSubmitting || operationState === 'request'}
+              type="submit"
+              className={
+                formState.isSubmitting || operationState === 'request'
+                  ? 'secondary'
+                  : ''
+              }
+              fullWidth
+            >
+              SALVAR
+            </Button>
+            {(formState.isSubmitting || operationState === 'request') && (
+              <CircularProgress
+                size={24}
+                sx={{
+                  color: '#23ACE6',
+                  position: 'absolute',
+                  top: '50%',
+                  left: '50%',
+                  marginTop: '-12px',
+                  marginLeft: '-12px',
+                }}
+              />
+            )}
+          </Box>
+        </div>
+      </form>
+    </div>
   );
 };
 

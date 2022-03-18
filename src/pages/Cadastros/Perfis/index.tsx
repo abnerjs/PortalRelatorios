@@ -5,11 +5,7 @@ import 'src/pages/ModalDelete.css';
 
 import React, { useEffect, useState } from 'react';
 import { Icon } from '@iconify/react';
-import {
-  Button,
-  TextField,
-  Typography,
-} from '@mui/material';
+import { Button, TextField, Typography } from '@mui/material';
 
 import Header from 'src/components/Header/Header';
 import Form from './Components/Form';
@@ -140,70 +136,74 @@ const Perfis = () => {
           </Typography>
         </div>
         <div className="row">
-          <div className={`SectionizedTable${isFormOpened ? '' : ' formInvi'}`}>
-            <div className="search">
-              <Icon
-                icon="fluent:search-12-regular"
-                width={25}
-                className={`icon${isSearchFocused ? ' active' : ''}`}
-              />
-              <TextField
-                id="searchbar"
-                value={pesquisa.filtroPadrao}
-                onChange={handleChangeSearch}
-                onFocus={() => setSearchFocused(true)}
-                onBlur={() => setSearchFocused(false)}
-                autoComplete="off"
-                fullWidth
-                color="primary"
-                label="Descrição do perfil"
-                margin="normal"
-                variant="filled"
-                className="iconified"
-                InputProps={{
-                  disableUnderline: true,
-                }}
+          <div className={`tableContainer${isFormOpened ? '' : ' formInvi'}`}>
+            <div
+              className={`SectionizedTable${isFormOpened ? '' : ' formInvi'}`}
+            >
+              <div className="search">
+                <Icon
+                  icon="fluent:search-12-regular"
+                  width={25}
+                  className={`icon${isSearchFocused ? ' active' : ''}`}
+                />
+                <TextField
+                  id="searchbar"
+                  value={pesquisa.filtroPadrao}
+                  onChange={handleChangeSearch}
+                  onFocus={() => setSearchFocused(true)}
+                  onBlur={() => setSearchFocused(false)}
+                  autoComplete="off"
+                  fullWidth
+                  color="primary"
+                  label="Descrição do perfil"
+                  margin="normal"
+                  variant="filled"
+                  className="iconified"
+                  InputProps={{
+                    disableUnderline: true,
+                  }}
+                />
+              </div>
+              <Button
+                onClick={() => handleFormOpen(true, true)}
+                disabled={flgAcesso !== 'A'}
+                variant="contained"
+                className={`tertiary${
+                  isFormOpened && isNewUserSection ? ' active' : ''
+                }`}
+                startIcon={
+                  <Icon
+                    icon="fluent:add-16-regular"
+                    width={25}
+                    className="icon"
+                  />
+                }
+              >
+                NOVO PERFIL
+              </Button>
+
+              <DmList
+                list={perfis}
+                object={perfil}
+                getError={getError}
+                errors={errors}
+                deleteState={deleteState}
+                cancelDelete={perfisCancelDelete}
+                deleteRequest={perfisDeleteRequest}
+                handleFormOpen={handleFormOpen}
+                isFormOpened={isFormOpened}
+                key="idRelPerfil"
+                labelKey="desPerfil"
+                loading={loading}
+                request={perfisGetRequest}
+                handlePesquisa={handlePesquisa}
+                pesquisa={pesquisa}
+                setObject={setPerfil}
+                pagination={pagination}
+                rowSelected={rowSelected}
+                setRowSelected={setRowSelected}
               />
             </div>
-            <Button
-              onClick={() => handleFormOpen(true, true)}
-              disabled={flgAcesso !== 'A'}
-              variant="contained"
-              className={`tertiary${
-                isFormOpened && isNewUserSection ? ' active' : ''
-              }`}
-              startIcon={
-                <Icon
-                  icon="fluent:add-16-regular"
-                  width={25}
-                  className="icon"
-                />
-              }
-            >
-              NOVO PERFIL
-            </Button>
-
-            <DmList
-              list={perfis}
-              object={perfil}
-              getError={getError}
-              errors={errors}
-              deleteState={deleteState}
-              cancelDelete={perfisCancelDelete}
-              deleteRequest={perfisDeleteRequest}
-              handleFormOpen={handleFormOpen}
-              isFormOpened={isFormOpened}
-              key='idRelPerfil'
-              labelKey="desPerfil"
-              loading={loading}
-              request={perfisGetRequest}
-              handlePesquisa={handlePesquisa}
-              pesquisa={pesquisa}
-              setObject={setPerfil}
-              pagination={pagination}
-              rowSelected={rowSelected}
-              setRowSelected={setRowSelected}
-            />
           </div>
           <Form data={perfil} isFormOpened={isFormOpened} />
         </div>

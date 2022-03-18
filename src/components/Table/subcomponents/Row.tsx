@@ -81,7 +81,7 @@ const Row = (props: Props) => {
       }}
     >
       <div className="header">
-        <div className="textual">
+        <div className={`textual${props.fullView ? ' fullView' : ''}`}>
           <div className="regname">{props.doc.nomArquivo}</div>
           <div
             className={`refdate${

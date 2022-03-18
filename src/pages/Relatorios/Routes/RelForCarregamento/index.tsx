@@ -172,97 +172,102 @@ const RelForCarregamento = () => {
             onSubmit={handleSubmit(onSubmit)}
             className={`FormUser`}
           >
-            <Typography variant="h6">Filtrar documento</Typography>
-            <DmCollapseHandler
-              error={pdfError}
-              isErrorCollapseOpened={isErrorCollapseOpened}
-              setErrorCollapseOpened={setErrorCollapseOpened}
-            />
-            <LocalizationProvider
-              dateAdapter={AdapterDateFns}
-              locale={brLocale}
-            >
-              <DateRangePicker
-                mask="__/__/____"
-                value={date}
-                onChange={(value) => {
-                  setDate(value);
-                  setValue('dtaInicio', value[0]);
-                  setValue('dtaFim', value[1]);
-                }}
-                startText="Data inicial"
-                endText="Data final"
-                renderInput={(startProps, endProps) => (
-                  <React.Fragment>
-                    <TextField
-                      {...startProps}
-                      margin="dense"
-                      variant="filled"
-                      fullWidth
-                      className="DmTextField"
-                      InputProps={{ disableUnderline: true }}
-                      inputProps={{
-                        ...startProps.inputProps,
-                        placeholder: 'dd/mm/aaaa',
-                      }}
-                      error={!!formState.errors.dtaInicio}
-                      helperText={formState.errors.dtaInicio?.message}
-                    />
-                    <Box sx={{ mx: '6px' }} />
-                    <TextField
-                      {...endProps}
-                      margin="dense"
-                      variant="filled"
-                      fullWidth
-                      className="DmTextField"
-                      InputProps={{ disableUnderline: true }}
-                      inputProps={{
-                        ...endProps.inputProps,
-                        placeholder: 'dd/mm/aaaa',
-                      }}
-                      error={!!formState.errors.dtaFim}
-                      helperText={formState.errors.dtaFim?.message}
-                    />
-                  </React.Fragment>
-                )}
+            <div className="formFields">
+              <Typography variant="h6">Filtrar documento</Typography>
+              <DmCollapseHandler
+                error={pdfError}
+                isErrorCollapseOpened={isErrorCollapseOpened}
+                setErrorCollapseOpened={setErrorCollapseOpened}
               />
-            </LocalizationProvider>
-            <DmAutocomplete
-              multiple
-              options={fornecedoresOptions}
-              value={fornecedores}
-              onChange={(_: any, data: AutocompleteOptions[]) => {
-                setValue(
-                  'lstCodFornecedores',
-                  data.map((x) => x.value).join(',')
-                );
+              <LocalizationProvider
+                dateAdapter={AdapterDateFns}
+                locale={brLocale}
+              >
+                <DateRangePicker
+                  mask="__/__/____"
+                  value={date}
+                  onChange={(value) => {
+                    setDate(value);
+                    setValue('dtaInicio', value[0]);
+                    setValue('dtaFim', value[1]);
+                  }}
+                  startText="Data inicial"
+                  endText="Data final"
+                  renderInput={(startProps, endProps) => (
+                    <React.Fragment>
+                      <TextField
+                        {...startProps}
+                        margin="dense"
+                        variant="filled"
+                        fullWidth
+                        className="DmTextField"
+                        InputProps={{ disableUnderline: true }}
+                        inputProps={{
+                          ...startProps.inputProps,
+                          placeholder: 'dd/mm/aaaa',
+                        }}
+                        error={!!formState.errors.dtaInicio}
+                        helperText={formState.errors.dtaInicio?.message}
+                      />
+                      <Box sx={{ mx: '6px' }} />
+                      <TextField
+                        {...endProps}
+                        margin="dense"
+                        variant="filled"
+                        fullWidth
+                        className="DmTextField"
+                        InputProps={{ disableUnderline: true }}
+                        inputProps={{
+                          ...endProps.inputProps,
+                          placeholder: 'dd/mm/aaaa',
+                        }}
+                        error={!!formState.errors.dtaFim}
+                        helperText={formState.errors.dtaFim?.message}
+                      />
+                    </React.Fragment>
+                  )}
+                />
+              </LocalizationProvider>
+              <DmAutocomplete
+                multiple
+                options={fornecedoresOptions}
+                value={fornecedores}
+                onChange={(_: any, data: AutocompleteOptions[]) => {
+                  setValue(
+                    'lstCodFornecedores',
+                    data.map((x) => x.value).join(',')
+                  );
 
-                setFornecedores(data);
-              }}
-              label="Fornecedores"
-              error={!!formState.errors.lstCodFornecedores}
-              helperText={
-                formState.errors.lstCodFornecedores?.message || 'Opcional'
-              }
-            />
-            <DmAutocomplete
-              multiple
-              options={fazendasOptions.length === 0 ? [] : fazendasOptions}
-              value={fazendas}
-              onChange={(_: any, data: AutocompleteOptions[]) => {
-                setValue('lstCodFazendas', data.map((x) => x.value).join(','));
-                setFazendas(data);
-              }}
-              label="Fazendas"
-              error={!!formState.errors.lstCodFazendas}
-              helperText={
-                formState.errors.lstCodFazendas?.message
-                  ? formState.errors.lstCodFazendas.message
-                  : fornecedores.length === 0
-                  ? 'Opcional'
-                  : undefined
-              }
-            />
+                  setFornecedores(data);
+                }}
+                label="Fornecedores"
+                error={!!formState.errors.lstCodFornecedores}
+                helperText={
+                  formState.errors.lstCodFornecedores?.message || 'Opcional'
+                }
+              />
+              <DmAutocomplete
+                multiple
+                options={fazendasOptions.length === 0 ? [] : fazendasOptions}
+                value={fazendas}
+                onChange={(_: any, data: AutocompleteOptions[]) => {
+                  setValue(
+                    'lstCodFazendas',
+                    data.map((x) => x.value).join(',')
+                  );
+                  setFazendas(data);
+                }}
+                label="Fazendas"
+                error={!!formState.errors.lstCodFazendas}
+                helperText={
+                  formState.errors.lstCodFazendas?.message
+                    ? formState.errors.lstCodFazendas.message
+                    : fornecedores.length === 0
+                    ? 'Opcional'
+                    : undefined
+                }
+              />
+            </div>
             <div className="buttons">
               <Button
                 variant="contained"
