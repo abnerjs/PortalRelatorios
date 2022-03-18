@@ -9,3 +9,9 @@
 .pagination-table.loading {
   display: none;
 }
+
+@media screen and (max-width: 1254px) {
+  .SectionizedTable .MuiTablePagination-root {
+    
+  }
+}

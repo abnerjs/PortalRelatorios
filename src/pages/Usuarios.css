@@ -18,19 +18,38 @@
   display: flex;
   height: 100%;
   max-height: 100%;
+  width: 200%;
   overflow: hidden;
   align-items: flex-start;
-  justify-content: space-evenly;
+  justify-content: flex-start;
   margin-top: 20px;
+  overflow: hidden;
+}
+
+.Usuarios .content > .row.relatorios {
+  width: 100%;
+  justify-content: center;
 }
 
 @media screen and (max-width: 1254px) {
     .Usuarios {
       height: calc(100% - 52px);
+      position: fixed;
+      top: 0;
+      width: 200%;
     }
   
     .Usuarios .content {
       margin: 20px;
       width: calc(100% - 40px);
+    }
+
+    .Usuarios .content > .row.relatorios {
+      width: calc(100vw - 40px);
+      justify-content: center;
+    }
+
+    .Usuarios .content > .row.relatorios .FormUser {
+      width: 100%;
     }
   }

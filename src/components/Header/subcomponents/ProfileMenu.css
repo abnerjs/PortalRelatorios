@@ -181,7 +181,7 @@
   .ProfileMenu {
     position: absolute;
     top: 20px;
-    right: 20px;
+    left: calc(100vw - 90px);
     order: 0;
     flex-wrap: wrap;
   }

@@ -117,136 +117,141 @@ const RelForPagamento = () => {
             onSubmit={handleSubmit(onSubmit)}
             className={`FormUser`}
           >
-            <Typography variant="h6">Filtrar documento</Typography>
-            <DmCollapseHandler
-              error={pdfError}
-              isErrorCollapseOpened={isErrorCollapseOpened}
-              setErrorCollapseOpened={setErrorCollapseOpened}
-            />
-            <LocalizationProvider
-              dateAdapter={AdapterDateFns}
-              locale={brLocale}
-            >
-              <Stack direction="row">
-                <DatePicker
-                  label="Data inicial"
-                  openTo="year"
-                  mask="__/____"
-                  inputFormat="MM/yyyy"
-                  views={['year', 'month']}
-                  disableFuture
-                  disableMaskedInput={false}
-                  value={initialDate}
-                  onChange={(newValue) => {
-                    setValue('dtaInicio', newValue);
-                    setInitialDate(newValue);
-                  }}
-                  InputAdornmentProps={{
-                    style: {
-                      marginRight: '4px',
-                    },
-                  }}
-                  renderInput={(params) => (
-                    <TextField
-                      {...params}
-                      margin="dense"
-                      variant="filled"
-                      fullWidth
-                      InputProps={{
-                        ...params.InputProps,
-                        disableUnderline: true,
-                      }}
-                      inputProps={{
-                        ...params.inputProps,
-                        placeholder: 'mm/aaaa',
-                      }}
-                      error={!!formState.errors.dtaInicio}
-                      helperText={formState.errors.dtaInicio?.message}
-                    />
-                  )}
-                />
-                <Box sx={{ mx: '6px' }} />
-                <DatePicker
-                  label="Data final"
-                  openTo="year"
-                  mask="__/____"
-                  inputFormat="MM/yyyy"
-                  views={['year', 'month']}
-                  disableFuture
-                  disableMaskedInput={false}
-                  value={finalDate}
-                  onChange={(newValue) => {
-                    setValue('dtaFim', newValue);
-                    setFinalDate(newValue);
-                  }}
-                  InputAdornmentProps={{
-                    style: {
-                      marginRight: '4px',
-                    },
-                  }}
-                  renderInput={(params) => (
-                    <TextField
-                      {...params}
-                      margin="dense"
-                      variant="filled"
-                      fullWidth
-                      InputProps={{
-                        ...params.InputProps,
-                        disableUnderline: true,
-                      }}
-                      inputProps={{
-                        ...params.inputProps,
-                        placeholder: 'mm/aaaa',
-                      }}
-                      error={!!formState.errors.dtaFim}
-                      helperText={formState.errors.dtaFim?.message}
-                    />
-                  )}
-                />
-              </Stack>
-            </LocalizationProvider>
-            <Autocomplete
-              multiple
-              fullWidth
-              clearOnBlur
-              blurOnSelect
-              selectOnFocus
-              disableListWrap
-              handleHomeEndKeys
-              disableCloseOnSelect={true}
-              filterSelectedOptions
-              openText="Abrir"
-              closeText="Fechar"
-              clearText="Limpar"
-              loadingText="Carregando"
-              noOptionsText="Sem opções"
-              options={forn}
-              limitTags={1}
-              ChipProps={{ size: `small` }}
-              getOptionLabel={(option) => option.descricao}
-              renderInput={(params) => (
-                <TextField
-                  {...params}
-                  label="Fornecedores"
-                  margin="dense"
-                  variant="filled"
-                  InputProps={{ ...params.InputProps, disableUnderline: true }}
-                  error={!!formState.errors.lstCodFornecedores}
-                  helperText={
-                    formState.errors.lstCodFornecedores?.message || 'Opcional'
-                  }
-                />
-              )}
-              value={fornecedores}
-              onChange={(_, data) => {
-                setValue(
-                  'lstCodFornecedores',
-                  data.map((x) => x.codigo).join(',')
-                );
+            <div className="formFields">
+              <Typography variant="h6">Filtrar documento</Typography>
+              <DmCollapseHandler
+                error={pdfError}
+                isErrorCollapseOpened={isErrorCollapseOpened}
+                setErrorCollapseOpened={setErrorCollapseOpened}
+              />
+              <LocalizationProvider
+                dateAdapter={AdapterDateFns}
+                locale={brLocale}
+              >
+                <Stack direction="row">
+                  <DatePicker
+                    label="Data inicial"
+                    openTo="year"
+                    mask="__/____"
+                    inputFormat="MM/yyyy"
+                    views={['year', 'month']}
+                    disableFuture
+                    disableMaskedInput={false}
+                    value={initialDate}
+                    onChange={(newValue) => {
+                      setValue('dtaInicio', newValue);
+                      setInitialDate(newValue);
+                    }}
+                    InputAdornmentProps={{
+                      style: {
+                        marginRight: '4px',
+                      },
+                    }}
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        margin="dense"
+                        variant="filled"
+                        fullWidth
+                        InputProps={{
+                          ...params.InputProps,
+                          disableUnderline: true,
+                        }}
+                        inputProps={{
+                          ...params.inputProps,
+                          placeholder: 'mm/aaaa',
+                        }}
+                        error={!!formState.errors.dtaInicio}
+                        helperText={formState.errors.dtaInicio?.message}
+                      />
+                    )}
+                  />
+                  <Box sx={{ mx: '6px' }} />
+                  <DatePicker
+                    label="Data final"
+                    openTo="year"
+                    mask="__/____"
+                    inputFormat="MM/yyyy"
+                    views={['year', 'month']}
+                    disableFuture
+                    disableMaskedInput={false}
+                    value={finalDate}
+                    onChange={(newValue) => {
+                      setValue('dtaFim', newValue);
+                      setFinalDate(newValue);
+                    }}
+                    InputAdornmentProps={{
+                      style: {
+                        marginRight: '4px',
+                      },
+                    }}
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        margin="dense"
+                        variant="filled"
+                        fullWidth
+                        InputProps={{
+                          ...params.InputProps,
+                          disableUnderline: true,
+                        }}
+                        inputProps={{
+                          ...params.inputProps,
+                          placeholder: 'mm/aaaa',
+                        }}
+                        error={!!formState.errors.dtaFim}
+                        helperText={formState.errors.dtaFim?.message}
+                      />
+                    )}
+                  />
+                </Stack>
+              </LocalizationProvider>
+              <Autocomplete
+                multiple
+                fullWidth
+                clearOnBlur
+                blurOnSelect
+                selectOnFocus
+                disableListWrap
+                handleHomeEndKeys
+                disableCloseOnSelect={true}
+                filterSelectedOptions
+                openText="Abrir"
+                closeText="Fechar"
+                clearText="Limpar"
+                loadingText="Carregando"
+                noOptionsText="Sem opções"
+                options={forn}
+                limitTags={1}
+                ChipProps={{ size: `small` }}
+                getOptionLabel={(option) => option.descricao}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    label="Fornecedores"
+                    margin="dense"
+                    variant="filled"
+                    InputProps={{
+                      ...params.InputProps,
+                      disableUnderline: true,
+                    }}
+                    error={!!formState.errors.lstCodFornecedores}
+                    helperText={
+                      formState.errors.lstCodFornecedores?.message || 'Opcional'
+                    }
+                  />
+                )}
+                value={fornecedores}
+                onChange={(_, data) => {
+                  setValue(
+                    'lstCodFornecedores',
+                    data.map((x) => x.codigo).join(',')
+                  );
 
-                setFornecedores(data);
-              }}
-            />
+                  setFornecedores(data);
+                }}
+              />
+            </div>
             <div className="buttons">
               <Button
                 variant="contained"

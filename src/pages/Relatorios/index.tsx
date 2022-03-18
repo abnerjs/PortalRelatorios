@@ -53,6 +53,9 @@ const Documentos = () => {
     useState<FiltrosRelatorios>(defaultValuesFiltros);
   const [displayColumn, setDisplayColumn] = useState('flex');
   const [showingAlert, setShowingAlert] = useState(false);
+  const [dragStart, setDragStart] = useState([0, 0, 0]);
+  const [dragEnd, setDragEnd] = useState([0, 0, 0]);
+  const [columnActive, setColumnActive] = useState(0);
 
   const deleteState = useAppSelector(
     (state) => state.arquivoUpload.deleteState
@@ -60,6 +63,18 @@ const Documentos = () => {
   const uploadState = useAppSelector(
     (state) => state.arquivoUpload.uploadState
   );
+
+  useEffect(() => {
+    if (
+      Math.abs(dragEnd[0] - dragStart[0]) > 100 &&
+      (Math.abs(dragEnd[1] - dragStart[1]) < 50 ||
+        (Math.abs(dragEnd[1] - dragStart[1]) < 150 && dragEnd[3] !== undefined)) &&
+        (dragEnd[2] - dragStart[2]) < 1500
+    ) {
+      setColumnActive((columnActive + 1) % 2);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dragEnd]);
 
   useEffect(() => {
     if (deleteState === 's') {
@@ -166,7 +181,12 @@ const Documentos = () => {
                 dispatch(arquivosUploadIdle());
               }}
             >
-              UPLOAD DE RELATÓRIOS
+              <div className="uploadButtonText">UPLOAD DE RELATÓRIOS</div>
+              <Icon
+                className="uploadButtonIcon"
+                icon="fluent:arrow-upload-16-filled"
+                height={'30px'}
+              />
             </Button>
             {false && (
               <CircularProgress
@@ -188,6 +208,7 @@ const Documentos = () => {
             <DmTextField
               label="Nome do arquivo"
               size="small"
+              margin="none"
               onChange={(e: any) => {
                 setFiltros({
                   ...filtros,
@@ -230,13 +251,35 @@ const Documentos = () => {
         </div>
 
         <div
-          className="row tables"
+          className={`row tables${columnActive === 1 ? ' drag' : ''}`}
           style={{
             gridTemplateColumns: displayColumn === 'none' ? '1fr' : '1fr 1fr',
             gap: displayColumn === 'none' ? '0' : '30px',
             width: displayColumn === 'none' ? '50%' : '100%',
             marginLeft: displayColumn === 'none' ? '25%' : '0',
             transition: 'margin-left ease 0.4s',
+          }}
+          draggable
+          onDragStart={(e) => {
+            setDragStart([e.clientX, e.clientY, new Date().getTime()]);
+          }}
+          onTouchStart={(e) => {
+            setDragStart([
+              e.touches[0].clientX,
+              e.touches[0].clientY,
+              new Date().getTime(),
+            ]);
+          }}
+          onDragEnd={(e) => {
+            setDragEnd([e.clientX, e.clientY, new Date().getTime()]);
+          }}
+          onTouchEnd={(e) => {
+            setDragEnd([
+              e.changedTouches[0].clientX,
+              e.changedTouches[0].clientY,
+              new Date().getTime(),
+              0,
+            ]);
           }}
         >
           <div className="column">
@@ -276,6 +319,11 @@ const Documentos = () => {
               <div className="filesTypes">{filesTypes(arquivosByTipo)}</div>
             )}
           </div>
+        </div>
+
+        <div className="sectionsController">
+          <div className={`dot${columnActive === 0 ? ' active' : ''}`}></div>
+          <div className={`dot${columnActive === 1 ? ' active' : ''}`}></div>
         </div>
       </div>
     </div>

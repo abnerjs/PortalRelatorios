@@ -29,6 +29,10 @@
 }
 
 @media screen and (max-width: 1245px) {
+  .head {
+    width: calc(100vw - 40px);
+  }
+  
   .Header .acesso {
     display: none;
   }
@@ -39,6 +43,7 @@
 
   .Header {
     flex-flow: row wrap;
+    justify-content: flex-start;
   }
 
   .Header::before,
@@ -46,6 +51,12 @@
     content: '';
     width: 100%;
     order: 1;
+  }
+  
+  .Header .MuiTypography-root {
+    flex: unset;
+    width: calc(100% - 80px);
+    justify-self: flex-start;
   }
 }
 

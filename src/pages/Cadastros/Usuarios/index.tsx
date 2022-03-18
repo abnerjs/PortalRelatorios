@@ -5,13 +5,7 @@ import 'src/pages/ModalDelete.css';
 
 import React, { useEffect, useState } from 'react';
 import { Icon } from '@iconify/react';
-import {
-  Button,
-  Tab,
-  Tabs,
-  TextField,
-  Typography,
-} from '@mui/material';
+import { Button, Tab, Tabs, TextField, Typography } from '@mui/material';
 
 import Header from 'src/components/Header/Header';
 import Form from 'src/pages/Cadastros/Usuarios/Components/Form';
@@ -68,7 +62,7 @@ const Usuarios = () => {
   const operationState = useAppSelector(
     (state) => state.usuarios.operationState
   );
-  
+
   const [isErrorCollapseOpened, setErrorCollapseOpened] = useState(false);
 
   useEffect(() => {
@@ -177,84 +171,88 @@ const Usuarios = () => {
           </Typography>
         </div>
         <div className="row">
-          <div className={`SectionizedTable${isFormOpened ? '' : ' formInvi'}`}>
-            <Tabs
-              value={flgTipo}
-              onChange={handleChangeFlgTipo}
-              className={`tabs${isFormOpened ? '' : ' middle'}`}
-              aria-label="Form section controller"
+          <div className={`tableContainer${isFormOpened ? '' : ' formInvi'}`}>
+            <div
+              className={`SectionizedTable${isFormOpened ? '' : ' formInvi'}`}
             >
-              <Tab disableRipple value="I" label="INTERNO" />
-              <Tab disableRipple value="E" label="EXTERNO" />
-            </Tabs>
-            <div className="search">
-              <Icon
-                icon="fluent:search-12-regular"
-                width={25}
-                className={`icon${isSearchFocused ? ' active' : ''}`}
-              />
-              <TextField
-                id="searchbar"
-                value={pesquisa.filtroPadrao}
-                onChange={handleChangeSearch}
-                onFocus={() => setSearchFocused(true)}
-                onBlur={() => setSearchFocused(false)}
-                autoComplete="off"
-                fullWidth
-                color="primary"
-                label={
-                  flgTipo === 'I'
-                    ? 'Nome, matrícula, CPF ou e-mail'
-                    : 'Nome, CPF/CNPJ ou e-mail'
+              <Tabs
+                value={flgTipo}
+                onChange={handleChangeFlgTipo}
+                className={`tabs${isFormOpened ? '' : ' middle'}`}
+                aria-label="Form section controller"
+              >
+                <Tab disableRipple value="I" label="INTERNO" />
+                <Tab disableRipple value="E" label="EXTERNO" />
+              </Tabs>
+              <div className="search">
+                <Icon
+                  icon="fluent:search-12-regular"
+                  width={25}
+                  className={`icon${isSearchFocused ? ' active' : ''}`}
+                />
+                <TextField
+                  id="searchbar"
+                  value={pesquisa.filtroPadrao}
+                  onChange={handleChangeSearch}
+                  onFocus={() => setSearchFocused(true)}
+                  onBlur={() => setSearchFocused(false)}
+                  autoComplete="off"
+                  fullWidth
+                  color="primary"
+                  label={
+                    flgTipo === 'I'
+                      ? 'Nome, matrícula, CPF ou e-mail'
+                      : 'Nome, CPF/CNPJ ou e-mail'
+                  }
+                  margin="normal"
+                  variant="filled"
+                  className="iconified"
+                  InputProps={{
+                    disableUnderline: true,
+                  }}
+                />
+              </div>
+              <Button
+                onClick={() => handleFormOpen(true, true)}
+                disabled={flgAcesso !== 'A'}
+                variant="contained"
+                className={`tertiary${
+                  isFormOpened && isNewUserSection ? ' active' : ''
+                }`}
+                startIcon={
+                  <Icon
+                    icon="fluent:add-16-regular"
+                    width={25}
+                    className="icon"
+                  />
                 }
-                margin="normal"
-                variant="filled"
-                className="iconified"
-                InputProps={{
-                  disableUnderline: true,
-                }}
+                fullWidth
+              >
+                NOVO USUÁRIO
+              </Button>
+              <DmList
+                list={usuarios}
+                object={usuario}
+                getError={getError}
+                errors={errors}
+                deleteState={deleteState}
+                cancelDelete={usuariosCancelDelete}
+                deleteRequest={usuariosDeleteRequest}
+                handleFormOpen={handleFormOpen}
+                isFormOpened={isFormOpened}
+                key="idRelUsuario"
+                labelKey="desNome"
+                loading={loading}
+                request={usuariosGetRequest}
+                handlePesquisa={handlePesquisa}
+                pesquisa={pesquisa}
+                setObject={setUsuario}
+                pagination={pagination}
+                switchFunction={handleChangeFlgAtivo}
+                rowSelected={rowSelected}
+                setRowSelected={setRowSelected}
               />
             </div>
-            <Button
-              onClick={() => handleFormOpen(true, true)}
-              disabled={flgAcesso !== 'A'}
-              variant="contained"
-              className={`tertiary${
-                isFormOpened && isNewUserSection ? ' active' : ''
-              }`}
-              startIcon={
-                <Icon
-                  icon="fluent:add-16-regular"
-                  width={25}
-                  className="icon"
-                />
-              }
-              fullWidth
-            >
-              NOVO USUÁRIO
-            </Button>
-            <DmList
-              list={usuarios}
-              object={usuario}
-              getError={getError}
-              errors={errors}
-              deleteState={deleteState}
-              cancelDelete={usuariosCancelDelete}
-              deleteRequest={usuariosDeleteRequest}
-              handleFormOpen={handleFormOpen}
-              isFormOpened={isFormOpened}
-              key='idRelUsuario'
-              labelKey="desNome"
-              loading={loading}
-              request={usuariosGetRequest}
-              handlePesquisa={handlePesquisa}
-              pesquisa={pesquisa}
-              setObject={setUsuario}
-              pagination={pagination}
-              switchFunction={handleChangeFlgAtivo}
-              rowSelected={rowSelected}
-              setRowSelected={setRowSelected}
-            />
           </div>
           <Form
             data={usuario}

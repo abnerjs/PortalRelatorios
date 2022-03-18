@@ -135,150 +135,161 @@ const RelForCanaEntregue = () => {
         <div className="head">
           <Header title="Posição Geral da Entrega de Matéria Prima" />
         </div>
-        <div className="row" style={{ alignContent: 'flex-start' }}>
+        <div className="row relatorios">
           <form
             noValidate
             autoComplete="off"
             onSubmit={handleSubmit(onSubmit)}
             className={`FormUser`}
           >
-            <Typography variant="h6">Filtrar documento</Typography>
-            <DmCollapseHandler
-              error={pdfError}
-              isErrorCollapseOpened={isErrorCollapseOpened}
-              setErrorCollapseOpened={setErrorCollapseOpened}
-            />
-            <LocalizationProvider
-              dateAdapter={AdapterDateFns}
-              locale={brLocale}
-            >
-              <DateRangePicker
-                mask="__/__/____"
-                value={date}
-                onChange={(value) => {
-                  setDate(value);
-                  setValue('dtaInicio', value[0]);
-                  setValue('dtaFim', value[1]);
-                }}
-                startText="Data inicial"
-                endText="Data final"
-                renderInput={(startProps, endProps) => (
-                  <React.Fragment>
-                    <TextField
-                      {...startProps}
-                      margin="dense"
-                      variant="filled"
-                      fullWidth
-                      InputProps={{ disableUnderline: true }}
-                      inputProps={{
-                        ...startProps.inputProps,
-                        placeholder: 'dd/mm/aaaa',
-                      }}
-                      error={!!formState.errors.dtaInicio}
-                      helperText={formState.errors.dtaInicio?.message}
-                    />
-                    <Box sx={{ mx: '6px' }} />
-                    <TextField
-                      {...endProps}
-                      margin="dense"
-                      variant="filled"
-                      fullWidth
-                      InputProps={{ disableUnderline: true }}
-                      inputProps={{
-                        ...endProps.inputProps,
-                        placeholder: 'dd/mm/aaaa',
-                      }}
-                      error={!!formState.errors.dtaFim}
-                      helperText={formState.errors.dtaFim?.message}
-                    />
-                  </React.Fragment>
-                )}
+            <div className="formFields">
+              <Typography variant="h6">Filtrar documento</Typography>
+              <DmCollapseHandler
+                error={pdfError}
+                isErrorCollapseOpened={isErrorCollapseOpened}
+                setErrorCollapseOpened={setErrorCollapseOpened}
               />
-            </LocalizationProvider>
-            <Autocomplete
-              multiple
-              fullWidth
-              clearOnBlur
-              blurOnSelect
-              selectOnFocus
-              disableListWrap
-              handleHomeEndKeys
-              disableCloseOnSelect={true}
-              filterSelectedOptions
-              openText="Abrir"
-              closeText="Fechar"
-              clearText="Limpar"
-              loadingText="Carregando"
-              noOptionsText="Sem opções"
-              options={forn}
-              limitTags={1}
-              ChipProps={{ size: `small` }}
-              getOptionLabel={(option) => option.descricao}
-              renderInput={(params) => (
-                <TextField
-                  {...params}
-                  label="Fornecedores"
-                  margin="dense"
-                  variant="filled"
-                  InputProps={{ ...params.InputProps, disableUnderline: true }}
-                  error={!!formState.errors.lstCodFornecedores}
-                  helperText={
-                    formState.errors.lstCodFornecedores?.message || 'Opcional'
-                  }
+              <LocalizationProvider
+                dateAdapter={AdapterDateFns}
+                locale={brLocale}
+              >
+                <DateRangePicker
+                  mask="__/__/____"
+                  value={date}
+                  onChange={(value) => {
+                    setDate(value);
+                    setValue('dtaInicio', value[0]);
+                    setValue('dtaFim', value[1]);
+                  }}
+                  startText="Data inicial"
+                  endText="Data final"
+                  renderInput={(startProps, endProps) => (
+                    <React.Fragment>
+                      <TextField
+                        {...startProps}
+                        margin="dense"
+                        variant="filled"
+                        fullWidth
+                        InputProps={{ disableUnderline: true }}
+                        inputProps={{
+                          ...startProps.inputProps,
+                          placeholder: 'dd/mm/aaaa',
+                        }}
+                        error={!!formState.errors.dtaInicio}
+                        helperText={formState.errors.dtaInicio?.message}
+                      />
+                      <Box sx={{ mx: '6px' }} />
+                      <TextField
+                        {...endProps}
+                        margin="dense"
+                        variant="filled"
+                        fullWidth
+                        InputProps={{ disableUnderline: true }}
+                        inputProps={{
+                          ...endProps.inputProps,
+                          placeholder: 'dd/mm/aaaa',
+                        }}
+                        error={!!formState.errors.dtaFim}
+                        helperText={formState.errors.dtaFim?.message}
+                      />
+                    </React.Fragment>
+                  )}
                 />
-              )}
-              value={fornecedores}
-              onChange={(_, data) => {
-                setValue(
-                  'lstCodFornecedores',
-                  data.map((x) => x.codigo).join(',')
-                );
+              </LocalizationProvider>
+              <Autocomplete
+                multiple
+                fullWidth
+                clearOnBlur
+                blurOnSelect
+                selectOnFocus
+                disableListWrap
+                handleHomeEndKeys
+                disableCloseOnSelect={true}
+                filterSelectedOptions
+                openText="Abrir"
+                closeText="Fechar"
+                clearText="Limpar"
+                loadingText="Carregando"
+                noOptionsText="Sem opções"
+                options={forn}
+                limitTags={1}
+                ChipProps={{ size: `small` }}
+                getOptionLabel={(option) => option.descricao}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    label="Fornecedores"
+                    margin="dense"
+                    variant="filled"
+                    InputProps={{
+                      ...params.InputProps,
+                      disableUnderline: true,
+                    }}
+                    error={!!formState.errors.lstCodFornecedores}
+                    helperText={
+                      formState.errors.lstCodFornecedores?.message || 'Opcional'
+                    }
+                  />
+                )}
+                value={fornecedores}
+                onChange={(_, data) => {
+                  setValue(
+                    'lstCodFornecedores',
+                    data.map((x) => x.codigo).join(',')
+                  );
 
-                setFornecedores(data);
-              }}
-            />
-            <Autocomplete
-              multiple
-              fullWidth
-              clearOnBlur
-              blurOnSelect
-              selectOnFocus
-              disableListWrap
-              handleHomeEndKeys
-              disableCloseOnSelect={true}
-              filterSelectedOptions
-              openText="Abrir"
-              closeText="Fechar"
-              clearText="Limpar"
-              loadingText="Carregando"
-              noOptionsText="Sem opções"
-              options={fornecedores.length === 0 ? [] : faz}
-              limitTags={1}
-              ChipProps={{ size: `small` }}
-              getOptionLabel={(option) => option.descricao}
-              renderInput={(params) => (
-                <TextField
-                  {...params}
-                  label="Fazendas"
-                  margin="dense"
-                  variant="filled"
-                  InputProps={{ ...params.InputProps, disableUnderline: true }}
-                  error={!!formState.errors.lstCodFazendas}
-                  helperText={
-                    formState.errors.lstCodFazendas?.message
-                      ? formState.errors.lstCodFazendas.message
-                      : fornecedores.length === 0
-                      ? 'Opcional'
-                      : undefined
-                  }
-                />
-              )}
-              value={fazendas}
-              onChange={(_, data) => {
-                setValue('lstCodFazendas', data.map((x) => x.codigo).join(','));
-                setFazendas(data);
-              }}
-            />
+                  setFornecedores(data);
+                }}
+              />
+              <Autocomplete
+                multiple
+                fullWidth
+                clearOnBlur
+                blurOnSelect
+                selectOnFocus
+                disableListWrap
+                handleHomeEndKeys
+                disableCloseOnSelect={true}
+                filterSelectedOptions
+                openText="Abrir"
+                closeText="Fechar"
+                clearText="Limpar"
+                loadingText="Carregando"
+                noOptionsText="Sem opções"
+                options={fornecedores.length === 0 ? [] : faz}
+                limitTags={1}
+                ChipProps={{ size: `small` }}
+                getOptionLabel={(option) => option.descricao}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    label="Fazendas"
+                    margin="dense"
+                    variant="filled"
+                    InputProps={{
+                      ...params.InputProps,
+                      disableUnderline: true,
+                    }}
+                    error={!!formState.errors.lstCodFazendas}
+                    helperText={
+                      formState.errors.lstCodFazendas?.message
+                        ? formState.errors.lstCodFazendas.message
+                        : fornecedores.length === 0
+                        ? 'Opcional'
+                        : undefined
+                    }
+                  />
+                )}
+                value={fazendas}
+                onChange={(_, data) => {
+                  setValue(
+                    'lstCodFazendas',
+                    data.map((x) => x.codigo).join(',')
+                  );
+                  setFazendas(data);
+                }}
+              />
+            </div>
             <div className="buttons">
               <Button
                 variant="contained"

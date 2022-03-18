@@ -49,7 +49,6 @@ const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
 
 const Carousel: React.FC<Props> = ({ children }: Props) => {
   const [carouselIndex, setCarouselIndex] = useState(0);
-  const maxSteps = images.length;
 
   const handleStepChange = (step: number) => {
     setCarouselIndex(step);
@@ -139,10 +138,6 @@ const Carousel: React.FC<Props> = ({ children }: Props) => {
             </div>
           ))}
         </AutoPlaySwipeableViews>
-
-        {images.map((step, index) => (
-          <></>
-        ))}
 
         <div className="controllers">{arr}</div>
       </div>

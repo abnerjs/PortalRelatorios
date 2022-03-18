@@ -5,11 +5,7 @@ import 'src/pages/ModalDelete.css';
 
 import React, { useEffect, useState } from 'react';
 import { Icon } from '@iconify/react';
-import {
-  Button,
-  TextField,
-  Typography,
-} from '@mui/material';
+import { Button, TextField, Typography } from '@mui/material';
 
 import Header from 'src/components/Header/Header';
 import Form from 'src/pages/Cadastros/TiposArquivos/Components/Form';
@@ -42,7 +38,7 @@ const TiposArquivos = () => {
 
   const [tipoArquivo, setTipoArquivo] = useState<TipoArquivo | null>(null);
   const { pesquisa, handlePesquisa } = usePesquisa({
-    ...searchInitValues
+    ...searchInitValues,
   });
 
   const dispatch = useAppDispatch();
@@ -137,69 +133,73 @@ const TiposArquivos = () => {
           </Typography>
         </div>
         <div className="row">
-          <div className={`SectionizedTable${isFormOpened ? '' : ' formInvi'}`}>
-            <div className="search">
-              <Icon
-                icon="fluent:search-12-regular"
-                width={25}
-                className={`icon${isSearchFocused ? ' active' : ''}`}
-              />
-              <TextField
-                id="searchbar"
-                value={pesquisa.filtroPadrao}
-                onChange={handleChangeSearch}
-                onFocus={() => setSearchFocused(true)}
-                onBlur={() => setSearchFocused(false)}
-                autoComplete="off"
+          <div className={`tableContainer${isFormOpened ? '' : ' formInvi'}`}>
+            <div
+              className={`SectionizedTable${isFormOpened ? '' : ' formInvi'}`}
+            >
+              <div className="search">
+                <Icon
+                  icon="fluent:search-12-regular"
+                  width={25}
+                  className={`icon${isSearchFocused ? ' active' : ''}`}
+                />
+                <TextField
+                  id="searchbar"
+                  value={pesquisa.filtroPadrao}
+                  onChange={handleChangeSearch}
+                  onFocus={() => setSearchFocused(true)}
+                  onBlur={() => setSearchFocused(false)}
+                  autoComplete="off"
+                  fullWidth
+                  color="primary"
+                  label="Descrição do tipo de arquivo"
+                  margin="normal"
+                  variant="filled"
+                  className="iconified"
+                  InputProps={{
+                    disableUnderline: true,
+                  }}
+                />
+              </div>
+              <Button
+                onClick={() => handleFormOpen(true, true)}
+                variant="contained"
+                className={`tertiary${
+                  isFormOpened && isNewUserSection ? ' active' : ''
+                }`}
                 fullWidth
-                color="primary"
-                label="Descrição do tipo de arquivo"
-                margin="normal"
-                variant="filled"
-                className="iconified"
-                InputProps={{
-                  disableUnderline: true,
-                }}
+                startIcon={
+                  <Icon
+                    icon="fluent:add-16-regular"
+                    width={25}
+                    className="icon"
+                  />
+                }
+              >
+                NOVO TIPO DE ARQUIVO
+              </Button>
+              <DmList
+                list={tiposArquivos}
+                object={tipoArquivo}
+                getError={getError}
+                errors={errors}
+                deleteState={deleteState}
+                cancelDelete={tipoArquivoCancelDelete}
+                deleteRequest={tipoArquivoDeleteRequest}
+                handleFormOpen={handleFormOpen}
+                isFormOpened={isFormOpened}
+                key="idRelTpArquivo"
+                labelKey="desTpArquivo"
+                loading={loading}
+                request={tipoArquivoGetRequest}
+                handlePesquisa={handlePesquisa}
+                pesquisa={pesquisa}
+                setObject={setTipoArquivo}
+                pagination={pagination}
+                rowSelected={rowSelected}
+                setRowSelected={setRowSelected}
               />
             </div>
-            <Button
-              onClick={() => handleFormOpen(true, true)}
-              variant="contained"
-              className={`tertiary${
-                isFormOpened && isNewUserSection ? ' active' : ''
-              }`}
-              fullWidth
-              startIcon={
-                <Icon
-                  icon="fluent:add-16-regular"
-                  width={25}
-                  className="icon"
-                />
-              }
-            >
-              NOVO TIPO DE ARQUIVO
-            </Button>
-            <DmList
-              list={tiposArquivos}
-              object={tipoArquivo}
-              getError={getError}
-              errors={errors}
-              deleteState={deleteState}
-              cancelDelete={tipoArquivoCancelDelete}
-              deleteRequest={tipoArquivoDeleteRequest}
-              handleFormOpen={handleFormOpen}
-              isFormOpened={isFormOpened}
-              key='idRelTpArquivo'
-              labelKey="desTpArquivo"
-              loading={loading}
-              request={tipoArquivoGetRequest}
-              handlePesquisa={handlePesquisa}
-              pesquisa={pesquisa}
-              setObject={setTipoArquivo}
-              pagination={pagination}
-              rowSelected={rowSelected}
-              setRowSelected={setRowSelected}
-            />
           </div>
           <Form data={tipoArquivo} isFormOpened={isFormOpened} />
         </div>

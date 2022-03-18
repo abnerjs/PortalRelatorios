@@ -139,7 +139,12 @@ const Gerenciamento = () => {
                 dispatch(arquivosUploadIdle());
               }}
             >
-              UPLOAD DE RELATÓRIOS
+              <div className="uploadButtonText">UPLOAD DE RELATÓRIOS</div>
+              <Icon
+                className="uploadButtonIcon"
+                icon="fluent:arrow-upload-16-filled"
+                height={'30px'}
+              />
             </Button>
             {false && (
               <CircularProgress
@@ -161,6 +166,7 @@ const Gerenciamento = () => {
             <DmTextField
               label="Nome do arquivo"
               size="small"
+              margin="none"
               onChange={(e: any) => {
                 setFiltros({
                   ...filtros,
@@ -174,7 +180,7 @@ const Gerenciamento = () => {
             <IconButton
               className="filterButton"
               onClick={() => setOpenFilters(true)}
-              style={{width: 45, height: 45}}
+              style={{ width: 45, height: 45 }}
             >
               <Badge
                 color="primary"

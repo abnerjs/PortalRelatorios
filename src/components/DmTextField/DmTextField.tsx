@@ -17,6 +17,7 @@ interface Props {
   value?:string;
   style?: any;
   sx?: any;
+  margin?: string;
 }
 
 const DmTextField = (props: Props) => {
@@ -27,7 +28,7 @@ const DmTextField = (props: Props) => {
       label={props.label}
       size={props.size}
       color="primary"
-      margin="dense"
+      margin={props.margin || 'dense'}
       variant="filled"
       value={props.value}
       defaultValue={props.defaultValue}

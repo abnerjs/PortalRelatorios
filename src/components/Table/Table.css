@@ -4,12 +4,15 @@
   flex: 1;
   height: 100%;
   position: relative;
+  background-color: var(--bgColor);
 }
 
 .principalContent {
-  width: 100%;
+  width: calc(100% - 10px);
   height: fit-content;
-  overflow: auto !important;
+  overflow-y: scroll !important;
+  overflow-x: hidden !important;
+  padding-right: 10px;
   display: flex;
   flex-direction: column;
   position: relative !important;
@@ -17,6 +20,7 @@
 
 .scrollable {
   width: 100%;
+  padding-bottom: 10px;
 }
 
 .Table .row {
@@ -76,6 +80,7 @@
   display: flex;
   font-size: 12px;
   margin-left: 20px;
+  max-height: 40px;
   align-items: center;
 }
 
@@ -88,6 +93,8 @@
 .Table .row .textual .regname,
 .Table .row .textual .description {
   flex: 1;
+  max-height: 40px;
+  overflow: hidden;
 }
 
 .Table .row .textual .date {
@@ -96,7 +103,7 @@
 }
 
 .Table .row .textual .refdate {
-  width: 140px !important;
+  width: 145px !important;
   margin: 0 20px;
 }
 
@@ -117,4 +124,39 @@
   font-size: 12px !important;
   border-radius: 8px !important;
   text-decoration: none !important;
+}
+
+@media screen and (max-width: 1254px) {
+  .Table .row .textual:not(.fullView) {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .Table .row .textual:not(.fullView) .refdate {
+    margin: 0;
+    text-align: left !important;
+  }
+
+  .Table .row .textual:not(.fullView) .regname {
+    font-weight: 600;
+  }
+
+  .Table .row .textual {
+    height: 50px !important;
+    max-height: 50px;
+    justify-content: center;
+  }
+
+  .Table .row .header {
+    height: 50px !important;
+    min-height: 50px;
+  }
+
+  .Table .row:not(.collapsed) {
+    max-height: 50px;
+  }
+
+  .Table .row .textual .regname {
+    flex: unset;
+  }
 }

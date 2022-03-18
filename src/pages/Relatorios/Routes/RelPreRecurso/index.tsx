@@ -122,135 +122,143 @@ const RelPreRecurso = () => {
             onSubmit={handleSubmit(onSubmit)}
             className={`FormUser`}
           >
-            <Typography variant="h6">Filtrar documento</Typography>
-            <DmCollapseHandler
-              error={pdfError}
-              isErrorCollapseOpened={isErrorCollapseOpened}
-              setErrorCollapseOpened={setErrorCollapseOpened}
-            />
-            <LocalizationProvider
-              dateAdapter={AdapterDateFns}
-              locale={brLocale}
-            >
-              <DateRangePicker
-                mask="__/__/____"
-                value={date}
-                onChange={(value) => {
-                  setDate(value);
-                  setValue('dtaInicio', value[0]);
-                  setValue('dtaFim', value[1]);
-                }}
-                startText="Data inicial"
-                endText="Data final"
-                disableCloseOnSelect={false}
-                renderInput={(startProps, endProps) => (
-                  <React.Fragment>
-                    <TextField
-                      {...startProps}
-                      margin="dense"
-                      variant="filled"
-                      fullWidth
-                      InputProps={{ disableUnderline: true }}
-                      inputProps={{
-                        ...startProps.inputProps,
-                        placeholder: 'dd/mm/aaaa',
-                      }}
-                      error={!!formState.errors.dtaInicio}
-                      helperText={formState.errors.dtaInicio?.message}
-                    />
-                    <Box sx={{ mx: '6px' }} />
-                    <TextField
-                      {...endProps}
-                      margin="dense"
-                      variant="filled"
-                      fullWidth
-                      InputProps={{ disableUnderline: true }}
-                      inputProps={{
-                        ...endProps.inputProps,
-                        placeholder: 'dd/mm/aaaa',
-                      }}
-                      error={!!formState.errors.dtaFim}
-                      helperText={formState.errors.dtaFim?.message}
-                    />
-                  </React.Fragment>
-                )}
+            <div className="formFields">
+              <Typography variant="h6">Filtrar documento</Typography>
+              <DmCollapseHandler
+                error={pdfError}
+                isErrorCollapseOpened={isErrorCollapseOpened}
+                setErrorCollapseOpened={setErrorCollapseOpened}
               />
-            </LocalizationProvider>
-            <Autocomplete
-              fullWidth
-              clearOnBlur
-              blurOnSelect
-              selectOnFocus
-              disableListWrap
-              handleHomeEndKeys
-              disableCloseOnSelect={true}
-              filterSelectedOptions
-              openText="Abrir"
-              closeText="Fechar"
-              clearText="Limpar"
-              loadingText="Carregando"
-              noOptionsText="Sem opções"
-              options={tipRec}
-              getOptionLabel={(option) => option.descricao}
-              renderInput={(params) => (
-                <TextField
-                  {...params}
-                  label="Tipos de recursos"
-                  margin="dense"
-                  variant="filled"
-                  InputProps={{ ...params.InputProps, disableUnderline: true }}
-                  error={!!formState.errors.codTpRecurso}
-                  helperText={formState.errors.codTpRecurso?.message}
+              <LocalizationProvider
+                dateAdapter={AdapterDateFns}
+                locale={brLocale}
+              >
+                <DateRangePicker
+                  mask="__/__/____"
+                  value={date}
+                  onChange={(value) => {
+                    setDate(value);
+                    setValue('dtaInicio', value[0]);
+                    setValue('dtaFim', value[1]);
+                  }}
+                  startText="Data inicial"
+                  endText="Data final"
+                  disableCloseOnSelect={false}
+                  renderInput={(startProps, endProps) => (
+                    <React.Fragment>
+                      <TextField
+                        {...startProps}
+                        margin="dense"
+                        variant="filled"
+                        fullWidth
+                        InputProps={{ disableUnderline: true }}
+                        inputProps={{
+                          ...startProps.inputProps,
+                          placeholder: 'dd/mm/aaaa',
+                        }}
+                        error={!!formState.errors.dtaInicio}
+                        helperText={formState.errors.dtaInicio?.message}
+                      />
+                      <Box sx={{ mx: '6px' }} />
+                      <TextField
+                        {...endProps}
+                        margin="dense"
+                        variant="filled"
+                        fullWidth
+                        InputProps={{ disableUnderline: true }}
+                        inputProps={{
+                          ...endProps.inputProps,
+                          placeholder: 'dd/mm/aaaa',
+                        }}
+                        error={!!formState.errors.dtaFim}
+                        helperText={formState.errors.dtaFim?.message}
+                      />
+                    </React.Fragment>
+                  )}
                 />
-              )}
-              value={tipoRecurso}
-              onChange={(_, data) => {
-                setValue('codTpRecurso', data?.codigo ?? '');
-                setTipoRecurso(data);
-              }}
-            />
-            <Autocomplete
-              multiple
-              fullWidth
-              clearOnBlur
-              blurOnSelect
-              selectOnFocus
-              disableListWrap
-              handleHomeEndKeys
-              disableCloseOnSelect={true}
-              filterSelectedOptions
-              openText="Abrir"
-              closeText="Fechar"
-              clearText="Limpar"
-              loadingText="Carregando"
-              noOptionsText="Sem opções"
-              options={prest}
-              limitTags={1}
-              ChipProps={{ size: `small` }}
-              getOptionLabel={(option) => option.descricao}
-              renderInput={(params) => (
-                <TextField
-                  {...params}
-                  label="Prestadores"
-                  margin="dense"
-                  variant="filled"
-                  InputProps={{ ...params.InputProps, disableUnderline: true }}
-                  error={!!formState.errors.lstCodPrestadores}
-                  helperText={
-                    formState.errors.lstCodPrestadores?.message || 'Opcional'
-                  }
-                />
-              )}
-              value={prestadores}
-              onChange={(_, data) => {
-                setValue(
-                  'lstCodPrestadores',
-                  data.map((x) => x.codigo).join(',')
-                );
+              </LocalizationProvider>
+              <Autocomplete
+                fullWidth
+                clearOnBlur
+                blurOnSelect
+                selectOnFocus
+                disableListWrap
+                handleHomeEndKeys
+                disableCloseOnSelect={true}
+                filterSelectedOptions
+                openText="Abrir"
+                closeText="Fechar"
+                clearText="Limpar"
+                loadingText="Carregando"
+                noOptionsText="Sem opções"
+                options={tipRec}
+                getOptionLabel={(option) => option.descricao}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    label="Tipos de recursos"
+                    margin="dense"
+                    variant="filled"
+                    InputProps={{
+                      ...params.InputProps,
+                      disableUnderline: true,
+                    }}
+                    error={!!formState.errors.codTpRecurso}
+                    helperText={formState.errors.codTpRecurso?.message}
+                  />
+                )}
+                value={tipoRecurso}
+                onChange={(_, data) => {
+                  setValue('codTpRecurso', data?.codigo ?? '');
+                  setTipoRecurso(data);
+                }}
+              />
+              <Autocomplete
+                multiple
+                fullWidth
+                clearOnBlur
+                blurOnSelect
+                selectOnFocus
+                disableListWrap
+                handleHomeEndKeys
+                disableCloseOnSelect={true}
+                filterSelectedOptions
+                openText="Abrir"
+                closeText="Fechar"
+                clearText="Limpar"
+                loadingText="Carregando"
+                noOptionsText="Sem opções"
+                options={prest}
+                limitTags={1}
+                ChipProps={{ size: `small` }}
+                getOptionLabel={(option) => option.descricao}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    label="Prestadores"
+                    margin="dense"
+                    variant="filled"
+                    InputProps={{
+                      ...params.InputProps,
+                      disableUnderline: true,
+                    }}
+                    error={!!formState.errors.lstCodPrestadores}
+                    helperText={
+                      formState.errors.lstCodPrestadores?.message || 'Opcional'
+                    }
+                  />
+                )}
+                value={prestadores}
+                onChange={(_, data) => {
+                  setValue(
+                    'lstCodPrestadores',
+                    data.map((x) => x.codigo).join(',')
+                  );
 
-                setPrestadores(data);
-              }}
-            />
+                  setPrestadores(data);
+                }}
+              />
+            </div>
             <div className="buttons">
               <Button
                 variant="contained"

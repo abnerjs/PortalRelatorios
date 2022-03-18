@@ -2,11 +2,10 @@ import './Table.css';
 
 import React, { useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Button, Pagination, Typography } from '@mui/material';
+import { Button, Typography } from '@mui/material';
 import { ArquivoUploadReceiveFormat } from 'src/store/ducks/relatoriosUpload/types';
 import { useAppDispatch } from 'src/store';
 import Row from './subcomponents/Row';
-import { array } from 'yup/lib/locale';
 
 export interface LinkProps {
   name: string;
@@ -25,11 +24,8 @@ type Props = {
 const conditionalArrayTypeRender = (
   arr: Array<LinkProps> | undefined,
   arrArquivo: Array<ArquivoUploadReceiveFormat> | undefined,
-  dispatch: any,
-  collapsed: boolean,
-  setCollapsed: Function,
   tableIndex: number,
-  fullView?: boolean,
+  fullView?: boolean
 ) => {
   let arrGui: JSX.Element[] = [];
 
@@ -41,7 +37,7 @@ const conditionalArrayTypeRender = (
             <div className="regname">{doc.name}</div>
           </div>
           <Link
-            to={'/relatorios/'+ doc.linkTo}
+            to={`/relatorios/${doc.linkTo}`}
             tabIndex={-1}
             style={{ textDecoration: 'none' }}
           >
@@ -90,14 +86,10 @@ const Table = (props: Props) => {
           {conditionalArrayTypeRender(
             props.arr,
             props.arrArquivo,
-            dispatch,
-            collapsed,
-            setCollapsed,
             props.tableIndex,
-            props.fullView,
+            props.fullView
           )}
         </div>
-        {/*<Pagination count={1} shape="rounded" /> */}
       </div>
     </div>
   );

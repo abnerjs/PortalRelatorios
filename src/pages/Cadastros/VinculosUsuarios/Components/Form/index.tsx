@@ -187,157 +187,163 @@ const Form: React.FC<FormProps> = ({
   }, [data, dispatch]);
 
   return (
-    <form
-      className={`FormUser flexGrow${isFormOpened ? '' : ' invi'}`}
-      onSubmit={handleSubmit}
-    >
-      <Tabs
-        value={tabsForm}
-        onChange={handleChangeTabs}
-        aria-label="Form section controller"
+    <div className={`formContainer${isFormOpened ? '' : ' invi'}`}>
+      <form
+        className={`FormUser flexGrow${isFormOpened ? '' : ' invi'}`}
+        onSubmit={handleSubmit}
       >
-        <Tab disableRipple value="forn" label="Fornecedores" />
-        <Tab disableRipple value="prest" label="Prestadores" />
-      </Tabs>
-      <Autocomplete
-        multiple
-        autoComplete
-        clearOnBlur={false}
-        open={true}
-        noOptionsText="Nenhum fornecedor"
-        disableListWrap={true}
-        disablePortal
-        fullWidth
-        selectOnFocus
-        handleHomeEndKeys
-        disableCloseOnSelect
-        PopperComponent={StyledPopper}
-        ListboxComponent={ListboxComponent}
-        options={lstFornecedores}
-        getOptionLabel={(option) => option.descricao}
-        limitTags={1}
-        ChipProps={{ size: 'small' }}
-        className={tabsForm === 'forn' ? '' : 'displayNone'}
-        // renderTags={() => undefined}
-        renderOption={(props, option, state) => {
-          return [
-            props,
-            <React.Fragment>
-              <span
-                style={{
-                  width: '90%',
-                  overflow: 'hidden',
-                  whiteSpace: 'nowrap',
-                  textOverflow: 'ellipsis',
-                }}
-              >
-                {option.descricao}
-              </span>
-              {state.selected && <CheckIcon color="primary" />}
-            </React.Fragment>,
-          ];
-        }}
-        renderInput={(params: any) => (
-          <TextField
-            {...params}
-            label="Fornecedores"
-            className="DmTextField"
-            variant="filled"
-            InputProps={{
-              ...params.InputProps,
-              disableUnderline: true,
-              startAdornment: (
-                <div
+        <Tabs
+          value={tabsForm}
+          onChange={handleChangeTabs}
+          aria-label="Form section controller"
+        >
+          <Tab disableRipple value="forn" label="Fornecedores" />
+          <Tab disableRipple value="prest" label="Prestadores" />
+        </Tabs>
+        <Autocomplete
+          multiple
+          autoComplete
+          clearOnBlur={false}
+          open={true}
+          noOptionsText="Nenhum fornecedor"
+          disableListWrap={true}
+          disablePortal
+          fullWidth
+          selectOnFocus
+          handleHomeEndKeys
+          disableCloseOnSelect
+          PopperComponent={StyledPopper}
+          ListboxComponent={ListboxComponent}
+          options={lstFornecedores}
+          getOptionLabel={(option) => option.descricao}
+          limitTags={1}
+          ChipProps={{ size: 'small' }}
+          className={tabsForm === 'forn' ? '' : 'displayNone'}
+          // renderTags={() => undefined}
+          renderOption={(props, option, state) => {
+            return [
+              props,
+              <React.Fragment>
+                <span
                   style={{
-                    maxHeight: 50,
-                    marginTop: 10,
-                    marginBottom: 5,
-                    marginLeft: 20,
-                    overflowY: 'auto',
+                    width: '90%',
+                    overflow: 'hidden',
+                    whiteSpace: 'nowrap',
+                    textOverflow: 'ellipsis',
                   }}
                 >
-                  {params.InputProps.startAdornment}
-                </div>
-              ),
-            }}
-            InputLabelProps={{ shrink: undefined }}
-          />
-        )}
-        value={fornecedores}
-        onChange={(_, data) => setFornecedores(data)}
-        isOptionEqualToValue={(option, value) => option.codigo === value.codigo}
-      />
-      <Autocomplete
-        multiple
-        noOptionsText="Nenhum prestador"
-        open={true}
-        disableListWrap={true}
-        disablePortal
-        fullWidth
-        clearOnBlur
-        selectOnFocus
-        handleHomeEndKeys
-        disableCloseOnSelect
-        PopperComponent={StyledPopper}
-        ListboxComponent={ListboxComponent}
-        options={lstPrestadores}
-        getOptionLabel={(option) => option.descricao}
-        limitTags={1}
-        ChipProps={{ size: 'small' }}
-        className={tabsForm === 'prest' ? '' : 'displayNone'}
-        // renderTags={() => undefined}
-        renderOption={(props, option, state) => {
-          return [
-            props,
-            <React.Fragment>
-              <span
-                style={{
-                  width: '90%',
-                  overflow: 'hidden',
-                  whiteSpace: 'nowrap',
-                  textOverflow: 'ellipsis',
-                }}
-              >
-                {option.descricao}
-              </span>
-              {state.selected && <CheckIcon color="primary" />}
-            </React.Fragment>,
-          ];
-        }}
-        renderInput={(params: any) => (
-          <TextField
-            {...params}
-            label="Prestadores"
-            placeholder="Pesquisar..."
-            variant="filled"
-            InputProps={{ ...params.InputProps, disableUnderline: true }}
-            InputLabelProps={{ shrink: undefined }}
-          />
-        )}
-        value={prestadores}
-        onChange={(_, data) => setPrestadores(data)}
-        isOptionEqualToValue={(option, value) => option.codigo === value.codigo}
-      />
-      <div className="buttons">
-        <Button
-          onClick={onCancel}
-          tabIndex={isFormOpened ? 0 : -1}
-          variant="contained"
-          className="secondary"
+                  {option.descricao}
+                </span>
+                {state.selected && <CheckIcon color="primary" />}
+              </React.Fragment>,
+            ];
+          }}
+          renderInput={(params: any) => (
+            <TextField
+              {...params}
+              label="Fornecedores"
+              className="DmTextField"
+              variant="filled"
+              InputProps={{
+                ...params.InputProps,
+                disableUnderline: true,
+                startAdornment: (
+                  <div
+                    style={{
+                      maxHeight: 50,
+                      marginTop: 10,
+                      marginBottom: 5,
+                      marginLeft: 20,
+                      overflowY: 'auto',
+                    }}
+                  >
+                    {params.InputProps.startAdornment}
+                  </div>
+                ),
+              }}
+              InputLabelProps={{ shrink: undefined }}
+            />
+          )}
+          value={fornecedores}
+          onChange={(_, data) => setFornecedores(data)}
+          isOptionEqualToValue={(option, value) =>
+            option.codigo === value.codigo
+          }
+        />
+        <Autocomplete
+          multiple
+          noOptionsText="Nenhum prestador"
+          open={true}
+          disableListWrap={true}
+          disablePortal
           fullWidth
-        >
-          CANCELAR
-        </Button>
-        <Button
-          tabIndex={isFormOpened ? 0 : -1}
-          variant="contained"
-          type="submit"
-          fullWidth
-        >
-          SALVAR
-        </Button>
-      </div>
-    </form>
+          clearOnBlur
+          selectOnFocus
+          handleHomeEndKeys
+          disableCloseOnSelect
+          PopperComponent={StyledPopper}
+          ListboxComponent={ListboxComponent}
+          options={lstPrestadores}
+          getOptionLabel={(option) => option.descricao}
+          limitTags={1}
+          ChipProps={{ size: 'small' }}
+          className={tabsForm === 'prest' ? '' : 'displayNone'}
+          // renderTags={() => undefined}
+          renderOption={(props, option, state) => {
+            return [
+              props,
+              <React.Fragment>
+                <span
+                  style={{
+                    width: '90%',
+                    overflow: 'hidden',
+                    whiteSpace: 'nowrap',
+                    textOverflow: 'ellipsis',
+                  }}
+                >
+                  {option.descricao}
+                </span>
+                {state.selected && <CheckIcon color="primary" />}
+              </React.Fragment>,
+            ];
+          }}
+          renderInput={(params: any) => (
+            <TextField
+              {...params}
+              label="Prestadores"
+              placeholder="Pesquisar..."
+              variant="filled"
+              InputProps={{ ...params.InputProps, disableUnderline: true }}
+              InputLabelProps={{ shrink: undefined }}
+            />
+          )}
+          value={prestadores}
+          onChange={(_, data) => setPrestadores(data)}
+          isOptionEqualToValue={(option, value) =>
+            option.codigo === value.codigo
+          }
+        />
+        <div className="buttons">
+          <Button
+            onClick={onCancel}
+            tabIndex={isFormOpened ? 0 : -1}
+            variant="contained"
+            className="secondary"
+            fullWidth
+          >
+            CANCELAR
+          </Button>
+          <Button
+            tabIndex={isFormOpened ? 0 : -1}
+            variant="contained"
+            type="submit"
+            fullWidth
+          >
+            SALVAR
+          </Button>
+        </div>
+      </form>
+    </div>
   );
 };
 
