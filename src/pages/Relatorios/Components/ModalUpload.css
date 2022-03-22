@@ -1,0 +1,64 @@
+.closeModalMobileButton {
+  display: none;
+}
+
+@media screen and (max-width: 1254px) {
+  .dropfilesContainer .dropzone.dropzoneFilled .formUpload {
+    flex-direction: column;
+    flex: 1;
+  }
+
+  .dropfiles {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .dropfilesContainer {
+    flex: 1;
+    display: flex;
+  }
+
+  .dropfiles .dropfilesContainer .dropzone {
+    flex: 1;
+  }
+
+  .dropfilesContainer .dropzone.dropzoneFilled {
+    height: 100%;
+  }
+
+  .dropfiles .dropfilesContainer .formUpload .MuiPaper-root {
+    min-height: 200px;
+    margin: 0 auto 10px auto;
+  }
+
+  .dropfiles .dropfilesContainer .formUpload .formFields {
+    flex: 1;
+  }
+
+  .dropfiles .dropfilesContainer .formUpload .sectionController {
+    flex: 1;
+    height: auto;
+  }
+
+  .dropzone .modalControllerContainer {
+    flex: 1;
+  }
+
+  .dropzone .modalControllerContainer > div {
+    flex: 1;
+  }
+  
+  .sectionController {
+    width: 100% !important;
+  }
+
+  .sectionController .sectionModal {
+    padding: 0 !important;
+    width: 100% !important;
+    min-width: 100% !important;
+  }
+
+  .closeModalMobileButton:not(.hasItem) {
+    display: block;
+  }
+}

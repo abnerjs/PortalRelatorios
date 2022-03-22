@@ -66,7 +66,7 @@
 }
 
 .Table .row:hover,
-.Table .row.collapsed {
+.Table .row.collapsed:not(.fullView) {
   background-color: white;
 }
 
@@ -103,7 +103,7 @@
 }
 
 .Table .row .textual .refdate {
-  width: 145px !important;
+  width: 145px;
   margin: 0 20px;
 }
 
@@ -137,6 +137,12 @@
     text-align: left !important;
   }
 
+  .fullView .refdate {
+    margin: 0 !important;
+    width: 100% !important;
+    text-align: left !important;
+  }
+
   .Table .row .textual:not(.fullView) .regname {
     font-weight: 600;
   }
@@ -145,6 +151,7 @@
     height: 50px !important;
     max-height: 50px;
     justify-content: center;
+    width: 100%;
   }
 
   .Table .row .header {
@@ -156,7 +163,24 @@
     max-height: 50px;
   }
 
+  .Table .row.collapsed.fullView {
+    background-color: white;
+  }
+
   .Table .row .textual .regname {
     flex: unset;
+    width: 100%;
+  }
+
+  .principalContent {
+    width: calc(100vw - 40px);
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  .Table .row.fullView {
+    cursor: pointer !important;
+    overflow: hidden;
+    transition: all ease 0.2s;
   }
 }

@@ -66,3 +66,15 @@
 .modalBox-root.filter .row {
   margin-bottom: 5px;  
 }
+
+.filter .formFields {
+  width: 100%;
+  flex: 1;
+}
+
+@media screen and (max-width: 1254px) {
+  .modalBox-root.filter {
+    width: calc(100vw - 80px);
+    overflow: auto;
+  }
+}

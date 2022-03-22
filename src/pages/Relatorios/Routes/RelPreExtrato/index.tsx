@@ -107,7 +107,7 @@ const RelPreExtrato = () => {
         <div className="head">
           <Header title="Extrato do Prestador" />
         </div>
-        <div className="row" style={{ alignContent: 'flex-start' }}>
+        <div className="row relatorios" style={{ alignContent: 'flex-start' }}>
           <form
             noValidate
             autoComplete="off"
@@ -128,6 +128,7 @@ const RelPreExtrato = () => {
                 <DateRangePicker
                   mask="__/__/____"
                   value={date}
+                  desktopModeMediaQuery="@media (min-width: 1255px)"
                   onChange={(value) => {
                     setDate(value);
                     setValue('dtaInicio', value[0]);
@@ -141,6 +142,7 @@ const RelPreExtrato = () => {
                         {...startProps}
                         margin="dense"
                         variant="filled"
+                        className='DmTextField'
                         fullWidth
                         InputProps={{ disableUnderline: true }}
                         inputProps={{
@@ -155,6 +157,7 @@ const RelPreExtrato = () => {
                         {...endProps}
                         margin="dense"
                         variant="filled"
+                        className='DmTextField'
                         fullWidth
                         InputProps={{ disableUnderline: true }}
                         inputProps={{
@@ -193,6 +196,7 @@ const RelPreExtrato = () => {
                     label="Prestadores"
                     margin="dense"
                     variant="filled"
+                    className='DmTextField'
                     InputProps={{
                       ...params.InputProps,
                       disableUnderline: true,

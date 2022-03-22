@@ -35,6 +35,7 @@
   font-weight: var(--medium);
   outline: none;
   transition: all ease 0.2s;
+  text-align: center;
 }
 
 .dropfilesContainer .dropzone.unsuportedAlert {
@@ -232,5 +233,9 @@
 
   .row .column:last-child .Table {
     max-height: 305px;
+  }
+
+  .row .column .filesTypes {
+    width: 100%;
   }
 }

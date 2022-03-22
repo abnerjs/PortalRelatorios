@@ -1,5 +1,5 @@
 import { Icon } from '@iconify/react';
-import { Backdrop, Fade, Modal, Typography } from '@mui/material';
+import { Backdrop, Button, Fade, Modal, Typography } from '@mui/material';
 import { Box } from '@mui/system';
 import React, { useState } from 'react';
 import Dropzone from 'react-dropzone';
@@ -144,7 +144,25 @@ const ModalUpload = (props: Props) => {
                       </div>
                     </div>
                   </section>
-                  
+                  <div
+                    className={`closeModalMobileButton${
+                      file === null && props.doc === undefined ? '' : ' hasItem'
+                    }`}
+                  >
+                    <Button
+                      onClick={() => {
+                        props.setOpen(false);
+                        setFile(null);
+                        setSectionModalController(0);
+                      }}
+                      variant="contained"
+                      className="secondary"
+                      fullWidth
+                      tabIndex={-1}
+                    >
+                      Fechar
+                    </Button>
+                  </div>
                   <Typography variant="subtitle1">
                     <i>* arraste e solte para atualizar o arquivo</i>
                   </Typography>

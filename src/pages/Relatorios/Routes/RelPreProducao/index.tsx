@@ -108,7 +108,7 @@ const RelPreProducao = () => {
         <div className="head">
           <Header title="Demonstrativo Captação Analítico" />
         </div>
-        <div className="row" style={{ alignContent: 'flex-start' }}>
+        <div className="row relatorios" style={{ alignContent: 'flex-start' }}>
           <form
             noValidate
             autoComplete="off"
@@ -129,6 +129,7 @@ const RelPreProducao = () => {
                 <DateRangePicker
                   mask="__/__/____"
                   value={date}
+                  desktopModeMediaQuery="@media (min-width: 1255px)"
                   onChange={(value) => {
                     setDate(value);
                     setValue('dtaInicio', value[0]);
@@ -142,6 +143,7 @@ const RelPreProducao = () => {
                         {...startProps}
                         margin="dense"
                         variant="filled"
+                        className='DmTextField'
                         fullWidth
                         InputProps={{ disableUnderline: true }}
                         inputProps={{
@@ -156,6 +158,7 @@ const RelPreProducao = () => {
                         {...endProps}
                         margin="dense"
                         variant="filled"
+                        className='DmTextField'
                         fullWidth
                         InputProps={{ disableUnderline: true }}
                         inputProps={{
@@ -194,6 +197,7 @@ const RelPreProducao = () => {
                     label="Prestadores"
                     margin="dense"
                     variant="filled"
+                    className='DmTextField'
                     InputProps={{
                       ...params.InputProps,
                       disableUnderline: true,
