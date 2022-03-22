@@ -341,6 +341,7 @@ const Form: React.FC<FormProps> = ({
                   placeholder="Procurar..."
                   margin="dense"
                   variant="filled"
+                  className='DmTextField'
                   InputProps={{
                     ...restInputProps,
                     disableUnderline: true,
@@ -354,7 +355,7 @@ const Form: React.FC<FormProps> = ({
                           maxHeight: 50,
                           marginTop: 10,
                           marginBottom: 5,
-                          marginLeft: 8,
+                          marginLeft: 0,
                           overflowY: 'auto',
                         }}
                       >

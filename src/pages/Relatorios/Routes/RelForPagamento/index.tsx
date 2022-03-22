@@ -110,7 +110,7 @@ const RelForPagamento = () => {
         <div className="head">
           <Header title="Demonstrativo Folha de Pagamento Fornecedores" />
         </div>
-        <div className="row" style={{ alignContent: 'flex-start' }}>
+        <div className="row relatorios" style={{ alignContent: 'flex-start' }}>
           <form
             noValidate
             autoComplete="off"
@@ -134,6 +134,7 @@ const RelForPagamento = () => {
                     openTo="year"
                     mask="__/____"
                     inputFormat="MM/yyyy"
+                        className='DmTextField'
                     views={['year', 'month']}
                     disableFuture
                     disableMaskedInput={false}
@@ -152,6 +153,7 @@ const RelForPagamento = () => {
                         {...params}
                         margin="dense"
                         variant="filled"
+                        className='DmTextField'
                         fullWidth
                         InputProps={{
                           ...params.InputProps,
@@ -190,6 +192,7 @@ const RelForPagamento = () => {
                         {...params}
                         margin="dense"
                         variant="filled"
+                        className='DmTextField'
                         fullWidth
                         InputProps={{
                           ...params.InputProps,
@@ -231,6 +234,7 @@ const RelForPagamento = () => {
                     label="Fornecedores"
                     margin="dense"
                     variant="filled"
+                    className='DmTextField'
                     InputProps={{
                       ...params.InputProps,
                       disableUnderline: true,

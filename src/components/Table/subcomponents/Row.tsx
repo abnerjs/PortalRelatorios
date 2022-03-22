@@ -17,6 +17,7 @@ interface Props {
   tableIndex: number;
   rowIndex: number;
   fullView?: boolean;
+  userUploadInfo?: boolean;
 }
 
 const Row = (props: Props) => {
@@ -77,7 +78,7 @@ const Row = (props: Props) => {
       }`}
       key={props.doc.idRelArquivo}
       onClick={() => {
-        if (!props.fullView) setCollapsed(!collapsed);
+        setCollapsed(!collapsed);
       }}
     >
       <div className="header">
@@ -258,6 +259,12 @@ const Row = (props: Props) => {
         <div className="row">
           <span>Observações:&nbsp;</span>
           {props.doc.desObs || 'Nenhuma observação'}
+        </div>
+        <div className="row" style={{
+          display: props.userUploadInfo ? 'block' : 'none',
+        }}>
+          <span>Submetido por:&nbsp;</span>
+          {props.doc.desNomeUsuarioUpload}
         </div>
       </div>
     </div>

@@ -115,7 +115,7 @@ const RelPreRecurso = () => {
         <div className="head">
           <Header title="Produção por Recurso" />
         </div>
-        <div className="row" style={{ alignContent: 'flex-start' }}>
+        <div className="row relatorios" style={{ alignContent: 'flex-start' }}>
           <form
             noValidate
             autoComplete="off"
@@ -136,6 +136,7 @@ const RelPreRecurso = () => {
                 <DateRangePicker
                   mask="__/__/____"
                   value={date}
+                  desktopModeMediaQuery="@media (min-width: 1255px)"
                   onChange={(value) => {
                     setDate(value);
                     setValue('dtaInicio', value[0]);
@@ -150,6 +151,7 @@ const RelPreRecurso = () => {
                         {...startProps}
                         margin="dense"
                         variant="filled"
+                        className='DmTextField'
                         fullWidth
                         InputProps={{ disableUnderline: true }}
                         inputProps={{
@@ -164,6 +166,7 @@ const RelPreRecurso = () => {
                         {...endProps}
                         margin="dense"
                         variant="filled"
+                        className='DmTextField'
                         fullWidth
                         InputProps={{ disableUnderline: true }}
                         inputProps={{
@@ -199,6 +202,7 @@ const RelPreRecurso = () => {
                     label="Tipos de recursos"
                     margin="dense"
                     variant="filled"
+                    className='DmTextField'
                     InputProps={{
                       ...params.InputProps,
                       disableUnderline: true,
@@ -238,6 +242,7 @@ const RelPreRecurso = () => {
                     label="Prestadores"
                     margin="dense"
                     variant="filled"
+                    className='DmTextField'
                     InputProps={{
                       ...params.InputProps,
                       disableUnderline: true,

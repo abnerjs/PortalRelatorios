@@ -114,11 +114,33 @@
 }
 
 @media screen and (max-width: 1254px) {
-  .Table .row .textual {
-    margin: 0;
+  .Table .row.fullView .textual {
+    margin-left: 10px;
+    margin-top: 10px;
+    justify-content: flex-start !important;
   }
 
   .Table .MuiTypography-root.MuiTypography-h5 {
     margin: 0 !important;
+  }
+
+  .textual .description {
+    display: none !important;
+  }
+
+  .textual .date {
+    display: none !important;
+  }
+
+  .fullView {
+    flex-direction: column;
+  }
+
+  .fullView .info {
+    display: flex !important;
+  }
+
+  .confirmdelete {
+    height: 50px;
   }
 }

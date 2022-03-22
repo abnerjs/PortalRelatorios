@@ -157,7 +157,6 @@ const ProfileMenu = (props: ProfileMenuProps) => {
           <Icon icon="fluent:chevron-down-20-filled" />
         </div>
 
-        
         <Modal
           aria-labelledby="transition-modal-title"
           aria-describedby="transition-modal-description"
@@ -174,7 +173,7 @@ const ProfileMenu = (props: ProfileMenuProps) => {
         >
           <Fade in={open}>
             <Box className="profile-modal">
-              <Typography variant="h6" component="h2">
+              <Typography variant="h6" component="h2" className="changePassTopLabel">
                 Alterar senha
               </Typography>
               <Avatar
@@ -207,84 +206,85 @@ const ProfileMenu = (props: ProfileMenuProps) => {
                 onSubmit={handleSubmit(onSubmit)}
                 className="form-edit-profile"
               >
-                <DmCollapseHandler
-                  error={errors}
-                  isErrorCollapseOpened={isErrorCollapseOpened}
-                  setErrorCollapseOpened={setErrorCollapseOpened}
-                />
+                <div className="formFields">
+                  <DmCollapseHandler
+                    error={errors}
+                    isErrorCollapseOpened={isErrorCollapseOpened}
+                    setErrorCollapseOpened={setErrorCollapseOpened}
+                  />
+                  <Controller
+                    name="desLogin"
+                    control={control}
+                    render={({
+                      field: { ref, onChange, ...rest },
+                      fieldState,
+                    }) => (
+                      <DmTextField
+                        label="Nome de usuário"
+                        secondary
+                        inputProps={{ maxLenght: 200 }}
+                        error={!!fieldState.error}
+                        onChange={(event: any) =>
+                          onChange(event.target.value.toLowerCase())
+                        }
+                        helperText={fieldState.error?.message}
+                        ref={ref}
+                        rest={rest}
+                      />
+                    )}
+                  />
 
-                <Controller
-                  name="desLogin"
-                  control={control}
-                  render={({
-                    field: { ref, onChange, ...rest },
-                    fieldState,
-                  }) => (
-                    <DmTextField
-                      label="Nome de usuário"
-                      secondary
-                      inputProps={{ maxLenght: 200 }}
-                      error={!!fieldState.error}
-                      onChange={(event: any) =>
-                        onChange(event.target.value.toLowerCase())
-                      }
-                      helperText={fieldState.error?.message}
-                      ref={ref}
-                      rest={rest}
-                    />
-                  )}
-                />
+                  <Controller
+                    name="desSenha"
+                    control={control}
+                    render={({ field: { ref, ...rest }, fieldState }) => (
+                      <DmTextField
+                        label="Senha atual"
+                        secondary
+                        inputProps={{ maxLenght: 128 }}
+                        error={!!fieldState.error}
+                        type="password"
+                        helperText={fieldState.error?.message}
+                        ref={ref}
+                        rest={rest}
+                      />
+                    )}
+                  />
 
-                <Controller
-                  name="desSenha"
-                  control={control}
-                  render={({ field: { ref, ...rest }, fieldState }) => (
-                    <DmTextField
-                      label="Senha atual"
-                      secondary
-                      inputProps={{ maxLenght: 128 }}
-                      error={!!fieldState.error}
-                      type="password"
-                      helperText={fieldState.error?.message}
-                      ref={ref}
-                      rest={rest}
-                    />
-                  )}
-                />
+                  <Controller
+                    name="desNovaSenha"
+                    control={control}
+                    render={({ field: { ref, ...rest }, fieldState }) => (
+                      <DmTextField
+                        label="Nova senha"
+                        secondary
+                        inputProps={{ maxLenght: 128 }}
+                        error={!!fieldState.error}
+                        type="password"
+                        helperText={fieldState.error?.message}
+                        ref={ref}
+                        rest={rest}
+                      />
+                    )}
+                  />
 
-                <Controller
-                  name="desNovaSenha"
-                  control={control}
-                  render={({ field: { ref, ...rest }, fieldState }) => (
-                    <DmTextField
-                      label="Nova senha"
-                      secondary
-                      inputProps={{ maxLenght: 128 }}
-                      error={!!fieldState.error}
-                      type="password"
-                      helperText={fieldState.error?.message}
-                      ref={ref}
-                      rest={rest}
-                    />
-                  )}
-                />
-
-                <Controller
-                  name="desConfirmaNovaSenha"
-                  control={control}
-                  render={({ field: { ref, ...rest }, fieldState }) => (
-                    <DmTextField
-                      label="Confirmar nova senha"
-                      secondary
-                      inputProps={{ maxLenght: 128 }}
-                      error={!!fieldState.error}
-                      type="password"
-                      helperText={fieldState.error?.message}
-                      ref={ref}
-                      rest={rest}
-                    />
-                  )}
-                />
+                  <Controller
+                    name="desConfirmaNovaSenha"
+                    control={control}
+                    render={({ field: { ref, ...rest }, fieldState }) => (
+                      <DmTextField
+                        label="Confirmar nova senha"
+                        secondary
+                        inputProps={{ maxLenght: 128 }}
+                        error={!!fieldState.error}
+                        type="password"
+                        helperText={fieldState.error?.message}
+                        ref={ref}
+                        rest={rest}
+                      />
+                    )}
+                  />
+                </div>
                 <div className="form-buttons">
                   <Button
                     onClick={() => {
@@ -338,13 +338,13 @@ const ProfileMenu = (props: ProfileMenuProps) => {
       </div>
 
       <div className={`menuCollapse${collapsed ? ' active' : ''}`}>
-          <div className="item" onClick={handleOpen}>
-            <p>ALTERAR SENHA</p>
-          </div>
-          <div className="item" onClick={props.onLogout}>
-            <p>SAIR</p>
-          </div>
+        <div className="item" onClick={handleOpen}>
+          <p>ALTERAR SENHA</p>
         </div>
+        <div className="item" onClick={props.onLogout}>
+          <p>SAIR</p>
+        </div>
+      </div>
     </>
   );
 };

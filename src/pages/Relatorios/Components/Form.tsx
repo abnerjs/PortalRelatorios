@@ -436,253 +436,256 @@ const Form = (props: Props) => {
           <div
             className="sectionModal"
             style={{
-              marginLeft: `-${props.sectionModalController * 581}px`,
+              marginLeft: `calc(-${props.sectionModalController * 100}% - ${props.sectionModalController * 50}px)`,
             }}
           >
-            <Controller
-              name="lstCodFornecedores"
-              control={control}
-              render={({ field: { ref, onChange, ...rest }, fieldState }) => (
-                <Autocomplete
-                  {...autocompleteProps}
-                  multiple
-                  ChipProps={{ size: 'small' }}
-                  PopperComponent={StyledPopper}
-                  ListboxComponent={ListboxComponent}
-                  noOptionsText="Nenhum fornecedor"
-                  options={lstFornecedores}
-                  getOptionLabel={(option) => option.descricao}
-                  // renderTags={() => undefined}
-                  renderOption={(props, option, state) => {
-                    return [
-                      props,
-                      <React.Fragment>
-                        <span
-                          style={{
-                            overflow: 'hidden',
-                            whiteSpace: 'nowrap',
-                            textOverflow: 'ellipsis',
-                          }}
-                        >
-                          {option.descricao}
-                        </span>
-                        {state.selected && <CheckIcon color="primary" />}
-                      </React.Fragment>,
-                    ];
-                  }}
-                  renderInput={(params) => {
-                    const { InputProps, ...restParams } = params;
-                    const { startAdornment, ...restInputProps } = InputProps;
-                    return (
-                      <TextField
-                        {...restParams}
-                        label="Fornecedores"
-                        variant="filled"
-                        margin="normal"
-                        className="secondary"
-                        InputProps={{
-                          ...restInputProps,
-                          disableUnderline: true,
-                          startAdornment: (
-                            <div
-                              style={{
-                                maxHeight: 50,
-                                marginTop: 10,
-                                marginBottom: 5,
-                                marginLeft: 20,
-                                overflowY: 'auto',
-                              }}
-                            >
-                              {startAdornment}
-                            </div>
-                          ),
-                          inputProps: {
-                            ...params.inputProps,
-                            id: 'lstCodFornecedores',
-                            tabIndex:
-                              props.sectionModalController === 0 ? 0 : -1,
-                          },
-                        }}
-                        InputLabelProps={{
-                          shrink: forns.length > 0 || focusForn,
-                        }}
-                        error={!!fieldState.error}
-                        helperText={fieldState.error?.message}
-                        inputRef={ref}
-                        {...rest}
-                        onFocus={() => setFocusForn(true)}
-                        onBlur={() => setFocusForn(false)}
-                      />
-                    );
-                  }}
-                  value={forns}
-                  onChange={(_, data) => {
-                    setFornecedores(data);
-                    setValue(
-                      'lstCodFornecedores',
-                      data.map((item: TipoFiltro) => {
-                        return parseInt(item['codigo']);
-                      })
-                    );
-                  }}
-                  isOptionEqualToValue={(option, value) =>
-                    option.codigo === value.codigo
-                  }
-                />
-              )}
-            />
-
-            <Controller
-              name="lstCodPrestadores"
-              control={control}
-              render={({ field: { ref, onChange, ...rest }, fieldState }) => (
-                <Autocomplete
-                  {...autocompleteProps}
-                  multiple
-                  noOptionsText="Nenhum prestador"
-                  PopperComponent={StyledPopper}
-                  ListboxComponent={ListboxComponent}
-                  options={lstPrestadores}
-                  getOptionLabel={(option) => option.descricao}
-                  ChipProps={{ size: 'small' }}
-                  // renderTags={() => undefined}
-                  renderOption={(props, option, state) => {
-                    return [
-                      props,
-                      <React.Fragment>
-                        <span
-                          style={{
-                            overflow: 'hidden',
-                            whiteSpace: 'nowrap',
-                            textOverflow: 'ellipsis',
-                          }}
-                        >
-                          {option.descricao}
-                        </span>
-                        {state.selected && <CheckIcon color="primary" />}
-                      </React.Fragment>,
-                    ];
-                  }}
-                  renderInput={(params) => {
-                    const { InputProps, ...restParams } = params;
-                    const { startAdornment, ...restInputProps } = InputProps;
-                    return (
-                      <TextField
-                        {...restParams}
-                        label="Prestadores"
-                        variant="filled"
-                        margin="normal"
-                        className="secondary"
-                        InputProps={{
-                          ...restInputProps,
-                          disableUnderline: true,
-                          startAdornment: (
-                            <div
-                              style={{
-                                maxHeight: 50,
-                                marginTop: 10,
-                                marginBottom: 5,
-                                marginLeft: 20,
-                                overflowY: 'auto',
-                              }}
-                            >
-                              {startAdornment}
-                            </div>
-                          ),
-                          inputProps: {
-                            ...params.inputProps,
-                            id: 'lstCodPrestadores',
-                            tabIndex:
-                              props.sectionModalController === 0 ? 0 : -1,
-                          },
-                        }}
-                        InputLabelProps={{
-                          shrink: prests.length > 0 || focusPrest,
-                        }}
-                        error={!!fieldState.error}
-                        helperText={fieldState.error?.message}
-                        inputRef={ref}
-                        {...rest}
-                        onFocus={() => setFocusPrest(true)}
-                        onBlur={() => setFocusPrest(false)}
-                      />
-                    );
-                  }}
-                  value={prests}
-                  onChange={(_, data) => {
-                    setPrestadores(data);
-                    setValue(
-                      'lstCodPrestadores',
-                      data.map((item: TipoFiltro) => {
-                        return parseInt(item['codigo']);
-                      })
-                    );
-                  }}
-                  isOptionEqualToValue={(option, value) =>
-                    option.codigo === value.codigo
-                  }
-                />
-              )}
-            />
-
-            <Controller
-              name="idRelTpArquivo"
-              control={control}
-              render={({ field: { ref, onChange, ...rest }, fieldState }) => (
-                <Autocomplete
-                  {...autocompleteUniqueProps}
-                  options={tiposArquivos}
-                  getOptionLabel={(option) => option.desTpArquivo}
-                  renderInput={(params) => {
-                    const { InputProps, ...restParams } = params;
-                    const { startAdornment, ...restInputProps } = InputProps;
-                    return (
-                      <TextField
-                      {...restParams}
-                      label="Selecione o tipo de arquivo"
-                      placeholder="Procurar"
-                      margin="normal"
-                      variant="filled"
-                      className="secondary"
-                      InputProps={{
-                        ...restInputProps,
-                        startAdornment: (
-                          <div
+            <div className="formFields">
+              <Controller
+                name="lstCodFornecedores"
+                control={control}
+                render={({ field: { ref, onChange, ...rest }, fieldState }) => (
+                  <Autocomplete
+                    {...autocompleteProps}
+                    multiple
+                    ChipProps={{ size: 'small' }}
+                    PopperComponent={StyledPopper}
+                    ListboxComponent={ListboxComponent}
+                    noOptionsText="Nenhum fornecedor"
+                    options={lstFornecedores}
+                    getOptionLabel={(option) => option.descricao}
+                    // renderTags={() => undefined}
+                    renderOption={(props, option, state) => {
+                      return [
+                        props,
+                        <React.Fragment>
+                          <span
                             style={{
-                              maxHeight: 50,
-                              marginTop: 10,
-                              marginBottom: 5,
-                              marginLeft: 20,
-                              overflowY: 'auto',
+                              overflow: 'hidden',
+                              whiteSpace: 'nowrap',
+                              textOverflow: 'ellipsis',
                             }}
                           >
-                            {startAdornment}
-                          </div>
-                        ),
-                        disableUnderline: true,
-                        inputProps: {
-                          ...params.inputProps,
-                          tabIndex: props.sectionModalController === 0 ? 0 : -1,
-                        },
-                      }}
-                      error={!!fieldState.error}
-                      helperText={fieldState.error?.message}
-                      inputRef={ref}
-                      {...rest}
-                    />
-                    )
-                  }}
-                  value={tipoArquivo}
-                  onChange={(_, data) => {
-                    clearErrors('idRelTpArquivo');
-                    setTipoArquivo(data);
-                    setValue('idRelTpArquivo', data?.idRelTpArquivo || null);
-                  }}
-                        onFocus={() => setFocusPrest(true)}
-                        onBlur={() => setFocusPrest(false)}
-                />
-              )}
-            />
+                            {option.descricao}
+                          </span>
+                          {state.selected && <CheckIcon color="primary" />}
+                        </React.Fragment>,
+                      ];
+                    }}
+                    renderInput={(params) => {
+                      const { InputProps, ...restParams } = params;
+                      const { startAdornment, ...restInputProps } = InputProps;
+                      return (
+                        <TextField
+                          {...restParams}
+                          label="Fornecedores"
+                          variant="filled"
+                          margin="normal"
+                          className="secondary"
+                          InputProps={{
+                            ...restInputProps,
+                            disableUnderline: true,
+                            startAdornment: (
+                              <div
+                                style={{
+                                  maxHeight: 50,
+                                  marginTop: 10,
+                                  marginBottom: 5,
+                                  marginLeft: 20,
+                                  overflowY: 'auto',
+                                }}
+                              >
+                                {startAdornment}
+                              </div>
+                            ),
+                            inputProps: {
+                              ...params.inputProps,
+                              id: 'lstCodFornecedores',
+                              tabIndex:
+                                props.sectionModalController === 0 ? 0 : -1,
+                            },
+                          }}
+                          InputLabelProps={{
+                            shrink: forns.length > 0 || focusForn,
+                          }}
+                          error={!!fieldState.error}
+                          helperText={fieldState.error?.message}
+                          inputRef={ref}
+                          {...rest}
+                          onFocus={() => setFocusForn(true)}
+                          onBlur={() => setFocusForn(false)}
+                        />
+                      );
+                    }}
+                    value={forns}
+                    onChange={(_, data) => {
+                      setFornecedores(data);
+                      setValue(
+                        'lstCodFornecedores',
+                        data.map((item: TipoFiltro) => {
+                          return parseInt(item['codigo']);
+                        })
+                      );
+                    }}
+                    isOptionEqualToValue={(option, value) =>
+                      option.codigo === value.codigo
+                    }
+                  />
+                )}
+              />
+
+              <Controller
+                name="lstCodPrestadores"
+                control={control}
+                render={({ field: { ref, onChange, ...rest }, fieldState }) => (
+                  <Autocomplete
+                    {...autocompleteProps}
+                    multiple
+                    noOptionsText="Nenhum prestador"
+                    PopperComponent={StyledPopper}
+                    ListboxComponent={ListboxComponent}
+                    options={lstPrestadores}
+                    getOptionLabel={(option) => option.descricao}
+                    ChipProps={{ size: 'small' }}
+                    // renderTags={() => undefined}
+                    renderOption={(props, option, state) => {
+                      return [
+                        props,
+                        <React.Fragment>
+                          <span
+                            style={{
+                              overflow: 'hidden',
+                              whiteSpace: 'nowrap',
+                              textOverflow: 'ellipsis',
+                            }}
+                          >
+                            {option.descricao}
+                          </span>
+                          {state.selected && <CheckIcon color="primary" />}
+                        </React.Fragment>,
+                      ];
+                    }}
+                    renderInput={(params) => {
+                      const { InputProps, ...restParams } = params;
+                      const { startAdornment, ...restInputProps } = InputProps;
+                      return (
+                        <TextField
+                          {...restParams}
+                          label="Prestadores"
+                          variant="filled"
+                          margin="normal"
+                          className="secondary"
+                          InputProps={{
+                            ...restInputProps,
+                            disableUnderline: true,
+                            startAdornment: (
+                              <div
+                                style={{
+                                  maxHeight: 50,
+                                  marginTop: 10,
+                                  marginBottom: 5,
+                                  marginLeft: 20,
+                                  overflowY: 'auto',
+                                }}
+                              >
+                                {startAdornment}
+                              </div>
+                            ),
+                            inputProps: {
+                              ...params.inputProps,
+                              id: 'lstCodPrestadores',
+                              tabIndex:
+                                props.sectionModalController === 0 ? 0 : -1,
+                            },
+                          }}
+                          InputLabelProps={{
+                            shrink: prests.length > 0 || focusPrest,
+                          }}
+                          error={!!fieldState.error}
+                          helperText={fieldState.error?.message}
+                          inputRef={ref}
+                          {...rest}
+                          onFocus={() => setFocusPrest(true)}
+                          onBlur={() => setFocusPrest(false)}
+                        />
+                      );
+                    }}
+                    value={prests}
+                    onChange={(_, data) => {
+                      setPrestadores(data);
+                      setValue(
+                        'lstCodPrestadores',
+                        data.map((item: TipoFiltro) => {
+                          return parseInt(item['codigo']);
+                        })
+                      );
+                    }}
+                    isOptionEqualToValue={(option, value) =>
+                      option.codigo === value.codigo
+                    }
+                  />
+                )}
+              />
+
+              <Controller
+                name="idRelTpArquivo"
+                control={control}
+                render={({ field: { ref, onChange, ...rest }, fieldState }) => (
+                  <Autocomplete
+                    {...autocompleteUniqueProps}
+                    options={tiposArquivos}
+                    getOptionLabel={(option) => option.desTpArquivo}
+                    renderInput={(params) => {
+                      const { InputProps, ...restParams } = params;
+                      const { startAdornment, ...restInputProps } = InputProps;
+                      return (
+                        <TextField
+                          {...restParams}
+                          label="Selecione o tipo de arquivo"
+                          placeholder="Procurar"
+                          margin="normal"
+                          variant="filled"
+                          className="secondary"
+                          InputProps={{
+                            ...restInputProps,
+                            startAdornment: (
+                              <div
+                                style={{
+                                  maxHeight: 50,
+                                  marginTop: 10,
+                                  marginBottom: 5,
+                                  marginLeft: 20,
+                                  overflowY: 'auto',
+                                }}
+                              >
+                                {startAdornment}
+                              </div>
+                            ),
+                            disableUnderline: true,
+                            inputProps: {
+                              ...params.inputProps,
+                              tabIndex:
+                                props.sectionModalController === 0 ? 0 : -1,
+                            },
+                          }}
+                          error={!!fieldState.error}
+                          helperText={fieldState.error?.message}
+                          inputRef={ref}
+                          {...rest}
+                        />
+                      );
+                    }}
+                    value={tipoArquivo}
+                    onChange={(_, data) => {
+                      clearErrors('idRelTpArquivo');
+                      setTipoArquivo(data);
+                      setValue('idRelTpArquivo', data?.idRelTpArquivo || null);
+                    }}
+                    onFocus={() => setFocusPrest(true)}
+                    onBlur={() => setFocusPrest(false)}
+                  />
+                )}
+              />
+            </div>
 
             <div className="buttons">
               <Button
@@ -741,389 +744,406 @@ const Form = (props: Props) => {
             </div>
           </div>
           <div className="sectionModal">
-            <Controller
-              name="desObs"
-              control={control}
-              render={({ field: { ref, value, ...rest }, fieldState }) => (
-                <DmTextField
-                  label="Observação"
-                  secondary
-                  tabIndex={props.sectionModalController === 1 ? 0 : -1}
-                  error={!!fieldState.error}
-                  helperText={fieldState.error?.message}
-                  value={value || ''}
-                  ref={ref}
-                  rest={rest}
-                />
-              )}
-            />
-
-            <LocalizationProvider
-              dateAdapter={AdapterDateFns}
-              locale={brLocale}
-            >
+            <div className="formFields">
               <Controller
-                name="codAno"
+                name="desObs"
                 control={control}
-                render={({ field: { ref, onChange, ...rest }, fieldState }) => (
-                  <DatePicker
-                    label="Ano"
-                    openTo="year"
-                    mask="____"
-                    inputFormat="yyyy"
-                    views={['year']}
-                    disableMaskedInput={false}
-                    value={yearOnlyDatePicker}
-                    onChange={(value: any) => {
-                      setYearOnlyDatePicker(value);
-                      if (value !== null)
-                        setValue('codAno', value.getFullYear());
-                      else setValue('codAno', value);
-                    }}
-                    InputAdornmentProps={{
-                      style: {
-                        marginRight: '4px',
-                      },
-                    }}
-                    OpenPickerButtonProps={{
-                      tabIndex: props.sectionModalController === 1 ? 0 : -1,
-                    }}
-                    PopperProps={{
-                      style: {
-                        position: 'absolute',
-                        top: '50%',
-                        left: '50%',
-                        transform: 'translate(-50%, -50%)',
-                      },
-                    }}
-                    renderInput={(params) => (
-                      <TextField
-                        {...params}
-                        style={{
-                          display:
-                            tipoArquivo?.flgReferencia === 'A'
-                              ? 'block'
-                              : 'none',
-                        }}
-                        margin="normal"
-                        variant="filled"
-                        className="secondary DmTextField"
-                        fullWidth
-                        InputProps={{
-                          ...params.InputProps,
-                          disableUnderline: true,
-                        }}
-                        inputProps={{
-                          ...params.inputProps,
-                          placeholder: 'aaaa',
-                          tabIndex: props.sectionModalController === 1 ? 0 : -1,
-                        }}
-                        error={!!fieldState.error}
-                        helperText={fieldState.error?.message}
-                        inputRef={ref}
-                        {...rest}
-                      />
-                    )}
+                render={({ field: { ref, value, ...rest }, fieldState }) => (
+                  <DmTextField
+                    label="Observação"
+                    secondary
+                    tabIndex={props.sectionModalController === 1 ? 0 : -1}
+                    error={!!fieldState.error}
+                    helperText={fieldState.error?.message}
+                    value={value || ''}
+                    ref={ref}
+                    rest={rest}
                   />
                 )}
               />
 
-              <Controller
-                name="codMes"
-                control={control}
-                render={({ field: { ref, onChange, ...rest }, fieldState }) => (
-                  <DatePicker
-                    label="Mês/Ano"
-                    openTo="year"
-                    mask="__/____"
-                    inputFormat="MM/yyyy"
-                    views={['year', 'month']}
-                    disableFuture
-                    disableMaskedInput={false}
-                    value={yearAndMonthDatePicker}
-                    onChange={(value: any) => {
-                      setYearAndMonthDatePicker(value);
-                      if (value !== null) {
-                        setValue('codMes', value.getMonth());
-                        setValue('codAno', value.getFullYear());
-                      } else {
-                        setValue('codAno', value);
-                        setValue('codMes', value);
-                      }
-                    }}
-                    InputAdornmentProps={{
-                      style: {
-                        marginRight: '4px',
-                      },
-                    }}
-                    OpenPickerButtonProps={{
-                      tabIndex: props.sectionModalController === 1 ? 0 : -1,
-                    }}
-                    PopperProps={{
-                      style: {
-                        position: 'absolute',
-                        top: '50%',
-                        left: '50%',
-                        transform: 'translate(-50%, -50%)',
-                      },
-                    }}
-                    renderInput={(params) => (
-                      <TextField
-                        {...params}
-                        style={{
-                          display:
-                            tipoArquivo?.flgReferencia === 'M'
-                              ? 'block'
-                              : 'none',
-                        }}
-                        margin="normal"
-                        variant="filled"
-                        className="secondary DmTextField"
-                        fullWidth
-                        InputProps={{
-                          ...params.InputProps,
-                          disableUnderline: true,
-                        }}
-                        inputProps={{
-                          ...params.inputProps,
-                          placeholder: 'mm/aaaa',
-                          tabIndex: props.sectionModalController === 1 ? 0 : -1,
-                        }}
-                        error={!!fieldState.error}
-                        helperText={fieldState.error?.message}
-                        inputRef={ref}
-                        {...rest}
-                      />
-                    )}
-                  />
-                )}
-              />
-
-              <Controller
-                name="dtaFim"
-                control={control}
-                render={({
-                  field: { ref, onChange, onBlur, ...rest },
-                  fieldState,
-                }) => (
-                  <DateRangePicker
-                    startText="Data inicial"
-                    endText="Data final"
-                    mask="__/__/____"
-                    className="modalDateRangePicker"
-                    desktopModeMediaQuery="@media (min-height: 770px)"
-                    PopperProps={{
-                      disablePortal: true,
-                      className: 'dateRangePickerModal',
-                    }}
-                    value={datePeriodo}
-                    onChange={(value) => {
-                      setDatePeriodo(value);
-                      if (
-                        value[0] instanceof Date &&
-                        value[1] instanceof Date &&
-                        !isNaN(value[0].getTime()) &&
-                        !isNaN(value[1].getTime())
-                      ) {
-                        setValue(
-                          'dtaIni',
-                          value[0].toISOString().split('T')[0]
-                        );
-                        setValue(
-                          'dtaFim',
-                          value[1].toISOString().split('T')[0]
-                        );
-                      } else {
-                        setValue('dtaIni', null);
-                        setValue('dtaFim', null);
-                      }
-                    }}
-                    renderInput={(startProps, endProps) => (
-                      <React.Fragment>
-                        <TextField
-                          {...startProps}
-                          style={{
-                            display:
-                              tipoArquivo?.flgReferencia === 'P'
-                                ? 'block'
-                                : 'none',
-                          }}
-                          margin="normal"
-                          variant="filled"
-                          fullWidth
-                          className="secondary DmTextField"
-                          InputProps={{
-                            ...startProps.InputProps,
-                            disableUnderline: true,
-                          }}
-                          inputProps={{
-                            ...startProps.inputProps,
-                            placeholder: 'dd/mm/aaaa',
-                            tabIndex:
-                              props.sectionModalController === 1 ? 0 : -1,
-                          }}
-                          error={!!fieldState.error}
-                          helperText={fieldState.error?.message}
-                          inputRef={ref}
-                          {...rest}
-                        />
-                        <Box
-                          sx={{ mx: '4px' }}
-                          style={{
-                            display:
-                              tipoArquivo?.flgReferencia === 'P'
-                                ? 'block'
-                                : 'none',
-                          }}
-                        />
-                        <TextField
-                          {...endProps}
-                          style={{
-                            display:
-                              tipoArquivo?.flgReferencia === 'P'
-                                ? 'block'
-                                : 'none',
-                          }}
-                          margin="normal"
-                          variant="filled"
-                          fullWidth
-                          className="secondary DmTextField"
-                          InputProps={{
-                            ...endProps.InputProps,
-                            disableUnderline: true,
-                          }}
-                          inputProps={{
-                            ...endProps.inputProps,
-                            placeholder: 'dd/mm/aaaa',
-                            tabIndex:
-                              props.sectionModalController === 1 ? 0 : -1,
-                          }}
-                          error={!!fieldState.error}
-                          helperText={fieldState.error?.message}
-                          inputRef={ref}
-                          {...rest}
-                          onBlur={() => {
-                            if (
-                              datePeriodo[0] instanceof Date &&
-                              datePeriodo[1] instanceof Date &&
-                              !isNaN(datePeriodo[0].getTime()) &&
-                              !isNaN(datePeriodo[1].getTime()) &&
-                              datePeriodo[0].getTime() >
-                                datePeriodo[1].getTime()
-                            ) {
-                              setDatePeriodo([datePeriodo[1], datePeriodo[0]]);
-                              setValue(
-                                'dtaIni',
-                                datePeriodo[1].toISOString().split('T')[0]
-                              );
-                              setValue(
-                                'dtaFim',
-                                datePeriodo[0].toISOString().split('T')[0]
-                              );
-                            }
-                          }}
-                        />
-                      </React.Fragment>
-                    )}
-                  />
-                )}
-              />
-
-              <Controller
-                name="dtaIni"
-                control={control}
-                render={({ field: { ref, onChange, ...rest }, fieldState }) => (
-                  <DatePicker
-                    label="Data do documento"
-                    openTo="year"
-                    disableFuture
-                    disableMaskedInput={false}
-                    value={dateOnly}
-                    onChange={(value: any) => {
-                      setDateOnly(value);
-                      if (value instanceof Date && !isNaN(value.getTime()))
-                        setValue('dtaIni', value.toISOString().split('T')[0]);
-                      else setValue('dtaIni', null);
-                    }}
-                    InputAdornmentProps={{
-                      style: {
-                        marginRight: '4px',
-                      },
-                    }}
-                    OpenPickerButtonProps={{
-                      tabIndex: props.sectionModalController === 1 ? 0 : -1,
-                    }}
-                    PopperProps={{
-                      style: {
-                        position: 'absolute',
-                        top: '50%',
-                        left: '50%',
-                        transform: 'translate(-50%, -50%)',
-                      },
-                    }}
-                    renderInput={(params) => (
-                      <TextField
-                        {...params}
-                        style={{
-                          display:
-                            tipoArquivo?.flgReferencia === 'D'
-                              ? 'block'
-                              : 'none',
-                        }}
-                        margin="normal"
-                        variant="filled"
-                        className="secondary DmTextField"
-                        fullWidth
-                        InputProps={{
-                          ...params.InputProps,
-                          disableUnderline: true,
-                        }}
-                        inputProps={{
-                          ...params.inputProps,
-                          placeholder: 'dd/mm/aaaa',
-                          tabIndex: props.sectionModalController === 1 ? 0 : -1,
-                        }}
-                        error={!!fieldState.error}
-                        helperText={fieldState.error?.message}
-                        inputRef={ref}
-                        {...rest}
-                      />
-                    )}
-                  />
-                )}
-              />
-            </LocalizationProvider>
-
-            <Tooltip
-              title={
-                <React.Fragment>
-                  Ao fazer o upload de um&nbsp;
-                  <b>arquivo </b>
-                  com os mesmos dados de um outro&nbsp; existente, será
-                  necessário&nbsp;
-                  <b>sobrescrevê-lo </b>. Marque a caixa para ativar a
-                  funcionalidade.
-                </React.Fragment>
-              }
-              placement="bottom"
-            >
-              <FormGroup
-                style={{
-                  display: props.doc ? 'none' : 'flex',
-                }}
+              <LocalizationProvider
+                dateAdapter={AdapterDateFns}
+                locale={brLocale}
               >
-                <FormControlLabel
-                  control={
-                    <Checkbox
-                      onChange={(_, value) => {
-                        setValue('substituirExistentes', value);
+                <Controller
+                  name="codAno"
+                  control={control}
+                  render={({
+                    field: { ref, onChange, ...rest },
+                    fieldState,
+                  }) => (
+                    <DatePicker
+                      label="Ano"
+                      openTo="year"
+                      mask="____"
+                      inputFormat="yyyy"
+                      views={['year']}
+                      disableMaskedInput={false}
+                      value={yearOnlyDatePicker}
+                      onChange={(value: any) => {
+                        setYearOnlyDatePicker(value);
+                        if (value !== null)
+                          setValue('codAno', value.getFullYear());
+                        else setValue('codAno', value);
                       }}
+                      InputAdornmentProps={{
+                        style: {
+                          marginRight: '4px',
+                        },
+                      }}
+                      OpenPickerButtonProps={{
+                        tabIndex: props.sectionModalController === 1 ? 0 : -1,
+                      }}
+                      PopperProps={{
+                        style: {
+                          position: 'absolute',
+                          top: '50%',
+                          left: '50%',
+                          transform: 'translate(-50%, -50%)',
+                        },
+                      }}
+                      renderInput={(params) => (
+                        <TextField
+                          {...params}
+                          style={{
+                            display:
+                              tipoArquivo?.flgReferencia === 'A'
+                                ? 'block'
+                                : 'none',
+                          }}
+                          margin="normal"
+                          variant="filled"
+                          className="secondary DmTextField"
+                          fullWidth
+                          InputProps={{
+                            ...params.InputProps,
+                            disableUnderline: true,
+                          }}
+                          inputProps={{
+                            ...params.inputProps,
+                            placeholder: 'aaaa',
+                            tabIndex:
+                              props.sectionModalController === 1 ? 0 : -1,
+                          }}
+                          error={!!fieldState.error}
+                          helperText={fieldState.error?.message}
+                          inputRef={ref}
+                          {...rest}
+                        />
+                      )}
                     />
-                  }
-                  label="Substituir existentes"
+                  )}
                 />
-              </FormGroup>
-            </Tooltip>
+
+                <Controller
+                  name="codMes"
+                  control={control}
+                  render={({
+                    field: { ref, onChange, ...rest },
+                    fieldState,
+                  }) => (
+                    <DatePicker
+                      label="Mês/Ano"
+                      openTo="year"
+                      mask="__/____"
+                      inputFormat="MM/yyyy"
+                      views={['year', 'month']}
+                      disableFuture
+                      disableMaskedInput={false}
+                      value={yearAndMonthDatePicker}
+                      onChange={(value: any) => {
+                        setYearAndMonthDatePicker(value);
+                        if (value !== null) {
+                          setValue('codMes', value.getMonth());
+                          setValue('codAno', value.getFullYear());
+                        } else {
+                          setValue('codAno', value);
+                          setValue('codMes', value);
+                        }
+                      }}
+                      InputAdornmentProps={{
+                        style: {
+                          marginRight: '4px',
+                        },
+                      }}
+                      OpenPickerButtonProps={{
+                        tabIndex: props.sectionModalController === 1 ? 0 : -1,
+                      }}
+                      PopperProps={{
+                        style: {
+                          position: 'absolute',
+                          top: '50%',
+                          left: '50%',
+                          transform: 'translate(-50%, -50%)',
+                        },
+                      }}
+                      renderInput={(params) => (
+                        <TextField
+                          {...params}
+                          style={{
+                            display:
+                              tipoArquivo?.flgReferencia === 'M'
+                                ? 'block'
+                                : 'none',
+                          }}
+                          margin="normal"
+                          variant="filled"
+                          className="secondary DmTextField"
+                          fullWidth
+                          InputProps={{
+                            ...params.InputProps,
+                            disableUnderline: true,
+                          }}
+                          inputProps={{
+                            ...params.inputProps,
+                            placeholder: 'mm/aaaa',
+                            tabIndex:
+                              props.sectionModalController === 1 ? 0 : -1,
+                          }}
+                          error={!!fieldState.error}
+                          helperText={fieldState.error?.message}
+                          inputRef={ref}
+                          {...rest}
+                        />
+                      )}
+                    />
+                  )}
+                />
+
+                <Controller
+                  name="dtaFim"
+                  control={control}
+                  render={({
+                    field: { ref, onChange, onBlur, ...rest },
+                    fieldState,
+                  }) => (
+                    <DateRangePicker
+                      startText="Data inicial"
+                      endText="Data final"
+                      mask="__/__/____"
+                      className="modalDateRangePicker"
+                      desktopModeMediaQuery="@media (min-height: 770px) and (min-width: 1255px)"
+                      PopperProps={{
+                        disablePortal: true,
+                        className: 'dateRangePickerModal',
+                      }}
+                      value={datePeriodo}
+                      onChange={(value) => {
+                        setDatePeriodo(value);
+                        if (
+                          value[0] instanceof Date &&
+                          value[1] instanceof Date &&
+                          !isNaN(value[0].getTime()) &&
+                          !isNaN(value[1].getTime())
+                        ) {
+                          setValue(
+                            'dtaIni',
+                            value[0].toISOString().split('T')[0]
+                          );
+                          setValue(
+                            'dtaFim',
+                            value[1].toISOString().split('T')[0]
+                          );
+                        } else {
+                          setValue('dtaIni', null);
+                          setValue('dtaFim', null);
+                        }
+                      }}
+                      renderInput={(startProps, endProps) => (
+                        <React.Fragment>
+                          <TextField
+                            {...startProps}
+                            style={{
+                              display:
+                                tipoArquivo?.flgReferencia === 'P'
+                                  ? 'block'
+                                  : 'none',
+                            }}
+                            margin="normal"
+                            variant="filled"
+                            fullWidth
+                            className="secondary DmTextField"
+                            InputProps={{
+                              ...startProps.InputProps,
+                              disableUnderline: true,
+                            }}
+                            inputProps={{
+                              ...startProps.inputProps,
+                              placeholder: 'dd/mm/aaaa',
+                              tabIndex:
+                                props.sectionModalController === 1 ? 0 : -1,
+                            }}
+                            error={!!fieldState.error}
+                            helperText={fieldState.error?.message}
+                            inputRef={ref}
+                            {...rest}
+                          />
+                          <Box
+                            sx={{ mx: '4px' }}
+                            style={{
+                              display:
+                                tipoArquivo?.flgReferencia === 'P'
+                                  ? 'block'
+                                  : 'none',
+                            }}
+                          />
+                          <TextField
+                            {...endProps}
+                            style={{
+                              display:
+                                tipoArquivo?.flgReferencia === 'P'
+                                  ? 'block'
+                                  : 'none',
+                            }}
+                            margin="normal"
+                            variant="filled"
+                            fullWidth
+                            className="secondary DmTextField"
+                            InputProps={{
+                              ...endProps.InputProps,
+                              disableUnderline: true,
+                            }}
+                            inputProps={{
+                              ...endProps.inputProps,
+                              placeholder: 'dd/mm/aaaa',
+                              tabIndex:
+                                props.sectionModalController === 1 ? 0 : -1,
+                            }}
+                            error={!!fieldState.error}
+                            helperText={fieldState.error?.message}
+                            inputRef={ref}
+                            {...rest}
+                            onBlur={() => {
+                              if (
+                                datePeriodo[0] instanceof Date &&
+                                datePeriodo[1] instanceof Date &&
+                                !isNaN(datePeriodo[0].getTime()) &&
+                                !isNaN(datePeriodo[1].getTime()) &&
+                                datePeriodo[0].getTime() >
+                                  datePeriodo[1].getTime()
+                              ) {
+                                setDatePeriodo([
+                                  datePeriodo[1],
+                                  datePeriodo[0],
+                                ]);
+                                setValue(
+                                  'dtaIni',
+                                  datePeriodo[1].toISOString().split('T')[0]
+                                );
+                                setValue(
+                                  'dtaFim',
+                                  datePeriodo[0].toISOString().split('T')[0]
+                                );
+                              }
+                            }}
+                          />
+                        </React.Fragment>
+                      )}
+                    />
+                  )}
+                />
+
+                <Controller
+                  name="dtaIni"
+                  control={control}
+                  render={({
+                    field: { ref, onChange, ...rest },
+                    fieldState,
+                  }) => (
+                    <DatePicker
+                      label="Data do documento"
+                      openTo="year"
+                      disableFuture
+                      disableMaskedInput={false}
+                      value={dateOnly}
+                      onChange={(value: any) => {
+                        setDateOnly(value);
+                        if (value instanceof Date && !isNaN(value.getTime()))
+                          setValue('dtaIni', value.toISOString().split('T')[0]);
+                        else setValue('dtaIni', null);
+                      }}
+                      InputAdornmentProps={{
+                        style: {
+                          marginRight: '4px',
+                        },
+                      }}
+                      OpenPickerButtonProps={{
+                        tabIndex: props.sectionModalController === 1 ? 0 : -1,
+                      }}
+                      PopperProps={{
+                        style: {
+                          position: 'absolute',
+                          top: '50%',
+                          left: '50%',
+                          transform: 'translate(-50%, -50%)',
+                        },
+                      }}
+                      renderInput={(params) => (
+                        <TextField
+                          {...params}
+                          style={{
+                            display:
+                              tipoArquivo?.flgReferencia === 'D'
+                                ? 'block'
+                                : 'none',
+                          }}
+                          margin="normal"
+                          variant="filled"
+                          className="secondary DmTextField"
+                          fullWidth
+                          InputProps={{
+                            ...params.InputProps,
+                            disableUnderline: true,
+                          }}
+                          inputProps={{
+                            ...params.inputProps,
+                            placeholder: 'dd/mm/aaaa',
+                            tabIndex:
+                              props.sectionModalController === 1 ? 0 : -1,
+                          }}
+                          error={!!fieldState.error}
+                          helperText={fieldState.error?.message}
+                          inputRef={ref}
+                          {...rest}
+                        />
+                      )}
+                    />
+                  )}
+                />
+              </LocalizationProvider>
+
+              <Tooltip
+                title={
+                  <React.Fragment>
+                    Ao fazer o upload de um&nbsp;
+                    <b>arquivo </b>
+                    com os mesmos dados de um outro&nbsp; existente, será
+                    necessário&nbsp;
+                    <b>sobrescrevê-lo </b>. Marque a caixa para ativar a
+                    funcionalidade.
+                  </React.Fragment>
+                }
+                placement="bottom"
+              >
+                <FormGroup
+                  style={{
+                    display: props.doc ? 'none' : 'flex',
+                  }}
+                >
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        onChange={(_, value) => {
+                          setValue('substituirExistentes', value);
+                        }}
+                      />
+                    }
+                    label="Substituir existentes"
+                  />
+                </FormGroup>
+              </Tooltip>
+            </div>
 
             <div className="buttons">
               <Button

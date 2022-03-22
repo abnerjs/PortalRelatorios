@@ -28,7 +28,11 @@
   justify-content: center;
 }
 
-@media screen and (max-width: 1245px) {
+.Header .MuiTypography-root.MuiTypography-subtitle1 {
+  text-align: right;
+}
+
+@media screen and (max-width: 1254px) {
   .head {
     width: calc(100vw - 40px);
   }
@@ -52,14 +56,15 @@
     width: 100%;
     order: 1;
   }
-  
+
   .Header .MuiTypography-root {
     flex: unset;
     width: calc(100% - 80px);
     justify-self: flex-start;
   }
-}
 
-.Header .MuiTypography-root.MuiTypography-subtitle1 {
-  text-align: right;
+  .Header .right .menuCollapse {
+    width: 100vw;
+    transform: translate(-20px);
+  }
 }

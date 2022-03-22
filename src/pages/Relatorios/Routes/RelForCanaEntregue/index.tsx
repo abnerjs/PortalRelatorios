@@ -156,6 +156,7 @@ const RelForCanaEntregue = () => {
                 <DateRangePicker
                   mask="__/__/____"
                   value={date}
+                  desktopModeMediaQuery="@media (min-width: 1255px)"
                   onChange={(value) => {
                     setDate(value);
                     setValue('dtaInicio', value[0]);
@@ -169,6 +170,7 @@ const RelForCanaEntregue = () => {
                         {...startProps}
                         margin="dense"
                         variant="filled"
+                        className='DmTextField'
                         fullWidth
                         InputProps={{ disableUnderline: true }}
                         inputProps={{
@@ -183,6 +185,7 @@ const RelForCanaEntregue = () => {
                         {...endProps}
                         margin="dense"
                         variant="filled"
+                        className='DmTextField'
                         fullWidth
                         InputProps={{ disableUnderline: true }}
                         inputProps={{
@@ -221,6 +224,7 @@ const RelForCanaEntregue = () => {
                     label="Fornecedores"
                     margin="dense"
                     variant="filled"
+                    className="DmTextField"
                     InputProps={{
                       ...params.InputProps,
                       disableUnderline: true,
@@ -266,6 +270,7 @@ const RelForCanaEntregue = () => {
                     label="Fazendas"
                     margin="dense"
                     variant="filled"
+                    className="DmTextField"
                     InputProps={{
                       ...params.InputProps,
                       disableUnderline: true,

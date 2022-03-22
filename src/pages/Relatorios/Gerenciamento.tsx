@@ -272,6 +272,7 @@ function filesTypes(arquivosByTipo: ArquivosByTipo[] | undefined): any {
         arrArquivo={item.arquivos}
         title={item.desTpArquivo}
         fullView
+        userUploadInfo
         tableIndex={index}
       />
     );

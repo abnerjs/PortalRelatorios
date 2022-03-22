@@ -341,3 +341,12 @@
 }
 
 /*RANGEPICKER -----------------------------*/
+
+
+@media screen and (max-width: 1254px) {
+  .MuiBox-root.modalBox-root {
+    width: calc(100vw - 80px);
+    padding: 20px;
+    height: 100vh;
+  }
+}

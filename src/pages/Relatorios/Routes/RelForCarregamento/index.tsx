@@ -165,7 +165,7 @@ const RelForCarregamento = () => {
         <div className="head">
           <Header title="Carregamentos Entregues Fornecedores" />
         </div>
-        <div className="row" style={{ alignContent: 'flex-start' }}>
+        <div className="row relatorios" style={{ alignContent: 'flex-start' }}>
           <form
             noValidate
             autoComplete="off"
@@ -186,6 +186,7 @@ const RelForCarregamento = () => {
                 <DateRangePicker
                   mask="__/__/____"
                   value={date}
+                  desktopModeMediaQuery="@media (min-width: 1255px)"
                   onChange={(value) => {
                     setDate(value);
                     setValue('dtaInicio', value[0]);

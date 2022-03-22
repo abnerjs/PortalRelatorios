@@ -1,11 +1,10 @@
-import './Table.css';
-
 import React, { useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Button, Typography } from '@mui/material';
 import { ArquivoUploadReceiveFormat } from 'src/store/ducks/relatoriosUpload/types';
 import { useAppDispatch } from 'src/store';
 import Row from './subcomponents/Row';
+import './Table.css';
 
 export interface LinkProps {
   name: string;
@@ -19,13 +18,15 @@ type Props = {
   arr?: Array<LinkProps>;
   arrArquivo?: Array<ArquivoUploadReceiveFormat>;
   fullView?: boolean;
+  userUploadInfo?: boolean;
 };
 
 const conditionalArrayTypeRender = (
   arr: Array<LinkProps> | undefined,
   arrArquivo: Array<ArquivoUploadReceiveFormat> | undefined,
   tableIndex: number,
-  fullView?: boolean
+  fullView?: boolean,
+  userUploadInfo?: boolean
 ) => {
   let arrGui: JSX.Element[] = [];
 
@@ -58,6 +59,7 @@ const conditionalArrayTypeRender = (
           key={index}
           doc={doc}
           fullView={fullView}
+          userUploadInfo={userUploadInfo}
         />
       );
     });
@@ -87,7 +89,8 @@ const Table = (props: Props) => {
             props.arr,
             props.arrArquivo,
             props.tableIndex,
-            props.fullView
+            props.fullView,
+            props.userUploadInfo
           )}
         </div>
       </div>
