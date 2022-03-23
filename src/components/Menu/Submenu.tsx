@@ -54,7 +54,7 @@ const Submenu = (props: Props) => {
       <List>
         {array.map((obj, index) => (
           <Link
-            to={obj.nomPagina.toLowerCase()}
+            to={'/' + obj.nomPagina.toLowerCase()}
             key={`submenu-${index}`}
             tabIndex={-1}
           >
@@ -85,7 +85,7 @@ const Submenu = (props: Props) => {
         <List component="div" disablePadding>
           {array.map((obj, index) => (
             <Link
-              to={obj.nomPagina.toLowerCase()}
+              to={'/' + obj.nomPagina.toLowerCase()}
               key={`submenu-${index}`}
               tabIndex={-1}
               style={{ textDecoration: 'none' }}
