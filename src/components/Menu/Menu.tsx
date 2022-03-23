@@ -127,8 +127,9 @@ const Menu = () => {
           let str = location.pathname;
           item.list.forEach((item2) => {
             if (
-              ('/' + item2.nomPagina).toLowerCase() ===
-              location.pathname.toLowerCase()
+              location.pathname
+                .toLowerCase()
+                .includes('/' + item2.nomPagina.toLowerCase())
             )
               str = item.listDescription;
           });
@@ -136,8 +137,6 @@ const Menu = () => {
         })
         .find((element) => element !== location.pathname) || location.pathname
     );
-
-    console.log(bottomNavigationDisplay);
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [submenuRender, location.pathname]);
@@ -249,7 +248,7 @@ const Menu = () => {
                   return (
                     <BottomNavigationAction
                       component={Link}
-                      to={sublistItem.nomPagina}
+                      to={'/' + sublistItem.nomPagina.toLowerCase()}
                       icon={<Icon icon={item.icon} />}
                       value={'/' + sublistItem.nomPagina}
                       label={sublistItem.desObjeto}
