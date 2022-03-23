@@ -250,7 +250,7 @@ const Menu = () => {
                       component={Link}
                       to={'/' + sublistItem.nomPagina.toLowerCase()}
                       icon={<Icon icon={item.icon} />}
-                      value={'/' + sublistItem.nomPagina}
+                      value={'/' + sublistItem.nomPagina.toLowerCase()}
                       label={sublistItem.desObjeto}
                       onClick={(e: any) => {
                         setBottomNavigationDisplay(item.listDescription);
