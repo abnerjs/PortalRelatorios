@@ -21,6 +21,7 @@ const reportsRouteController = (props: any) => {
         <Route path={`${props.match.path}/relforcarregamento`} component={RelForCarregamento} />
         <Route path={`${props.match.path}/relforcanaentregue`} component={RelForCanaEntregue} />
         <Route path={`${props.match.path}/relprecombustivel`} component={RelPreCombustivel} />
+        
         <Redirect from="*" to="/" />
       </Switch>
     </>
