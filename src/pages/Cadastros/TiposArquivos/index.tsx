@@ -51,7 +51,6 @@ const TiposArquivos = () => {
   const operationState = useAppSelector(
     (state) => state.tipoArquivo.operationState
   );
-  const [isErrorCollapseOpened, setErrorCollapseOpened] = useState(false);
 
   const handleChangeSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
     handlePesquisa('filtroPadrao', event.target.value);
@@ -119,7 +118,6 @@ const TiposArquivos = () => {
       setNewUserSection(false);
       dispatch(tipoArquivoIdleOperation());
     }
-    setErrorCollapseOpened(errors !== undefined);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [operationState]);
 

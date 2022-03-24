@@ -1,5 +1,4 @@
 import { TextField } from '@mui/material';
-import React from 'react';
 
 interface Props {
   label: string;
@@ -18,9 +17,11 @@ interface Props {
   style?: any;
   sx?: any;
   margin?: string;
+  maxLength?: number;
 }
 
 const DmTextField = (props: Props) => {
+
   return (
     <TextField
       id={props.label.replaceAll(' ', '')}
@@ -44,13 +45,13 @@ const DmTextField = (props: Props) => {
         inputProps: {  tabIndex: props.tabIndex ? props.tabIndex : 0 },
       }}
       inputProps={{
+        maxLength: props.maxLength,
         style: {
           paddingLeft: '20px !important',
         },
       }}
       error={props.error}
       helperText={props.helperText}
-      inputRef={props.ref}
       onChange={props.onChange}
       {...props.rest}
     />

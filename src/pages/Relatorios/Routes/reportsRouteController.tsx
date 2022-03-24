@@ -1,4 +1,3 @@
-import React from 'react';
 import { Redirect, Route, Switch } from 'react-router';
 import Relatorios from '../index';
 import RelForCanaEntregue from './RelForCanaEntregue';

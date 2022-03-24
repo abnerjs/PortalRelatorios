@@ -101,7 +101,6 @@ export const ListboxComponent = React.forwardRef<
     return itemData.map(getChildSize).reduce((a, b) => a + b, 0);
   };
 
-  const gridRef = useResetCache(itemCount);
 
   return (
     <div ref={ref} style={{ width: '100%' }}>
@@ -110,7 +109,6 @@ export const ListboxComponent = React.forwardRef<
           itemData={itemData}
           height={getHeight() + 2 * LISTBOX_PADDING}
           width="100%"
-          ref={gridRef}
           outerElementType={OuterElementType}
           innerElementType="ul"
           itemSize={(index) => getChildSize(itemData[index])}

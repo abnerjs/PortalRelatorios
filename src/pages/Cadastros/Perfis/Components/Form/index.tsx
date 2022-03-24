@@ -9,7 +9,6 @@ import * as Yup from 'yup';
 
 import { yupResolver } from '@hookform/resolvers/yup';
 import Button from '@mui/material/Button';
-import TextField from '@mui/material/TextField';
 
 import InputSwitch from 'src/pages/Cadastros/Perfis/Components/InputSwitch';
 import { useAppSelector, useAppDispatch } from 'src/store';
@@ -102,7 +101,6 @@ const Form: React.FC<FormProps> = ({ data, isFormOpened }: FormProps) => {
                 tabIndex={isFormOpened ? 0 : -1}
                 error={!!fieldState.error}
                 helperText={fieldState.error?.message}
-                ref={ref}
                 rest={rest}
               />
             )}

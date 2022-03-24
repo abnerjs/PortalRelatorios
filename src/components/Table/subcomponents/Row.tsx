@@ -33,6 +33,7 @@ const Row = (props: Props) => {
     (state) => state.arquivoUpload.downloadError
   );
   const [open, setOpen] = useState(false);
+  const [headerHeight, setHeaderHeight] = useState<number>(0);
 
   useEffect(() => {
     if (deleteState === 's') {
@@ -41,6 +42,17 @@ const Row = (props: Props) => {
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [deleteState]);
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  useEffect(() => {
+    setHeaderHeight(
+      document
+        .getElementsByClassName('filesTypes')[0]
+        .getElementsByClassName('Table')
+        [props.tableIndex].getElementsByClassName('header')[props.rowIndex]
+        .clientHeight
+    );
+  });
 
   useEffect(() => {
     if (
@@ -76,6 +88,9 @@ const Row = (props: Props) => {
       className={`row${props.fullView ? ' fullView' : ' collapsable'}${
         collapsed ? ' collapsed' : ''
       }`}
+      style={{
+        height: !collapsed ? headerHeight + 'px' : '100%',
+      }}
       key={props.doc.idRelArquivo}
       onClick={() => {
         setCollapsed(!collapsed);
@@ -260,9 +275,12 @@ const Row = (props: Props) => {
           <span>Observações:&nbsp;</span>
           {props.doc.desObs || 'Nenhuma observação'}
         </div>
-        <div className="row" style={{
-          display: props.userUploadInfo ? 'block' : 'none',
-        }}>
+        <div
+          className="row"
+          style={{
+            display: props.userUploadInfo ? 'block' : 'none',
+          }}
+        >
           <span>Submetido por:&nbsp;</span>
           {props.doc.desNomeUsuarioUpload}
         </div>

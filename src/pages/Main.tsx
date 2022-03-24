@@ -1,6 +1,5 @@
 import './Main.css';
 
-import React from 'react';
 import { Route, Switch } from 'react-router';
 
 import Menu from 'src/components/Menu/Menu';
@@ -8,7 +7,6 @@ import Dashboard from './Dashboard';
 import Usuarios from './Cadastros/Usuarios';
 import Perfis from './Cadastros/Perfis';
 import VinculosUsuarios from './Cadastros/VinculosUsuarios';
-import Relatorios from './Relatorios';
 import TiposArquivos from './Cadastros/TiposArquivos';
 import Gerenciamento from './Relatorios/Gerenciamento';
 import MeusUploads from './Relatorios/MeusUploads';

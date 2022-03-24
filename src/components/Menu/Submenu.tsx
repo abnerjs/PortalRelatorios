@@ -12,7 +12,6 @@ import {
 import { Icon } from '@iconify/react';
 import { Objeto } from 'src/store/ducks/login/types';
 import './Menu.css';
-import { createTheme } from '@mui/system';
 
 type Props = {
   icon: string;

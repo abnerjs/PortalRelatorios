@@ -46,9 +46,6 @@ import {
 import { DateRange } from '@mui/lab/DateRangePicker/RangeTypes';
 import DmCollapseHandler from 'src/components/DmCollapseHandler/DmCollapseHandler';
 import DmTextField from 'src/components/DmTextField/DmTextField';
-import DmAutocomplete, {
-  AutocompleteOptions,
-} from 'src/components/DmAutocomplete/DmAutocomplete';
 
 type Props = {
   sectionModalController: number;
@@ -206,7 +203,6 @@ const Form = (props: Props) => {
     null
   );
   const [isErrorCollapseOpened, setErrorCollapseOpened] = useState(false);
-  const [desObsForm, setDesObsForm] = useState<string | null>(null);
 
   const tiposArquivos = useAppSelector((state) => state.tipoArquivo.data);
   const uploadError = useAppSelector(
@@ -273,7 +269,6 @@ const Form = (props: Props) => {
       setValue('nomArquivo', nomArqWhenDocExists || props.doc.nomArquivo);
 
       if (props.doc.desObs) {
-        setDesObsForm(props.doc.desObs);
         setValue('desObs', props.doc.desObs);
       }
 
@@ -420,7 +415,7 @@ const Form = (props: Props) => {
                     autoFocus
                     error={!!fieldState.error}
                     helperText={fieldState.error?.message}
-                    inputRef={ref}
+                    
                     InputProps={{
                       disableUnderline: true,
                     }}
@@ -509,7 +504,7 @@ const Form = (props: Props) => {
                           }}
                           error={!!fieldState.error}
                           helperText={fieldState.error?.message}
-                          inputRef={ref}
+                          
                           {...rest}
                           onFocus={() => setFocusForn(true)}
                           onBlur={() => setFocusForn(false)}
@@ -602,7 +597,7 @@ const Form = (props: Props) => {
                           }}
                           error={!!fieldState.error}
                           helperText={fieldState.error?.message}
-                          inputRef={ref}
+                          
                           {...rest}
                           onFocus={() => setFocusPrest(true)}
                           onBlur={() => setFocusPrest(false)}
@@ -669,7 +664,7 @@ const Form = (props: Props) => {
                           }}
                           error={!!fieldState.error}
                           helperText={fieldState.error?.message}
-                          inputRef={ref}
+                          
                           {...rest}
                         />
                       );
@@ -756,7 +751,6 @@ const Form = (props: Props) => {
                     error={!!fieldState.error}
                     helperText={fieldState.error?.message}
                     value={value || ''}
-                    ref={ref}
                     rest={rest}
                   />
                 )}
@@ -828,7 +822,7 @@ const Form = (props: Props) => {
                           }}
                           error={!!fieldState.error}
                           helperText={fieldState.error?.message}
-                          inputRef={ref}
+                          
                           {...rest}
                         />
                       )}
@@ -903,7 +897,7 @@ const Form = (props: Props) => {
                           }}
                           error={!!fieldState.error}
                           helperText={fieldState.error?.message}
-                          inputRef={ref}
+                          
                           {...rest}
                         />
                       )}
@@ -976,7 +970,7 @@ const Form = (props: Props) => {
                             }}
                             error={!!fieldState.error}
                             helperText={fieldState.error?.message}
-                            inputRef={ref}
+                            
                             {...rest}
                           />
                           <Box
@@ -1012,7 +1006,7 @@ const Form = (props: Props) => {
                             }}
                             error={!!fieldState.error}
                             helperText={fieldState.error?.message}
-                            inputRef={ref}
+                            
                             {...rest}
                             onBlur={() => {
                               if (
@@ -1104,7 +1098,7 @@ const Form = (props: Props) => {
                           }}
                           error={!!fieldState.error}
                           helperText={fieldState.error?.message}
-                          inputRef={ref}
+                          
                           {...rest}
                         />
                       )}

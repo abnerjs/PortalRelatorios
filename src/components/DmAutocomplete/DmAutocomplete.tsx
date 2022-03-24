@@ -1,11 +1,10 @@
-import { Autocomplete, Chip, TextField } from '@mui/material';
+import { Autocomplete, TextField } from '@mui/material';
 import React, { useState } from 'react';
 import {
   ListboxComponent,
   StyledPopper,
 } from 'src/pages/Cadastros/VinculosUsuarios/Components/Autocomplete';
 import CheckIcon from '@mui/icons-material/Check';
-import { TipoArquivo } from 'src/store/ducks/tipoArquivo/types';
 
 interface Props {
   options: AutocompleteOptions[];

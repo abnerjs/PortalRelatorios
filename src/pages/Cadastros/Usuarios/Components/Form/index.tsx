@@ -241,7 +241,7 @@ const Form: React.FC<FormProps> = ({
                     tabIndex={isFormOpened ? 0 : -1}
                     error={!!fieldState.error}
                     helperText={fieldState.error?.message}
-                    ref={ref}
+                    
                     rest={rest}
                     onChange={(event: any) => {
                       onChange(event);
@@ -265,7 +265,7 @@ const Form: React.FC<FormProps> = ({
                     tabIndex={isFormOpened ? 0 : -1}
                     error={!!fieldState.error}
                     helperText={fieldState.error?.message || 'Opcional'}
-                    ref={ref}
+                    
                     rest={rest}
                     onChange={(event: any) =>
                       onChange(maskCpfCnpj(event.target.value))
@@ -287,7 +287,7 @@ const Form: React.FC<FormProps> = ({
                 tabIndex={isFormOpened ? 0 : -1}
                 error={!!fieldState.error}
                 helperText={fieldState.error?.message || 'Opcional'}
-                ref={ref}
+                
                 rest={rest}
                 inputProps={{
                   maxLength: 10,
@@ -307,7 +307,7 @@ const Form: React.FC<FormProps> = ({
                 tabIndex={isFormOpened ? 0 : -1}
                 error={!!fieldState.error}
                 helperText={fieldState.error?.message || 'Opcional'}
-                ref={ref}
+                
                 rest={rest}
                 inputProps={{
                   maxLength: 200,
@@ -388,7 +388,7 @@ const Form: React.FC<FormProps> = ({
                 label="Nome de usuário"
                 tabIndex={isFormOpened ? 0 : -1}
                 error={!!fieldState.error}
-                ref={ref}
+                
                 rest={rest}
                 onChange={(event: any) =>
                   onChange(event.target.value.toLowerCase())
@@ -408,7 +408,7 @@ const Form: React.FC<FormProps> = ({
                 type="password"
                 tabIndex={isFormOpened ? 0 : -1}
                 error={!!fieldState.error}
-                ref={ref}
+                
                 rest={rest}
                 inputProps={{
                   maxLength: 128,

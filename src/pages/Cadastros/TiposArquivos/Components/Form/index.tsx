@@ -16,10 +16,8 @@ import {
 } from 'src/store/ducks/tipoArquivo';
 import { objetosGetFilterRequest } from 'src/store/ducks/objetos';
 import {
-  Autocomplete,
   CircularProgress,
   Button,
-  TextField,
 } from '@mui/material';
 import { Box } from '@mui/system';
 import { TipoArquivo } from 'src/store/ducks/tipoArquivo/types';
@@ -66,7 +64,6 @@ const referenciaToStringLabel = (referencia: string | null) => {
 const Form: React.FC<FormProps> = ({ data, isFormOpened }: FormProps) => {
   const dispatch = useAppDispatch();
   const [referencia, setReferencia] = useState<string | null>(null);
-  const [focusRef, setFocusRef] = useState(false);
   const errors = useAppSelector((state) => state.tipoArquivo.operationError);
   const operationState = useAppSelector(
     (state) => state.tipoArquivo.operationState
@@ -146,7 +143,6 @@ const Form: React.FC<FormProps> = ({ data, isFormOpened }: FormProps) => {
                 tabIndex={isFormOpened ? 0 : -1}
                 error={!!fieldState.error}
                 helperText={fieldState.error?.message}
-                ref={ref}
                 rest={rest}
               />
             )}

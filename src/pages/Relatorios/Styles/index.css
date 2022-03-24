@@ -94,7 +94,7 @@
 .row .column:last-child .Table {
   position: relative;
   height: fit-content;
-  max-height: 265px;
+  max-height: 305px;
 }
 
 .row.tables .column:not(.loading):last-child {

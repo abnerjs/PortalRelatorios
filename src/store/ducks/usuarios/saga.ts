@@ -1,6 +1,5 @@
 import { AxiosResponse } from 'axios';
 import { all, call, debounce, put, takeLatest } from 'redux-saga/effects';
-import Usuarios from 'src/pages/Cadastros/Usuarios';
 
 import api from 'src/services/api';
 import { RespostaApi, TipoFiltro } from 'src/store/ducks/base/types';

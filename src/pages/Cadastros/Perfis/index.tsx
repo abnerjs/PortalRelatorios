@@ -54,7 +54,6 @@ const Perfis = () => {
   const errors = useAppSelector((state) => state.perfis.deleteError);
   const deleteState = useAppSelector((state) => state.perfis.deleteState);
   const operationState = useAppSelector((state) => state.perfis.operationState);
-  const [isErrorCollapseOpened, setErrorCollapseOpened] = useState(false);
 
   const handleChangeSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
     handlePesquisa('filtroPadrao', event.target.value);
@@ -122,7 +121,6 @@ const Perfis = () => {
       setNewUserSection(false);
       dispatch(perfisIdleOperation());
     }
-    setErrorCollapseOpened(errors !== undefined);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [operationState]);
 

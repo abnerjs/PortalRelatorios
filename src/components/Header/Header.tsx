@@ -1,4 +1,3 @@
-import React from 'react';
 import './Header.css';
 import ProfileMenu from './subcomponents/ProfileMenu';
 import { Typography } from '@mui/material';
