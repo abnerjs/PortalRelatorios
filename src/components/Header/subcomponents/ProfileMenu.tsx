@@ -10,8 +10,6 @@ import {
   CircularProgress,
   Fade,
   Modal,
-  Stack,
-  TextField,
   Typography,
 } from '@mui/material';
 import { getInitialsFromString } from 'src/utils/StringUtils';
@@ -222,13 +220,12 @@ const ProfileMenu = (props: ProfileMenuProps) => {
                       <DmTextField
                         label="Nome de usuário"
                         secondary
-                        inputProps={{ maxLenght: 200 }}
+                        maxLength={200}
                         error={!!fieldState.error}
                         onChange={(event: any) =>
                           onChange(event.target.value.toLowerCase())
                         }
                         helperText={fieldState.error?.message}
-                        ref={ref}
                         rest={rest}
                       />
                     )}
@@ -241,11 +238,10 @@ const ProfileMenu = (props: ProfileMenuProps) => {
                       <DmTextField
                         label="Senha atual"
                         secondary
-                        inputProps={{ maxLenght: 128 }}
+                        maxLength={128}
                         error={!!fieldState.error}
                         type="password"
                         helperText={fieldState.error?.message}
-                        ref={ref}
                         rest={rest}
                       />
                     )}
@@ -258,11 +254,10 @@ const ProfileMenu = (props: ProfileMenuProps) => {
                       <DmTextField
                         label="Nova senha"
                         secondary
-                        inputProps={{ maxLenght: 128 }}
+                        maxLength={128}
                         error={!!fieldState.error}
                         type="password"
                         helperText={fieldState.error?.message}
-                        ref={ref}
                         rest={rest}
                       />
                     )}
@@ -275,11 +270,10 @@ const ProfileMenu = (props: ProfileMenuProps) => {
                       <DmTextField
                         label="Confirmar nova senha"
                         secondary
-                        inputProps={{ maxLenght: 128 }}
+                        maxLength={128}
                         error={!!fieldState.error}
                         type="password"
                         helperText={fieldState.error?.message}
-                        ref={ref}
                         rest={rest}
                       />
                     )}

@@ -17,7 +17,6 @@ import {
   usuariosIdleOperation,
   usuariosCancelDelete,
   usuariosCleanError,
-  usuariosPutRequest,
   usuariosChangeFlagActiveRequest,
 } from 'src/store/ducks/usuarios';
 import { Usuario } from 'src/store/ducks/usuarios/types';
@@ -62,8 +61,6 @@ const Usuarios = () => {
   const operationState = useAppSelector(
     (state) => state.usuarios.operationState
   );
-
-  const [isErrorCollapseOpened, setErrorCollapseOpened] = useState(false);
 
   useEffect(() => {
     dispatch(usuariosCleanError());
@@ -110,8 +107,6 @@ const Usuarios = () => {
       setNewUserSection(false);
       dispatch(usuariosIdleOperation());
     }
-
-    setErrorCollapseOpened(errors !== undefined);
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [operationState]);

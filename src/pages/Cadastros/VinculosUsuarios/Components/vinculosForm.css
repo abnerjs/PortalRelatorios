@@ -1,0 +1,14 @@
+.formSectionsController {
+  display: flex;
+  flex: 1;
+  width: 200%;
+  overflow: hidden;
+}
+
+.formSectionsController .autocompleteContainer {
+  width: 50%;
+}
+
+.formSectionsController.translate {
+  transform: translateX(-50%);
+}

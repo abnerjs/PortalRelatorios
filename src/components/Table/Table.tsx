@@ -1,8 +1,7 @@
-import React, { useRef, useState } from 'react';
+import { useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { Button, Typography } from '@mui/material';
 import { ArquivoUploadReceiveFormat } from 'src/store/ducks/relatoriosUpload/types';
-import { useAppDispatch } from 'src/store';
 import Row from './subcomponents/Row';
 import './Table.css';
 
@@ -69,8 +68,6 @@ const conditionalArrayTypeRender = (
 };
 
 const Table = (props: Props) => {
-  const [collapsed, setCollapsed] = useState(false);
-  const dispatch = useAppDispatch();
   const node = useRef<HTMLDivElement>(null);
 
   const subtitle = props.subtitle ? (

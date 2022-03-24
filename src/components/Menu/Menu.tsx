@@ -193,9 +193,10 @@ const Menu = () => {
               </Link>
             </Tooltip>
 
-            {submenuRender.map((item) => {
+            {submenuRender.map((item, index) => {
               return (
                 <Submenu
+                  key={index}
                   icon={item.icon}
                   list={item.list}
                   listDescription={item.listDescription}
@@ -213,6 +214,7 @@ const Menu = () => {
         <>
           <BottomNavigation value={bottomNavigationDisplay}>
             <BottomNavigationAction
+              key={0}
               component={Link}
               to="/"
               label="Início"
@@ -220,9 +222,10 @@ const Menu = () => {
               icon={<Icon icon="fluent:home-16-regular" />}
               onClick={() => setBottomNavigationDisplay('/')}
             />
-            {submenuRender.map((item) => {
+            {submenuRender.map((item, index) => {
               return (
                 <BottomNavigationAction
+                  key={index + 1}
                   icon={<Icon icon={item.icon} />}
                   value={item.listDescription}
                   label={item.listDescription}
@@ -233,9 +236,10 @@ const Menu = () => {
               );
             })}
           </BottomNavigation>
-          {submenuRender.map((item) => {
+          {submenuRender.map((item, index) => {
             return (
               <BottomNavigation
+                key={index}
                 value={location.pathname}
                 className={`subMenuBottomAction${
                   listDescriptionActive === item.listDescription
@@ -244,9 +248,10 @@ const Menu = () => {
                 }`}
                 showLabels
               >
-                {item.list.map((sublistItem) => {
+                {item.list.map((sublistItem, index) => {
                   return (
                     <BottomNavigationAction
+                      key={index}
                       component={Link}
                       to={'/' + sublistItem.nomPagina.toLowerCase()}
                       icon={<Icon icon={item.icon} />}

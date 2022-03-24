@@ -238,15 +238,25 @@
 /*AUTOCOMPLETE ------------------------------*/
 
 .MuiAutocomplete-root.noTabIndexable input {
-  display: none;
+  opacity: 0;
+}
+
+.MuiAutocomplete-root {
+  opacity: 1;
+  transition: opacity ease 0.3;
+}
+
+.MuiAutocomplete-root + .MuiAutocomplete-popper {
+  opacity: 1;
+  transition: opacity ease 0.3;
 }
 
 .MuiAutocomplete-root.displayNone {
-  display: none;
+  opacity: 0;
 }
 
 .MuiAutocomplete-root.displayNone + .MuiAutocomplete-popper {
-  display: none !important;
+  opacity: 0 !important;
 }
 
 /*DATEPICKER ---------------------------------*/

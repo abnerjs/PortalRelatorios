@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import { Component } from 'react';
 
 import TextField from '@mui/material/TextField';
 import InputMask from 'react-input-mask';

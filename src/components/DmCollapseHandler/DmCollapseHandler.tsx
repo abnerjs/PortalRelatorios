@@ -1,6 +1,6 @@
 import { Icon } from '@iconify/react';
 import { Alert, AlertColor, Collapse, IconButton } from '@mui/material';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ErrorAPI } from 'src/store/ducks/types';
 
 interface Props {

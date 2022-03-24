@@ -33,6 +33,7 @@ import {
 } from 'src/store/ducks/usuariosPrestadores';
 import { UsuarioFornecedor } from 'src/store/ducks/usuariosFornecedores/types';
 import { UsuarioPrestador } from 'src/store/ducks/usuariosPrestadores/types';
+import '../vinculosForm.css';
 
 interface FormProps {
   data: Usuario | null;
@@ -200,129 +201,135 @@ const Form: React.FC<FormProps> = ({
           <Tab disableRipple value="forn" label="Fornecedores" />
           <Tab disableRipple value="prest" label="Prestadores" />
         </Tabs>
-        <Autocomplete
-          multiple
-          autoComplete
-          clearOnBlur={false}
-          open={true}
-          noOptionsText="Nenhum fornecedor"
-          disableListWrap={true}
-          disablePortal
-          fullWidth
-          selectOnFocus
-          handleHomeEndKeys
-          disableCloseOnSelect
-          PopperComponent={StyledPopper}
-          ListboxComponent={ListboxComponent}
-          options={lstFornecedores}
-          getOptionLabel={(option) => option.descricao}
-          limitTags={1}
-          ChipProps={{ size: 'small' }}
-          className={tabsForm === 'forn' ? '' : 'displayNone'}
-          // renderTags={() => undefined}
-          renderOption={(props, option, state) => {
-            return [
-              props,
-              <React.Fragment>
-                <span
-                  style={{
-                    width: '90%',
-                    overflow: 'hidden',
-                    whiteSpace: 'nowrap',
-                    textOverflow: 'ellipsis',
-                  }}
-                >
-                  {option.descricao}
-                </span>
-                {state.selected && <CheckIcon color="primary" />}
-              </React.Fragment>,
-            ];
-          }}
-          renderInput={(params: any) => (
-            <TextField
-              {...params}
-              label="Fornecedores"
-              className="DmTextField"
-              variant="filled"
-              InputProps={{
-                ...params.InputProps,
-                disableUnderline: true,
-                startAdornment: (
-                  <div
-                    style={{
-                      maxHeight: 50,
-                      marginTop: 10,
-                      marginBottom: 5,
-                      marginLeft: 20,
-                      overflowY: 'auto',
-                    }}
-                  >
-                    {params.InputProps.startAdornment}
-                  </div>
-                ),
+        <div className={`formSectionsController${tabsForm === 'prest' ? ' translate' : ''}`}>
+          <div className="autocompleteContainer">
+            <Autocomplete
+              multiple
+              autoComplete
+              clearOnBlur={false}
+              open={isFormOpened}
+              noOptionsText="Nenhum fornecedor"
+              disableListWrap={true}
+              disablePortal
+              fullWidth
+              selectOnFocus
+              handleHomeEndKeys
+              disableCloseOnSelect
+              PopperComponent={StyledPopper}
+              ListboxComponent={ListboxComponent}
+              options={lstFornecedores}
+              getOptionLabel={(option) => option.descricao}
+              limitTags={1}
+              ChipProps={{ size: 'small' }}
+              className={tabsForm === 'forn' ? '' : 'displayNone'}
+              // renderTags={() => undefined}
+              renderOption={(props, option, state) => {
+                return [
+                  props,
+                  <React.Fragment>
+                    <span
+                      style={{
+                        width: '90%',
+                        overflow: 'hidden',
+                        whiteSpace: 'nowrap',
+                        textOverflow: 'ellipsis',
+                      }}
+                    >
+                      {option.descricao}
+                    </span>
+                    {state.selected && <CheckIcon color="primary" />}
+                  </React.Fragment>,
+                ];
               }}
-              InputLabelProps={{ shrink: undefined }}
-            />
-          )}
-          value={fornecedores}
-          onChange={(_, data) => setFornecedores(data)}
-          isOptionEqualToValue={(option, value) =>
-            option.codigo === value.codigo
-          }
-        />
-        <Autocomplete
-          multiple
-          noOptionsText="Nenhum prestador"
-          open={true}
-          disableListWrap={true}
-          disablePortal
-          fullWidth
-          clearOnBlur
-          selectOnFocus
-          handleHomeEndKeys
-          disableCloseOnSelect
-          PopperComponent={StyledPopper}
-          ListboxComponent={ListboxComponent}
-          options={lstPrestadores}
-          getOptionLabel={(option) => option.descricao}
-          limitTags={1}
-          ChipProps={{ size: 'small' }}
-          className={tabsForm === 'prest' ? '' : 'displayNone'}
-          // renderTags={() => undefined}
-          renderOption={(props, option, state) => {
-            return [
-              props,
-              <React.Fragment>
-                <span
-                  style={{
-                    width: '90%',
-                    overflow: 'hidden',
-                    whiteSpace: 'nowrap',
-                    textOverflow: 'ellipsis',
+              renderInput={(params: any) => (
+                <TextField
+                  {...params}
+                  label="Fornecedores"
+                  className="DmTextField"
+                  variant="filled"
+                  InputProps={{
+                    ...params.InputProps,
+                    disableUnderline: true,
+                    startAdornment: (
+                      <div
+                        style={{
+                          maxHeight: 50,
+                          marginTop: 10,
+                          marginBottom: 5,
+                          marginLeft: 20,
+                          overflowY: 'auto',
+                        }}
+                      >
+                        {params.InputProps.startAdornment}
+                      </div>
+                    ),
                   }}
-                >
-                  {option.descricao}
-                </span>
-                {state.selected && <CheckIcon color="primary" />}
-              </React.Fragment>,
-            ];
-          }}
-          renderInput={(params: any) => (
-            <TextField
-              {...params}
-              label="Prestadores"
-              placeholder="Pesquisar..."
-              variant="filled"
-              InputProps={{ ...params.InputProps, disableUnderline: true }}
-              InputLabelProps={{ shrink: undefined }}
+                  InputLabelProps={{ shrink: undefined }}
+                />
+              )}
+              value={fornecedores}
+              onChange={(_, data) => setFornecedores(data)}
+              isOptionEqualToValue={(option, value) =>
+                option.codigo === value.codigo
+              }
             />
-          )}
-          value={prestadores}
-          onChange={(_, data) => setPrestadores(data)}
-          isOptionEqualToValue={(option, value) =>
-            option.codigo === value.codigo
-          }
-        />
+          </div>
+          <div className="autocompleteContainer">
+            <Autocomplete
+              multiple
+              noOptionsText="Nenhum prestador"
+              open={true}
+              disableListWrap={true}
+              disablePortal
+              fullWidth
+              clearOnBlur
+              selectOnFocus
+              handleHomeEndKeys
+              disableCloseOnSelect
+              PopperComponent={StyledPopper}
+              ListboxComponent={ListboxComponent}
+              options={lstPrestadores}
+              getOptionLabel={(option) => option.descricao}
+              limitTags={1}
+              ChipProps={{ size: 'small' }}
+              className={tabsForm === 'prest' ? '' : 'displayNone'}
+              // renderTags={() => undefined}
+              renderOption={(props, option, state) => {
+                return [
+                  props,
+                  <React.Fragment>
+                    <span
+                      style={{
+                        width: '90%',
+                        overflow: 'hidden',
+                        whiteSpace: 'nowrap',
+                        textOverflow: 'ellipsis',
+                      }}
+                    >
+                      {option.descricao}
+                    </span>
+                    {state.selected && <CheckIcon color="primary" />}
+                  </React.Fragment>,
+                ];
+              }}
+              renderInput={(params: any) => (
+                <TextField
+                  {...params}
+                  label="Prestadores"
+                  placeholder="Pesquisar..."
+                  variant="filled"
+                  InputProps={{ ...params.InputProps, disableUnderline: true }}
+                  InputLabelProps={{ shrink: undefined }}
+                />
+              )}
+              value={prestadores}
+              onChange={(_, data) => setPrestadores(data)}
+              isOptionEqualToValue={(option, value) =>
+                option.codigo === value.codigo
+              }
+            />
+          </div>
+        </div>
         <div className="buttons">
           <Button
             onClick={onCancel}
