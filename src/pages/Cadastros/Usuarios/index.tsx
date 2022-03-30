@@ -88,7 +88,7 @@ const Usuarios = () => {
     setNewUserSection(newUser);
 
     setTimeout(() => {
-      global.window.document.getElementById('desNome')?.focus();
+      global.window.document.getElementById('Nomecompleto')?.focus();
     }, 400);
   };
 

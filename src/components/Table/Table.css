@@ -7,6 +7,10 @@
   background-color: var(--bgColor);
 }
 
+.Table .row .header {
+  padding: 10px 0;
+}
+
 .principalContent {
   width: calc(100% - 10px);
   height: fit-content;

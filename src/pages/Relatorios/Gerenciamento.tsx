@@ -108,7 +108,11 @@ const Gerenciamento = () => {
   const lstUsuarios = useAppSelector((state) => state.usuarios.filterList);
 
   useEffect(() => {
-    if (file) window.open(file);
+    if (file) {
+      if (!(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent))) {
+        window.open(file);
+      }
+    }
     return () => {
       dispatch(arquivosDownloadIdle());
     };
@@ -188,11 +192,11 @@ const Gerenciamento = () => {
                   JSON.stringify(filtros.fornecedores) === JSON.stringify([]) &&
                   JSON.stringify(filtros.prestadores) === JSON.stringify([]) &&
                   JSON.stringify(filtros.periodoRef) ===
-                    JSON.stringify([null, null]) &&
+                  JSON.stringify([null, null]) &&
                   JSON.stringify(filtros.periodoUp) ===
-                    JSON.stringify([null, null]) &&
+                  JSON.stringify([null, null]) &&
                   JSON.stringify(filtros.usuarioUpload) ===
-                    JSON.stringify(undefined)
+                  JSON.stringify(undefined)
                 }
               >
                 <Icon icon="ci:filter-outline" height={'30px'} />

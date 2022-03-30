@@ -106,7 +106,11 @@ const MeusUploads = () => {
   );
 
   useEffect(() => {
-    if (file) window.open(file);
+    if (file) {
+      if (!(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent))) {
+        window.open(file);
+      }
+    }
     return () => {
       dispatch(arquivosDownloadIdle());
     };

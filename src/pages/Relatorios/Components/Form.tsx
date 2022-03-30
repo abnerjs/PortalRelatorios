@@ -770,6 +770,9 @@ const Form = (props: Props) => {
                     <DatePicker
                       label="Ano"
                       openTo="year"
+                      cancelText="CANCELAR"
+                      clearText="Limpar"
+                      okText="OK"
                       mask="____"
                       inputFormat="yyyy"
                       views={['year']}
@@ -840,6 +843,9 @@ const Form = (props: Props) => {
                     <DatePicker
                       label="Mês/Ano"
                       openTo="year"
+                      cancelText="CANCELAR"
+                      clearText="Limpar"
+                      okText="OK"
                       mask="__/____"
                       inputFormat="MM/yyyy"
                       views={['year', 'month']}
@@ -915,6 +921,10 @@ const Form = (props: Props) => {
                     <DateRangePicker
                       startText="Data inicial"
                       endText="Data final"
+                      cancelText="CANCELAR"
+                      clearText="Limpar"
+                      okText="OK"
+                      toolbarTitle="SELECIONAR PERÍODO"
                       mask="__/__/____"
                       className="modalDateRangePicker"
                       desktopModeMediaQuery="@media (min-height: 770px) and (min-width: 1255px)"
@@ -1047,6 +1057,9 @@ const Form = (props: Props) => {
                   }) => (
                     <DatePicker
                       label="Data do documento"
+                      cancelText="CANCELAR"
+                      clearText="Limpar"
+                      okText="OK"
                       openTo="year"
                       disableFuture
                       disableMaskedInput={false}

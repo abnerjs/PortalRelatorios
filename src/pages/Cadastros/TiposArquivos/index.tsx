@@ -71,7 +71,7 @@ const TiposArquivos = () => {
     setNewUserSection(newUser);
 
     setTimeout(() => {
-      global.window.document.getElementById('desTipoArquivo')?.focus();
+      global.window.document.getElementById('Descricaodotipodearquivo')?.focus();
     }, 400);
   };
 

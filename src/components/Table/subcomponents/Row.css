@@ -39,7 +39,6 @@
   background-color: white;
   position: absolute;
   width: 100%;
-  height: 40px;
   display: flex;
   justify-content: space-between;
   opacity: 0;
@@ -140,9 +139,10 @@
     display: flex !important;
   }
 
-  .confirmdelete {
-    height: 50px;
+  .confirmdelete .buttons {
+    width: 50px;
   }
+
 
   .errorPanel {
     height: 50px;

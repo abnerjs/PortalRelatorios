@@ -2,6 +2,7 @@ import { TextField } from '@mui/material';
 
 interface Props {
   label: string;
+  id?: string;
   ref?: any;
   rest?: any;
   size?: string;
@@ -13,7 +14,7 @@ interface Props {
   inputProps?: any;
   type?: string;
   defaultValue?: string;
-  value?:string;
+  value?: string;
   style?: any;
   sx?: any;
   margin?: string;
@@ -24,7 +25,7 @@ const DmTextField = (props: Props) => {
 
   return (
     <TextField
-      id={props.label.replaceAll(' ', '')}
+      id={props.label.replaceAll(' ', '').normalize('NFD').replace(/[\u0300-\u036f]/g, '')}
       fullWidth
       label={props.label}
       size={props.size}
@@ -38,11 +39,11 @@ const DmTextField = (props: Props) => {
         ...props.style,
       }}
       sx={props.sx}
-      className={`DmTextField${props.secondary ? ' secondary':''}`}
+      className={`DmTextField${props.secondary ? ' secondary' : ''}`}
       InputProps={{
         ...props.inputProps,
         disableUnderline: true,
-        inputProps: {  tabIndex: props.tabIndex ? props.tabIndex : 0 },
+        inputProps: { tabIndex: props.tabIndex ? props.tabIndex : 0 },
       }}
       inputProps={{
         maxLength: props.maxLength,
