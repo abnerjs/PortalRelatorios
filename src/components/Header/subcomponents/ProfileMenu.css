@@ -71,14 +71,6 @@
   color: var(--errorColor);
 }
 
-.menuCollapse div:hover {
-  background: rgb(245, 245, 249);
-  background: linear-gradient(90deg,
-      rgba(255, 255, 255, 1) 0%,
-      rgba(245, 245, 249, 1) 50%,
-      rgba(255, 255, 255, 1) 100%);
-}
-
 .profile-modal {
   position: absolute;
   top: 50%;
@@ -123,7 +115,7 @@
   height: 12px;
   background: #fff;
   position: absolute;
-  transition: all .2s ease-in-out 0.8s;
+  transition: all 0.2s ease-in-out 0.8s;
   border-radius: 4px;
 }
 
@@ -215,9 +207,16 @@
   .profile-modal .changePassTopLabel {
     margin-top: 20px;
   }
+}
 
+@media screen and (min-width: 1255px) {
   .menuCollapse div:hover {
-    background: none;
+    background: rgb(245, 245, 249);
+    background: linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 1) 0%,
+      rgba(245, 245, 249, 1) 50%,
+      rgba(255, 255, 255, 1) 100%
+    );
   }
-  
 }

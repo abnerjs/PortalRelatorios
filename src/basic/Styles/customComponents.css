@@ -62,7 +62,7 @@
   transition: all ease 0.3s !important;
 }
 
-.MuiDialog-container>div.MuiDialog-paperWidthSm .MuiButton-root {
+.MuiDialog-container > div.MuiDialog-paperWidthSm .MuiButton-root {
   background-color: unset !important;
   font-size: unset !important;
   font-weight: 600 !important;
@@ -109,12 +109,8 @@
   transition: all ease 0.3s;
 }
 
-:not(.MuiDialog-paperWidthSm) .MuiButton-root.tertiary:hover:not(.Mui-focusVisible):not(.active) {
-  border-color: var(--primary50) !important;
-  color: var(--primary50) !important;
-}
-
-:not(.MuiDialog-paperWidthSm) .MuiButton-root.tertiary.Mui-focusVisible:not(.active) {
+:not(.MuiDialog-paperWidthSm)
+  .MuiButton-root.tertiary.Mui-focusVisible:not(.active) {
   border-color: var(--primary50) !important;
   color: var(--primary50) !important;
 }
@@ -127,11 +123,6 @@
 
 .filterButton {
   transition: all ease 0.2s;
-}
-
-.filterButton:hover {
-  color: var(--primaryColor);
-  background-color: var(--primary50);
 }
 
 .form-buttons {
@@ -352,7 +343,6 @@
 
 /*RANGEPICKER -----------------------------*/
 
-
 @media screen and (max-width: 1254px) {
   .MuiBox-root.modalBox-root {
     width: calc(100vw - 40px);
@@ -360,5 +350,17 @@
     height: 100vh;
     max-height: calc(100vh - 40px);
     border-radius: 0;
+  }
+}
+
+@media screen and (min-width: 1255px) {
+  :not(.MuiDialog-paperWidthSm)
+    .MuiButton-root.tertiary:hover:not(.Mui-focusVisible):not(.active) {
+    border-color: var(--primary50) !important;
+    color: var(--primary50) !important;
+  }
+  .filterButton:hover {
+    color: var(--primaryColor);
+    background-color: var(--primary50);
   }
 }

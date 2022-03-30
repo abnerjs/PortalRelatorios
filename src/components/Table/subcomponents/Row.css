@@ -23,16 +23,8 @@
   background-color: var(--primary50) !important;
 }
 
-.iconbutton.edit:hover {
-  background-color: var(--primaryColor) !important;
-}
-
 .iconbutton.delete {
   background-color: var(--error50) !important;
-}
-
-.iconbutton.delete:hover {
-  background-color: var(--errorColor) !important;
 }
 
 .confirmdelete {
@@ -59,10 +51,6 @@
 
 .confirmdelete .buttons .MuiIconButton-root .icon {
   color: #aaa !important;
-}
-
-.confirmdelete .buttons .MuiIconButton-root:hover .icon {
-  color: var(--primary50) !important;
 }
 
 .confirmdelete.confirm {
@@ -103,10 +91,6 @@
   color: white !important;
 }
 
-.errorPanel .buttons .MuiIconButton-root:hover .icon {
-  color: var(--primary50) !important;
-}
-
 .errorPanel.confirm {
   opacity: 1;
   visibility: visible;
@@ -143,8 +127,25 @@
     width: 50px;
   }
 
-
   .errorPanel {
     height: 50px;
+  }
+}
+
+@media screen and (min-width: 1255px) {
+  .iconbutton.edit:hover {
+    background-color: var(--primaryColor) !important;
+  }
+
+  .iconbutton.delete:hover {
+    background-color: var(--errorColor) !important;
+  }
+
+  .confirmdelete .buttons .MuiIconButton-root:hover .icon {
+    color: var(--primary50) !important;
+  }
+  
+  .errorPanel .buttons .MuiIconButton-root:hover .icon {
+    color: var(--primary50) !important;
   }
 }

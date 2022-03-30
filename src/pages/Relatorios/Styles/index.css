@@ -53,11 +53,6 @@
   flex-direction: column;
 }
 
-.dropfilesContainer .dropzone:not(.dropzoneFilled):not(.unsuportedAlert):hover {
-  color: var(--primary50);
-  border-color: var(--primary50);
-}
-
 /*LISTAS -------------------------------*/
 
 .row.overview {
@@ -191,7 +186,7 @@
   width: 10px;
   height: 10px;
   border-radius: 10px;
-  transition: all ease .4s;
+  transition: all ease 0.4s;
 }
 
 .sectionsController .dot.active {
@@ -237,5 +232,13 @@
 
   .row .column .filesTypes {
     width: 100%;
+  }
+}
+
+@media screen and (min-width: 1255px) {
+  .dropfilesContainer
+    .dropzone:not(.dropzoneFilled):not(.unsuportedAlert):hover {
+    color: var(--primary50);
+    border-color: var(--primary50);
   }
 }
