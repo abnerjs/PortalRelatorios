@@ -74,7 +74,7 @@ const Perfis = () => {
     setNewUserSection(newUser);
 
     setTimeout(() => {
-      global.window.document.getElementById('desPerfil')?.focus();
+      global.window.document.getElementById('Descricaodoperfil')?.focus();
     }, 400);
   };
 

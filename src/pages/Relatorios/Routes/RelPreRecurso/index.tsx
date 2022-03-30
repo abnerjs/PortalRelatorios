@@ -96,7 +96,11 @@ const RelPreRecurso = () => {
   };
 
   useEffect(() => {
-    if (pdf) global.window.open(pdf);
+    if (pdf) {
+      if (!(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent))) {
+        global.window.open(pdf);
+      }
+    }
   }, [pdf]);
 
   useEffect(() => {
@@ -136,6 +140,10 @@ const RelPreRecurso = () => {
                 <DateRangePicker
                   mask="__/__/____"
                   value={date}
+                  cancelText="CANCELAR"
+                  clearText="Limpar"
+                  okText="OK"
+                  toolbarTitle="SELECIONAR PERÍODO"
                   desktopModeMediaQuery="@media (min-width: 1255px)"
                   onChange={(value) => {
                     setDate(value);

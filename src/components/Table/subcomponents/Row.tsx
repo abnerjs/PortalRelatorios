@@ -49,7 +49,7 @@ const Row = (props: Props) => {
       document
         .getElementsByClassName('filesTypes')[0]
         .getElementsByClassName('Table')
-        [props.tableIndex].getElementsByClassName('header')[props.rowIndex]
+      [props.tableIndex].getElementsByClassName('header')[props.rowIndex]
         .clientHeight
     );
   });
@@ -85,9 +85,8 @@ const Row = (props: Props) => {
 
   return (
     <div
-      className={`row${props.fullView ? ' fullView' : ' collapsable'}${
-        collapsed ? ' collapsed' : ''
-      }`}
+      className={`row${props.fullView ? ' fullView' : ' collapsable'}${collapsed ? ' collapsed' : ''
+        }`}
       style={{
         height: !collapsed ? headerHeight + 'px' : '100%',
       }}
@@ -100,13 +99,12 @@ const Row = (props: Props) => {
         <div className={`textual${props.fullView ? ' fullView' : ''}`}>
           <div className="regname">{props.doc.nomArquivo}</div>
           <div
-            className={`refdate${
-              descDateRef === undefined ||
+            className={`refdate${descDateRef === undefined ||
               descDateRef === null ||
               descDateRef.trim() === ''
-                ? ' semiVisible'
-                : ''
-            }`}
+              ? ' semiVisible'
+              : ''
+              }`}
             style={{
               textAlign: !props.fullView ? 'right' : 'left',
             }}
@@ -114,14 +112,13 @@ const Row = (props: Props) => {
             {descDateRef}
           </div>
           <div
-            className={`description${
-              !props.fullView ||
+            className={`description${!props.fullView ||
               props.doc.desObs === undefined ||
               props.doc.desObs === null ||
               props.doc.desObs.trim() === ''
-                ? ' semiVisible'
-                : ''
-            }`}
+              ? ' semiVisible'
+              : ''
+              }`}
             style={{
               display: props.fullView ? 'block' : 'none',
             }}
@@ -136,8 +133,8 @@ const Row = (props: Props) => {
           >
             {props.fullView
               ? props.doc.desNomeUsuarioUpload +
-                ' - ' +
-                dateFormatter(props.doc.dtaUpload, 'pt-BR')
+              ' - ' +
+              dateFormatter(props.doc.dtaUpload, 'pt-BR')
               : dateFormatter(props.doc.dtaUpload, 'pt-BR')}
           </div>
         </div>
@@ -183,6 +180,7 @@ const Row = (props: Props) => {
                 className="iconbutton delete"
                 onClick={(e) => {
                   showConfirmDelete(true);
+                  setCollapsed(false);
                   e.stopPropagation();
                 }}
               >
@@ -196,7 +194,11 @@ const Row = (props: Props) => {
           )}
         </div>
       </div>
-      <div className={`confirmdelete${isConfirmDeleteView ? ' confirm' : ''}`}>
+      <div className={`confirmdelete${isConfirmDeleteView ? ' confirm' : ''}`}
+        style={{
+          height: !collapsed ? headerHeight + 'px' : '50%',
+        }}
+      >
         <div className="message">Deseja realmente apagar o registro?</div>
         <div className="buttons">
           <IconButton
@@ -229,9 +231,8 @@ const Row = (props: Props) => {
         </div>
       </div>
       <div
-        className={`errorPanel${
-          isErrorView && isDownloading ? ' confirm' : ''
-        }${!props.fullView && collapsed ? ' fullHeight' : ''}`}
+        className={`errorPanel${isErrorView && isDownloading ? ' confirm' : ''
+          }${!props.fullView && collapsed ? ' fullHeight' : ''}`}
       >
         <div className="message">
           {

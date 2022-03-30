@@ -51,6 +51,7 @@ export default class DmMaskedInput extends Component<any, any> {
               <TextField
                 variant="filled"
                 label="CPF/CNPJ"
+                className='DmTextField'
                 InputProps={{
                   disableUnderline: true,
                   inputProps: {

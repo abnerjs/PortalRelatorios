@@ -4,6 +4,7 @@ import { Typography } from '@mui/material';
 
 import { useAppDispatch } from 'src/store';
 import { logout } from 'src/store/ducks/login';
+import { useEffect } from 'react';
 
 const Header = (props: { title: any }) => {
   const dispatch = useAppDispatch();
@@ -11,6 +12,16 @@ const Header = (props: { title: any }) => {
   const handleLogout = () => {
     dispatch(logout());
   };
+
+  const isOverflown = (e: any) => {
+    return e?.scrollWidth > e?.clientWidth || e?.scrollHeight > e?.clientHeight;
+  };
+
+
+  useEffect(() => {
+    let titleElem = document.getElementsByClassName('Header')[0]?.getElementsByTagName('h5')[0];
+    if (isOverflown(titleElem)) titleElem.classList.add('overflown');
+  });
 
   return (
     <div className="Header">

@@ -33,18 +33,20 @@ const conditionalArrayTypeRender = (
     arr.forEach((doc, index) => {
       arrGui.push(
         <div className="row" key={index}>
-          <div className="textual">
-            <div className="regname">{doc.name}</div>
+          <div className="header">
+            <div className="textual">
+              <div className="regname">{doc.name}</div>
+            </div>
+            <Link
+              to={`/relatorios/${doc.linkTo}`}
+              tabIndex={-1}
+              style={{ textDecoration: 'none' }}
+            >
+              <Button variant="contained" fullWidth className="reg">
+                ABRIR
+              </Button>
+            </Link>
           </div>
-          <Link
-            to={`/relatorios/${doc.linkTo}`}
-            tabIndex={-1}
-            style={{ textDecoration: 'none' }}
-          >
-            <Button variant="contained" fullWidth className="reg">
-              ABRIR
-            </Button>
-          </Link>
         </div>
       );
     });

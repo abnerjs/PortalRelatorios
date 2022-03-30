@@ -92,7 +92,11 @@ const RelForPagamento = () => {
   };
 
   useEffect(() => {
-    if (pdf) global.window.open(pdf);
+    if (pdf) {
+      if (!(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent))) {
+        global.window.open(pdf);
+      }
+    }
   }, [pdf]);
 
   useEffect(() => {
@@ -132,6 +136,9 @@ const RelForPagamento = () => {
                   <DatePicker
                     label="Data inicial"
                     openTo="year"
+                    cancelText="CANCELAR"
+                    clearText="Limpar"
+                    okText="OK"
                     mask="__/____"
                     inputFormat="MM/yyyy"
                         className='DmTextField'
@@ -172,6 +179,9 @@ const RelForPagamento = () => {
                   <DatePicker
                     label="Data final"
                     openTo="year"
+                    cancelText="CANCELAR"
+                    clearText="Limpar"
+                    okText="OK"
                     mask="__/____"
                     inputFormat="MM/yyyy"
                     views={['year', 'month']}

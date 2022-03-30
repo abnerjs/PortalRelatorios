@@ -29,6 +29,7 @@ import DmTextField from 'src/components/DmTextField/DmTextField';
 const maskCpfCnpj = (value: string) => {
   value = value.replace(/\D/g, '');
 
+
   if (value.length <= 11) {
     value = value.replace(/(\d{3})(\d)/, '$1.$2');
     value = value.replace(/(\d{3})(\d)/, '$1.$2');
@@ -241,7 +242,7 @@ const Form: React.FC<FormProps> = ({
                     tabIndex={isFormOpened ? 0 : -1}
                     error={!!fieldState.error}
                     helperText={fieldState.error?.message}
-                    
+
                     rest={rest}
                     onChange={(event: any) => {
                       onChange(event);
@@ -260,19 +261,24 @@ const Form: React.FC<FormProps> = ({
                   field: { value, ref, onChange, ...rest },
                   fieldState,
                 }) => (
-                  <DmTextField
+                  <TextField
                     label={flgTipo === 'E' ? 'CPF/CNPJ' : 'CPF'}
-                    tabIndex={isFormOpened ? 0 : -1}
+                    InputProps={{
+                      disableUnderline: true,
+                      inputProps: { tabIndex: isFormOpened ? 0 : -1, maxLength: flgTipo === 'E' ? 18 : 14 },
+                    }}
+                    variant="filled"
+                    fullWidth
+                    margin="dense"
+                    className='DmTextField'
                     error={!!fieldState.error}
                     helperText={fieldState.error?.message || 'Opcional'}
-                    
-                    rest={rest}
+                    value={value || ''}
                     onChange={(event: any) =>
                       onChange(maskCpfCnpj(event.target.value))
                     }
-                    inputProps={{
-                      maxLength: flgTipo === 'E' ? 18 : 14,
-                    }}
+                    inputRef={ref}
+                    {...rest}
                   />
                 )}
               />
@@ -287,7 +293,7 @@ const Form: React.FC<FormProps> = ({
                 tabIndex={isFormOpened ? 0 : -1}
                 error={!!fieldState.error}
                 helperText={fieldState.error?.message || 'Opcional'}
-                
+
                 rest={rest}
                 inputProps={{
                   maxLength: 10,
@@ -307,7 +313,7 @@ const Form: React.FC<FormProps> = ({
                 tabIndex={isFormOpened ? 0 : -1}
                 error={!!fieldState.error}
                 helperText={fieldState.error?.message || 'Opcional'}
-                
+
                 rest={rest}
                 inputProps={{
                   maxLength: 200,
@@ -388,7 +394,7 @@ const Form: React.FC<FormProps> = ({
                 label="Nome de usuário"
                 tabIndex={isFormOpened ? 0 : -1}
                 error={!!fieldState.error}
-                
+
                 rest={rest}
                 onChange={(event: any) =>
                   onChange(event.target.value.toLowerCase())
@@ -408,7 +414,7 @@ const Form: React.FC<FormProps> = ({
                 type="password"
                 tabIndex={isFormOpened ? 0 : -1}
                 error={!!fieldState.error}
-                
+
                 rest={rest}
                 inputProps={{
                   maxLength: 128,
