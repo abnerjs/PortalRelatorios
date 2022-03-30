@@ -63,11 +63,6 @@
   height: fit-content !important;
 }
 
-.Table .row:hover,
-.Table .row.collapsed:not(.fullView) {
-  background-color: white;
-}
-
 .Table .row.collapsed {
   height: 100%;
 }
@@ -176,5 +171,12 @@
     cursor: pointer !important;
     overflow: hidden;
     transition: all ease 0.2s;
+  }
+}
+
+@media screen and (min-width: 1255px) {
+  .Table .row:hover,
+  .Table .row.collapsed:not(.fullView) {
+    background-color: white;
   }
 }

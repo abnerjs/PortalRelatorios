@@ -120,10 +120,6 @@
   color: rgba(0, 0, 0, 0.5) !important;
 }
 
-.SectionizedTable .rows .row:not(.selected):hover {
-  background-color: rgba(255, 255, 255, 0.5);
-}
-
 .SectionizedTable .rows .row .image {
   width: 33px;
   height: 33px;
@@ -262,5 +258,11 @@
 
   .SectionizedTable .rows .row .header {
     padding: calc(13px / 2) 0;
+  }
+}
+
+@media screen and (min-width: 1255px) {
+  .SectionizedTable .rows .row:not(.selected):hover {
+    background-color: rgba(255, 255, 255, 0.5);
   }
 }

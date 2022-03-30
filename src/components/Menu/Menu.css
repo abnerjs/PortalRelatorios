@@ -48,7 +48,9 @@
   padding: 8px 6px;
 }
 
-.MuiBottomNavigation-root .MuiBottomNavigationAction-root:not(.Mui-selected) .MuiBottomNavigationAction-label {
+.MuiBottomNavigation-root
+  .MuiBottomNavigationAction-root:not(.Mui-selected)
+  .MuiBottomNavigationAction-label {
   height: 0;
 }
 
@@ -57,7 +59,9 @@
   height: 20px;
 }
 
-.MuiBottomNavigation-root .MuiBottomNavigationAction-root:not(.Mui-selected) svg {
+.MuiBottomNavigation-root
+  .MuiBottomNavigationAction-root:not(.Mui-selected)
+  svg {
   width: 30px !important;
   height: 30px;
 }
@@ -121,26 +125,8 @@
 .menuButton.active:not(.expanded) svg {
   color: var(--primaryColor);
 }
-
-.menuButton:hover:not(.active):not(.expanded) svg {
-  color: var(--primary50);
-}
-
-.menuButton:hover:not(.active):not(.expanded) {
-  border-right: 2px solid var(--primary50);
-  width: calc(100% - 2px);
-}
-
 .menuButton.active:not(.expanded) .textual {
   color: var(--primaryColor);
-}
-
-.menuButton:hover:not(.active):not(.expanded) .textual {
-  color: var(--primary50);
-}
-
-.menuButton:not(.expanded):hover {
-  cursor: pointer;
 }
 
 .menuButton.expanded .textual {
@@ -164,10 +150,6 @@
   color: var(--primaryColor);
 }
 
-.fullWidthList .itemlist-btn:hover .itemlist:not(.active) {
-  color: var(--primaryColor) !important;
-}
-
 .fullWidthList .itemlist-btn {
   color: var(--primary50) !important;
 }
@@ -186,10 +168,35 @@
 }
 
 .subMenuBottomAction .MuiBottomNavigationAction-root:not(:last-child) svg {
-  display: none;  
+  display: none;
   transform: none;
 }
 
-.subMenuBottomAction .MuiBottomNavigationAction-root:not(.Mui-selected) .MuiBottomNavigationAction-label {
+.subMenuBottomAction
+  .MuiBottomNavigationAction-root:not(.Mui-selected)
+  .MuiBottomNavigationAction-label {
   height: unset;
+}
+
+@media screen and (min-width: 1255px) {
+  .menuButton:hover:not(.active):not(.expanded) svg {
+    color: var(--primary50);
+  }
+
+  .menuButton:hover:not(.active):not(.expanded) {
+    border-right: 2px solid var(--primary50);
+    width: calc(100% - 2px);
+  }
+
+  .menuButton:hover:not(.active):not(.expanded) .textual {
+    color: var(--primary50);
+  }
+
+  .menuButton:not(.expanded):hover {
+    cursor: pointer;
+  }
+
+  .fullWidthList .itemlist-btn:hover .itemlist:not(.active) {
+    color: var(--primaryColor) !important;
+  }
 }

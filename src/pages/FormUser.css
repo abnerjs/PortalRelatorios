@@ -7,7 +7,7 @@
 }
 
 .formContainer.invi {
-  width: 0; 
+  width: 0;
   opacity: 0;
 }
 
@@ -25,7 +25,7 @@
   align-items: center;
 }
 
-.FormUser>.MuiFormControlLabel-root {
+.FormUser > .MuiFormControlLabel-root {
   width: 100%;
 }
 .FormUser .sectionImage {
@@ -95,15 +95,6 @@
   display: flex;
 }
 
-/*.FormUser .sectionImage .image:hover .img {
-    filter: brightness(60%);
-}*/
-
-.FormUser .sectionImage .image:hover svg {
-  /*display: none;*/
-  z-index: 1;
-}
-
 .FormUser .sectionImage .image .text {
   position: absolute;
   z-index: 2;
@@ -113,14 +104,6 @@
   width: 80px;
   opacity: 0;
   color: white;
-}
-
-/*.FormUser .sectionImage .image .text::after {
-    content: 'Selecione uma imagem';
-}*/
-
-.FormUser .sectionImage .image:hover .text {
-  opacity: 1;
 }
 
 .FormUser .sectionImage .inputs {
@@ -191,5 +174,16 @@
 
   .FormUser {
     width: calc(100% - 40px);
+  }
+}
+
+@media screen and (min-width: 1255px) {
+  .FormUser .sectionImage .image:hover svg {
+    /*display: none;*/
+    z-index: 1;
+  }
+
+  .FormUser .sectionImage .image:hover .text {
+    opacity: 1;
   }
 }

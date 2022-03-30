@@ -23,17 +23,8 @@
   transition: all ease 0.2s;
 }
 
-.tooltip:hover {
-  border: 2px solid var(--primary50);
-  color: var(--primary50);
-}
-
 .tooltip svg {
   transition: all ease 0.2s;
-}
-
-.tooltip:hover svg {
-  color: var(--primary50);
 }
 
 .modal.buttons {
@@ -55,7 +46,7 @@
 }
 
 .MuiBox-root.modalBox-root.filter {
-  transform: translate(-50%,-50%);
+  transform: translate(-50%, -50%);
   transition: all ease 0.3s;
 }
 
@@ -64,7 +55,7 @@
 }
 
 .modalBox-root.filter .row {
-  margin-bottom: 5px;  
+  margin-bottom: 5px;
 }
 
 .filter .formFields {
@@ -76,5 +67,16 @@
   .modalBox-root.filter {
     width: calc(100vw - 80px);
     overflow: auto;
+  }
+}
+
+@media screen and (min-width: 1255px) {
+  .tooltip:hover {
+    border: 2px solid var(--primary50);
+    color: var(--primary50);
+  }
+
+  .tooltip:hover svg {
+    color: var(--primary50);
   }
 }
