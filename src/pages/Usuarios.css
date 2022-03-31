@@ -18,11 +18,12 @@
   display: flex;
   height: 100%;
   max-height: 100%;
-  width: 200%;
+  width: 100%;
   overflow: hidden;
   align-items: flex-start;
   justify-content: flex-start;
   margin-top: 20px;
+  position: relative;
 }
 
 .Usuarios .content > .row.relatorios {
