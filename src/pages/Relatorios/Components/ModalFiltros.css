@@ -65,7 +65,7 @@
 
 @media screen and (max-width: 1254px) {
   .modalBox-root.filter {
-    width: calc(100vw - 80px);
+    width: calc(100% - 40px);
     overflow: auto;
   }
 }

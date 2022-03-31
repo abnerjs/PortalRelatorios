@@ -15,10 +15,7 @@ import {
   tipoArquivoPutRequest,
 } from 'src/store/ducks/tipoArquivo';
 import { objetosGetFilterRequest } from 'src/store/ducks/objetos';
-import {
-  CircularProgress,
-  Button,
-} from '@mui/material';
+import { CircularProgress, Button } from '@mui/material';
 import { Box } from '@mui/system';
 import { TipoArquivo } from 'src/store/ducks/tipoArquivo/types';
 import DmCollapseHandler from 'src/components/DmCollapseHandler/DmCollapseHandler';
@@ -166,8 +163,14 @@ const Form: React.FC<FormProps> = ({ data, isFormOpened }: FormProps) => {
             }
             onChange={(_: any, data: AutocompleteOptions) => {
               clearErrors('flgReferencia');
-              setValue('flgReferencia', data.value);
-              setReferencia(data.value);
+
+              if (data) {
+                setValue('flgReferencia', data.value);
+                if (data) setReferencia(data.value);
+              } else {
+                setValue('flgReferencia', null);
+                setReferencia(null);
+              }
             }}
             label="Selecione o tipo de referência de datas"
             error={!!formState.errors.flgReferencia}
