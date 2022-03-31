@@ -202,7 +202,11 @@ const Form: React.FC<FormProps> = ({
           <Tab disableRipple value="prest" label="Prestadores" />
         </Tabs>
         <div className={`formSectionsController${tabsForm === 'prest' ? ' translate' : ''}`}>
-          <div className="autocompleteContainer">
+          <div className="autocompleteContainer"
+            style={{
+              visibility: tabsForm === 'forn' ? 'visible' : 'hidden',
+            }}
+          >
             <Autocomplete
               multiple
               autoComplete
@@ -261,7 +265,10 @@ const Form: React.FC<FormProps> = ({
               }
             />
           </div>
-          <div className="autocompleteContainer">
+          <div className="autocompleteContainer"
+            style={{
+              visibility: tabsForm === 'prest' ? 'visible' : 'hidden',
+            }}>
             <Autocomplete
               multiple
               noOptionsText="Nenhum prestador"
