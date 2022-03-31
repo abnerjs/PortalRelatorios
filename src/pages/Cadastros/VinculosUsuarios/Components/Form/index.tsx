@@ -304,7 +304,6 @@ const Form: React.FC<FormProps> = ({
                   {...params}
                   label="Prestadores"
                   className="DmTextField"
-                  placeholder="Pesquisar..."
                   variant="filled"
                   InputProps={{ ...params.InputProps, disableUnderline: true }}
                   InputLabelProps={{ shrink: undefined }}

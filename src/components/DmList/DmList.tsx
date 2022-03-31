@@ -60,16 +60,16 @@ const DmList = <T extends unknown>(props: Props<T>) => {
     event: React.MouseEvent<HTMLButtonElement> | null,
     newPage: number
   ) => {
-    props.handleFormOpen(false);
-    props.handlePesquisa('numPagina', newPage + 1);
+    if (props.isFormOpened) props.handleFormOpen(false);
+    props.handlePesquisa('numPagina', (newPage + 1));
   };
 
   const handleChangeRowsPerPage = (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     setRowsPerPage(parseInt(event.target.value, 10));
-    props.handleFormOpen(false);
-    props.handlePesquisa('numPagina', 2);
+    if (props.isFormOpened) props.handleFormOpen(false);
+    props.handlePesquisa('numPagina', 1);
     props.handlePesquisa('itensPorPagina', event.target.value);
   };
   /*FIM PAGINACAO */
