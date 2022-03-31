@@ -7,6 +7,24 @@
 
 .formSectionsController .autocompleteContainer {
   width: 50%;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.formSectionsController
+  .autocompleteContainer
+  .MuiAutocomplete-popperDisablePortal {
+  position: relative;
+  flex: 1;
+}
+
+.formSectionsController
+  .autocompleteContainer
+  .MuiAutocomplete-popperDisablePortal
+  .MuiPaper-root {
+    position: relative;
+    overflow-y: scroll;
 }
 
 .formSectionsController.translate {
