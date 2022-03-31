@@ -98,7 +98,6 @@
   width: 70%;
   margin-top: 10px;
   overflow: auto;
-  padding: 0 25px;
 }
 
 .profile-modal .icon {
@@ -179,10 +178,10 @@
   }
 
   .profile-modal {
-    width: 100vw;
-    max-height: 100vh;
-    height: 100vh;
-    padding: 0;
+    width: calc(100% - 10px);
+    max-height: calc(100% - 100px);
+    height: calc(100% - 100px);
+    padding: 50px 5px;
     border-radius: 0;
     z-index: 1003 !important;
     box-shadow: 10px 10px 40px rgba(0, 0, 0, 0.4);

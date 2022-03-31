@@ -250,19 +250,6 @@ const Form: React.FC<FormProps> = ({
                   InputProps={{
                     ...params.InputProps,
                     disableUnderline: true,
-                    startAdornment: (
-                      <div
-                        style={{
-                          maxHeight: 50,
-                          marginTop: 10,
-                          marginBottom: 5,
-                          marginLeft: 20,
-                          overflowY: 'auto',
-                        }}
-                      >
-                        {params.InputProps.startAdornment}
-                      </div>
-                    ),
                   }}
                   InputLabelProps={{ shrink: undefined }}
                 />
@@ -316,6 +303,7 @@ const Form: React.FC<FormProps> = ({
                 <TextField
                   {...params}
                   label="Prestadores"
+                  className="DmTextField"
                   placeholder="Pesquisar..."
                   variant="filled"
                   InputProps={{ ...params.InputProps, disableUnderline: true }}
