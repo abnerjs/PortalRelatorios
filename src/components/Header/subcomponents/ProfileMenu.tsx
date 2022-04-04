@@ -31,21 +31,18 @@ interface ProfileMenuProps {
 }
 
 const schema = Yup.object({
-  desLogin: Yup.string()
-    .max(200, (params) => `Máximo de ${params.max} caracteres!`)
-    .required(`Campo obrigatório!`),
   desSenha: Yup.string()
     .max(128, (params) => `Máximo de ${params.max} caracteres!`)
     .required(`Campo obrigatório!`),
   desNovaSenha: Yup.string()
     .oneOf([Yup.ref('desConfirmaNovaSenha')], 'Senhas devem ser iguais!')
-    .max(128, (params) => `Máximo de ${params.max} caracteres!`)
-    .min(4, (params) => `Mínimo de ${params.min} caracteres!`)
+    .max(32, (params) => `Máximo de ${params.max} caracteres!`)
+    .min(8, (params) => `Mínimo de ${params.min} caracteres!`)
     .required(`Campo obrigatório!`),
   desConfirmaNovaSenha: Yup.string()
     .oneOf([Yup.ref('desNovaSenha')], 'Senhas devem ser iguais!')
-    .max(128, (params) => `Máximo de ${params.max} caracteres!`)
-    .min(4, (params) => `Mínimo de ${params.min} caracteres!`)
+    .max(32, (params) => `Máximo de ${params.max} caracteres!`)
+    .min(8, (params) => `Mínimo de ${params.min} caracteres!`)
     .required(`Campo obrigatório!`),
 });
 
@@ -210,26 +207,6 @@ const ProfileMenu = (props: ProfileMenuProps) => {
                     isErrorCollapseOpened={isErrorCollapseOpened}
                     setErrorCollapseOpened={setErrorCollapseOpened}
                   />
-                  <Controller
-                    name="desLogin"
-                    control={control}
-                    render={({
-                      field: { ref, onChange, ...rest },
-                      fieldState,
-                    }) => (
-                      <DmTextField
-                        label="Nome de usuário"
-                        secondary
-                        maxLength={200}
-                        error={!!fieldState.error}
-                        onChange={(event: any) =>
-                          onChange(event.target.value.toLowerCase())
-                        }
-                        helperText={fieldState.error?.message}
-                        rest={rest}
-                      />
-                    )}
-                  />
 
                   <Controller
                     name="desSenha"
@@ -254,7 +231,8 @@ const ProfileMenu = (props: ProfileMenuProps) => {
                       <DmTextField
                         label="Nova senha"
                         secondary
-                        maxLength={128}
+                        maxLength={32}
+                        minLength={8}
                         error={!!fieldState.error}
                         type="password"
                         helperText={fieldState.error?.message}
@@ -270,7 +248,8 @@ const ProfileMenu = (props: ProfileMenuProps) => {
                       <DmTextField
                         label="Confirmar nova senha"
                         secondary
-                        maxLength={128}
+                        maxLength={32}
+                        minLength={8}
                         error={!!fieldState.error}
                         type="password"
                         helperText={fieldState.error?.message}

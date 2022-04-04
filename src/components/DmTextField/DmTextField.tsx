@@ -19,6 +19,7 @@ interface Props {
   sx?: any;
   margin?: string;
   maxLength?: number;
+  minLength?: number;
 }
 
 const DmTextField = (props: Props) => {
@@ -47,6 +48,7 @@ const DmTextField = (props: Props) => {
       }}
       inputProps={{
         maxLength: props.maxLength,
+        minLength: props.minLength,
         style: {
           paddingLeft: '20px !important',
         },
