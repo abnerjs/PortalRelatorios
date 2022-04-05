@@ -128,6 +128,10 @@ const Form: React.FC<FormProps> = ({
 
         dispatch(usuariosPrestadoresPostRequest(usuPrest));
       });
+
+      if (deleteForn.length + createForn.length + deletePrest.length + createPrest.length === 0) {
+        onCancel();
+      }
     }
   }
 

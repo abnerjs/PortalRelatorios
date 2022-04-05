@@ -83,6 +83,7 @@ export function* sendDeleteRequest(
 
     yield call(api.delete, `UsuariosPrestadores/v1/${query}`);
     yield put(usuariosPrestadoresDeleteSuccess());
+    yield put(usuariosPrestadoresOperationSuccess());
   } catch (error: any) {
     yield put(usuariosPrestadoresDeleteError(error));
   }

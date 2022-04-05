@@ -93,6 +93,10 @@ export const usuariosFornecedoresSlice = createSlice({
       state.deleteError = undefined;
       state.deleteState = 'success';
     },
+    usuariosFornecedoresIdleOperation: (state) => {
+      state.operationError = undefined;
+      state.operationState = 'idle';
+    },
   },
 });
 
@@ -109,6 +113,7 @@ export const {
   usuariosFornecedoresOperationError,
   usuariosFornecedoresDeleteError,
   usuariosFornecedoresDeleteSuccess,
+  usuariosFornecedoresIdleOperation,
 } = usuariosFornecedoresSlice.actions;
 
 export default usuariosFornecedoresSlice.reducer;

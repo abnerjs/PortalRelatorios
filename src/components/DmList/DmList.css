@@ -2,7 +2,125 @@
   flex: 1;
   margin-top: 20px;
   width: 100%;
+  padding-right: 10px;
   overflow-y: scroll;
+}
+
+.SectionizedTable .rows table {
+  width: 100%;
+}
+
+.SectionizedTable .rows .row {
+  height: 46px;
+  margin: 0;
+  border-radius: 8px;
+  color: #333;
+  overflow: hidden;
+  transition: height ease 0.2s;
+}
+
+.SectionizedTable .rows .row .header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: calc(13px / 2) 20px;
+  height: 33px;
+  cursor: pointer;
+}
+
+.SectionizedTable .rows .row.selected {
+  background-color: white;
+  height: 89.5px;
+}
+
+.SectionizedTable .rows .row.selected.noAction {
+  background-color: white;
+  height: 46px;
+}
+
+.SectionizedTable .rows .row.forprestadores.selected {
+  height: 46px;
+}
+
+.SectionizedTable .rows .row .buttons {
+  display: flex;
+  justify-content: flex-end;
+  margin-right: 20px;
+  margin-top: 5px;
+  height: 30px;
+}
+
+.SectionizedTable .rows .row .buttons .MuiButton-root {
+  height: 28px;
+  width: 100px;
+  font-weight: var(--medium) !important;
+  border-radius: 8px !important;
+  font-size: 12px !important;
+  vertical-align: center;
+  line-height: 12px;
+}
+
+.SectionizedTable .rows .row .buttons .MuiButton-root:first-child {
+  margin-right: 10px;
+}
+
+.SectionizedTable .rows .row .buttons .Mui-disabled {
+  color: rgba(0, 0, 0, 0.5) !important;
+}
+
+.SectionizedTable .rows .row .image {
+  width: 33px;
+  height: 33px;
+  background-color: #1878a1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 16.5px;
+  color: white;
+  margin-right: 10px;
+}
+
+.SectionizedTable .rows .row .header.user div:not(.MuiAvatar-root) {
+  font-size: 12px;
+}
+
+.SectionizedTable .rows .row .header .textual {
+  flex: 1;
+  display: flex;
+  margin-right: 15px;
+  gap: 10px;
+  justify-content: space-between;
+  overflow: hidden;
+  position: relative;
+  mix-blend-mode: multiply;
+}
+
+.SectionizedTable .rows .row .header .overflown.textual::after {
+  position: absolute;
+  content: '';
+  left: 0px;
+  top: 0px;
+  height: 100%;
+  width: 100%;
+  background: linear-gradient(90deg, transparent 70%, white 100%);
+  pointer-events: none;
+}
+
+.SectionizedTable .rows .row .header .nome {
+  white-space: nowrap;
+}
+
+.SectionizedTable .rows .row .header .icon {
+  margin-left: 10px;
+  transition: all ease 0.2s;
+}
+
+.SectionizedTable .rows .row.selected .header .icon {
+  transform: rotate(90deg);
+}
+
+.SectionizedTable .rows .row.selected.noAction .header .icon {
+  transform: rotate(0);
 }
 
 .SectionizedTable .rows.loading {

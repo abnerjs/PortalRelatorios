@@ -17,6 +17,8 @@ import {
 } from 'src/store/ducks/usuarios';
 import { Usuario } from 'src/store/ducks/usuarios/types';
 import DmList from 'src/components/DmList/DmList';
+import { usuariosFornecedoresIdleOperation } from 'src/store/ducks/usuariosFornecedores';
+import { usuariosPrestadoresIdleOperation } from 'src/store/ducks/usuariosPrestadores';
 
 const searchInitValues = {
   init: {
@@ -45,6 +47,9 @@ const VinculosUsuarios = () => {
   const getError = useAppSelector((state) => state.usuarios.error);
   const ufOperationState = useAppSelector(
     (state) => state.usuariosFornecedores.operationState
+  );
+  const upOperationState = useAppSelector(
+    (state) => state.usuariosPrestadores.operationState
   );
 
   useEffect(() => {
@@ -80,12 +85,14 @@ const VinculosUsuarios = () => {
   };
 
   useEffect(() => {
-    if (ufOperationState === 'success') {
+    if (ufOperationState === 'success' || upOperationState === 'success') {
       setUsuario(null);
       setRowSelected(-1);
       setFormOpened(false);
 
       dispatch(usuariosGetRequest(pesquisa.toString()));
+      dispatch(usuariosFornecedoresIdleOperation());
+      dispatch(usuariosPrestadoresIdleOperation());
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [ufOperationState]);

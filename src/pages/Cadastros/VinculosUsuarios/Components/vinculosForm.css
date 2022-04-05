@@ -18,16 +18,45 @@
   position: relative;
   flex: 1;
   z-index: 0;
+  scroll-padding-left: 10px !important;
 }
 
 .formSectionsController
   .autocompleteContainer
   .MuiAutocomplete-popperDisablePortal
   .MuiPaper-root {
-    position: relative;
-    overflow-y: scroll;
+  position: relative;
 }
 
 .formSectionsController.translate {
   transform: translateX(-50%);
 }
+
+.FormUser.flexGrow .MuiAutocomplete-listbox {
+  flex: 1;
+  max-height: none !important;
+  padding-right: 0;
+  width: calc(100% - 10px);
+}
+
+.FormUser.flexGrow .MuiAutocomplete-popper {
+  position: relative !important;
+  transform: none !important;
+  display: flex;
+  flex: 1;
+  width: 100% !important;
+  overflow: auto;
+}
+
+.FormUser.flexGrow .MuiAutocomplete-paper {
+  display: flex;
+  background-color: transparent;
+  width: 100%;
+  box-shadow: none;
+}
+
+.FormUser.flexGrow ul .MuiTypography-root {
+  width: calc(100% - 10px) !important; 
+}
+
+

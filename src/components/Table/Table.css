@@ -11,19 +11,22 @@
   padding: 10px 0;
 }
 
+.Table .row .header .textual {
+  flex: 1;
+}
+
 .principalContent {
   width: calc(100% - 10px);
   height: fit-content;
   overflow-y: scroll !important;
   overflow-x: hidden !important;
-  padding-right: 10px;
   display: flex;
   flex-direction: column;
   position: relative !important;
 }
 
 .scrollable {
-  width: 100%;
+  width: calc(100% - 10px);
   padding-bottom: 10px;
 }
 
@@ -110,8 +113,8 @@
   cursor: pointer;
   height: 20px;
   width: 100px;
-  margin-left: 20px;
-  margin-right: 20px;
+  margin-left: 10px;
+  margin-right: 5px;
   color: white;
   font-weight: var(--semiBold) !important;
   font-size: 12px !important;
@@ -165,7 +168,6 @@
     width: calc(100vw - 50px);
     padding: 0 !important;
     margin: 0 !important;
-    padding-right: 10px !important;
   }
 
   .Table .row.fullView {
