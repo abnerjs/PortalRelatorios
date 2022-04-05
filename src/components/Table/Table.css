@@ -162,9 +162,10 @@
   }
 
   .principalContent {
-    width: calc(100vw - 40px);
+    width: calc(100vw - 50px);
     padding: 0 !important;
     margin: 0 !important;
+    padding-right: 10px !important;
   }
 
   .Table .row.fullView {
@@ -174,9 +175,12 @@
   }
 }
 
+.Table .row.collapsed:not(.fullView) {
+  background-color: white;
+}
+
 @media screen and (min-width: 1255px) {
-  .Table .row:hover,
-  .Table .row.collapsed:not(.fullView) {
+  .Table .row:hover {
     background-color: white;
   }
 }

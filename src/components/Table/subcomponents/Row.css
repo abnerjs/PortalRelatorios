@@ -27,6 +27,11 @@
   background-color: var(--error50) !important;
 }
 
+.iconbutton.more {
+  margin-right: 0 !important;
+  background-color: white;
+}
+
 .confirmdelete {
   background-color: white;
   position: absolute;
@@ -96,6 +101,10 @@
   visibility: visible;
 }
 
+.menuMore .MuiMenuItem-root {
+  justify-content: flex-end;
+}
+
 @media screen and (max-width: 1254px) {
   .Table .row.fullView .textual {
     margin-left: 10px;
@@ -129,6 +138,10 @@
 
   .errorPanel {
     height: 50px;
+  }
+
+  .Table .row .header .icon {
+    color: #555;
   }
 }
 

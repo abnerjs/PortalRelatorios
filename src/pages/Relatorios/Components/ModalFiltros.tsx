@@ -25,6 +25,7 @@ import { DateRangePicker, LocalizationProvider } from '@mui/lab';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import brLocale from 'date-fns/locale/pt-BR';
 import { FiltrosRelatorios } from '../Gerenciamento';
+import useResponsivity from 'src/hooks/useResponsivity';
 
 type Props = {
   open: boolean;
@@ -53,6 +54,7 @@ const ModalUpload = (props: Props) => {
     null,
     null,
   ]);
+  const isMobileView = useResponsivity();
 
   return (
     <Modal
@@ -318,7 +320,8 @@ const ModalUpload = (props: Props) => {
                       &nbsp; também serão incluídas.
                     </React.Fragment>
                   }
-                  placement="right"
+                  placement={isMobileView?'top':'right'}
+                  enterTouchDelay={75}
                 >
                   <IconButton>
                     <Icon icon="fluent:question-16-filled" width={15} />
