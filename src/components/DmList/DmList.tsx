@@ -109,7 +109,6 @@ const DmList = <T extends unknown>(props: Props<T>) => {
       <div
         className={`rows${props.loading ? ' loading' : ''}`}
         style={{
-          overflow: props.loading ? 'hidden' : 'auto',
           height: props.loading ? '100px !important' : 'calc(100% -62px) !important',
         }}
       >

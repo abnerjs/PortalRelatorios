@@ -48,13 +48,6 @@
   margin: 0 20px;
 }
 
-.SectionizedTable .rows {
-  flex: 1;
-  width: 100%;
-  margin-top: 20px;
-  overflow: scroll;
-}
-
 .SectionizedTable .rows table {
   width: 100%;
 }
@@ -259,7 +252,7 @@
   }
 
   .SectionizedTable .rows .row .header {
-    padding: calc(13px / 2) 0;
+    padding: calc(13px / 2) 10px;
   }
 }
 

@@ -1,9 +1,16 @@
+.SectionizedTable .rows {
+  flex: 1;
+  margin-top: 20px;
+  width: 100%;
+  overflow-y: scroll;
+}
+
 .SectionizedTable .rows.loading {
-  overflow: hidden !important;
+  overflow-y: hidden !important;
 }
 
 .rows .loadingSection {
-  overflow: hidden;
+  overflow-y: hidden;
 }
 
 .pagination-table.loading {
@@ -11,7 +18,11 @@
 }
 
 @media screen and (max-width: 1254px) {
-  .SectionizedTable .MuiTablePagination-root {
-    
+  .SectionizedTable .rows {
+    width: calc(100% + 10px);
+  }
+
+  .SectionizedTable .rows {
+    padding-right: 10px;
   }
 }

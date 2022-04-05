@@ -46,6 +46,7 @@ import {
 import { DateRange } from '@mui/lab/DateRangePicker/RangeTypes';
 import DmCollapseHandler from 'src/components/DmCollapseHandler/DmCollapseHandler';
 import DmTextField from 'src/components/DmTextField/DmTextField';
+import useResponsivity from 'src/hooks/useResponsivity';
 
 type Props = {
   sectionModalController: number;
@@ -217,6 +218,8 @@ const Form = (props: Props) => {
   const lstPrestadores = useAppSelector(
     (state) => state.prestadores.filterList
   );
+
+  const isMobileView = useResponsivity();
 
   useEffect(() => {
     if (!props.doc) {
@@ -395,46 +398,74 @@ const Form = (props: Props) => {
         }}
       />
       <form onSubmit={handleSubmit(onSubmit, onError)} className="formUpload">
-        <Card elevation={3}>
-          <CardContent>
-            <Icon icon="fluent:document-bullet-list-20-regular" width={30} />
-            {/* <p className="date">{new Date().toDateString()}</p> */}
-            <h2 className="nameReg">
-              <Controller
-                name="nomArquivo"
-                control={control}
-                render={({ field: { ref, onChange, ...rest }, fieldState }) => (
-                  <TextField
-                    id="nomArquivo"
-                    placeholder="Descrição do relatório"
-                    className="nameRegInput"
-                    multiline
-                    rows={4}
-                    defaultValue={nomArqWhenDocExists || props.file?.name}
-                    variant="filled"
-                    autoFocus
-                    error={!!fieldState.error}
-                    helperText={fieldState.error?.message}
-                    
-                    InputProps={{
-                      disableUnderline: true,
-                    }}
-                    onChange={(e) => setValue('nomArquivo', e.target.value)}
-                  />
-                )}
-              />
-            </h2>
-          </CardContent>
-        </Card>
+        {isMobileView ? (
+          ''
+        ) : (
+          <Card elevation={3}>
+            <CardContent>
+              <Icon icon="fluent:document-bullet-list-20-regular" width={30} />
+              {/* <p className="date">{new Date().toDateString()}</p> */}
+              <h2 className="nameReg">
+                <Controller
+                  name="nomArquivo"
+                  control={control}
+                  render={({
+                    field: { ref, onChange, ...rest },
+                    fieldState,
+                  }) => (
+                    <TextField
+                      id="nomArquivo"
+                      placeholder="Descrição do relatório"
+                      className="nameRegInput"
+                      multiline
+                      rows={4}
+                      defaultValue={nomArqWhenDocExists || props.file?.name}
+                      variant="filled"
+                      autoFocus
+                      error={!!fieldState.error}
+                      helperText={fieldState.error?.message}
+                      InputProps={{
+                        disableUnderline: true,
+                      }}
+                      onChange={(e) => setValue('nomArquivo', e.target.value)}
+                    />
+                  )}
+                />
+              </h2>
+            </CardContent>
+          </Card>
+        )}
 
         <div className="sectionController">
           <div
             className="sectionModal"
             style={{
-              marginLeft: `calc(-${props.sectionModalController * 100}% - ${props.sectionModalController * 50}px)`,
+              marginLeft: `calc(-${props.sectionModalController * 100}% - ${
+                props.sectionModalController * 50
+              }px)`,
             }}
           >
             <div className="formFields">
+              {isMobileView ? (
+                <Controller
+                  name="nomArquivo"
+                  control={control}
+                  render={({ field: { ref, value, ...rest }, fieldState }) => (
+                    <DmTextField
+                      label="Descrição do relatório"
+                      margin="normal"
+                      secondary
+                      tabIndex={props.sectionModalController === 0 ? 0 : -1}
+                      error={!!fieldState.error}
+                      helperText={fieldState.error?.message}
+                      value={value || ''}
+                      rest={rest}
+                    />
+                  )}
+                />
+              ) : (
+                ''
+              )}
               <Controller
                 name="lstCodFornecedores"
                 control={control}
@@ -504,7 +535,6 @@ const Form = (props: Props) => {
                           }}
                           error={!!fieldState.error}
                           helperText={fieldState.error?.message}
-                          
                           {...rest}
                           onFocus={() => setFocusForn(true)}
                           onBlur={() => setFocusForn(false)}
@@ -597,7 +627,6 @@ const Form = (props: Props) => {
                           }}
                           error={!!fieldState.error}
                           helperText={fieldState.error?.message}
-                          
                           {...rest}
                           onFocus={() => setFocusPrest(true)}
                           onBlur={() => setFocusPrest(false)}
@@ -664,7 +693,6 @@ const Form = (props: Props) => {
                           }}
                           error={!!fieldState.error}
                           helperText={fieldState.error?.message}
-                          
                           {...rest}
                         />
                       );
@@ -746,6 +774,7 @@ const Form = (props: Props) => {
                 render={({ field: { ref, value, ...rest }, fieldState }) => (
                   <DmTextField
                     label="Observação"
+                    margin="normal"
                     secondary
                     tabIndex={props.sectionModalController === 1 ? 0 : -1}
                     error={!!fieldState.error}
@@ -825,7 +854,6 @@ const Form = (props: Props) => {
                           }}
                           error={!!fieldState.error}
                           helperText={fieldState.error?.message}
-                          
                           {...rest}
                         />
                       )}
@@ -903,7 +931,6 @@ const Form = (props: Props) => {
                           }}
                           error={!!fieldState.error}
                           helperText={fieldState.error?.message}
-                          
                           {...rest}
                         />
                       )}
@@ -980,7 +1007,6 @@ const Form = (props: Props) => {
                             }}
                             error={!!fieldState.error}
                             helperText={fieldState.error?.message}
-                            
                             {...rest}
                           />
                           <Box
@@ -1016,7 +1042,6 @@ const Form = (props: Props) => {
                             }}
                             error={!!fieldState.error}
                             helperText={fieldState.error?.message}
-                            
                             {...rest}
                             onBlur={() => {
                               if (
@@ -1111,7 +1136,6 @@ const Form = (props: Props) => {
                           }}
                           error={!!fieldState.error}
                           helperText={fieldState.error?.message}
-                          
                           {...rest}
                         />
                       )}

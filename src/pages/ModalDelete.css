@@ -53,3 +53,9 @@
   font-weight: 500;
   position: relative;
 }
+
+@media screen and (max-width: 1254px) {
+  .modal-confirm-delete {
+    width: calc(100vw - 100px);
+  }
+}
