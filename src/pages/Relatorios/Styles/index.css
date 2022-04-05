@@ -84,6 +84,7 @@
 
 .row.tables .column .Table {
   margin-bottom: 10px;
+  width: 100%;
 }
 
 .row .column:last-child .Table {
@@ -93,7 +94,7 @@
 }
 
 .row.tables .column:not(.loading):last-child {
-  overflow: auto;
+  overflow-y: scroll;
   position: relative;
   width: 100%;
 }
@@ -117,6 +118,7 @@
 
 .row .column .filesTypes {
   width: calc(100% - 15px);
+  overflow-x: hidden;
 }
 
 .btnUpload {
@@ -211,12 +213,13 @@
   }
 
   .row.tables .column {
-    width: calc(100vw - 20px) !important;
+    width: calc(100vw - 30px) !important;
     transition: all ease 0.4s;
+    overflow: hidden;
   }
 
   .row.tables.drag .column {
-    transform: translateX(calc(-100vw - 10px));
+    transform: translateX(calc(-100vw));
   }
 
   .sectionsController {
@@ -228,10 +231,12 @@
 
   .row .column:last-child .Table {
     max-height: 305px;
+    overflow: hidden;
   }
 
   .row .column .filesTypes {
     width: 100%;
+    padding-right: 10px;
   }
 }
 
