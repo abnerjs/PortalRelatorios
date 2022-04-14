@@ -244,4 +244,8 @@
     color: var(--primary50);
     border-color: var(--primary50);
   }
+
+  .row.tables.overview .column {
+    width: 200% !important;
+  }
 }
