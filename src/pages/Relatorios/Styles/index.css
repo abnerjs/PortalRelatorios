@@ -77,6 +77,7 @@
   width: 100%;
   overflow: auto;
   display: flex;
+  overflow-x: hidden !important;
   flex-direction: column;
   height: 100%;
   max-height: 100%;
@@ -89,8 +90,6 @@
 
 .row .column:last-child .Table {
   position: relative;
-  height: fit-content;
-  max-height: 305px;
 }
 
 .row.tables .column:not(.loading):last-child {
@@ -230,7 +229,6 @@
   }
 
   .row .column:last-child .Table {
-    max-height: 305px;
     overflow: hidden;
   }
 

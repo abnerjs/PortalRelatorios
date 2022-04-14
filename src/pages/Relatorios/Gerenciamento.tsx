@@ -217,7 +217,7 @@ const Gerenciamento = () => {
         </div>
 
         <div
-          className="row overview"
+          className="row tables overview"
           style={{
             gridTemplateColumns:
               arquivosState === 's' && arquivosByTipo?.length === 0
