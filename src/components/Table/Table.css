@@ -2,7 +2,6 @@
   display: flex;
   flex-direction: column;
   flex: 1;
-  height: 100%;
   position: relative;
   background-color: var(--bgColor);
 }
@@ -17,8 +16,7 @@
 
 .principalContent {
   width: calc(100% - 10px);
-  height: fit-content;
-  overflow-y: scroll !important;
+  overflow-y: hidden !important;
   overflow-x: hidden !important;
   display: flex;
   flex-direction: column;
@@ -26,7 +24,7 @@
 }
 
 .scrollable {
-  width: calc(100% - 10px);
+  width: 100%;
   padding-bottom: 10px;
 }
 
