@@ -55,6 +55,7 @@
     "@types/react-transition-group": "^4.4.4",
     "@types/react-window": "^1.8.5",
     "@types/yup": "^0.29.14",
+    "prettier": "^2.6.2",
     "react-swipeable-views": "^0.14.0",
     "typescript": "4.4.4"
   },
