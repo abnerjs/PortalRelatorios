@@ -8,21 +8,14 @@ import {
   relatoriosDownloadSuccess,
 } from 'src/store/ducks/relatorios';
 
-function downloadFile(
-  data: any,
-  fileName: string | null,
-  fileExtension: string
-): void {
+function downloadFile(data: any, fileName: string | null, fileExtension: string): void {
   const blob = new Blob([data]);
 
   const fileURL = global.window.URL.createObjectURL(blob);
   const fileLink = global.window.document.createElement('a');
 
   fileLink.setAttribute('href', fileURL);
-  fileLink.setAttribute(
-    'download',
-    `${fileName ?? 'download'}.${fileExtension}`
-  );
+  fileLink.setAttribute('download', `${fileName ?? 'download'}.${fileExtension}`);
 
   global.window.document.body.appendChild(fileLink);
 
@@ -43,19 +36,13 @@ function getFileNameFromHeader(responseHeaders: any): string | null {
   }
 }
 
-export function* sendDownloadRequest(
-  action: ReturnType<typeof relatoriosDownloadRequest>
-) {
+export function* sendDownloadRequest(action: ReturnType<typeof relatoriosDownloadRequest>) {
   try {
     const query = action.payload.query ?? '';
 
-    const response: AxiosResponse<Blob> = yield call(
-      api.get,
-      `${action.payload.url}${query}`,
-      {
-        responseType: 'blob',
-      }
-    );
+    const response: AxiosResponse<Blob> = yield call(api.get, `${action.payload.url}${query}`, {
+      responseType: 'blob',
+    });
     const fileName = getFileNameFromHeader(response.headers);
     const blobURL = URL.createObjectURL(response.data);
 
@@ -67,6 +54,4 @@ export function* sendDownloadRequest(
   }
 }
 
-export default all([
-  takeLatest(relatoriosDownloadRequest, sendDownloadRequest),
-]);
+export default all([takeLatest(relatoriosDownloadRequest, sendDownloadRequest)]);

@@ -109,8 +109,7 @@
   transition: all ease 0.3s;
 }
 
-:not(.MuiDialog-paperWidthSm)
-  .MuiButton-root.tertiary.Mui-focusVisible:not(.active) {
+:not(.MuiDialog-paperWidthSm) .MuiButton-root.tertiary.Mui-focusVisible:not(.active) {
   border-color: var(--primary50) !important;
   color: var(--primary50) !important;
 }
@@ -355,8 +354,7 @@
 }
 
 @media screen and (min-width: 1255px) {
-  :not(.MuiDialog-paperWidthSm)
-    .MuiButton-root.tertiary:hover:not(.Mui-focusVisible):not(.active) {
+  :not(.MuiDialog-paperWidthSm) .MuiButton-root.tertiary:hover:not(.Mui-focusVisible):not(.active) {
     border-color: var(--primary50) !important;
     color: var(--primary50) !important;
   }

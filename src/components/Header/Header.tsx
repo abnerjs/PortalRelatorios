@@ -17,7 +17,6 @@ const Header = (props: { title: any }) => {
     return e?.scrollWidth > e?.clientWidth || e?.scrollHeight > e?.clientHeight;
   };
 
-
   useEffect(() => {
     let titleElem = document.getElementsByClassName('Header')[0]?.getElementsByTagName('h5')[0];
     if (isOverflown(titleElem)) titleElem.classList.add('overflown');
@@ -29,9 +28,7 @@ const Header = (props: { title: any }) => {
       <div className="right">
         <div className="acesso">
           <Typography variant="subtitle1">Último acesso</Typography>
-          <Typography variant="subtitle1">
-            {new Date().toLocaleString()}
-          </Typography>
+          <Typography variant="subtitle1">{new Date().toLocaleString()}</Typography>
         </div>
         <ProfileMenu onLogout={handleLogout} />
       </div>

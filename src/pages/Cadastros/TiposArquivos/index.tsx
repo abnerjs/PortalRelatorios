@@ -48,9 +48,7 @@ const TiposArquivos = () => {
   const getError = useAppSelector((state) => state.tipoArquivo.error);
   const errors = useAppSelector((state) => state.tipoArquivo.deleteError);
   const deleteState = useAppSelector((state) => state.tipoArquivo.deleteState);
-  const operationState = useAppSelector(
-    (state) => state.tipoArquivo.operationState
-  );
+  const operationState = useAppSelector((state) => state.tipoArquivo.operationState);
 
   const handleChangeSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
     handlePesquisa('filtroPadrao', event.target.value);
@@ -84,9 +82,7 @@ const TiposArquivos = () => {
   };
 
   let arrElems = document.getElementsByClassName('textual');
-  let deleteModalElem = document
-    .getElementsByClassName('userInfo')[0]
-    ?.getElementsByTagName('p')[0];
+  let deleteModalElem = document.getElementsByClassName('userInfo')[0]?.getElementsByTagName('p')[0];
 
   useEffect(() => {
     for (let elem of arrElems) {
@@ -96,10 +92,8 @@ const TiposArquivos = () => {
 
   useEffect(() => {
     setTimeout(() => {
-      if (isOverflown(deleteModalElem))
-        deleteModalElem.classList.add('overflown');
+      if (isOverflown(deleteModalElem)) deleteModalElem.classList.add('overflown');
     }, 505);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   });
 
   useEffect(() => {
@@ -118,7 +112,6 @@ const TiposArquivos = () => {
       setNewUserSection(false);
       dispatch(tipoArquivoIdleOperation());
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [operationState]);
 
   return (
@@ -126,15 +119,11 @@ const TiposArquivos = () => {
       <div className="content">
         <div className="head">
           <Header title="Tipos de arquivos" />
-          <Typography variant="subtitle1">
-            Todos os tipos de arquivos do sistema
-          </Typography>
+          <Typography variant="subtitle1">Todos os tipos de arquivos do sistema</Typography>
         </div>
         <div className="row">
           <div className={`tableContainer${isFormOpened ? '' : ' formInvi'}`}>
-            <div
-              className={`SectionizedTable${isFormOpened ? '' : ' formInvi'}`}
-            >
+            <div className={`SectionizedTable${isFormOpened ? '' : ' formInvi'}`}>
               <div className="search">
                 <Icon
                   icon="fluent:search-12-regular"
@@ -162,17 +151,9 @@ const TiposArquivos = () => {
               <Button
                 onClick={() => handleFormOpen(true, true)}
                 variant="contained"
-                className={`tertiary${
-                  isFormOpened && isNewUserSection ? ' active' : ''
-                }`}
+                className={`tertiary${isFormOpened && isNewUserSection ? ' active' : ''}`}
                 fullWidth
-                startIcon={
-                  <Icon
-                    icon="fluent:add-16-regular"
-                    width={25}
-                    className="icon"
-                  />
-                }
+                startIcon={<Icon icon="fluent:add-16-regular" width={25} className="icon" />}
               >
                 NOVO TIPO DE ARQUIVO
               </Button>

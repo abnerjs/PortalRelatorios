@@ -28,10 +28,7 @@ export function* sendGetRequest(action: ReturnType<typeof usuariosGetRequest>) {
   try {
     const query = action.payload ?? '';
 
-    const response: AxiosResponse<RespostaApi<Usuario>> = yield call(
-      api.get,
-      `Usuarios/v1/${query}`
-    );
+    const response: AxiosResponse<RespostaApi<Usuario>> = yield call(api.get, `Usuarios/v1/${query}`);
 
     yield put(usuariosGetSuccess(response.data));
   } catch (error: any) {
@@ -39,9 +36,7 @@ export function* sendGetRequest(action: ReturnType<typeof usuariosGetRequest>) {
   }
 }
 
-export function* sendGetFilterRequest(
-  action: ReturnType<typeof usuariosGetFilterRequest>
-) {
+export function* sendGetFilterRequest(action: ReturnType<typeof usuariosGetFilterRequest>) {
   try {
     const query = action.payload ?? '';
 
@@ -56,9 +51,7 @@ export function* sendGetFilterRequest(
   }
 }
 
-export function* sendPostRequest(
-  action: ReturnType<typeof usuariosPostRequest>
-) {
+export function* sendPostRequest(action: ReturnType<typeof usuariosPostRequest>) {
   try {
     yield call(api.post, `Usuarios/v1/`, action.payload);
     yield put(usuariosOperationSuccess());
@@ -76,9 +69,7 @@ export function* sendPutRequest(action: ReturnType<typeof usuariosPutRequest>) {
   }
 }
 
-export function* sendDeleteRequest(
-  action: ReturnType<typeof usuariosDeleteRequest>
-) {
+export function* sendDeleteRequest(action: ReturnType<typeof usuariosDeleteRequest>) {
   try {
     const query = `?idRelUsuario=${action.payload.idRelUsuario}`;
 
@@ -89,9 +80,7 @@ export function* sendDeleteRequest(
   }
 }
 
-export function* sendChangePasswordRequest(
-  action: ReturnType<typeof changeUsuarioPasswordRequest>
-) {
+export function* sendChangePasswordRequest(action: ReturnType<typeof changeUsuarioPasswordRequest>) {
   try {
     yield call(api.post, `Usuarios/v1/alterarSenha/`, action.payload);
     yield put(changeUsuarioPasswordSuccess());
@@ -100,9 +89,7 @@ export function* sendChangePasswordRequest(
   }
 }
 
-export function* sendChangeActiveFlagRequest(
-  action: ReturnType<typeof usuariosChangeFlagActiveRequest>
-) {
+export function* sendChangeActiveFlagRequest(action: ReturnType<typeof usuariosChangeFlagActiveRequest>) {
   try {
     let u: Usuario = {
       codColaborador: action.payload.codColaborador,

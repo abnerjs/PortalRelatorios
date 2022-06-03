@@ -17,25 +17,16 @@ const Confirmation: React.FC = (props: any) => {
       </div>
       <ReactCodeInput fields={6} className="VerifyCodeInput" autoFocus={true} />
       <Link to="/change-password">
-        <Button type="submit" variant="contained"
-          fullWidth>
+        <Button type="submit" variant="contained" fullWidth>
           CONFIRMAR
         </Button>
       </Link>
       <Link to="/">
-        <Button
-          variant="contained"
-          className="secondary"
-          style={{ marginTop: 8 }}
-          fullWidth
-        >
+        <Button variant="contained" className="secondary" style={{ marginTop: 8 }} fullWidth>
           CANCELAR
         </Button>
       </Link>
-      <h4 className="hint">
-        Caso não tenha acesso a esse email, entre em contato com um
-        administrador do sistema.
-      </h4>
+      <h4 className="hint">Caso não tenha acesso a esse email, entre em contato com um administrador do sistema.</h4>
     </form>
   );
 };

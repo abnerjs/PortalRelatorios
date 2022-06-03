@@ -49,12 +49,10 @@ export function renderRow(props: ListChildComponentProps) {
 
 const OuterElementContext = React.createContext({});
 
-export const OuterElementType = React.forwardRef<HTMLDivElement>(
-  (props, ref) => {
-    const outerProps = React.useContext(OuterElementContext);
-    return <div ref={ref} {...props} {...outerProps} />;
-  }
-);
+export const OuterElementType = React.forwardRef<HTMLDivElement>((props, ref) => {
+  const outerProps = React.useContext(OuterElementContext);
+  return <div ref={ref} {...props} {...outerProps} />;
+});
 
 export function useResetCache(data: any) {
   const ref = React.useRef<VariableSizeList>(null);
@@ -66,62 +64,58 @@ export function useResetCache(data: any) {
   return ref;
 }
 
-export const ListboxComponent = React.forwardRef<
-  HTMLDivElement,
-  React.HTMLAttributes<HTMLElement>
->(function ListboxComponent(props, ref) {
-  const { children, ...other } = props;
-  const itemData: React.ReactChild[] = [];
-  (children as React.ReactChild[]).forEach(
-    (item: React.ReactChild & { children?: React.ReactChild[] }) => {
+export const ListboxComponent = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLElement>>(
+  function ListboxComponent(props, ref) {
+    const { children, ...other } = props;
+    const itemData: React.ReactChild[] = [];
+    (children as React.ReactChild[]).forEach((item: React.ReactChild & { children?: React.ReactChild[] }) => {
       itemData.push(item);
       itemData.push(...(item.children || []));
-    }
-  );
+    });
 
-  const theme = useTheme();
-  const smUp = useMediaQuery(theme.breakpoints.up('sm'), {
-    noSsr: true,
-  });
-  const itemCount = itemData.length;
-  const itemSize = smUp ? 36 : 48;
+    const theme = useTheme();
+    const smUp = useMediaQuery(theme.breakpoints.up('sm'), {
+      noSsr: true,
+    });
+    const itemCount = itemData.length;
+    const itemSize = smUp ? 36 : 48;
 
-  const getChildSize = (child: React.ReactChild) => {
-    if (child.hasOwnProperty('group')) {
-      return 48;
-    }
+    const getChildSize = (child: React.ReactChild) => {
+      if (child.hasOwnProperty('group')) {
+        return 48;
+      }
 
-    return itemSize;
-  };
+      return itemSize;
+    };
 
-  const getHeight = () => {
-    if (itemCount > 16) {
-      return 16 * itemSize;
-    }
-    return itemData.map(getChildSize).reduce((a, b) => a + b, 0);
-  };
+    const getHeight = () => {
+      if (itemCount > 16) {
+        return 16 * itemSize;
+      }
+      return itemData.map(getChildSize).reduce((a, b) => a + b, 0);
+    };
 
-
-  return (
-    <div ref={ref} style={{ width: '100%' }}>
-      <OuterElementContext.Provider value={other}>
-        <VariableSizeList
-          itemData={itemData}
-          height={getHeight() + 2 * LISTBOX_PADDING}
-          width="100%"
-          outerElementType={OuterElementType}
-          innerElementType="ul"
-          itemSize={(index) => getChildSize(itemData[index])}
-          overscanCount={8}
-          itemCount={itemCount}
-          style={{ height: '100%' }}
-        >
-          {renderRow}
-        </VariableSizeList>
-      </OuterElementContext.Provider>
-    </div>
-  );
-});
+    return (
+      <div ref={ref} style={{ width: '100%' }}>
+        <OuterElementContext.Provider value={other}>
+          <VariableSizeList
+            itemData={itemData}
+            height={getHeight() + 2 * LISTBOX_PADDING}
+            width="100%"
+            outerElementType={OuterElementType}
+            innerElementType="ul"
+            itemSize={(index) => getChildSize(itemData[index])}
+            overscanCount={8}
+            itemCount={itemCount}
+            style={{ height: '100%' }}
+          >
+            {renderRow}
+          </VariableSizeList>
+        </OuterElementContext.Provider>
+      </div>
+    );
+  }
+);
 
 export const StyledPopper = styled(Popper)({
   [`& .${autocompleteClasses.listbox}`]: {

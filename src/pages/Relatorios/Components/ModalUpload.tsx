@@ -62,14 +62,8 @@ const ModalUpload = (props: Props) => {
                   <section className="dropfilesContainer">
                     <div
                       {...getRootProps({
-                        className: `dropzone${
-                          isUnsuportedFile && isUnsuportedStyle
-                            ? ' unsuportedAlert'
-                            : ''
-                        }${
-                          file !== null || props.doc !== undefined
-                            ? ' dropzoneFilled'
-                            : ''
+                        className: `dropzone${isUnsuportedFile && isUnsuportedStyle ? ' unsuportedAlert' : ''}${
+                          file !== null || props.doc !== undefined ? ' dropzoneFilled' : ''
                         }${blink ? ' blink' : ''}`,
                       })}
                       style={{
@@ -78,18 +72,9 @@ const ModalUpload = (props: Props) => {
                     >
                       <div
                         style={{
-                          position:
-                            file !== null || props.doc !== undefined
-                              ? 'absolute'
-                              : 'relative',
-                          opacity:
-                            file !== null || props.doc !== undefined
-                              ? '0'
-                              : '1',
-                          visibility:
-                            file !== null || props.doc !== undefined
-                              ? 'hidden'
-                              : 'visible',
+                          position: file !== null || props.doc !== undefined ? 'absolute' : 'relative',
+                          opacity: file !== null || props.doc !== undefined ? '0' : '1',
+                          visibility: file !== null || props.doc !== undefined ? 'hidden' : 'visible',
                           display: 'flex',
                           flexDirection: 'column',
                           alignItems: 'center',
@@ -100,10 +85,7 @@ const ModalUpload = (props: Props) => {
                         }}
                       >
                         <input {...getInputProps()} />
-                        <Icon
-                          icon="fluent:arrow-upload-16-regular"
-                          width={25}
-                        />
+                        <Icon icon="fluent:arrow-upload-16-regular" width={25} />
                         <p>
                           {isUnsuportedFile
                             ? 'FORMATO DE ARQUIVO NÃO SUPORTADO! ESPERA-SE: .pdf'
@@ -113,26 +95,19 @@ const ModalUpload = (props: Props) => {
 
                       <div
                         className={`modalControllerContainer${
-                          file !== null || props.doc !== undefined
-                            ? ' filled'
-                            : ''
+                          file !== null || props.doc !== undefined ? ' filled' : ''
                         }`}
                       >
                         <div
                           style={{
-                            display:
-                              file === null && props.doc === undefined
-                                ? 'none'
-                                : 'flex',
+                            display: file === null && props.doc === undefined ? 'none' : 'flex',
                             flexDirection: 'column',
                             width: '100%',
                           }}
                         >
                           <Form
                             sectionModalController={sectionModalController}
-                            setSectionModalController={
-                              setSectionModalController
-                            }
+                            setSectionModalController={setSectionModalController}
                             file={file}
                             setFile={setFile}
                             setOpen={props.setOpen}
@@ -144,9 +119,7 @@ const ModalUpload = (props: Props) => {
                     </div>
                   </section>
                   <div
-                    className={`closeModalMobileButton${
-                      file === null && props.doc === undefined ? '' : ' hasItem'
-                    }`}
+                    className={`closeModalMobileButton${file === null && props.doc === undefined ? '' : ' hasItem'}`}
                   >
                     <Button
                       onClick={() => {

@@ -19,9 +19,7 @@ import {
 } from 'src/store/ducks/usuariosFornecedores';
 import { UsuarioFornecedor } from 'src/store/ducks/usuariosFornecedores/types';
 
-export function* sendGetRequest(
-  action: ReturnType<typeof usuariosFornecedoresGetRequest>
-) {
+export function* sendGetRequest(action: ReturnType<typeof usuariosFornecedoresGetRequest>) {
   try {
     const query = action.payload ?? '';
 
@@ -36,9 +34,7 @@ export function* sendGetRequest(
   }
 }
 
-export function* sendGetFilterRequest(
-  action: ReturnType<typeof usuariosFornecedoresGetFilterRequest>
-) {
+export function* sendGetFilterRequest(action: ReturnType<typeof usuariosFornecedoresGetFilterRequest>) {
   try {
     const query = action.payload ?? '';
 
@@ -51,9 +47,7 @@ export function* sendGetFilterRequest(
   } catch (error) {}
 }
 
-export function* sendPostRequest(
-  action: ReturnType<typeof usuariosFornecedoresPostRequest>
-) {
+export function* sendPostRequest(action: ReturnType<typeof usuariosFornecedoresPostRequest>) {
   try {
     yield call(api.post, `UsuariosFornecedores/v1/`, action.payload);
     yield put(usuariosFornecedoresOperationSuccess());
@@ -62,9 +56,7 @@ export function* sendPostRequest(
   }
 }
 
-export function* sendPutRequest(
-  action: ReturnType<typeof usuariosFornecedoresPutRequest>
-) {
+export function* sendPutRequest(action: ReturnType<typeof usuariosFornecedoresPutRequest>) {
   try {
     yield call(api.put, `UsuariosFornecedores/v1/`, action.payload);
     yield put(usuariosFornecedoresOperationSuccess());
@@ -73,9 +65,7 @@ export function* sendPutRequest(
   }
 }
 
-export function* sendDeleteRequest(
-  action: ReturnType<typeof usuariosFornecedoresDeleteRequest>
-) {
+export function* sendDeleteRequest(action: ReturnType<typeof usuariosFornecedoresDeleteRequest>) {
   try {
     const { idRelUsuario, codFornecedor } = action.payload;
 

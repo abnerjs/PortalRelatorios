@@ -20,16 +20,9 @@ import CheckIcon from '@mui/icons-material/Check';
 import brLocale from 'date-fns/locale/pt-BR';
 import React, { useEffect, useState } from 'react';
 import { SubmitHandler, Controller, useForm } from 'react-hook-form';
-import {
-  StyledPopper,
-  ListboxComponent,
-} from 'src/pages/Cadastros/VinculosUsuarios/Components/Autocomplete';
+import { StyledPopper, ListboxComponent } from 'src/pages/Cadastros/VinculosUsuarios/Components/Autocomplete';
 import { TipoArquivo } from 'src/store/ducks/tipoArquivo/types';
-import {
-  ArquivoUpdate,
-  ArquivoUpload,
-  ArquivoUploadReceiveFormat,
-} from 'src/store/ducks/relatoriosUpload/types';
+import { ArquivoUpdate, ArquivoUpload, ArquivoUploadReceiveFormat } from 'src/store/ducks/relatoriosUpload/types';
 import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useAppDispatch, useAppSelector } from 'src/store';
@@ -89,64 +82,44 @@ const autocompleteUniqueProps = {
 };
 
 const schema = Yup.object({
-  idRelTpArquivo: Yup.number()
-    .nullable()
-    .default(null)
-    .required('Campo obrigatório!'),
+  idRelTpArquivo: Yup.number().nullable().default(null).required('Campo obrigatório!'),
   idRelArquivo: Yup.number(),
   formFile: Yup.mixed().notRequired(),
   substituirExistentes: Yup.boolean(),
   lstCodFornecedores: Yup.array(),
   lstCodPrestadores: Yup.array(),
-  nomArquivo: Yup.string()
-    .nullable()
-    .default(null)
-    .required('Campo obrigatório!'),
+  nomArquivo: Yup.string().nullable().default(null).required('Campo obrigatório!'),
   desObs: Yup.string(),
   codAno: Yup.number()
     .nullable()
     .default(null)
     .when('idRelTpArquivo', {
-      is: (value: TipoArquivo | null) =>
-        value !== null && value.flgReferencia
-          ? 'A' === value.flgReferencia
-          : false,
-      then: Yup.number()
-        .typeError('Campo obrigatório!')
-        .required('Campo obrigatório!'),
+      is: (value: TipoArquivo | null) => (value !== null && value.flgReferencia ? 'A' === value.flgReferencia : false),
+      then: Yup.number().typeError('Campo obrigatório!').required('Campo obrigatório!'),
     }),
   codMes: Yup.number()
     .nullable()
     .default(null)
     .typeError('Data inválida!')
     .when('idRelTpArquivo', {
-      is: (value: TipoArquivo | null) =>
-        value?.flgReferencia ? 'M' === value.flgReferencia : false,
-      then: Yup.number()
-        .typeError('Campo obrigatório!')
-        .required('Campo obrigatório!'),
+      is: (value: TipoArquivo | null) => (value?.flgReferencia ? 'M' === value.flgReferencia : false),
+      then: Yup.number().typeError('Campo obrigatório!').required('Campo obrigatório!'),
     }),
   dtaIni: Yup.string()
     .nullable()
     .default(null)
     .typeError('Data inválida!')
     .when('idRelTpArquivo', {
-      is: (value: TipoArquivo | null) =>
-        value?.flgReferencia ? 'D' === value.flgReferencia : false,
-      then: Yup.string()
-        .typeError('Campo obrigatório!')
-        .required('Campo obrigatório!'),
+      is: (value: TipoArquivo | null) => (value?.flgReferencia ? 'D' === value.flgReferencia : false),
+      then: Yup.string().typeError('Campo obrigatório!').required('Campo obrigatório!'),
     }),
   dtaFim: Yup.string()
     .nullable()
     .default(null)
     .typeError('Data inválida!')
     .when('idRelTpArquivo', {
-      is: (value: TipoArquivo | null) =>
-        value?.flgReferencia ? 'P' === value.flgReferencia : false,
-      then: Yup.string()
-        .typeError('Campo obrigatório!')
-        .required('Campo obrigatório!'),
+      is: (value: TipoArquivo | null) => (value?.flgReferencia ? 'P' === value.flgReferencia : false),
+      then: Yup.string().typeError('Campo obrigatório!').required('Campo obrigatório!'),
     }),
 }).test(
   'is-optional',
@@ -192,31 +165,18 @@ const Form = (props: Props) => {
   const [forns, setFornecedores] = useState<TipoFiltro[]>([]);
   const [prests, setPrestadores] = useState<TipoFiltro[]>([]);
   const [tipoArquivo, setTipoArquivo] = useState<TipoArquivo | null>(null);
-  const [yearOnlyDatePicker, setYearOnlyDatePicker] = useState<Date | null>(
-    null
-  );
+  const [yearOnlyDatePicker, setYearOnlyDatePicker] = useState<Date | null>(null);
   const [dateOnly, setDateOnly] = useState<Date | null>(null);
-  const [yearAndMonthDatePicker, setYearAndMonthDatePicker] =
-    useState<Date | null>(null);
+  const [yearAndMonthDatePicker, setYearAndMonthDatePicker] = useState<Date | null>(null);
   const [datePeriodo, setDatePeriodo] = useState<DateRange<Date>>([null, null]);
-  const [nomArqWhenDocExists, setNomArqWhenDocExists] = useState<string | null>(
-    null
-  );
+  const [nomArqWhenDocExists, setNomArqWhenDocExists] = useState<string | null>(null);
   const [isErrorCollapseOpened, setErrorCollapseOpened] = useState(false);
 
   const tiposArquivos = useAppSelector((state) => state.tipoArquivo.data);
-  const uploadError = useAppSelector(
-    (state) => state.arquivoUpload.uploadError
-  );
-  const uploadState = useAppSelector(
-    (state) => state.arquivoUpload.uploadState
-  );
-  const lstFornecedores = useAppSelector(
-    (state) => state.fornecedores.filterList
-  );
-  const lstPrestadores = useAppSelector(
-    (state) => state.prestadores.filterList
-  );
+  const uploadError = useAppSelector((state) => state.arquivoUpload.uploadError);
+  const uploadState = useAppSelector((state) => state.arquivoUpload.uploadState);
+  const lstFornecedores = useAppSelector((state) => state.fornecedores.filterList);
+  const lstPrestadores = useAppSelector((state) => state.prestadores.filterList);
 
   const isMobileView = useResponsivity();
 
@@ -224,7 +184,6 @@ const Form = (props: Props) => {
     if (!props.doc) {
       setValue('substituirExistentes', false);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -233,16 +192,11 @@ const Form = (props: Props) => {
       setNomArqWhenDocExists(props.file.name);
       setValue('formFile', props.file);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.file]);
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     if (props.doc && props.doc.idRelTpArquivo && tiposArquivos) {
-      let tipoArquivoWhenEdit =
-        tiposArquivos.find(
-          (item) => props.doc?.idRelTpArquivo === item.idRelTpArquivo
-        ) || null;
+      let tipoArquivoWhenEdit = tiposArquivos.find((item) => props.doc?.idRelTpArquivo === item.idRelTpArquivo) || null;
 
       setTipoArquivo(tipoArquivoWhenEdit);
 
@@ -251,9 +205,7 @@ const Form = (props: Props) => {
 
       if (props.doc.lstCodFornecedores) {
         setFornecedores(
-          lstFornecedores.filter((value) =>
-            props.doc?.lstCodFornecedores?.includes(parseInt(value.codigo))
-          )
+          lstFornecedores.filter((value) => props.doc?.lstCodFornecedores?.includes(parseInt(value.codigo)))
         );
         setValue('lstCodFornecedores', props.doc.lstCodFornecedores);
       }
@@ -261,9 +213,7 @@ const Form = (props: Props) => {
       if (props.doc.lstCodPrestadores) {
         setValue('lstCodPrestadores', props.doc.lstCodPrestadores);
         setPrestadores(
-          lstPrestadores.filter((value) =>
-            props.doc?.lstCodPrestadores?.includes(parseInt(value.codigo))
-          )
+          lstPrestadores.filter((value) => props.doc?.lstCodPrestadores?.includes(parseInt(value.codigo)))
         );
       }
 
@@ -298,10 +248,8 @@ const Form = (props: Props) => {
         setValue('dtaIni', props.doc.dtaIni);
       }
 
-      if (props.doc.idRelArquivo)
-        setValue('idRelArquivo', props.doc.idRelArquivo);
+      if (props.doc.idRelArquivo) setValue('idRelArquivo', props.doc.idRelArquivo);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.doc, tiposArquivos]);
 
   useEffect(() => {
@@ -326,7 +274,6 @@ const Form = (props: Props) => {
         setValue('dtaFim', null);
         break;
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [tipoArquivo]);
 
   const dispatch = useAppDispatch();
@@ -336,11 +283,10 @@ const Form = (props: Props) => {
     dispatch(tipoArquivoGetRequest());
   }, [dispatch]);
 
-  const { trigger, clearErrors, handleSubmit, reset, setValue, control } =
-    useForm<FormProps>({
-      resolver: yupResolver(schema),
-      defaultValues: defaultValues,
-    });
+  const { trigger, clearErrors, handleSubmit, reset, setValue, control } = useForm<FormProps>({
+    resolver: yupResolver(schema),
+    defaultValues: defaultValues,
+  });
 
   const onSubmit: SubmitHandler<ArquivoUpload | ArquivoUpdate> = (values) => {
     if (props.doc) {
@@ -379,7 +325,6 @@ const Form = (props: Props) => {
     }
 
     setErrorCollapseOpened(uploadError !== undefined);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [uploadState]);
 
   const [focusForn, setFocusForn] = useState(false);
@@ -408,10 +353,7 @@ const Form = (props: Props) => {
                 <Controller
                   name="nomArquivo"
                   control={control}
-                  render={({
-                    field: { ref, onChange, ...rest },
-                    fieldState,
-                  }) => (
+                  render={({ field: { ref, onChange, ...rest }, fieldState }) => (
                     <TextField
                       id="nomArquivo"
                       placeholder="Descrição do relatório"
@@ -439,9 +381,7 @@ const Form = (props: Props) => {
           <div
             className="sectionModal"
             style={{
-              marginLeft: `calc(-${props.sectionModalController * 100}% - ${
-                props.sectionModalController * 50
-              }px)`,
+              marginLeft: `calc(-${props.sectionModalController * 100}% - ${props.sectionModalController * 50}px)`,
             }}
           >
             <div className="formFields">
@@ -525,8 +465,7 @@ const Form = (props: Props) => {
                             inputProps: {
                               ...params.inputProps,
                               id: 'lstCodFornecedores',
-                              tabIndex:
-                                props.sectionModalController === 0 ? 0 : -1,
+                              tabIndex: props.sectionModalController === 0 ? 0 : -1,
                             },
                           }}
                           InputLabelProps={{
@@ -550,9 +489,7 @@ const Form = (props: Props) => {
                         })
                       );
                     }}
-                    isOptionEqualToValue={(option, value) =>
-                      option.codigo === value.codigo
-                    }
+                    isOptionEqualToValue={(option, value) => option.codigo === value.codigo}
                   />
                 )}
               />
@@ -617,8 +554,7 @@ const Form = (props: Props) => {
                             inputProps: {
                               ...params.inputProps,
                               id: 'lstCodPrestadores',
-                              tabIndex:
-                                props.sectionModalController === 0 ? 0 : -1,
+                              tabIndex: props.sectionModalController === 0 ? 0 : -1,
                             },
                           }}
                           InputLabelProps={{
@@ -642,9 +578,7 @@ const Form = (props: Props) => {
                         })
                       );
                     }}
-                    isOptionEqualToValue={(option, value) =>
-                      option.codigo === value.codigo
-                    }
+                    isOptionEqualToValue={(option, value) => option.codigo === value.codigo}
                   />
                 )}
               />
@@ -686,8 +620,7 @@ const Form = (props: Props) => {
                             disableUnderline: true,
                             inputProps: {
                               ...params.inputProps,
-                              tabIndex:
-                                props.sectionModalController === 0 ? 0 : -1,
+                              tabIndex: props.sectionModalController === 0 ? 0 : -1,
                             },
                           }}
                           error={!!fieldState.error}
@@ -736,11 +669,7 @@ const Form = (props: Props) => {
                   fullWidth
                   tabIndex={props.sectionModalController === 0 ? 0 : -1}
                   onClick={async () => {
-                    const result = await trigger([
-                      'idRelTpArquivo',
-                      'lstCodFornecedores',
-                      'lstCodPrestadores',
-                    ]);
+                    const result = await trigger(['idRelTpArquivo', 'lstCodFornecedores', 'lstCodPrestadores']);
 
                     if (result) {
                       props.setSectionModalController(1);
@@ -784,17 +713,11 @@ const Form = (props: Props) => {
                 )}
               />
 
-              <LocalizationProvider
-                dateAdapter={AdapterDateFns}
-                locale={brLocale}
-              >
+              <LocalizationProvider dateAdapter={AdapterDateFns} locale={brLocale}>
                 <Controller
                   name="codAno"
                   control={control}
-                  render={({
-                    field: { ref, onChange, ...rest },
-                    fieldState,
-                  }) => (
+                  render={({ field: { ref, onChange, ...rest }, fieldState }) => (
                     <DatePicker
                       label="Ano"
                       openTo="year"
@@ -808,8 +731,7 @@ const Form = (props: Props) => {
                       value={yearOnlyDatePicker}
                       onChange={(value: any) => {
                         setYearOnlyDatePicker(value);
-                        if (value !== null)
-                          setValue('codAno', value.getFullYear());
+                        if (value !== null) setValue('codAno', value.getFullYear());
                         else setValue('codAno', value);
                       }}
                       InputAdornmentProps={{
@@ -832,10 +754,7 @@ const Form = (props: Props) => {
                         <TextField
                           {...params}
                           style={{
-                            display:
-                              tipoArquivo?.flgReferencia === 'A'
-                                ? 'block'
-                                : 'none',
+                            display: tipoArquivo?.flgReferencia === 'A' ? 'block' : 'none',
                           }}
                           margin="normal"
                           variant="filled"
@@ -848,8 +767,7 @@ const Form = (props: Props) => {
                           inputProps={{
                             ...params.inputProps,
                             placeholder: 'aaaa',
-                            tabIndex:
-                              props.sectionModalController === 1 ? 0 : -1,
+                            tabIndex: props.sectionModalController === 1 ? 0 : -1,
                           }}
                           error={!!fieldState.error}
                           helperText={fieldState.error?.message}
@@ -863,10 +781,7 @@ const Form = (props: Props) => {
                 <Controller
                   name="codMes"
                   control={control}
-                  render={({
-                    field: { ref, onChange, ...rest },
-                    fieldState,
-                  }) => (
+                  render={({ field: { ref, onChange, ...rest }, fieldState }) => (
                     <DatePicker
                       label="Mês/Ano"
                       openTo="year"
@@ -909,10 +824,7 @@ const Form = (props: Props) => {
                         <TextField
                           {...params}
                           style={{
-                            display:
-                              tipoArquivo?.flgReferencia === 'M'
-                                ? 'block'
-                                : 'none',
+                            display: tipoArquivo?.flgReferencia === 'M' ? 'block' : 'none',
                           }}
                           margin="normal"
                           variant="filled"
@@ -925,8 +837,7 @@ const Form = (props: Props) => {
                           inputProps={{
                             ...params.inputProps,
                             placeholder: 'mm/aaaa',
-                            tabIndex:
-                              props.sectionModalController === 1 ? 0 : -1,
+                            tabIndex: props.sectionModalController === 1 ? 0 : -1,
                           }}
                           error={!!fieldState.error}
                           helperText={fieldState.error?.message}
@@ -940,10 +851,7 @@ const Form = (props: Props) => {
                 <Controller
                   name="dtaFim"
                   control={control}
-                  render={({
-                    field: { ref, onChange, onBlur, ...rest },
-                    fieldState,
-                  }) => (
+                  render={({ field: { ref, onChange, onBlur, ...rest }, fieldState }) => (
                     <DateRangePicker
                       startText="Data inicial"
                       endText="Data final"
@@ -967,14 +875,8 @@ const Form = (props: Props) => {
                           !isNaN(value[0].getTime()) &&
                           !isNaN(value[1].getTime())
                         ) {
-                          setValue(
-                            'dtaIni',
-                            value[0].toISOString().split('T')[0]
-                          );
-                          setValue(
-                            'dtaFim',
-                            value[1].toISOString().split('T')[0]
-                          );
+                          setValue('dtaIni', value[0].toISOString().split('T')[0]);
+                          setValue('dtaFim', value[1].toISOString().split('T')[0]);
                         } else {
                           setValue('dtaIni', null);
                           setValue('dtaFim', null);
@@ -985,10 +887,7 @@ const Form = (props: Props) => {
                           <TextField
                             {...startProps}
                             style={{
-                              display:
-                                tipoArquivo?.flgReferencia === 'P'
-                                  ? 'block'
-                                  : 'none',
+                              display: tipoArquivo?.flgReferencia === 'P' ? 'block' : 'none',
                             }}
                             margin="normal"
                             variant="filled"
@@ -1001,8 +900,7 @@ const Form = (props: Props) => {
                             inputProps={{
                               ...startProps.inputProps,
                               placeholder: 'dd/mm/aaaa',
-                              tabIndex:
-                                props.sectionModalController === 1 ? 0 : -1,
+                              tabIndex: props.sectionModalController === 1 ? 0 : -1,
                             }}
                             error={!!fieldState.error}
                             helperText={fieldState.error?.message}
@@ -1011,19 +909,13 @@ const Form = (props: Props) => {
                           <Box
                             sx={{ mx: '4px' }}
                             style={{
-                              display:
-                                tipoArquivo?.flgReferencia === 'P'
-                                  ? 'block'
-                                  : 'none',
+                              display: tipoArquivo?.flgReferencia === 'P' ? 'block' : 'none',
                             }}
                           />
                           <TextField
                             {...endProps}
                             style={{
-                              display:
-                                tipoArquivo?.flgReferencia === 'P'
-                                  ? 'block'
-                                  : 'none',
+                              display: tipoArquivo?.flgReferencia === 'P' ? 'block' : 'none',
                             }}
                             margin="normal"
                             variant="filled"
@@ -1036,8 +928,7 @@ const Form = (props: Props) => {
                             inputProps={{
                               ...endProps.inputProps,
                               placeholder: 'dd/mm/aaaa',
-                              tabIndex:
-                                props.sectionModalController === 1 ? 0 : -1,
+                              tabIndex: props.sectionModalController === 1 ? 0 : -1,
                             }}
                             error={!!fieldState.error}
                             helperText={fieldState.error?.message}
@@ -1048,21 +939,11 @@ const Form = (props: Props) => {
                                 datePeriodo[1] instanceof Date &&
                                 !isNaN(datePeriodo[0].getTime()) &&
                                 !isNaN(datePeriodo[1].getTime()) &&
-                                datePeriodo[0].getTime() >
-                                  datePeriodo[1].getTime()
+                                datePeriodo[0].getTime() > datePeriodo[1].getTime()
                               ) {
-                                setDatePeriodo([
-                                  datePeriodo[1],
-                                  datePeriodo[0],
-                                ]);
-                                setValue(
-                                  'dtaIni',
-                                  datePeriodo[1].toISOString().split('T')[0]
-                                );
-                                setValue(
-                                  'dtaFim',
-                                  datePeriodo[0].toISOString().split('T')[0]
-                                );
+                                setDatePeriodo([datePeriodo[1], datePeriodo[0]]);
+                                setValue('dtaIni', datePeriodo[1].toISOString().split('T')[0]);
+                                setValue('dtaFim', datePeriodo[0].toISOString().split('T')[0]);
                               }
                             }}
                           />
@@ -1075,10 +956,7 @@ const Form = (props: Props) => {
                 <Controller
                   name="dtaIni"
                   control={control}
-                  render={({
-                    field: { ref, onChange, ...rest },
-                    fieldState,
-                  }) => (
+                  render={({ field: { ref, onChange, ...rest }, fieldState }) => (
                     <DatePicker
                       label="Data do documento"
                       cancelText="CANCELAR"
@@ -1114,10 +992,7 @@ const Form = (props: Props) => {
                         <TextField
                           {...params}
                           style={{
-                            display:
-                              tipoArquivo?.flgReferencia === 'D'
-                                ? 'block'
-                                : 'none',
+                            display: tipoArquivo?.flgReferencia === 'D' ? 'block' : 'none',
                           }}
                           margin="normal"
                           variant="filled"
@@ -1130,8 +1005,7 @@ const Form = (props: Props) => {
                           inputProps={{
                             ...params.inputProps,
                             placeholder: 'dd/mm/aaaa',
-                            tabIndex:
-                              props.sectionModalController === 1 ? 0 : -1,
+                            tabIndex: props.sectionModalController === 1 ? 0 : -1,
                           }}
                           error={!!fieldState.error}
                           helperText={fieldState.error?.message}
@@ -1148,10 +1022,8 @@ const Form = (props: Props) => {
                   <React.Fragment>
                     Ao fazer o upload de um&nbsp;
                     <b>arquivo </b>
-                    com os mesmos dados de um outro&nbsp; existente, será
-                    necessário&nbsp;
-                    <b>sobrescrevê-lo </b>. Marque a caixa para ativar a
-                    funcionalidade.
+                    com os mesmos dados de um outro&nbsp; existente, será necessário&nbsp;
+                    <b>sobrescrevê-lo </b>. Marque a caixa para ativar a funcionalidade.
                   </React.Fragment>
                 }
                 placement="bottom"
@@ -1198,13 +1070,7 @@ const Form = (props: Props) => {
                   variant="contained"
                   fullWidth
                   disabled={uploadState === 'l'}
-                  className={
-                    uploadState === 'l'
-                      ? 'secondary'
-                      : uploadState === 's'
-                      ? 'success'
-                      : ''
-                  }
+                  className={uploadState === 'l' ? 'secondary' : uploadState === 's' ? 'success' : ''}
                   tabIndex={props.sectionModalController === 1 ? 0 : -1}
                   type="submit"
                 >

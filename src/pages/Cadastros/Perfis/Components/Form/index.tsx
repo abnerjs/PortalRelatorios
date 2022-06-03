@@ -12,11 +12,7 @@ import { Box, Button, CircularProgress } from '@mui/material';
 
 import InputSwitch from 'src/pages/Cadastros/Perfis/Components/InputSwitch';
 import { useAppSelector, useAppDispatch } from 'src/store';
-import {
-  perfisCancelOperation,
-  perfisPostRequest,
-  perfisPutRequest,
-} from 'src/store/ducks/perfis';
+import { perfisCancelOperation, perfisPostRequest, perfisPutRequest } from 'src/store/ducks/perfis';
 import { Perfil } from 'src/store/ducks/perfis/types';
 import { objetosGetFilterRequest } from 'src/store/ducks/objetos';
 import DmCollapseHandler from 'src/components/DmCollapseHandler/DmCollapseHandler';
@@ -46,19 +42,13 @@ const Form: React.FC<FormProps> = ({ data, isFormOpened }: FormProps) => {
   const operationState = useAppSelector((state) => state.perfis.operationState);
   const [isErrorCollapseOpened, setErrorCollapseOpened] = useState(false);
 
-  const { handleSubmit, register, reset, control, formState } = useForm<Perfil>(
-    {
-      resolver: yupResolver(schema),
-      defaultValues: defaultValues,
-    }
-  );
+  const { handleSubmit, register, reset, control, formState } = useForm<Perfil>({
+    resolver: yupResolver(schema),
+    defaultValues: defaultValues,
+  });
 
   const onSubmit: SubmitHandler<Perfil> = (values) => {
-    dispatch(
-      data && data.idRelPerfil > 0
-        ? perfisPutRequest(values)
-        : perfisPostRequest(values)
-    );
+    dispatch(data && data.idRelPerfil > 0 ? perfisPutRequest(values) : perfisPostRequest(values));
     if (errors !== undefined) setErrorCollapseOpened(true);
   };
 
@@ -135,11 +125,7 @@ const Form: React.FC<FormProps> = ({ data, isFormOpened }: FormProps) => {
               tabIndex={isFormOpened ? 0 : -1}
               disabled={formState.isSubmitting || operationState === 'request'}
               type="submit"
-              className={
-                formState.isSubmitting || operationState === 'request'
-                  ? 'secondary'
-                  : ''
-              }
+              className={formState.isSubmitting || operationState === 'request' ? 'secondary' : ''}
               fullWidth
             >
               SALVAR

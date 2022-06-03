@@ -3,13 +3,7 @@ import { FiltrosRelatorios } from 'src/pages/Relatorios/Gerenciamento';
 import { Paginacao } from '../base';
 import { RespostaApi } from '../base/types';
 import { ErrorAPI } from '../types';
-import {
-  ArquivosByTipo,
-  ArquivosState,
-  ArquivoUpdate,
-  ArquivoUpload,
-  ArquivoUploadReceiveFormat,
-} from './types';
+import { ArquivosByTipo, ArquivosState, ArquivoUpdate, ArquivoUpload, ArquivoUploadReceiveFormat } from './types';
 
 const initialState: ArquivosState = {
   data: [],
@@ -31,18 +25,12 @@ export const arquivoUploadSlice = createSlice({
   name: 'arquivos',
   initialState: initialState,
   reducers: {
-    arquivosGetRequest: (
-      state,
-      action: PayloadAction<FiltrosRelatorios | undefined>
-    ) => {
+    arquivosGetRequest: (state, action: PayloadAction<FiltrosRelatorios | undefined>) => {
       state.error = undefined;
       state.state = 'l';
       state.downloadError = [];
     },
-    arquivosGetSuccess: (
-      state,
-      action: PayloadAction<RespostaApi<ArquivosByTipo>>
-    ) => {
+    arquivosGetSuccess: (state, action: PayloadAction<RespostaApi<ArquivosByTipo>>) => {
       state.data = action.payload.dados;
       state.error = undefined;
       state.state = 's';
@@ -53,10 +41,7 @@ export const arquivoUploadSlice = createSlice({
     },
     arquivosDownloadRequest: (state, action: PayloadAction<Array<number>>) => {
       state.downloadError.forEach((item, index) => {
-        if (
-          item?.table === action.payload[1] &&
-          item?.line === action.payload[2]
-        ) {
+        if (item?.table === action.payload[1] && item?.line === action.payload[2]) {
           state.downloadError.splice(index, 1);
           return;
         }
@@ -65,19 +50,13 @@ export const arquivoUploadSlice = createSlice({
     arquivosDownloadSuccess: (state, action: PayloadAction<[any, number, number]>) => {
       state.file = action.payload[0];
       state.downloadError.forEach((item, index) => {
-        if (
-          item?.table === action.payload[1] &&
-          item?.line === action.payload[2]
-        ) {
+        if (item?.table === action.payload[1] && item?.line === action.payload[2]) {
           state.downloadError.splice(index, 1);
           return;
         }
       });
     },
-    arquivosDownloadError: (
-      state,
-      action: PayloadAction<[ErrorAPI, number, number]>
-    ) => {
+    arquivosDownloadError: (state, action: PayloadAction<[ErrorAPI, number, number]>) => {
       if (state.downloadError && state.downloadError.length === 0 && state.downloadError) {
         state.downloadError = [
           {
@@ -88,10 +67,7 @@ export const arquivoUploadSlice = createSlice({
         ];
       } else {
         state.downloadError = state.downloadError.map((item, index) => {
-          if (
-            item?.table === action.payload[1] &&
-            item?.line === action.payload[2]
-          ) {
+          if (item?.table === action.payload[1] && item?.line === action.payload[2]) {
             return {
               error: action.payload[0],
               table: action.payload[1],
@@ -138,10 +114,7 @@ export const arquivoUploadSlice = createSlice({
       state.uploadState = undefined;
       state.uploadError = undefined;
     },
-    arquivosDeleteRequest: (
-      state,
-      action: PayloadAction<ArquivoUploadReceiveFormat>
-    ) => {
+    arquivosDeleteRequest: (state, action: PayloadAction<ArquivoUploadReceiveFormat>) => {
       state.deleteError = undefined;
       state.deleteState = 'l';
     },

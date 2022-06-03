@@ -1,11 +1,11 @@
 .Login {
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
 }
 
 .forgot {
-    align-self: flex-end;
-    margin: 10px 0;
-    text-decoration: none;
-    color: var(--primaryColor);
+  align-self: flex-end;
+  margin: 10px 0;
+  text-decoration: none;
+  color: var(--primaryColor);
 }

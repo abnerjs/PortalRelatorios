@@ -37,11 +37,7 @@ const conditionalArrayTypeRender = (
             <div className="textual">
               <div className="regname">{doc.name}</div>
             </div>
-            <Link
-              to={`/relatorios/${doc.linkTo}`}
-              tabIndex={-1}
-              style={{ textDecoration: 'none' }}
-            >
+            <Link to={`/relatorios/${doc.linkTo}`} tabIndex={-1} style={{ textDecoration: 'none' }}>
               <Button variant="contained" fullWidth className="reg">
                 ABRIR
               </Button>
@@ -73,9 +69,7 @@ const Table = (props: Props) => {
   const node = useRef<HTMLDivElement>(null);
 
   const subtitle = props.subtitle ? (
-    <Typography variant="subtitle1">
-      Tudo o que você não viu desde o seu último acesso
-    </Typography>
+    <Typography variant="subtitle1">Tudo o que você não viu desde o seu último acesso</Typography>
   ) : null;
 
   return (

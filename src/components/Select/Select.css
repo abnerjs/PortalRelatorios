@@ -1,125 +1,127 @@
 .Select {
-    width: 100%;
-    background-color: white;
-    max-height: 56px;
-    height: 0%;
-    border: none;
-    border-radius: 4px;
-    font-size: 16px;
-    outline: none;
-    margin-bottom: 20px;
-    font-family: "Montserrat", sans-serif;
-    transition: max-height linear 0.3s;
-    overflow: hidden;
-    position: relative;
+  width: 100%;
+  background-color: white;
+  max-height: 56px;
+  height: 0%;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  outline: none;
+  margin-bottom: 20px;
+  font-family: 'Montserrat', sans-serif;
+  transition: max-height linear 0.3s;
+  overflow: hidden;
+  position: relative;
 }
 
 .Select.active {
-    max-height: 1000px;
-    height: auto;
+  max-height: 1000px;
+  height: auto;
 }
 
 .Select .cardsController {
-    width: 1000px;
-    display: flex;
-    align-items: flex-start;
-    height: min-content;
+  width: 1000px;
+  display: flex;
+  align-items: flex-start;
+  height: min-content;
 }
 
 .Select .form {
-    width: calc(50% - 50px) !important;
-    display: flex;
-    flex-direction: column;
-    padding: 0 25px;
-    height: 100%;
-    padding-bottom: 20px;
+  width: calc(50% - 50px) !important;
+  display: flex;
+  flex-direction: column;
+  padding: 0 25px;
+  height: 100%;
+  padding-bottom: 20px;
 }
 
 .Select .mainSection {
-    width: calc(50%) !important;
-    transition: all ease 0.4s;
+  width: calc(50%) !important;
+  transition: all ease 0.4s;
 }
 
 .Select .mainSection.inactive {
-    margin-left: -500px;
+  margin-left: -500px;
 }
 
 .Select .controller {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    position: relative;
-    width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  width: 100%;
 }
 
 .Select .controller .header {
-    display: flex;
-    height: 56px;
-    padding: 0 25px;
-    width: calc(100% - 50px) !important;
-    opacity: 1;
-    align-items: center;
-    transition: opacity 0s ease 0.3s;
-    cursor: pointer;
+  display: flex;
+  height: 56px;
+  padding: 0 25px;
+  width: calc(100% - 50px) !important;
+  opacity: 1;
+  align-items: center;
+  transition: opacity 0s ease 0.3s;
+  cursor: pointer;
 }
 
 .Select .placeholder {
-    height: 56px;
-    width: calc(100% - 30px);
-    line-height: 56px;
-    color: #aaa;
+  height: 56px;
+  width: calc(100% - 30px);
+  line-height: 56px;
+  color: #aaa;
 }
 
 .Select .placeholder.selected {
-    color: black;
+  color: black;
 }
 
 .Select .newprofile {
-    height: 45px;
-    width: 450px;
-    margin: 0 25px;
+  height: 45px;
+  width: 450px;
+  margin: 0 25px;
 }
 
 .SelectWrapper {
-    color: #aaa;
-    transform: translateX(15px);
-    transition: transform ease 0.3s;
-    cursor: pointer;
+  color: #aaa;
+  transform: translateX(15px);
+  transition: transform ease 0.3s;
+  cursor: pointer;
 }
 
 .Select .options {
-    margin-top: 10px;
-    margin-bottom: 10px;
-    width: 450px;
-    padding: 0 25px;
-    overflow: auto;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  width: 450px;
+  padding: 0 25px;
+  overflow: auto;
 }
 
 .Select .options .option {
-    height: 40px;
-    line-height: 40px;
-    padding: 0 15px;
-    border-radius: 8px;
-    font-weight: var(--medium);
-    cursor: pointer;
+  height: 40px;
+  line-height: 40px;
+  padding: 0 15px;
+  border-radius: 8px;
+  font-weight: var(--medium);
+  cursor: pointer;
 }
 
 .Select .options .option.default {
-    color: #aaa;
+  color: #aaa;
 }
 
 .Select .options .option:hover {
-    background-color: var(--bgColor);
+  background-color: var(--bgColor);
 }
 
 .Select:not(.active) .options {
-    display: none;
+  display: none;
 }
 
 .SelectWrapper.active {
-    transform: rotate(90deg) translateY(-15px);
+  transform: rotate(90deg) translateY(-15px);
 }
 
-.Select .placeholder::selection, .Select .SelectButton::selection, .Select .options .option::selection {
-    background: none;
+.Select .placeholder::selection,
+.Select .SelectButton::selection,
+.Select .options .option::selection {
+  background: none;
 }

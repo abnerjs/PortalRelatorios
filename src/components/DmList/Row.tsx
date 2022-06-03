@@ -32,31 +32,22 @@ function getProperty<Type, Key extends keyof Type>(obj: Type, key: Key) {
 const Row = <T extends unknown>(props: RowProps<T>) => {
   const objetos = useAppSelector((state) => state.session.objetos);
   const loggedUser = useAppSelector((state) => state.session.user);
-  const flgAcesso =
-    objetos.find((x) => x.nomPagina.toLowerCase() === 'usuarios')?.flgAcesso ||
-    'N';
+  const flgAcesso = objetos.find((x) => x.nomPagina.toLowerCase() === 'usuarios')?.flgAcesso || 'N';
 
   return (
     <div
-      className={`row${props.indexSelected === props.index ? ' selected' : ''}${
-        props.noAction ? ' noAction' : ''
-      }`}
+      className={`row${props.indexSelected === props.index ? ' selected' : ''}${props.noAction ? ' noAction' : ''}`}
       id={'linha' + props.index}
     >
       <div
         onClick={() => {
-          props.handleIndexSelected(
-            props.indexSelected !== props.index ? props.index : -1
-          );
+          props.handleIndexSelected(props.indexSelected !== props.index ? props.index : -1);
           if (props.noAction) {
             props.handleFormOpen(true, false);
             props.setObject(props.data);
           }
         }}
-        className={getProperty(props.data, 'desLogin' as any)
-            ? 'header user'
-            : 'header'
-        }
+        className={getProperty(props.data, 'desLogin' as any) ? 'header user' : 'header'}
       >
         <Avatar
           sx={{ bgcolor: '#1878a1' }}
@@ -66,38 +57,26 @@ const Row = <T extends unknown>(props: RowProps<T>) => {
             margin: '0 10px 0 0',
             fontWeight: 400,
             fontSize: '12pt',
-            display: getProperty(props.data, 'desLogin' as any)
-              ? 'flex'
-              : 'none',
+            display: getProperty(props.data, 'desLogin' as any) ? 'flex' : 'none',
           }}
-          children={getInitialsFromString(
-            getProperty(props.data, props.labelKey as any)
-          )}
+          children={getInitialsFromString(getProperty(props.data, props.labelKey as any))}
         />
         <div className="textual">
-          <div className="nome">
-            {getProperty(props.data, props.labelKey as any)}
-          </div>
-          <div className="email">
-            {getProperty(props.data, 'desEmail' as any)}
-          </div>
+          <div className="nome">{getProperty(props.data, props.labelKey as any)}</div>
+          <div className="email">{getProperty(props.data, 'desEmail' as any)}</div>
         </div>
         {props.handleChangeFlgAtivo ? (
           <DmIconifiedSwitch
             noIcon
-            value={
-              getProperty(props.data, 'flgAtivo' as any) === 'S' ? 'N' : 'S'
-            }
+            value={getProperty(props.data, 'flgAtivo' as any) === 'S' ? 'N' : 'S'}
             checked={getProperty(props.data, 'flgAtivo' as any) === 'S'}
             onClick={(e) => e.stopPropagation()}
             onChange={(e) => {
-              if (props.handleChangeFlgAtivo)
-                props.handleChangeFlgAtivo(props.index);
+              if (props.handleChangeFlgAtivo) props.handleChangeFlgAtivo(props.index);
             }}
             disabled={
               props.isFormOpened ||
-              loggedUser?.desLogin ===
-                getProperty(props.data, 'desLogin' as any) ||
+              loggedUser?.desLogin === getProperty(props.data, 'desLogin' as any) ||
               props.handleChangeFlgAtivo === undefined
             }
             tabIndex={-1}
@@ -105,11 +84,7 @@ const Row = <T extends unknown>(props: RowProps<T>) => {
         ) : (
           ''
         )}
-        <Icon
-          icon="fluent:chevron-right-16-filled"
-          width={16}
-          className="icon"
-        />
+        <Icon icon="fluent:chevron-right-16-filled" width={16} className="icon" />
       </div>
       <div className="buttons">
         <Button
@@ -133,11 +108,7 @@ const Row = <T extends unknown>(props: RowProps<T>) => {
           variant="contained"
           className="errorColor"
           style={{
-            display:
-              loggedUser?.desLogin ===
-              getProperty(props.data, 'desLogin' as any)
-                ? 'none'
-                : 'block',
+            display: loggedUser?.desLogin === getProperty(props.data, 'desLogin' as any) ? 'none' : 'block',
           }}
           fullWidth
         >

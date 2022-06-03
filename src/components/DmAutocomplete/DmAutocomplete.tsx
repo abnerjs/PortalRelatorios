@@ -1,9 +1,6 @@
 import { Autocomplete, TextField } from '@mui/material';
 import React, { useState } from 'react';
-import {
-  ListboxComponent,
-  StyledPopper,
-} from 'src/pages/Cadastros/VinculosUsuarios/Components/Autocomplete';
+import { ListboxComponent, StyledPopper } from 'src/pages/Cadastros/VinculosUsuarios/Components/Autocomplete';
 import CheckIcon from '@mui/icons-material/Check';
 
 interface Props {
@@ -119,11 +116,7 @@ const DmAutocomplete = (props: Props) => {
       }}
       value={props.value}
       onChange={props.onChange}
-      isOptionEqualToValue={(
-        option: AutocompleteOptions,
-        value: AutocompleteOptions
-      ) => option.value === value.value
-      }
+      isOptionEqualToValue={(option: AutocompleteOptions, value: AutocompleteOptions) => option.value === value.value}
       {...props.rest}
     />
   );

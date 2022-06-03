@@ -18,9 +18,7 @@ interface InputSwitchProps {
 
 const InputSwitch: React.FC<InputSwitchProps> = (props: InputSwitchProps) => {
   const updateState = (value: PerfilObjeto) => {
-    const index = props.value.findIndex(
-      (item) => item.codObjeto === value.codObjeto
-    );
+    const index = props.value.findIndex((item) => item.codObjeto === value.codObjeto);
 
     const newValue = [...props.value];
 
@@ -36,9 +34,7 @@ const InputSwitch: React.FC<InputSwitchProps> = (props: InputSwitchProps) => {
   return (
     <React.Fragment>
       {props.options.map((option, index) => {
-        const value = props.value.find(
-          (item) => `${item.codObjeto}` === option.codigo
-        );
+        const value = props.value.find((item) => `${item.codObjeto}` === option.codigo);
 
         return (
           <div

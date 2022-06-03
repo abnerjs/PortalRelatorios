@@ -4,23 +4,12 @@ import * as Yup from 'yup';
 
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Icon } from '@iconify/react';
-import {
-  Autocomplete,
-  Box,
-  Button,
-  CircularProgress,
-  debounce,
-  TextField,
-} from '@mui/material';
+import { Autocomplete, Box, Button, CircularProgress, debounce, TextField } from '@mui/material';
 
 import { useAppSelector, useAppDispatch } from 'src/store';
 import { TipoFiltro } from 'src/store/ducks/base/types';
 import { perfisGetFilterRequest } from 'src/store/ducks/perfis';
-import {
-  usuariosCancelOperation,
-  usuariosPostRequest,
-  usuariosPutRequest,
-} from 'src/store/ducks/usuarios';
+import { usuariosCancelOperation, usuariosPostRequest, usuariosPutRequest } from 'src/store/ducks/usuarios';
 import { Usuario } from 'src/store/ducks/usuarios/types';
 import { getInitialsFromString } from 'src/utils/StringUtils';
 import DmCollapseHandler from 'src/components/DmCollapseHandler/DmCollapseHandler';
@@ -28,7 +17,6 @@ import DmTextField from 'src/components/DmTextField/DmTextField';
 
 const maskCpfCnpj = (value: string) => {
   value = value.replace(/\D/g, '');
-
 
   if (value.length <= 11) {
     value = value.replace(/(\d{3})(\d)/, '$1.$2');
@@ -77,18 +65,14 @@ const schema = Yup.object({
     .transform((value) => value || null)
     .test({
       message: 'O campo deve conter 14 ou 18 caracteres!',
-      test: (value) =>
-        value?.length === 14 || value?.length === 18 || value === null,
+      test: (value) => value?.length === 14 || value?.length === 18 || value === null,
     })
     .when('flgTipo', {
       is: (value: string) => value === 'I',
       then: Yup.string()
         .nullable()
         .default(null)
-        .length(
-          14,
-          (params) => `O campo deve conter ${params.length} caracteres!`
-        ),
+        .length(14, (params) => `O campo deve conter ${params.length} caracteres!`),
     })
     .notRequired(),
   codColaborador: Yup.string()
@@ -113,11 +97,7 @@ const defaultValues: Usuario = {
   flgAtivo: 'S',
 };
 
-const Form: React.FC<FormProps> = ({
-  data,
-  tipoUsuario,
-  isFormOpened,
-}: FormProps) => {
+const Form: React.FC<FormProps> = ({ data, tipoUsuario, isFormOpened }: FormProps) => {
   const [initials, setInitials] = useState('');
   const [flgTipo, setFlgTipo] = useState('I');
   const [perfil, setPerfil] = useState<TipoFiltro | null>(null);
@@ -126,20 +106,10 @@ const Form: React.FC<FormProps> = ({
   const dispatch = useAppDispatch();
   const perfis = useAppSelector((state) => state.perfis.filterList);
   const errors = useAppSelector((state) => state.usuarios.operationError);
-  const operationState = useAppSelector(
-    (state) => state.usuarios.operationState
-  );
+  const operationState = useAppSelector((state) => state.usuarios.operationState);
   const [isErrorCollapseOpened, setErrorCollapseOpened] = useState(false);
 
-  const {
-    clearErrors,
-    handleSubmit,
-    register,
-    reset,
-    setValue,
-    control,
-    formState,
-  } = useForm<Usuario>({
+  const { clearErrors, handleSubmit, register, reset, setValue, control, formState } = useForm<Usuario>({
     resolver: yupResolver(schema),
     defaultValues: defaultValues,
   });
@@ -149,11 +119,7 @@ const Form: React.FC<FormProps> = ({
   }, 400);
 
   const onSubmit: SubmitHandler<Usuario> = (values) => {
-    dispatch(
-      data && data.idRelUsuario > 0
-        ? usuariosPutRequest(values)
-        : usuariosPostRequest(values)
-    );
+    dispatch(data && data.idRelUsuario > 0 ? usuariosPutRequest(values) : usuariosPostRequest(values));
     if (errors !== undefined) setErrorCollapseOpened(true);
   };
 
@@ -184,8 +150,7 @@ const Form: React.FC<FormProps> = ({
 
   useEffect(() => {
     const newValue = data ?? defaultValues;
-    const novoPerfil =
-      perfis.find((item) => item.codigo === `${newValue.idRelPerfil}`) || null;
+    const novoPerfil = perfis.find((item) => item.codigo === `${newValue.idRelPerfil}`) || null;
 
     setPerfil(novoPerfil);
     setInitials(getInitialsFromString(newValue.desNome));
@@ -221,14 +186,8 @@ const Form: React.FC<FormProps> = ({
             <div className="image">
               <div className="text"></div>
               <div className="img">
-                <div className={`initial${initials !== '' ? ' active' : ''}`}>
-                  {initials}
-                </div>
-                <Icon
-                  icon="fluent:person-16-filled"
-                  width={120}
-                  className="icon"
-                />
+                <div className={`initial${initials !== '' ? ' active' : ''}`}>{initials}</div>
+                <Icon icon="fluent:person-16-filled" width={120} className="icon" />
               </div>
             </div>
             <div className="inputs">
@@ -242,7 +201,6 @@ const Form: React.FC<FormProps> = ({
                     tabIndex={isFormOpened ? 0 : -1}
                     error={!!fieldState.error}
                     helperText={fieldState.error?.message}
-
                     rest={rest}
                     onChange={(event: any) => {
                       onChange(event);
@@ -257,10 +215,7 @@ const Form: React.FC<FormProps> = ({
               <Controller
                 name="desCpfCnpj"
                 control={control}
-                render={({
-                  field: { value, ref, onChange, ...rest },
-                  fieldState,
-                }) => (
+                render={({ field: { value, ref, onChange, ...rest }, fieldState }) => (
                   <TextField
                     label={flgTipo === 'E' ? 'CPF/CNPJ' : 'CPF'}
                     InputProps={{
@@ -270,13 +225,11 @@ const Form: React.FC<FormProps> = ({
                     variant="filled"
                     fullWidth
                     margin="dense"
-                    className='DmTextField'
+                    className="DmTextField"
                     error={!!fieldState.error}
                     helperText={fieldState.error?.message || 'Opcional'}
                     value={value || ''}
-                    onChange={(event: any) =>
-                      onChange(maskCpfCnpj(event.target.value))
-                    }
+                    onChange={(event: any) => onChange(maskCpfCnpj(event.target.value))}
                     inputRef={ref}
                     {...rest}
                   />
@@ -293,7 +246,6 @@ const Form: React.FC<FormProps> = ({
                 tabIndex={isFormOpened ? 0 : -1}
                 error={!!fieldState.error}
                 helperText={fieldState.error?.message || 'Opcional'}
-
                 rest={rest}
                 inputProps={{
                   maxLength: 10,
@@ -313,7 +265,6 @@ const Form: React.FC<FormProps> = ({
                 tabIndex={isFormOpened ? 0 : -1}
                 error={!!fieldState.error}
                 helperText={fieldState.error?.message || 'Opcional'}
-
                 rest={rest}
                 inputProps={{
                   maxLength: 200,
@@ -347,7 +298,7 @@ const Form: React.FC<FormProps> = ({
                   placeholder="Procurar..."
                   margin="dense"
                   variant="filled"
-                  className='DmTextField'
+                  className="DmTextField"
                   InputProps={{
                     ...restInputProps,
                     disableUnderline: true,
@@ -394,11 +345,8 @@ const Form: React.FC<FormProps> = ({
                 label="Nome de usuário"
                 tabIndex={isFormOpened ? 0 : -1}
                 error={!!fieldState.error}
-
                 rest={rest}
-                onChange={(event: any) =>
-                  onChange(event.target.value.toLowerCase())
-                }
+                onChange={(event: any) => onChange(event.target.value.toLowerCase())}
                 inputProps={{
                   maxLength: 200,
                 }}
@@ -414,7 +362,6 @@ const Form: React.FC<FormProps> = ({
                 type="password"
                 tabIndex={isFormOpened ? 0 : -1}
                 error={!!fieldState.error}
-
                 rest={rest}
                 inputProps={{
                   maxLength: 128,
@@ -442,11 +389,7 @@ const Form: React.FC<FormProps> = ({
               tabIndex={isFormOpened ? 0 : -1}
               disabled={formState.isSubmitting || operationState === 'request'}
               type="submit"
-              className={
-                formState.isSubmitting || operationState === 'request'
-                  ? 'secondary'
-                  : ''
-              }
+              className={formState.isSubmitting || operationState === 'request' ? 'secondary' : ''}
               fullWidth
             >
               SALVAR

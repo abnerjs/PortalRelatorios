@@ -56,17 +56,12 @@ const DmList = <T extends unknown>(props: Props<T>) => {
   /*PAGINACAO */
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
-  const handleChangePage = (
-    event: React.MouseEvent<HTMLButtonElement> | null,
-    newPage: number
-  ) => {
+  const handleChangePage = (event: React.MouseEvent<HTMLButtonElement> | null, newPage: number) => {
     if (props.isFormOpened) props.handleFormOpen(false);
-    props.handlePesquisa('numPagina', (newPage + 1));
+    props.handlePesquisa('numPagina', newPage + 1);
   };
 
-  const handleChangeRowsPerPage = (
-    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
+  const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     if (props.isFormOpened) props.handleFormOpen(false);
     props.handlePesquisa('numPagina', 1);
@@ -77,8 +72,7 @@ const DmList = <T extends unknown>(props: Props<T>) => {
   useEffect(() => {
     if (props.deleteState === 'success') {
       if (
-        getProperty(props.list[props.rowSelected], props.key as any) ===
-        getProperty(props.object, props.key as any)
+        getProperty(props.list[props.rowSelected], props.key as any) === getProperty(props.object, props.key as any)
       ) {
         props.handleFormOpen(false, true);
       }
@@ -89,14 +83,12 @@ const DmList = <T extends unknown>(props: Props<T>) => {
       dispatch(props.request(props.pesquisa.toString()));
     }
     if (props.errors) setErrorCollapseOpened(props.errors !== undefined);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.deleteState]);
 
   useEffect(() => {
     if (props.object === null) {
       props.setRowSelected(-1);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.object]);
 
   return (
@@ -160,15 +152,10 @@ const DmList = <T extends unknown>(props: Props<T>) => {
                 ) : (
                   ''
                 )}
-                <Typography id="transition-modal-title">
-                  Tem certeza que quer deletar o registro?
-                </Typography>
+                <Typography id="transition-modal-title">Tem certeza que quer deletar o registro?</Typography>
                 <div className="userInfo">
                   <Typography className="modal-user-info">
-                    {getProperty(
-                      props.list[props.rowSelected],
-                      props.labelKey as any
-                    )}
+                    {getProperty(props.list[props.rowSelected], props.labelKey as any)}
                   </Typography>
                 </div>
                 <hr
@@ -197,19 +184,11 @@ const DmList = <T extends unknown>(props: Props<T>) => {
                   <Box sx={{ m: 0, position: 'relative' }}>
                     <Button
                       variant="contained"
-                      onClick={() =>
-                        dispatch(
-                          props.deleteRequest(props.list[props.rowSelected])
-                        )
-                      }
+                      onClick={() => dispatch(props.deleteRequest(props.list[props.rowSelected]))}
                       disabled={props.deleteState === 'request'}
                       type="submit"
                       fullWidth
-                      className={
-                        props.deleteState === 'request'
-                          ? 'errorSecondary'
-                          : 'errorColor'
-                      }
+                      className={props.deleteState === 'request' ? 'errorSecondary' : 'errorColor'}
                     >
                       DELETAR
                     </Button>
@@ -234,16 +213,10 @@ const DmList = <T extends unknown>(props: Props<T>) => {
         )}
       </div>
       <TablePagination
-        className={`pagination-table${props.loading? ' loading' : ''}`}
+        className={`pagination-table${props.loading ? ' loading' : ''}`}
         component="div"
         count={props.pagination?.totRegistros || 0}
-        page={
-          props.pagination
-            ? props.pagination.numPagina
-              ? props.pagination.numPagina - 1
-              : 0
-            : 0
-        }
+        page={props.pagination ? (props.pagination.numPagina ? props.pagination.numPagina - 1 : 0) : 0}
         onPageChange={handleChangePage}
         rowsPerPage={rowsPerPage}
         labelRowsPerPage="Registros por página:"
@@ -273,7 +246,7 @@ const loadingUsersRows = <T extends unknown>(props: Props<T>) => {
     );
   }
 
-  const comp = <div className="loadingSection">{arr}</div>
+  const comp = <div className="loadingSection">{arr}</div>;
 
   return comp;
 };

@@ -3,18 +3,11 @@ import { Link, useLocation } from 'react-router-dom';
 import DatamobIcon from 'src/assets/DatamobIcon';
 import './Menu.css';
 import { Icon } from '@iconify/react';
-import {
-  BottomNavigation,
-  BottomNavigationAction,
-  IconButton,
-  Tooltip,
-} from '@mui/material';
+import { BottomNavigation, BottomNavigationAction, IconButton, Tooltip } from '@mui/material';
 import { TipoObjeto, Objeto } from 'src/store/ducks/login/types';
 import { useAppSelector } from 'src/store';
 import Submenu from './Submenu';
-import useResponsivity, {
-  useMenuResponsivity,
-} from 'src/hooks/useResponsivity';
+import useResponsivity, { useMenuResponsivity } from 'src/hooks/useResponsivity';
 
 const menuFromAPI = [
   {
@@ -71,8 +64,7 @@ const Menu = () => {
 
   const location = useLocation();
 
-  const [bottomNavigationDisplay, setBottomNavigationDisplay] =
-    useState<string>('/');
+  const [bottomNavigationDisplay, setBottomNavigationDisplay] = useState<string>('/');
 
   const [listDescriptionActive, setListDescriptionActive] = useState('/');
 
@@ -82,22 +74,16 @@ const Menu = () => {
 
   useEffect(() => {
     if (sistemas) {
-      const found = sistemas?.lstSistemas.find(
-        (item) => item.desSistema === 'PORTAL DE RELATÓRIOS'
-      );
+      const found = sistemas?.lstSistemas.find((item) => item.desSistema === 'PORTAL DE RELATÓRIOS');
       if (found) setTiposObjetos(found.lstTiposObjetos);
       let arrAux: MenuButton[] = [];
       menuFromAPI.forEach((item, index) => {
-        const objetoFromTipo = tiposObjetos.find(
-          (objeto: TipoObjeto) => objeto.desTipo === item.desTipo
-        );
+        const objetoFromTipo = tiposObjetos.find((objeto: TipoObjeto) => objeto.desTipo === item.desTipo);
         if (objetoFromTipo) {
           let arrSubpages: Objeto[] = [];
           item.lstObjetos.forEach((objeto) => {
             let renderFound = objetoFromTipo.lstObjetos.find(
-              (pagina) =>
-                objeto.nomPagina === pagina.nomPagina &&
-                pagina.flgAcesso === 'A'
+              (pagina) => objeto.nomPagina === pagina.nomPagina && pagina.flgAcesso === 'A'
             );
 
             if (renderFound) {
@@ -116,8 +102,6 @@ const Menu = () => {
 
       setSubmenuRender(arrAux);
     }
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sistemas, tiposObjetos, submenuIndexActive]);
 
   useEffect(() => {
@@ -126,19 +110,13 @@ const Menu = () => {
         .map((item) => {
           let str = location.pathname;
           item.list.forEach((item2) => {
-            if (
-              location.pathname
-                .toLowerCase()
-                .includes('/' + item2.nomPagina.toLowerCase())
-            )
+            if (location.pathname.toLowerCase().includes('/' + item2.nomPagina.toLowerCase()))
               str = item.listDescription;
           });
           return str;
         })
         .find((element) => element !== location.pathname) || location.pathname
     );
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [submenuRender, location.pathname]);
 
   return (
@@ -167,21 +145,11 @@ const Menu = () => {
           </IconButton>
 
           <div className="links">
-            <Tooltip
-              title="Início"
-              enterDelay={500}
-              placement="right"
-              disableHoverListener={open && isMenuExpansive}
-            >
+            <Tooltip title="Início" enterDelay={500} placement="right" disableHoverListener={open && isMenuExpansive}>
               <Link to="/" tabIndex={-1} style={{ textDecoration: 'none' }}>
                 <div
                   className={
-                    `menuButton` +
-                    (location.pathname === '/'
-                      ? ' active'
-                      : open && isMenuExpansive
-                      ? ' expanded'
-                      : '')
+                    `menuButton` + (location.pathname === '/' ? ' active' : open && isMenuExpansive ? ' expanded' : '')
                   }
                   onClick={() => () => {
                     setSubmenuIndexActive(-1);
@@ -241,11 +209,7 @@ const Menu = () => {
               <BottomNavigation
                 key={index}
                 value={location.pathname}
-                className={`subMenuBottomAction${
-                  listDescriptionActive === item.listDescription
-                    ? ' active'
-                    : ''
-                }`}
+                className={`subMenuBottomAction${listDescriptionActive === item.listDescription ? ' active' : ''}`}
                 showLabels
               >
                 {item.list.map((sublistItem, index) => {

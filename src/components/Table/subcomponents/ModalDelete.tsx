@@ -11,16 +11,12 @@ type Props = {
 
 const ModalDelete = (props: Props) => {
   const dispatch = useAppDispatch();
-  const deleteState = useAppSelector(
-    (state) => state.arquivoUpload.deleteState
-  );
+  const deleteState = useAppSelector((state) => state.arquivoUpload.deleteState);
 
   useEffect(() => {
     if (deleteState === 's') {
       props.setOpen(false);
     }
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [deleteState]);
 
   return (
@@ -39,9 +35,7 @@ const ModalDelete = (props: Props) => {
     >
       <Fade in={props.open}>
         <Box className="modal-confirm-delete">
-          <Typography id="transition-modal-title">
-            Tem certeza que quer deletar o registro?
-          </Typography>
+          <Typography id="transition-modal-title">Tem certeza que quer deletar o registro?</Typography>
           {props.doc.nomArquivo}
           <hr
             style={{
@@ -65,17 +59,11 @@ const ModalDelete = (props: Props) => {
             <Box sx={{ m: 0, position: 'relative' }}>
               <Button
                 variant="contained"
-                onClick={() =>
-                  dispatch(arquivosDeleteRequest(props.doc))
-                }
+                onClick={() => dispatch(arquivosDeleteRequest(props.doc))}
                 disabled={deleteState === 'request'}
                 type="submit"
                 fullWidth
-                className={
-                  deleteState === 'request'
-                    ? 'errorSecondary'
-                    : 'errorColor'
-                }
+                className={deleteState === 'request' ? 'errorSecondary' : 'errorColor'}
               >
                 DELETAR
               </Button>

@@ -9,9 +9,7 @@ import {
   fornecedoresGetFilterSuccess,
 } from 'src/store/ducks/fornecedores';
 
-export function* sendGetFilterRequest(
-  action: ReturnType<typeof fornecedoresGetFilterRequest>
-) {
+export function* sendGetFilterRequest(action: ReturnType<typeof fornecedoresGetFilterRequest>) {
   try {
     const query = action.payload ?? '';
 
@@ -26,6 +24,4 @@ export function* sendGetFilterRequest(
   }
 }
 
-export default all([
-  takeLatest(fornecedoresGetFilterRequest, sendGetFilterRequest),
-]);
+export default all([takeLatest(fornecedoresGetFilterRequest, sendGetFilterRequest)]);

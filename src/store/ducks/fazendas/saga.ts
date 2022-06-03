@@ -3,15 +3,9 @@ import { all, call, put, takeLatest } from 'redux-saga/effects';
 
 import api from 'src/services/api';
 import { RespostaApi, TipoFiltro } from 'src/store/ducks/base/types';
-import {
-  fazendasGetFilterError,
-  fazendasGetFilterRequest,
-  fazendasGetFilterSuccess,
-} from 'src/store/ducks/fazendas';
+import { fazendasGetFilterError, fazendasGetFilterRequest, fazendasGetFilterSuccess } from 'src/store/ducks/fazendas';
 
-export function* sendGetFilterRequest(
-  action: ReturnType<typeof fazendasGetFilterRequest>
-) {
+export function* sendGetFilterRequest(action: ReturnType<typeof fazendasGetFilterRequest>) {
   try {
     const query = action.payload ?? '';
 
@@ -26,6 +20,4 @@ export function* sendGetFilterRequest(
   }
 }
 
-export default all([
-  takeLatest(fazendasGetFilterRequest, sendGetFilterRequest),
-]);
+export default all([takeLatest(fazendasGetFilterRequest, sendGetFilterRequest)]);

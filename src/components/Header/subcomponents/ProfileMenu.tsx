@@ -3,16 +3,7 @@ import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import './ProfileMenu.css';
 import { Icon } from '@iconify/react';
 import useOutsideClick from 'src/hooks/useOutsideClick';
-import {
-  Box,
-  Avatar,
-  Backdrop,
-  Button,
-  CircularProgress,
-  Fade,
-  Modal,
-  Typography,
-} from '@mui/material';
+import { Box, Avatar, Backdrop, Button, CircularProgress, Fade, Modal, Typography } from '@mui/material';
 import { getInitialsFromString } from 'src/utils/StringUtils';
 import * as Yup from 'yup';
 import { useAppDispatch, useAppSelector } from 'src/store';
@@ -72,9 +63,7 @@ const ProfileMenu = (props: ProfileMenuProps) => {
   };
   const errors = useAppSelector((state) => state.usuarios.changePasswordError);
   const [isErrorCollapseOpened, setErrorCollapseOpened] = useState(false);
-  const changePasswordState = useAppSelector(
-    (state) => state.usuarios.changePasswordState
-  );
+  const changePasswordState = useAppSelector((state) => state.usuarios.changePasswordState);
 
   const dispatch = useAppDispatch();
 
@@ -85,11 +74,10 @@ const ProfileMenu = (props: ProfileMenuProps) => {
     desConfirmaNovaSenha: '',
   };
 
-  const { handleSubmit, reset, control, formState } =
-    useForm<ChangeUsuarioPasswordRequest>({
-      resolver: yupResolver(schema),
-      defaultValues: defaultValues,
-    });
+  const { handleSubmit, reset, control, formState } = useForm<ChangeUsuarioPasswordRequest>({
+    resolver: yupResolver(schema),
+    defaultValues: defaultValues,
+  });
 
   const onSubmit: SubmitHandler<FormInputs> = (values) => {
     dispatch(changeUsuarioPasswordRequest(values));
@@ -121,7 +109,6 @@ const ProfileMenu = (props: ProfileMenuProps) => {
       setErrorCollapseOpened(true);
       setSuccess(false);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [changePasswordState]);
 
   useEffect(() => {
@@ -130,16 +117,12 @@ const ProfileMenu = (props: ProfileMenuProps) => {
 
   useEffect(() => {
     reset(defaultValues);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [reset]);
 
   return (
     <>
       <div className="ProfileMenu" ref={ref}>
-        <div
-          className="collapseToggle"
-          onClick={() => setCollapsed(!collapsed)}
-        >
+        <div className="collapseToggle" onClick={() => setCollapsed(!collapsed)}>
           <Avatar
             sx={{ bgcolor: '#1878a1' }}
             children={getInitialsFromString(user?.nomUsuario || '')}
@@ -177,11 +160,7 @@ const ProfileMenu = (props: ProfileMenuProps) => {
                   transition: 'all ease 0.2s',
                 }}
                 children={
-                  success ? (
-                    <span className="success icon"></span>
-                  ) : (
-                    getInitialsFromString(user?.nomUsuario || '')
-                  )
+                  success ? <span className="success icon"></span> : getInitialsFromString(user?.nomUsuario || '')
                 }
                 style={{
                   fontSize: '38pt',
@@ -191,16 +170,9 @@ const ProfileMenu = (props: ProfileMenuProps) => {
                   fontWeight: 800,
                 }}
               />
-              <Typography className="transition-modal-description">
-                {user?.nomUsuario}
-              </Typography>
+              <Typography className="transition-modal-description">{user?.nomUsuario}</Typography>
 
-              <form
-                noValidate
-                autoComplete="off"
-                onSubmit={handleSubmit(onSubmit)}
-                className="form-edit-profile"
-              >
+              <form noValidate autoComplete="off" onSubmit={handleSubmit(onSubmit)} className="form-edit-profile">
                 <div className="formFields">
                   <DmCollapseHandler
                     error={errors}
@@ -274,22 +246,13 @@ const ProfileMenu = (props: ProfileMenuProps) => {
                     <Button
                       variant="contained"
                       fullWidth
-                      disabled={
-                        formState.isSubmitting ||
-                        changePasswordState === 'request'
-                      }
+                      disabled={formState.isSubmitting || changePasswordState === 'request'}
                       type="submit"
-                      className={
-                        formState.isSubmitting ||
-                        changePasswordState === 'request'
-                          ? 'secondary'
-                          : ''
-                      }
+                      className={formState.isSubmitting || changePasswordState === 'request' ? 'secondary' : ''}
                     >
                       SALVAR
                     </Button>
-                    {(formState.isSubmitting ||
-                      changePasswordState === 'request') && (
+                    {(formState.isSubmitting || changePasswordState === 'request') && (
                       <CircularProgress
                         size={24}
                         sx={{

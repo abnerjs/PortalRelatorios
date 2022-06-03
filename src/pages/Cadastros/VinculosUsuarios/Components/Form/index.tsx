@@ -9,10 +9,7 @@ import { Button, Tab, Tabs, TextField } from '@mui/material';
 import Autocomplete from '@mui/material/Autocomplete';
 import CheckIcon from '@mui/icons-material/Check';
 
-import {
-  ListboxComponent,
-  StyledPopper,
-} from 'src/pages/Cadastros/VinculosUsuarios/Components/Autocomplete';
+import { ListboxComponent, StyledPopper } from 'src/pages/Cadastros/VinculosUsuarios/Components/Autocomplete';
 
 import { useAppSelector, useAppDispatch } from 'src/store';
 import { TipoFiltro } from 'src/store/ducks/base/types';
@@ -41,30 +38,18 @@ interface FormProps {
   onCancel(): void;
 }
 
-const Form: React.FC<FormProps> = ({
-  data,
-  isFormOpened,
-  onCancel,
-}: FormProps) => {
+const Form: React.FC<FormProps> = ({ data, isFormOpened, onCancel }: FormProps) => {
   const [tabsForm, setTabsForm] = useState('forn');
   const [fornecedores, setFornecedores] = useState<TipoFiltro[]>([]);
   const [prestadores, setPrestadores] = useState<TipoFiltro[]>([]);
 
-  const [fornecedoresAntigos, setFornecedoresAntigos] = useState<TipoFiltro[]>(
-    []
-  );
-  const [prestadoresAntigos, setPrestadoresAntigos] = useState<TipoFiltro[]>(
-    []
-  );
+  const [fornecedoresAntigos, setFornecedoresAntigos] = useState<TipoFiltro[]>([]);
+  const [prestadoresAntigos, setPrestadoresAntigos] = useState<TipoFiltro[]>([]);
 
   const dispatch = useAppDispatch();
 
-  const lstFornecedores = useAppSelector(
-    (state) => state.fornecedores.filterList
-  );
-  const lstPrestadores = useAppSelector(
-    (state) => state.prestadores.filterList
-  );
+  const lstFornecedores = useAppSelector((state) => state.fornecedores.filterList);
+  const lstPrestadores = useAppSelector((state) => state.prestadores.filterList);
 
   const fornAux = useAppSelector((state) => state.usuariosFornecedores.data);
   const prestAux = useAppSelector((state) => state.usuariosPrestadores.data);
@@ -77,19 +62,11 @@ const Form: React.FC<FormProps> = ({
     e.preventDefault();
 
     if (data) {
-      const deleteForn = fornecedoresAntigos.filter(
-        (x) => !fornecedores.includes(x)
-      );
-      const createForn = fornecedores.filter(
-        (x) => !fornecedoresAntigos.includes(x)
-      );
+      const deleteForn = fornecedoresAntigos.filter((x) => !fornecedores.includes(x));
+      const createForn = fornecedores.filter((x) => !fornecedoresAntigos.includes(x));
 
-      const deletePrest = prestadoresAntigos.filter(
-        (x) => !prestadores.includes(x)
-      );
-      const createPrest = prestadores.filter(
-        (x) => !prestadoresAntigos.includes(x)
-      );
+      const deletePrest = prestadoresAntigos.filter((x) => !prestadores.includes(x));
+      const createPrest = prestadores.filter((x) => !prestadoresAntigos.includes(x));
 
       deleteForn.forEach((item) => {
         const usuForn: UsuarioFornecedor = {
@@ -172,12 +149,8 @@ const Form: React.FC<FormProps> = ({
 
   useEffect(() => {
     if (data) {
-      dispatch(
-        usuariosFornecedoresGetRequest(`?idRelUsuario=${data?.idRelUsuario}`)
-      );
-      dispatch(
-        usuariosPrestadoresGetRequest(`?idRelUsuario=${data?.idRelUsuario}`)
-      );
+      dispatch(usuariosFornecedoresGetRequest(`?idRelUsuario=${data?.idRelUsuario}`));
+      dispatch(usuariosPrestadoresGetRequest(`?idRelUsuario=${data?.idRelUsuario}`));
     }
   }, [data, dispatch]);
 
@@ -193,20 +166,14 @@ const Form: React.FC<FormProps> = ({
 
   return (
     <div className={`formContainer${isFormOpened ? '' : ' invi'}`}>
-      <form
-        className={`FormUser flexGrow${isFormOpened ? '' : ' invi'}`}
-        onSubmit={handleSubmit}
-      >
-        <Tabs
-          value={tabsForm}
-          onChange={handleChangeTabs}
-          aria-label="Form section controller"
-        >
+      <form className={`FormUser flexGrow${isFormOpened ? '' : ' invi'}`} onSubmit={handleSubmit}>
+        <Tabs value={tabsForm} onChange={handleChangeTabs} aria-label="Form section controller">
           <Tab disableRipple value="forn" label="Fornecedores" />
           <Tab disableRipple value="prest" label="Prestadores" />
         </Tabs>
         <div className={`formSectionsController${tabsForm === 'prest' ? ' translate' : ''}`}>
-          <div className="autocompleteContainer"
+          <div
+            className="autocompleteContainer"
             style={{
               visibility: tabsForm === 'forn' ? 'visible' : 'hidden',
             }}
@@ -264,15 +231,15 @@ const Form: React.FC<FormProps> = ({
               )}
               value={fornecedores}
               onChange={(_, data) => setFornecedores(data)}
-              isOptionEqualToValue={(option, value) =>
-                option.codigo === value.codigo
-              }
+              isOptionEqualToValue={(option, value) => option.codigo === value.codigo}
             />
           </div>
-          <div className="autocompleteContainer"
+          <div
+            className="autocompleteContainer"
             style={{
               visibility: tabsForm === 'prest' ? 'visible' : 'hidden',
-            }}>
+            }}
+          >
             <Autocomplete
               multiple
               noOptionsText="Nenhum prestador"
@@ -322,9 +289,7 @@ const Form: React.FC<FormProps> = ({
               )}
               value={prestadores}
               onChange={(_, data) => setPrestadores(data)}
-              isOptionEqualToValue={(option, value) =>
-                option.codigo === value.codigo
-              }
+              isOptionEqualToValue={(option, value) => option.codigo === value.codigo}
             />
           </div>
         </div>
@@ -338,12 +303,7 @@ const Form: React.FC<FormProps> = ({
           >
             CANCELAR
           </Button>
-          <Button
-            tabIndex={isFormOpened ? 0 : -1}
-            variant="contained"
-            type="submit"
-            fullWidth
-          >
+          <Button tabIndex={isFormOpened ? 0 : -1} variant="contained" type="submit" fullWidth>
             SALVAR
           </Button>
         </div>

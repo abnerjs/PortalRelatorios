@@ -23,10 +23,7 @@ export function* sendGetRequest(action: ReturnType<typeof perfisGetRequest>) {
   try {
     const query = action.payload ?? '';
 
-    const response: AxiosResponse<RespostaApi<Perfil>> = yield call(
-      api.get,
-      `Perfis/v1/${query}`
-    );
+    const response: AxiosResponse<RespostaApi<Perfil>> = yield call(api.get, `Perfis/v1/${query}`);
 
     yield put(perfisGetSuccess(response.data));
   } catch (error: any) {
@@ -34,9 +31,7 @@ export function* sendGetRequest(action: ReturnType<typeof perfisGetRequest>) {
   }
 }
 
-export function* sendGetFilterRequest(
-  action: ReturnType<typeof perfisGetFilterRequest>
-) {
+export function* sendGetFilterRequest(action: ReturnType<typeof perfisGetFilterRequest>) {
   try {
     const query = action.payload ?? '';
 
@@ -67,9 +62,7 @@ export function* sendPutRequest(action: ReturnType<typeof perfisPutRequest>) {
   }
 }
 
-export function* sendDeleteRequest(
-  action: ReturnType<typeof perfisDeleteRequest>
-) {
+export function* sendDeleteRequest(action: ReturnType<typeof perfisDeleteRequest>) {
   try {
     const query = `?idRelPerfil=${action.payload.idRelPerfil}`;
 

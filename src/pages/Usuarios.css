@@ -32,24 +32,24 @@
 }
 
 @media screen and (max-width: 1254px) {
-    .Usuarios {
-      height: calc(100% - 52px);
-      position: fixed;
-      top: 0;
-      width: 200%;
-    }
-  
-    .Usuarios .content {
-      margin: 20px;
-      width: calc(100% - 40px);
-    }
-
-    .Usuarios .content > .row.relatorios {
-      width: calc(100vw - 40px);
-      justify-content: center;
-    }
-
-    .Usuarios .content > .row.relatorios .FormUser {
-      width: 100%;
-    }
+  .Usuarios {
+    height: calc(100% - 52px);
+    position: fixed;
+    top: 0;
+    width: 200%;
   }
+
+  .Usuarios .content {
+    margin: 20px;
+    width: calc(100% - 40px);
+  }
+
+  .Usuarios .content > .row.relatorios {
+    width: calc(100vw - 40px);
+    justify-content: center;
+  }
+
+  .Usuarios .content > .row.relatorios .FormUser {
+    width: 100%;
+  }
+}

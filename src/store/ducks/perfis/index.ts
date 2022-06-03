@@ -38,14 +38,8 @@ export const perfisSlice = createSlice({
     perfisCleanError: (state) => {
       state.error = undefined;
     },
-    perfisGetFilterRequest: (
-      state,
-      action: PayloadAction<string | undefined>
-    ) => {},
-    perfisGetFilterSuccess: (
-      state,
-      action: PayloadAction<RespostaApi<TipoFiltro>>
-    ) => {
+    perfisGetFilterRequest: (state, action: PayloadAction<string | undefined>) => {},
+    perfisGetFilterSuccess: (state, action: PayloadAction<RespostaApi<TipoFiltro>>) => {
       state.filterList = action.payload.dados;
     },
     perfisPostRequest: (state, action: PayloadAction<Perfil>) => {

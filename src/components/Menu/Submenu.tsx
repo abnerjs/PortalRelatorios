@@ -1,14 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import {
-  Box,
-  Collapse,
-  Drawer,
-  List,
-  ListItem,
-  ListItemText,
-  Tooltip,
-} from '@mui/material';
+import { Box, Collapse, Drawer, List, ListItem, ListItemText, Tooltip } from '@mui/material';
 import { Icon } from '@iconify/react';
 import { Objeto } from 'src/store/ducks/login/types';
 import './Menu.css';
@@ -39,7 +31,6 @@ const Submenu = (props: Props) => {
 
   useEffect(() => {
     if (state) props.setSubmenuIndexActive(props.index);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state]);
 
   const list = (array: Array<Objeto>) => (
@@ -52,21 +43,11 @@ const Submenu = (props: Props) => {
     >
       <List>
         {array.map((obj, index) => (
-          <Link
-            to={'/' + obj.nomPagina.toLowerCase()}
-            key={`submenu-${index}`}
-            tabIndex={-1}
-          >
+          <Link to={'/' + obj.nomPagina.toLowerCase()} key={`submenu-${index}`} tabIndex={-1}>
             <ListItem button key={obj.nomPagina.toLowerCase()}>
               <ListItemText
                 primary={obj.desObjeto}
-                className={
-                  location.pathname
-                    .toLowerCase()
-                    .includes('/' + obj.nomPagina.toLowerCase())
-                    ? 'active'
-                    : ''
-                }
+                className={location.pathname.toLowerCase().includes('/' + obj.nomPagina.toLowerCase()) ? 'active' : ''}
               />
             </ListItem>
           </Link>
@@ -77,10 +58,7 @@ const Submenu = (props: Props) => {
 
   const fullWidthList = (array: Array<Objeto>, expanded: boolean) => {
     return (
-      <Collapse
-        in={expanded && props.isMenuExpansive}
-        className="fullWidthList"
-      >
+      <Collapse in={expanded && props.isMenuExpansive} className="fullWidthList">
         <List component="div" disablePadding>
           {array.map((obj, index) => (
             <Link
@@ -93,19 +71,13 @@ const Submenu = (props: Props) => {
                 button
                 key={obj.nomPagina.toLowerCase()}
                 className={`itemlist-btn${
-                  location.pathname
-                    .toLowerCase()
-                    .includes(obj.nomPagina.toLowerCase())
-                    ? ' active'
-                    : ''
+                  location.pathname.toLowerCase().includes(obj.nomPagina.toLowerCase()) ? ' active' : ''
                 }`}
               >
                 <ListItemText
                   primary={obj.desObjeto}
                   className={
-                    location.pathname
-                      .toLowerCase()
-                      .includes('/' + obj.nomPagina.toLowerCase())
+                    location.pathname.toLowerCase().includes('/' + obj.nomPagina.toLowerCase())
                       ? 'itemlist active'
                       : 'itemlist'
                   }
@@ -123,12 +95,7 @@ const Submenu = (props: Props) => {
     let str = 'menuButton';
 
     list.forEach((item) => {
-      if (
-        location.pathname
-          .toLowerCase()
-          .includes('/' + item.nomPagina.toLowerCase())
-      )
-        aux = true;
+      if (location.pathname.toLowerCase().includes('/' + item.nomPagina.toLowerCase())) aux = true;
     });
     if (aux) str += ' active';
     if (expanded && props.isMenuExpansive) str += ' expanded';
@@ -145,8 +112,7 @@ const Submenu = (props: Props) => {
       >
         <div
           onClick={() => {
-            if (!props.expanded || (!props.isMenuExpansive && props.expanded))
-              setState(!state);
+            if (!props.expanded || (!props.isMenuExpansive && props.expanded)) setState(!state);
           }}
           className={isActiveClassName(props.list, props.expanded)}
         >
@@ -157,10 +123,7 @@ const Submenu = (props: Props) => {
       <div className="items">{fullWidthList(props.list, props.expanded)}</div>
       <Drawer
         anchor="left"
-        open={
-          state &&
-          (!props.expanded || (!props.isMenuExpansive && props.expanded))
-        }
+        open={state && (!props.expanded || (!props.isMenuExpansive && props.expanded))}
         onClose={() => setState(false)}
         PaperProps={{ style: { justifyContent: 'flex-start' } }}
       >

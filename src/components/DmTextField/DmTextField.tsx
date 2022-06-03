@@ -23,10 +23,12 @@ interface Props {
 }
 
 const DmTextField = (props: Props) => {
-
   return (
     <TextField
-      id={props.label.replaceAll(' ', '').normalize('NFD').replace(/[\u0300-\u036f]/g, '')}
+      id={props.label
+        .replaceAll(' ', '')
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '')}
       fullWidth
       label={props.label}
       size={props.size}

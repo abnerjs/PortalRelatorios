@@ -18,17 +18,12 @@ export function* sendLoginRequest(action: ReturnType<typeof loginRequest>) {
     data.append('desLogin', action.payload.desLogin);
     data.append('desSenha', action.payload.desSenha);
 
-    const response: AxiosResponse<UserLogin> = yield call(
-      api.post,
-      'Auth/v1/login/',
-      data,
-      {
-        headers: {
-          'Content-Type': 'Application/x-www-form-urlencoded',
-          client_id: 'n2mK7ztXlfLDUwH6L/Dz416DeeZQyB2tNlPEfmsQ0S0=',
-        },
-      }
-    );
+    const response: AxiosResponse<UserLogin> = yield call(api.post, 'Auth/v1/login/', data, {
+      headers: {
+        'Content-Type': 'Application/x-www-form-urlencoded',
+        client_id: 'n2mK7ztXlfLDUwH6L/Dz416DeeZQyB2tNlPEfmsQ0S0=',
+      },
+    });
 
     yield put(loginSuccess(response.data));
   } catch (error: any) {
@@ -36,25 +31,18 @@ export function* sendLoginRequest(action: ReturnType<typeof loginRequest>) {
   }
 }
 
-export function* sendRecoveryRequest(
-  action: ReturnType<typeof recoveryRequest>
-) {
+export function* sendRecoveryRequest(action: ReturnType<typeof recoveryRequest>) {
   try {
     const data = new URLSearchParams();
     data.append('desLogin', action.payload.desLogin);
     data.append('desEmail', action.payload.desEmail);
 
-    const response: AxiosResponse<string> = yield call(
-      api.post,
-      'Auth/v1/recuperarSenha/',
-      data,
-      {
-        headers: {
-          'Content-Type': 'Application/x-www-form-urlencoded',
-          client_id: 'n2mK7ztXlfLDUwH6L/Dz416DeeZQyB2tNlPEfmsQ0S0=',
-        },
-      }
-    );
+    const response: AxiosResponse<string> = yield call(api.post, 'Auth/v1/recuperarSenha/', data, {
+      headers: {
+        'Content-Type': 'Application/x-www-form-urlencoded',
+        client_id: 'n2mK7ztXlfLDUwH6L/Dz416DeeZQyB2tNlPEfmsQ0S0=',
+      },
+    });
 
     yield put(recoverySuccess(response.data));
   } catch (error: any) {

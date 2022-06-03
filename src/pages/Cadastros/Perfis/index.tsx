@@ -32,9 +32,7 @@ const searchInitValues = {
 
 const Perfis = () => {
   const objetos = useAppSelector((state) => state.session.objetos);
-  const flgAcesso =
-    objetos.find((x) => x.nomPagina.toLowerCase() === 'perfis')?.flgAcesso ||
-    'N';
+  const flgAcesso = objetos.find((x) => x.nomPagina.toLowerCase() === 'perfis')?.flgAcesso || 'N';
 
   const [rowSelected, setRowSelected] = useState(-1);
   const [isFormOpened, setFormOpened] = useState(false);
@@ -87,9 +85,7 @@ const Perfis = () => {
   };
 
   let arrElems = document.getElementsByClassName('textual');
-  let deleteModalElem = document
-    .getElementsByClassName('userInfo')[0]
-    ?.getElementsByTagName('p')[0];
+  let deleteModalElem = document.getElementsByClassName('userInfo')[0]?.getElementsByTagName('p')[0];
 
   useEffect(() => {
     for (let elem of arrElems) {
@@ -99,10 +95,8 @@ const Perfis = () => {
 
   useEffect(() => {
     setTimeout(() => {
-      if (isOverflown(deleteModalElem))
-        deleteModalElem.classList.add('overflown');
+      if (isOverflown(deleteModalElem)) deleteModalElem.classList.add('overflown');
     }, 505);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   });
 
   useEffect(() => {
@@ -121,7 +115,6 @@ const Perfis = () => {
       setNewUserSection(false);
       dispatch(perfisIdleOperation());
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [operationState]);
 
   return (
@@ -129,15 +122,11 @@ const Perfis = () => {
       <div className="content">
         <div className="head">
           <Header title="Perfis" />
-          <Typography variant="subtitle1">
-            Todos os perfis do sistema
-          </Typography>
+          <Typography variant="subtitle1">Todos os perfis do sistema</Typography>
         </div>
         <div className="row">
           <div className={`tableContainer${isFormOpened ? '' : ' formInvi'}`}>
-            <div
-              className={`SectionizedTable${isFormOpened ? '' : ' formInvi'}`}
-            >
+            <div className={`SectionizedTable${isFormOpened ? '' : ' formInvi'}`}>
               <div className="search">
                 <Icon
                   icon="fluent:search-12-regular"
@@ -166,16 +155,8 @@ const Perfis = () => {
                 onClick={() => handleFormOpen(true, true)}
                 disabled={flgAcesso !== 'A'}
                 variant="contained"
-                className={`tertiary${
-                  isFormOpened && isNewUserSection ? ' active' : ''
-                }`}
-                startIcon={
-                  <Icon
-                    icon="fluent:add-16-regular"
-                    width={25}
-                    className="icon"
-                  />
-                }
+                className={`tertiary${isFormOpened && isNewUserSection ? ' active' : ''}`}
+                startIcon={<Icon icon="fluent:add-16-regular" width={25} className="icon" />}
               >
                 NOVO PERFIL
               </Button>

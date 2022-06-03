@@ -8,10 +8,7 @@ type CustomParametersOptions = {
   remove?: boolean;
 };
 
-export type PesquisaHandler = (
-  key: keyof InfoPesquisaProps,
-  value?: number | string
-) => void;
+export type PesquisaHandler = (key: keyof InfoPesquisaProps, value?: number | string) => void;
 
 type PesquisaCustomHandler = (options: CustomParametersOptions) => void;
 
@@ -27,14 +24,9 @@ type PesquisaHook = {
 };
 
 export function usePesquisa(values?: InitialState): PesquisaHook {
-  const [pesquisa, setPesquisa] = useState<InfoPesquisa>(
-    new Pesquisa(values?.init, values?.params)
-  );
+  const [pesquisa, setPesquisa] = useState<InfoPesquisa>(new Pesquisa(values?.init, values?.params));
 
-  const handlePesquisa = (
-    key: keyof InfoPesquisa,
-    value?: number | string
-  ) => {
+  const handlePesquisa = (key: keyof InfoPesquisa, value?: number | string) => {
     const novaPesquisa = pesquisa.clone();
     novaPesquisa.numPagina = 1;
 
@@ -43,11 +35,7 @@ export function usePesquisa(values?: InitialState): PesquisaHook {
     setPesquisa(novaPesquisa);
   };
 
-  const handleCustomParameters = ({
-    key,
-    value = '',
-    remove = false,
-  }: CustomParametersOptions) => {
+  const handleCustomParameters = ({ key, value = '', remove = false }: CustomParametersOptions) => {
     const novaPesquisa = pesquisa.clone();
     novaPesquisa.numPagina = 1;
 

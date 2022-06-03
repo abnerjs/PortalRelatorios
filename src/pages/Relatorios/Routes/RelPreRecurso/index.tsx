@@ -10,14 +10,7 @@ import * as Yup from 'yup';
 import { format } from 'date-fns';
 import brLocale from 'date-fns/locale/pt-BR';
 import { yupResolver } from '@hookform/resolvers/yup';
-import {
-  Autocomplete,
-  Box,
-  Button,
-  CircularProgress,
-  TextField,
-  Typography,
-} from '@mui/material';
+import { Autocomplete, Box, Button, CircularProgress, TextField, Typography } from '@mui/material';
 import { DateRange, DateRangePicker } from '@mui/lab';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
@@ -25,10 +18,7 @@ import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import Header from 'src/components/Header/Header';
 import { useAppDispatch, useAppSelector } from 'src/store';
 import { TipoFiltro } from 'src/store/ducks/base/types';
-import {
-  relatoriosDownloadIdle,
-  relatoriosDownloadRequest,
-} from 'src/store/ducks/relatorios';
+import { relatoriosDownloadIdle, relatoriosDownloadRequest } from 'src/store/ducks/relatorios';
 import { tiposRecursosGetFilterRequest } from 'src/store/ducks/tiposRecursos';
 import { usuariosPrestadoresGetFilterRequest } from 'src/store/ducks/usuariosPrestadores';
 import DmCollapseHandler from 'src/components/DmCollapseHandler/DmCollapseHandler';
@@ -41,9 +31,7 @@ interface FormProps {
 }
 
 const schema = Yup.object({
-  dtaInicio: Yup.date()
-    .required('Campo obrigatório!')
-    .typeError('Data inválida!'),
+  dtaInicio: Yup.date().required('Campo obrigatório!').typeError('Data inválida!'),
   dtaFim: Yup.date().typeError('Data inválida!').required('Campo obrigatório!'),
   codTpRecurso: Yup.string().required('Campo obrigatório!'),
   lstCodPrestadores: Yup.string().nullable().default(null).notRequired(),
@@ -97,7 +85,7 @@ const RelPreRecurso = () => {
 
   useEffect(() => {
     if (pdf) {
-      if (!(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent))) {
+      if (!/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
         global.window.open(pdf);
       }
     }
@@ -120,12 +108,7 @@ const RelPreRecurso = () => {
           <Header title="Produção por Recurso" />
         </div>
         <div className="row relatorios" style={{ alignContent: 'flex-start' }}>
-          <form
-            noValidate
-            autoComplete="off"
-            onSubmit={handleSubmit(onSubmit)}
-            className={`FormUser`}
-          >
+          <form noValidate autoComplete="off" onSubmit={handleSubmit(onSubmit)} className={`FormUser`}>
             <div className="formFields">
               <Typography variant="h6">Filtrar documento</Typography>
               <DmCollapseHandler
@@ -133,10 +116,7 @@ const RelPreRecurso = () => {
                 isErrorCollapseOpened={isErrorCollapseOpened}
                 setErrorCollapseOpened={setErrorCollapseOpened}
               />
-              <LocalizationProvider
-                dateAdapter={AdapterDateFns}
-                locale={brLocale}
-              >
+              <LocalizationProvider dateAdapter={AdapterDateFns} locale={brLocale}>
                 <DateRangePicker
                   mask="__/__/____"
                   value={date}
@@ -159,7 +139,7 @@ const RelPreRecurso = () => {
                         {...startProps}
                         margin="dense"
                         variant="filled"
-                        className='DmTextField'
+                        className="DmTextField"
                         fullWidth
                         InputProps={{ disableUnderline: true }}
                         inputProps={{
@@ -174,7 +154,7 @@ const RelPreRecurso = () => {
                         {...endProps}
                         margin="dense"
                         variant="filled"
-                        className='DmTextField'
+                        className="DmTextField"
                         fullWidth
                         InputProps={{ disableUnderline: true }}
                         inputProps={{
@@ -210,7 +190,7 @@ const RelPreRecurso = () => {
                     label="Tipos de recursos"
                     margin="dense"
                     variant="filled"
-                    className='DmTextField'
+                    className="DmTextField"
                     InputProps={{
                       ...params.InputProps,
                       disableUnderline: true,
@@ -250,35 +230,25 @@ const RelPreRecurso = () => {
                     label="Prestadores"
                     margin="dense"
                     variant="filled"
-                    className='DmTextField'
+                    className="DmTextField"
                     InputProps={{
                       ...params.InputProps,
                       disableUnderline: true,
                     }}
                     error={!!formState.errors.lstCodPrestadores}
-                    helperText={
-                      formState.errors.lstCodPrestadores?.message || 'Opcional'
-                    }
+                    helperText={formState.errors.lstCodPrestadores?.message || 'Opcional'}
                   />
                 )}
                 value={prestadores}
                 onChange={(_, data) => {
-                  setValue(
-                    'lstCodPrestadores',
-                    data.map((x) => x.codigo).join(',')
-                  );
+                  setValue('lstCodPrestadores', data.map((x) => x.codigo).join(','));
 
                   setPrestadores(data);
                 }}
               />
             </div>
             <div className="buttons">
-              <Button
-                variant="contained"
-                className="secondary"
-                onClick={() => history.goBack()}
-                fullWidth
-              >
+              <Button variant="contained" className="secondary" onClick={() => history.goBack()} fullWidth>
                 VOLTAR
               </Button>
               <Box sx={{ m: 0, position: 'relative' }}>
@@ -286,9 +256,7 @@ const RelPreRecurso = () => {
                   variant="contained"
                   disabled={formState.isSubmitting || isLoading}
                   type="submit"
-                  className={
-                    formState.isSubmitting || isLoading ? 'secondary' : ''
-                  }
+                  className={formState.isSubmitting || isLoading ? 'secondary' : ''}
                   fullWidth
                 >
                   GERAR

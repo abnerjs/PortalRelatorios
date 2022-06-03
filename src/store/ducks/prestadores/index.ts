@@ -13,16 +13,10 @@ export const prestadoresSlice = createSlice({
   name: 'prestadores',
   initialState: initialState,
   reducers: {
-    prestadoresGetFilterRequest: (
-      state,
-      action: PayloadAction<string | undefined>
-    ) => {
+    prestadoresGetFilterRequest: (state, action: PayloadAction<string | undefined>) => {
       state.error = undefined;
     },
-    prestadoresGetFilterSuccess: (
-      state,
-      action: PayloadAction<RespostaApi<TipoFiltro>>
-    ) => {
+    prestadoresGetFilterSuccess: (state, action: PayloadAction<RespostaApi<TipoFiltro>>) => {
       state.filterList = action.payload.dados;
       state.error = undefined;
     },
@@ -32,10 +26,7 @@ export const prestadoresSlice = createSlice({
   },
 });
 
-export const {
-  prestadoresGetFilterRequest,
-  prestadoresGetFilterSuccess,
-  prestadoresGetFilterError,
-} = prestadoresSlice.actions;
+export const { prestadoresGetFilterRequest, prestadoresGetFilterSuccess, prestadoresGetFilterError } =
+  prestadoresSlice.actions;
 
 export default prestadoresSlice.reducer;

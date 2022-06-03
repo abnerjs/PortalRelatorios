@@ -85,11 +85,7 @@ const Select: React.FC<Props> = (props: Props) => {
                 e.stopPropagation();
               }}
             >
-              <div
-                className={`placeholder${
-                  props.selected !== '' ? ' selected' : ''
-                }`}
-              >
+              <div className={`placeholder${props.selected !== '' ? ' selected' : ''}`}>
                 {props.selected !== '' ? props.selected : props.placeholder}
               </div>
               <Icon
@@ -100,20 +96,20 @@ const Select: React.FC<Props> = (props: Props) => {
             </div>
 
             <div className="newprofile">
-            <Button
-              onClick={active ? () => {setFormActive(true)} : () => {}}
-              variant="contained"
-              className={`tertiary`}
-              startIcon={
-                <Icon
-                  icon="fluent:add-16-regular"
-                  width={25}
-                  className="icon"
-                />
-              }
-            >
-              NOVO PERFIL
-            </Button>
+              <Button
+                onClick={
+                  active
+                    ? () => {
+                        setFormActive(true);
+                      }
+                    : () => {}
+                }
+                variant="contained"
+                className={`tertiary`}
+                startIcon={<Icon icon="fluent:add-16-regular" width={25} className="icon" />}
+              >
+                NOVO PERFIL
+              </Button>
             </div>
           </div>
           <div
@@ -123,13 +119,7 @@ const Select: React.FC<Props> = (props: Props) => {
             }}
           >
             {props.options
-              ? makeOptions(
-                  props.options,
-                  props.setSelected,
-                  setActive,
-                  props.selected,
-                  props.placeholder
-                )
+              ? makeOptions(props.options, props.setSelected, setActive, props.selected, props.placeholder)
               : ''}
           </div>
         </div>
@@ -138,11 +128,7 @@ const Select: React.FC<Props> = (props: Props) => {
           {props.children}
 
           <div className="buttons">
-            <Button
-              tabIndex={active && formActive ? 0 : -1}
-              variant="contained"
-              onClick={() => setFormActive(false)}
-            >
+            <Button tabIndex={active && formActive ? 0 : -1} variant="contained" onClick={() => setFormActive(false)}>
               SALVAR
             </Button>
             <Button

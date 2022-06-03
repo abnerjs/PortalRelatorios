@@ -13,16 +13,10 @@ export const tiposRecursosSlice = createSlice({
   name: 'tiposRecursos',
   initialState: initialState,
   reducers: {
-    tiposRecursosGetFilterRequest: (
-      state,
-      action: PayloadAction<string | undefined>
-    ) => {
+    tiposRecursosGetFilterRequest: (state, action: PayloadAction<string | undefined>) => {
       state.error = undefined;
     },
-    tiposRecursosGetFilterSuccess: (
-      state,
-      action: PayloadAction<RespostaApi<TipoFiltro>>
-    ) => {
+    tiposRecursosGetFilterSuccess: (state, action: PayloadAction<RespostaApi<TipoFiltro>>) => {
       state.filterList = action.payload.dados;
       state.error = undefined;
     },
@@ -32,10 +26,7 @@ export const tiposRecursosSlice = createSlice({
   },
 });
 
-export const {
-  tiposRecursosGetFilterRequest,
-  tiposRecursosGetFilterSuccess,
-  tiposRecursosGetFilterError,
-} = tiposRecursosSlice.actions;
+export const { tiposRecursosGetFilterRequest, tiposRecursosGetFilterSuccess, tiposRecursosGetFilterError } =
+  tiposRecursosSlice.actions;
 
 export default tiposRecursosSlice.reducer;
