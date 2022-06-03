@@ -1,6 +1,6 @@
 {
   "name": "portal-relatorios-datamob",
-  "version": "01.00.00.0000",
+  "version": "01.00.00.0002",
   "private": true,
   "homepage": ".",
   "dependencies": {
