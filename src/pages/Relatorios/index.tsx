@@ -1,15 +1,7 @@
 import '../Dashboard.css';
 import './Styles/index.css';
 
-import {
-  Box,
-  Typography,
-  Button,
-  CircularProgress,
-  Skeleton,
-  IconButton,
-  Badge,
-} from '@mui/material';
+import { Box, Typography, Button, CircularProgress, Skeleton, IconButton, Badge } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import Header from 'src/components/Header/Header';
 import Table, { LinkProps } from 'src/components/Table/Table';
@@ -48,31 +40,25 @@ const Documentos = () => {
   const arquivosState = useAppSelector((state) => state.arquivoUpload.state);
   const getError = useAppSelector((state) => state.arquivoUpload.error);
   const file = useAppSelector((state) => state.arquivoUpload.file);
-  const [filtros, setFiltros] =
-    useState<FiltrosRelatorios>(defaultValuesFiltros);
+  const [filtros, setFiltros] = useState<FiltrosRelatorios>(defaultValuesFiltros);
   const [displayColumn, setDisplayColumn] = useState('flex');
   const [showingAlert, setShowingAlert] = useState(false);
   const [dragStart, setDragStart] = useState([0, 0, 0]);
   const [dragEnd, setDragEnd] = useState([0, 0, 0]);
   const [columnActive, setColumnActive] = useState(0);
 
-  const deleteState = useAppSelector(
-    (state) => state.arquivoUpload.deleteState
-  );
-  const uploadState = useAppSelector(
-    (state) => state.arquivoUpload.uploadState
-  );
+  const deleteState = useAppSelector((state) => state.arquivoUpload.deleteState);
+  const uploadState = useAppSelector((state) => state.arquivoUpload.uploadState);
 
   useEffect(() => {
     if (
       Math.abs(dragEnd[0] - dragStart[0]) > 100 &&
       (Math.abs(dragEnd[1] - dragStart[1]) < 50 ||
         (Math.abs(dragEnd[1] - dragStart[1]) < 150 && dragEnd[3] !== undefined)) &&
-        (dragEnd[2] - dragStart[2]) < 1500
+      dragEnd[2] - dragStart[2] < 1500
     ) {
       setColumnActive((columnActive + 1) % 2);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dragEnd]);
 
   useEffect(() => {
@@ -80,16 +66,12 @@ const Documentos = () => {
       dispatch(arquivosGetRequest(filtros));
       dispatch(arquivosDeleteIdle());
     }
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [deleteState]);
 
   useEffect(() => {
     if (uploadState === 's') {
       dispatch(arquivosGetRequest(filtros));
     }
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [uploadState]);
 
   useEffect(() => {
@@ -111,12 +93,8 @@ const Documentos = () => {
     dispatch(prestadoresGetFilterRequest());
   }, [dispatch]);
 
-  const lstFornecedores = useAppSelector(
-    (state) => state.fornecedores.filterList
-  );
-  const lstPrestadores = useAppSelector(
-    (state) => state.prestadores.filterList
-  );
+  const lstFornecedores = useAppSelector((state) => state.fornecedores.filterList);
+  const lstPrestadores = useAppSelector((state) => state.prestadores.filterList);
 
   useEffect(() => {
     dispatch(arquivosGetRequest(filtros));
@@ -129,7 +107,7 @@ const Documentos = () => {
 
   useEffect(() => {
     if (file) {
-      if (!(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent))) {
+      if (!/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
         window.open(file);
       }
     }
@@ -137,7 +115,6 @@ const Documentos = () => {
     return () => {
       dispatch(arquivosDownloadIdle());
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [file]);
 
   function getObjetos(flgFiltro: string): Array<LinkProps> {
@@ -166,9 +143,7 @@ const Documentos = () => {
       <div className="content">
         <div className="head">
           <Header title="Relatórios" />
-          <Typography variant="subtitle1">
-            Relatórios e demonstrativos disponíveis para consulta
-          </Typography>
+          <Typography variant="subtitle1">Relatórios e demonstrativos disponíveis para consulta</Typography>
         </div>
 
         <div className="row up">
@@ -185,11 +160,7 @@ const Documentos = () => {
               }}
             >
               <div className="uploadButtonText">UPLOAD DE RELATÓRIOS</div>
-              <Icon
-                className="uploadButtonIcon"
-                icon="fluent:arrow-upload-16-filled"
-                height={'30px'}
-              />
+              <Icon className="uploadButtonIcon" icon="fluent:arrow-upload-16-filled" height={'30px'} />
             </Button>
             {false && (
               <CircularProgress
@@ -222,21 +193,15 @@ const Documentos = () => {
                 mr: 2,
               }}
             />
-            <IconButton
-              className="filterButton"
-              onClick={() => setOpenFilters(true)}
-              style={{ width: 45, height: 45 }}
-            >
+            <IconButton className="filterButton" onClick={() => setOpenFilters(true)} style={{ width: 45, height: 45 }}>
               <Badge
                 color="primary"
                 variant="dot"
                 invisible={
                   JSON.stringify(filtros.fornecedores) === JSON.stringify([]) &&
                   JSON.stringify(filtros.prestadores) === JSON.stringify([]) &&
-                  JSON.stringify(filtros.periodoRef) ===
-                    JSON.stringify([null, null]) &&
-                  JSON.stringify(filtros.periodoUp) ===
-                    JSON.stringify([null, null])
+                  JSON.stringify(filtros.periodoRef) === JSON.stringify([null, null]) &&
+                  JSON.stringify(filtros.periodoUp) === JSON.stringify([null, null])
                 }
               >
                 <Icon icon="ci:filter-outline" height={'30px'} />
@@ -267,44 +232,21 @@ const Documentos = () => {
             setDragStart([e.clientX, e.clientY, new Date().getTime()]);
           }}
           onTouchStart={(e) => {
-            setDragStart([
-              e.touches[0].clientX,
-              e.touches[0].clientY,
-              new Date().getTime(),
-            ]);
+            setDragStart([e.touches[0].clientX, e.touches[0].clientY, new Date().getTime()]);
           }}
           onDragEnd={(e) => {
             setDragEnd([e.clientX, e.clientY, new Date().getTime()]);
           }}
           onTouchEnd={(e) => {
-            setDragEnd([
-              e.changedTouches[0].clientX,
-              e.changedTouches[0].clientY,
-              new Date().getTime(),
-              0,
-            ]);
+            setDragEnd([e.changedTouches[0].clientX, e.changedTouches[0].clientY, new Date().getTime(), 0]);
           }}
         >
           <div className="column">
-            {fornecedores.length !== 0 && (
-              <Table
-                arr={fornecedores}
-                title="Para fornecedores"
-                tableIndex={-1}
-              />
-            )}
-            {prestadores.length !== 0 && (
-              <Table
-                arr={prestadores}
-                title="Para prestadores"
-                tableIndex={-1}
-              />
-            )}
+            {fornecedores.length !== 0 && <Table arr={fornecedores} title="Para fornecedores" tableIndex={-1} />}
+            {prestadores.length !== 0 && <Table arr={prestadores} title="Para prestadores" tableIndex={-1} />}
           </div>
           <div
-            className={`column${
-              arquivosState === 'l' || showingAlert ? ' loading' : ''
-            }`}
+            className={`column${arquivosState === 'l' || showingAlert ? ' loading' : ''}`}
             style={{
               display: displayColumn,
             }}
@@ -314,9 +256,7 @@ const Documentos = () => {
             ) : arquivosByTipo?.length === 0 ? (
               <div className="unfound">
                 <UncontrolledLottie />
-                <Typography variant="h5">
-                  {getError ? getError : 'NÃO FORAM ENCONTRADOS REGISTROS'}
-                </Typography>
+                <Typography variant="h5">{getError ? getError : 'NÃO FORAM ENCONTRADOS REGISTROS'}</Typography>
               </div>
             ) : (
               <div className="filesTypes">{filesTypes(arquivosByTipo)}</div>
@@ -335,19 +275,12 @@ const Documentos = () => {
 
 export default Documentos;
 
-function filesTypes(
-  arquivosByTipo: ArquivosByTipo[] | undefined
-): JSX.Element[] {
+function filesTypes(arquivosByTipo: ArquivosByTipo[] | undefined): JSX.Element[] {
   let arrAux: JSX.Element[] = [];
 
   arquivosByTipo?.forEach((item, index) => {
     arrAux.push(
-      <Table
-        key={item.idRelTpArquivo}
-        arrArquivo={item.arquivos}
-        title={item.desTpArquivo}
-        tableIndex={index}
-      />
+      <Table key={item.idRelTpArquivo} arrArquivo={item.arquivos} title={item.desTpArquivo} tableIndex={index} />
     );
   });
 

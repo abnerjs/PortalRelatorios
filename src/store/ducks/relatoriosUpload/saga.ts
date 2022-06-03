@@ -27,49 +27,25 @@ export function* sendGetRequest(action: ReturnType<typeof arquivosGetRequest>) {
     let query = '';
     if (action.payload) {
       query = '?';
-      if (
-        action.payload.periodoRef &&
-        action.payload.periodoRef[0] &&
-        action.payload.periodoRef[1]
-      ) {
-        query += `dtaIni=${
-          action.payload.periodoRef[0].toISOString().split('T')[0]
-        }&`;
-        query += `dtaFim=${
-          action.payload.periodoRef[1].toISOString().split('T')[0]
-        }`;
+      if (action.payload.periodoRef && action.payload.periodoRef[0] && action.payload.periodoRef[1]) {
+        query += `dtaIni=${action.payload.periodoRef[0].toISOString().split('T')[0]}&`;
+        query += `dtaFim=${action.payload.periodoRef[1].toISOString().split('T')[0]}`;
       } else if (action.payload.periodoRef && action.payload.periodoRef[0]) {
-        query += `dtaIni=${
-          action.payload.periodoRef[0].toISOString().split('T')[0]
-        }`;
+        query += `dtaIni=${action.payload.periodoRef[0].toISOString().split('T')[0]}`;
       } else if (action.payload.periodoRef && action.payload.periodoRef[1]) {
-        query += `dtaFim=${
-          action.payload.periodoRef[1].toISOString().split('T')[0]
-        }`;
+        query += `dtaFim=${action.payload.periodoRef[1].toISOString().split('T')[0]}`;
       }
 
-      if (
-        action.payload.periodoUp &&
-        action.payload.periodoUp[0] &&
-        action.payload.periodoUp[1]
-      ) {
+      if (action.payload.periodoUp && action.payload.periodoUp[0] && action.payload.periodoUp[1]) {
         if (query !== '?') query += '&';
-        query += `dtaUploadIni=${
-          action.payload.periodoUp[0].toISOString().split('T')[0]
-        }&`;
-        query += `dtaUploadFim=${
-          action.payload.periodoUp[1].toISOString().split('T')[0]
-        }`;
+        query += `dtaUploadIni=${action.payload.periodoUp[0].toISOString().split('T')[0]}&`;
+        query += `dtaUploadFim=${action.payload.periodoUp[1].toISOString().split('T')[0]}`;
       } else if (action.payload.periodoUp && action.payload.periodoUp[0]) {
         if (query !== '?') query += '&';
-        query += `dtaIni=${
-          action.payload.periodoUp[0].toISOString().split('T')[0]
-        }`;
+        query += `dtaIni=${action.payload.periodoUp[0].toISOString().split('T')[0]}`;
       } else if (action.payload.periodoUp && action.payload.periodoUp[1]) {
         if (query !== '?') query += '&';
-        query += `dtaFim=${
-          action.payload.periodoUp[1].toISOString().split('T')[0]
-        }`;
+        query += `dtaFim=${action.payload.periodoUp[1].toISOString().split('T')[0]}`;
       }
 
       if (action.payload.prestadores) {
@@ -78,8 +54,7 @@ export function* sendGetRequest(action: ReturnType<typeof arquivosGetRequest>) {
 
         action.payload.prestadores.forEach((item, index) => {
           query += item.codigo;
-          if (index !== (action.payload?.prestadores?.length || 0) - 1)
-            query += ',';
+          if (index !== (action.payload?.prestadores?.length || 0) - 1) query += ',';
         });
       }
 
@@ -89,8 +64,7 @@ export function* sendGetRequest(action: ReturnType<typeof arquivosGetRequest>) {
 
         action.payload.fornecedores.forEach((item, index) => {
           query += item.codigo;
-          if (index !== (action.payload?.fornecedores?.length || 0) - 1)
-            query += ',';
+          if (index !== (action.payload?.fornecedores?.length || 0) - 1) query += ',';
         });
       }
 
@@ -107,10 +81,7 @@ export function* sendGetRequest(action: ReturnType<typeof arquivosGetRequest>) {
       }
     }
 
-    const response: AxiosResponse<RespostaApi<ArquivosByTipo>> = yield call(
-      api.get,
-      `Relatorios/v1/${query}`
-    );
+    const response: AxiosResponse<RespostaApi<ArquivosByTipo>> = yield call(api.get, `Relatorios/v1/${query}`);
 
     yield put(arquivosGetSuccess(response.data));
   } catch (error: any) {
@@ -118,21 +89,14 @@ export function* sendGetRequest(action: ReturnType<typeof arquivosGetRequest>) {
   }
 }
 
-function downloadFile(
-  data: any,
-  fileName: string | null,
-  fileExtension: string
-): void {
+function downloadFile(data: any, fileName: string | null, fileExtension: string): void {
   const blob = new Blob([data]);
 
   const fileURL = global.window.URL.createObjectURL(blob);
   const fileLink = global.window.document.createElement('a');
 
   fileLink.setAttribute('href', fileURL);
-  fileLink.setAttribute(
-    'download',
-    `${fileName ?? 'download'}.${fileExtension}`
-  );
+  fileLink.setAttribute('download', `${fileName ?? 'download'}.${fileExtension}`);
 
   global.window.document.body.appendChild(fileLink);
 
@@ -153,19 +117,13 @@ function getFileNameFromHeader(responseHeaders: any): string | null {
   }
 }
 
-export function* sendDownloadRequest(
-  action: ReturnType<typeof arquivosDownloadRequest>
-) {
+export function* sendDownloadRequest(action: ReturnType<typeof arquivosDownloadRequest>) {
   try {
     const query = action.payload[0] ?? '';
 
-    const response: AxiosResponse<Blob> = yield call(
-      api.get,
-      `Relatorios/v1/download/?idRelArquivo=${query}`,
-      {
-        responseType: 'blob',
-      }
-    );
+    const response: AxiosResponse<Blob> = yield call(api.get, `Relatorios/v1/download/?idRelArquivo=${query}`, {
+      responseType: 'blob',
+    });
     const fileName = getFileNameFromHeader(response.headers);
     const blobURL = URL.createObjectURL(response.data);
 
@@ -177,9 +135,7 @@ export function* sendDownloadRequest(
   }
 }
 
-export function* sendUploadRequest(
-  action: ReturnType<typeof arquivosUploadRequest>
-) {
+export function* sendUploadRequest(action: ReturnType<typeof arquivosUploadRequest>) {
   let formData = new FormData();
   formData.append('formFile', action.payload.formFile);
   formData.append('nomArquivo', action.payload.nomArquivo);
@@ -194,16 +150,11 @@ export function* sendUploadRequest(
 
   if (action.payload.dtaFim) formData.append('dtaFim', action.payload.dtaFim);
   if (action.payload.dtaIni) formData.append('dtaIni', action.payload.dtaIni);
-  if (action.payload.codAno)
-    formData.append('codAno', action.payload.codAno.toString());
-  if (action.payload.codMes)
-    formData.append('codMes', action.payload.codMes.toString());
+  if (action.payload.codAno) formData.append('codAno', action.payload.codAno.toString());
+  if (action.payload.codMes) formData.append('codMes', action.payload.codMes.toString());
   if (action.payload.desObs) formData.append('desObs', action.payload.desObs);
   if (action.payload.substituirExistentes)
-    formData.append(
-      'substituirExistentes',
-      action.payload.substituirExistentes.toString()
-    );
+    formData.append('substituirExistentes', action.payload.substituirExistentes.toString());
 
   try {
     yield call(api.post, `Relatorios/v1/`, formData);
@@ -213,9 +164,7 @@ export function* sendUploadRequest(
   }
 }
 
-export function* sendDeleteRequest(
-  action: ReturnType<typeof arquivosDeleteRequest>
-) {
+export function* sendDeleteRequest(action: ReturnType<typeof arquivosDeleteRequest>) {
   try {
     const query = `?idRelArquivo=${action.payload.idRelArquivo}`;
 
@@ -226,9 +175,7 @@ export function* sendDeleteRequest(
   }
 }
 
-export function* sendUpdateRequest(
-  action: ReturnType<typeof arquivosUpdateRequest>
-) {
+export function* sendUpdateRequest(action: ReturnType<typeof arquivosUpdateRequest>) {
   let formData = new FormData();
   formData.append('nomArquivo', action.payload.nomArquivo);
   formData.append('idRelTpArquivo', action.payload.idRelTpArquivo.toString());
@@ -242,15 +189,11 @@ export function* sendUpdateRequest(
 
   if (action.payload.dtaFim) formData.append('dtaFim', action.payload.dtaFim);
   if (action.payload.dtaIni) formData.append('dtaIni', action.payload.dtaIni);
-  if (action.payload.codAno)
-    formData.append('codAno', action.payload.codAno.toString());
-  if (action.payload.codMes)
-    formData.append('codMes', action.payload.codMes.toString());
+  if (action.payload.codAno) formData.append('codAno', action.payload.codAno.toString());
+  if (action.payload.codMes) formData.append('codMes', action.payload.codMes.toString());
   if (action.payload.desObs) formData.append('desObs', action.payload.desObs);
-  if (action.payload.idRelArquivo)
-    formData.append('idRelArquivo', action.payload.idRelArquivo.toString());
-  if (action.payload.formFile)
-    formData.append('formFile', action.payload.formFile);
+  if (action.payload.idRelArquivo) formData.append('idRelArquivo', action.payload.idRelArquivo.toString());
+  if (action.payload.formFile) formData.append('formFile', action.payload.formFile);
   try {
     yield call(api.put, `Relatorios/v1/`, formData);
     yield put(arquivosUpdateSuccess());

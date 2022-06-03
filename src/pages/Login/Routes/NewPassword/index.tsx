@@ -42,12 +42,7 @@ const NewPassword: React.FC = (props: any) => {
         </Button>
       </Link>
       <Link to="/">
-        <Button
-          variant="contained"
-          className="secondary"
-          style={{ marginTop: 8 }}
-          fullWidth
-        >
+        <Button variant="contained" className="secondary" style={{ marginTop: 8 }} fullWidth>
           CANCELAR
         </Button>
       </Link>

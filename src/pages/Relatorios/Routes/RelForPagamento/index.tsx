@@ -10,15 +10,7 @@ import * as Yup from 'yup';
 import { format } from 'date-fns';
 import brLocale from 'date-fns/locale/pt-BR';
 import { yupResolver } from '@hookform/resolvers/yup';
-import {
-  Autocomplete,
-  Box,
-  Button,
-  CircularProgress,
-  Stack,
-  TextField,
-  Typography,
-} from '@mui/material';
+import { Autocomplete, Box, Button, CircularProgress, Stack, TextField, Typography } from '@mui/material';
 import { DatePicker } from '@mui/lab';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
@@ -27,10 +19,7 @@ import Header from 'src/components/Header/Header';
 import { useAppDispatch, useAppSelector } from 'src/store';
 import { TipoFiltro } from 'src/store/ducks/base/types';
 import { usuariosFornecedoresGetFilterRequest } from 'src/store/ducks/usuariosFornecedores';
-import {
-  relatoriosDownloadIdle,
-  relatoriosDownloadRequest,
-} from 'src/store/ducks/relatorios';
+import { relatoriosDownloadIdle, relatoriosDownloadRequest } from 'src/store/ducks/relatorios';
 import DmCollapseHandler from 'src/components/DmCollapseHandler/DmCollapseHandler';
 
 interface FormProps {
@@ -40,9 +29,7 @@ interface FormProps {
 }
 
 const schema = Yup.object({
-  dtaInicio: Yup.date()
-    .typeError('Data inválida!')
-    .required('Campo obrigatório!'),
+  dtaInicio: Yup.date().typeError('Data inválida!').required('Campo obrigatório!'),
   dtaFim: Yup.date().typeError('Data inválida!').required('Campo obrigatório!'),
   lstCodFornecedores: Yup.string().nullable().default(null).notRequired(),
 });
@@ -93,7 +80,7 @@ const RelForPagamento = () => {
 
   useEffect(() => {
     if (pdf) {
-      if (!(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent))) {
+      if (!/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
         global.window.open(pdf);
       }
     }
@@ -115,12 +102,7 @@ const RelForPagamento = () => {
           <Header title="Demonstrativo Folha de Pagamento Fornecedores" />
         </div>
         <div className="row relatorios" style={{ alignContent: 'flex-start' }}>
-          <form
-            noValidate
-            autoComplete="off"
-            onSubmit={handleSubmit(onSubmit)}
-            className={`FormUser`}
-          >
+          <form noValidate autoComplete="off" onSubmit={handleSubmit(onSubmit)} className={`FormUser`}>
             <div className="formFields">
               <Typography variant="h6">Filtrar documento</Typography>
               <DmCollapseHandler
@@ -128,10 +110,7 @@ const RelForPagamento = () => {
                 isErrorCollapseOpened={isErrorCollapseOpened}
                 setErrorCollapseOpened={setErrorCollapseOpened}
               />
-              <LocalizationProvider
-                dateAdapter={AdapterDateFns}
-                locale={brLocale}
-              >
+              <LocalizationProvider dateAdapter={AdapterDateFns} locale={brLocale}>
                 <Stack direction="row">
                   <DatePicker
                     label="Data inicial"
@@ -141,7 +120,7 @@ const RelForPagamento = () => {
                     okText="OK"
                     mask="__/____"
                     inputFormat="MM/yyyy"
-                        className='DmTextField'
+                    className="DmTextField"
                     views={['year', 'month']}
                     disableFuture
                     disableMaskedInput={false}
@@ -160,7 +139,7 @@ const RelForPagamento = () => {
                         {...params}
                         margin="dense"
                         variant="filled"
-                        className='DmTextField'
+                        className="DmTextField"
                         fullWidth
                         InputProps={{
                           ...params.InputProps,
@@ -202,7 +181,7 @@ const RelForPagamento = () => {
                         {...params}
                         margin="dense"
                         variant="filled"
-                        className='DmTextField'
+                        className="DmTextField"
                         fullWidth
                         InputProps={{
                           ...params.InputProps,
@@ -244,35 +223,25 @@ const RelForPagamento = () => {
                     label="Fornecedores"
                     margin="dense"
                     variant="filled"
-                    className='DmTextField'
+                    className="DmTextField"
                     InputProps={{
                       ...params.InputProps,
                       disableUnderline: true,
                     }}
                     error={!!formState.errors.lstCodFornecedores}
-                    helperText={
-                      formState.errors.lstCodFornecedores?.message || 'Opcional'
-                    }
+                    helperText={formState.errors.lstCodFornecedores?.message || 'Opcional'}
                   />
                 )}
                 value={fornecedores}
                 onChange={(_, data) => {
-                  setValue(
-                    'lstCodFornecedores',
-                    data.map((x) => x.codigo).join(',')
-                  );
+                  setValue('lstCodFornecedores', data.map((x) => x.codigo).join(','));
 
                   setFornecedores(data);
                 }}
               />
             </div>
             <div className="buttons">
-              <Button
-                variant="contained"
-                className="secondary"
-                onClick={() => history.goBack()}
-                fullWidth
-              >
+              <Button variant="contained" className="secondary" onClick={() => history.goBack()} fullWidth>
                 VOLTAR
               </Button>
               <Box sx={{ m: 0, position: 'relative' }}>
@@ -280,9 +249,7 @@ const RelForPagamento = () => {
                   variant="contained"
                   disabled={formState.isSubmitting || isLoading}
                   type="submit"
-                  className={
-                    formState.isSubmitting || isLoading ? 'secondary' : ''
-                  }
+                  className={formState.isSubmitting || isLoading ? 'secondary' : ''}
                   fullWidth
                 >
                   GERAR

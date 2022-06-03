@@ -10,14 +10,7 @@ import * as Yup from 'yup';
 import { format } from 'date-fns';
 import brLocale from 'date-fns/locale/pt-BR';
 import { yupResolver } from '@hookform/resolvers/yup';
-import {
-  Autocomplete,
-  Box,
-  Button,
-  CircularProgress,
-  TextField,
-  Typography,
-} from '@mui/material';
+import { Autocomplete, Box, Button, CircularProgress, TextField, Typography } from '@mui/material';
 import { DateRange, DateRangePicker } from '@mui/lab';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
@@ -27,10 +20,7 @@ import { useAppDispatch, useAppSelector } from 'src/store';
 import { TipoFiltro } from 'src/store/ducks/base/types';
 import { fazendasGetFilterRequest } from 'src/store/ducks/fazendas';
 import { usuariosFornecedoresGetFilterRequest } from 'src/store/ducks/usuariosFornecedores';
-import {
-  relatoriosDownloadIdle,
-  relatoriosDownloadRequest,
-} from 'src/store/ducks/relatorios';
+import { relatoriosDownloadIdle, relatoriosDownloadRequest } from 'src/store/ducks/relatorios';
 import DmCollapseHandler from 'src/components/DmCollapseHandler/DmCollapseHandler';
 
 interface FormProps {
@@ -41,18 +31,14 @@ interface FormProps {
 }
 
 const schema = Yup.object({
-  dtaInicio: Yup.date()
-    .typeError('Data inválida!')
-    .required('Campo obrigatório!'),
+  dtaInicio: Yup.date().typeError('Data inválida!').required('Campo obrigatório!'),
   dtaFim: Yup.date().typeError('Data inválida!').required('Campo obrigatório!'),
   lstCodFazendas: Yup.string()
     .nullable()
     .default(null)
     .when('lstCodFornecedores', {
       is: (value: string) => (value !== '' ? true : false),
-      then: Yup.string().required(
-        'Campo obrigatório se há fornecedor selecionado!'
-      ),
+      then: Yup.string().required('Campo obrigatório se há fornecedor selecionado!'),
     }),
   lstCodFornecedores: Yup.string().nullable().default(null).notRequired(),
 });
@@ -106,7 +92,7 @@ const RelForCanaEntregue = () => {
 
   useEffect(() => {
     if (pdf) {
-      if (!(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent))) {
+      if (!/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
         global.window.open(pdf);
       }
     }
@@ -140,12 +126,7 @@ const RelForCanaEntregue = () => {
           <Header title="Posição Geral da Entrega de Matéria Prima" />
         </div>
         <div className="row relatorios">
-          <form
-            noValidate
-            autoComplete="off"
-            onSubmit={handleSubmit(onSubmit)}
-            className={`FormUser`}
-          >
+          <form noValidate autoComplete="off" onSubmit={handleSubmit(onSubmit)} className={`FormUser`}>
             <div className="formFields">
               <Typography variant="h6">Filtrar documento</Typography>
               <DmCollapseHandler
@@ -153,10 +134,7 @@ const RelForCanaEntregue = () => {
                 isErrorCollapseOpened={isErrorCollapseOpened}
                 setErrorCollapseOpened={setErrorCollapseOpened}
               />
-              <LocalizationProvider
-                dateAdapter={AdapterDateFns}
-                locale={brLocale}
-              >
+              <LocalizationProvider dateAdapter={AdapterDateFns} locale={brLocale}>
                 <DateRangePicker
                   mask="__/__/____"
                   value={date}
@@ -178,7 +156,7 @@ const RelForCanaEntregue = () => {
                         {...startProps}
                         margin="dense"
                         variant="filled"
-                        className='DmTextField'
+                        className="DmTextField"
                         fullWidth
                         InputProps={{ disableUnderline: true }}
                         inputProps={{
@@ -193,7 +171,7 @@ const RelForCanaEntregue = () => {
                         {...endProps}
                         margin="dense"
                         variant="filled"
-                        className='DmTextField'
+                        className="DmTextField"
                         fullWidth
                         InputProps={{ disableUnderline: true }}
                         inputProps={{
@@ -238,17 +216,12 @@ const RelForCanaEntregue = () => {
                       disableUnderline: true,
                     }}
                     error={!!formState.errors.lstCodFornecedores}
-                    helperText={
-                      formState.errors.lstCodFornecedores?.message || 'Opcional'
-                    }
+                    helperText={formState.errors.lstCodFornecedores?.message || 'Opcional'}
                   />
                 )}
                 value={fornecedores}
                 onChange={(_, data) => {
-                  setValue(
-                    'lstCodFornecedores',
-                    data.map((x) => x.codigo).join(',')
-                  );
+                  setValue('lstCodFornecedores', data.map((x) => x.codigo).join(','));
 
                   setFornecedores(data);
                 }}
@@ -295,21 +268,13 @@ const RelForCanaEntregue = () => {
                 )}
                 value={fazendas}
                 onChange={(_, data) => {
-                  setValue(
-                    'lstCodFazendas',
-                    data.map((x) => x.codigo).join(',')
-                  );
+                  setValue('lstCodFazendas', data.map((x) => x.codigo).join(','));
                   setFazendas(data);
                 }}
               />
             </div>
             <div className="buttons">
-              <Button
-                variant="contained"
-                className="secondary"
-                onClick={() => history.goBack()}
-                fullWidth
-              >
+              <Button variant="contained" className="secondary" onClick={() => history.goBack()} fullWidth>
                 VOLTAR
               </Button>
               <Box sx={{ m: 0, position: 'relative' }}>
@@ -317,9 +282,7 @@ const RelForCanaEntregue = () => {
                   variant="contained"
                   disabled={formState.isSubmitting || isLoading}
                   type="submit"
-                  className={
-                    formState.isSubmitting || isLoading ? 'secondary' : ''
-                  }
+                  className={formState.isSubmitting || isLoading ? 'secondary' : ''}
                   fullWidth
                 >
                   GERAR

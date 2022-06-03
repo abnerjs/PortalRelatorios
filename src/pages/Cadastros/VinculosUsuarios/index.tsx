@@ -11,10 +11,7 @@ import Header from 'src/components/Header/Header';
 import { usePesquisa } from 'src/hooks/usePesquisa';
 import Form from 'src/pages/Cadastros/VinculosUsuarios/Components/Form';
 import { useAppDispatch, useAppSelector } from 'src/store';
-import {
-  usuariosCleanError,
-  usuariosGetRequest,
-} from 'src/store/ducks/usuarios';
+import { usuariosCleanError, usuariosGetRequest } from 'src/store/ducks/usuarios';
 import { Usuario } from 'src/store/ducks/usuarios/types';
 import DmList from 'src/components/DmList/DmList';
 import { usuariosFornecedoresIdleOperation } from 'src/store/ducks/usuariosFornecedores';
@@ -45,22 +42,14 @@ const VinculosUsuarios = () => {
   const pagination = useAppSelector((state) => state.usuarios.pagination);
   const loading = useAppSelector((state) => state.usuarios.loading);
   const getError = useAppSelector((state) => state.usuarios.error);
-  const ufOperationState = useAppSelector(
-    (state) => state.usuariosFornecedores.operationState
-  );
-  const upOperationState = useAppSelector(
-    (state) => state.usuariosPrestadores.operationState
-  );
+  const ufOperationState = useAppSelector((state) => state.usuariosFornecedores.operationState);
+  const upOperationState = useAppSelector((state) => state.usuariosPrestadores.operationState);
 
   useEffect(() => {
     dispatch(usuariosCleanError());
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const handleChangeFlgTipo = (
-    event: React.SyntheticEvent,
-    newValue: string
-  ) => {
+  const handleChangeFlgTipo = (event: React.SyntheticEvent, newValue: string) => {
     setFlgTipo(newValue);
     handleCustomParameters({ key: 'flgTipo', value: newValue });
 
@@ -94,7 +83,6 @@ const VinculosUsuarios = () => {
       dispatch(usuariosFornecedoresIdleOperation());
       dispatch(usuariosPrestadoresIdleOperation());
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [ufOperationState]);
 
   const onCancel = () => {
@@ -125,17 +113,11 @@ const VinculosUsuarios = () => {
       <div className="content">
         <div className="head">
           <Header title="Vínculos de Usuários" />
-          <Typography variant="subtitle1">
-            Usuários do sistema e seus vínculos
-          </Typography>
+          <Typography variant="subtitle1">Usuários do sistema e seus vínculos</Typography>
         </div>
         <div className="row">
           <div className={`tableContainer${isFormOpened ? '' : ' formInvi'}`}>
-            <div
-              className={`SectionizedTable fornprestadores${
-                isFormOpened ? '' : ' formInvi'
-              }`}
-            >
+            <div className={`SectionizedTable fornprestadores${isFormOpened ? '' : ' formInvi'}`}>
               <Tabs
                 value={flgTipo}
                 onChange={handleChangeFlgTipo}
@@ -160,11 +142,7 @@ const VinculosUsuarios = () => {
                   autoComplete="off"
                   fullWidth
                   color="primary"
-                  label={
-                    flgTipo === 'I'
-                      ? 'Nome, matrícula, CPF ou e-mail'
-                      : 'Nome, CPF/CNPJ ou e-mail'
-                  }
+                  label={flgTipo === 'I' ? 'Nome, matrícula, CPF ou e-mail' : 'Nome, CPF/CNPJ ou e-mail'}
                   margin="normal"
                   variant="filled"
                   className="iconified"
@@ -194,11 +172,7 @@ const VinculosUsuarios = () => {
               />
             </div>
           </div>
-          <Form
-            data={usuario}
-            isFormOpened={isFormOpened}
-            onCancel={onCancel}
-          />
+          <Form data={usuario} isFormOpened={isFormOpened} onCancel={onCancel} />
         </div>
       </div>
     </div>

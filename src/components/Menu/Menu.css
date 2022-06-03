@@ -3,8 +3,7 @@
   width: 30px;
   height: 30px;
   margin-top: 30px !important;
-  transition: margin ease 0.3s, background-color ease 0.3s, opacity ease 0.6s,
-    transform ease 0.6s !important;
+  transition: margin ease 0.3s, background-color ease 0.3s, opacity ease 0.6s, transform ease 0.6s !important;
   z-index: 1202;
   align-self: flex-end !important;
   transform: translateX(50%);
@@ -48,9 +47,7 @@
   padding: 8px 6px;
 }
 
-.MuiBottomNavigation-root
-  .MuiBottomNavigationAction-root:not(.Mui-selected)
-  .MuiBottomNavigationAction-label {
+.MuiBottomNavigation-root .MuiBottomNavigationAction-root:not(.Mui-selected) .MuiBottomNavigationAction-label {
   height: 0;
 }
 
@@ -59,9 +56,7 @@
   height: 20px;
 }
 
-.MuiBottomNavigation-root
-  .MuiBottomNavigationAction-root:not(.Mui-selected)
-  svg {
+.MuiBottomNavigation-root .MuiBottomNavigationAction-root:not(.Mui-selected) svg {
   width: 30px !important;
   height: 30px;
 }
@@ -172,9 +167,7 @@
   transform: none;
 }
 
-.subMenuBottomAction
-  .MuiBottomNavigationAction-root:not(.Mui-selected)
-  .MuiBottomNavigationAction-label {
+.subMenuBottomAction .MuiBottomNavigationAction-root:not(.Mui-selected) .MuiBottomNavigationAction-label {
   height: unset;
 }
 

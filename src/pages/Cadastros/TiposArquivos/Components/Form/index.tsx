@@ -9,18 +9,12 @@ import * as Yup from 'yup';
 
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useAppSelector, useAppDispatch } from 'src/store';
-import {
-  tipoArquivoCancelOperation,
-  tipoArquivoPostRequest,
-  tipoArquivoPutRequest,
-} from 'src/store/ducks/tipoArquivo';
+import { tipoArquivoCancelOperation, tipoArquivoPostRequest, tipoArquivoPutRequest } from 'src/store/ducks/tipoArquivo';
 import { objetosGetFilterRequest } from 'src/store/ducks/objetos';
 import { Box, CircularProgress, Button } from '@mui/material';
 import { TipoArquivo } from 'src/store/ducks/tipoArquivo/types';
 import DmCollapseHandler from 'src/components/DmCollapseHandler/DmCollapseHandler';
-import DmAutocomplete, {
-  AutocompleteOptions,
-} from 'src/components/DmAutocomplete/DmAutocomplete';
+import DmAutocomplete, { AutocompleteOptions } from 'src/components/DmAutocomplete/DmAutocomplete';
 import DmTextField from 'src/components/DmTextField/DmTextField';
 
 interface FormProps {
@@ -61,30 +55,16 @@ const Form: React.FC<FormProps> = ({ data, isFormOpened }: FormProps) => {
   const dispatch = useAppDispatch();
   const [referencia, setReferencia] = useState<string | null>(null);
   const errors = useAppSelector((state) => state.tipoArquivo.operationError);
-  const operationState = useAppSelector(
-    (state) => state.tipoArquivo.operationState
-  );
+  const operationState = useAppSelector((state) => state.tipoArquivo.operationState);
   const [isErrorCollapseOpened, setErrorCollapseOpened] = useState(false);
 
-  const {
-    clearErrors,
-    handleSubmit,
-    register,
-    reset,
-    setValue,
-    control,
-    formState,
-  } = useForm<TipoArquivo>({
+  const { clearErrors, handleSubmit, register, reset, setValue, control, formState } = useForm<TipoArquivo>({
     resolver: yupResolver(schema),
     defaultValues: defaultValues,
   });
 
   const onSubmit: SubmitHandler<TipoArquivo> = (values) => {
-    dispatch(
-      data && data.idRelTpArquivo > 0
-        ? tipoArquivoPutRequest(values)
-        : tipoArquivoPostRequest(values)
-    );
+    dispatch(data && data.idRelTpArquivo > 0 ? tipoArquivoPutRequest(values) : tipoArquivoPostRequest(values));
     if (errors !== undefined) setErrorCollapseOpened(true);
   };
 
@@ -196,11 +176,7 @@ const Form: React.FC<FormProps> = ({ data, isFormOpened }: FormProps) => {
               tabIndex={isFormOpened ? 0 : -1}
               disabled={formState.isSubmitting || operationState === 'request'}
               type="submit"
-              className={
-                formState.isSubmitting || operationState === 'request'
-                  ? 'secondary'
-                  : ''
-              }
+              className={formState.isSubmitting || operationState === 'request' ? 'secondary' : ''}
               fullWidth
             >
               SALVAR

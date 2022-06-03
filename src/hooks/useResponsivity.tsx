@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react';
 
 const useResponsivity = () => {
   const [isMobileView, setMobileView] = useState(false);
@@ -11,11 +11,10 @@ const useResponsivity = () => {
 
     window.addEventListener(`resize`, handleResize);
     return () => window.removeEventListener(`resize`, handleResize);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  
+
   return isMobileView;
-}
+};
 
 export const useMenuResponsivity = () => {
   const [isMobileView, setMobileView] = useState(false);
@@ -28,10 +27,9 @@ export const useMenuResponsivity = () => {
 
     window.addEventListener(`resize`, handleResize);
     return () => window.removeEventListener(`resize`, handleResize);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  
+
   return isMobileView;
-}
+};
 
 export default useResponsivity;

@@ -1,13 +1,6 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 
-import {
-  Objeto,
-  Sistema,
-  UserLogin,
-  SessionState,
-  LoginRequest,
-  RecoveryRequest,
-} from 'src/store/ducks/login/types';
+import { Objeto, Sistema, UserLogin, SessionState, LoginRequest, RecoveryRequest } from 'src/store/ducks/login/types';
 import { ErrorAPI } from '../types';
 
 const jsonUser = global.window.localStorage.getItem('dm_pr_relatorios_user');
@@ -27,9 +20,7 @@ function getObjetos(lstSistemas: Array<Sistema>): Array<Objeto> {
   const objetos: Array<Objeto> = [];
 
   lstSistemas?.forEach((sistema) =>
-    sistema.lstTiposObjetos?.forEach((tipoObjeto) =>
-      tipoObjeto.lstObjetos?.forEach((objeto) => objetos.push(objeto))
-    )
+    sistema.lstTiposObjetos?.forEach((tipoObjeto) => tipoObjeto.lstObjetos?.forEach((objeto) => objetos.push(objeto)))
   );
 
   return objetos;

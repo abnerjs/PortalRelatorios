@@ -15,10 +15,7 @@ export const relatoriosSlice = createSlice({
   name: 'relatorios',
   initialState: initialState,
   reducers: {
-    relatoriosDownloadRequest: (
-      state,
-      action: PayloadAction<{ url: string; query: string }>
-    ) => {
+    relatoriosDownloadRequest: (state, action: PayloadAction<{ url: string; query: string }>) => {
       state.error = undefined;
       state.loading = true;
     },
@@ -38,11 +35,7 @@ export const relatoriosSlice = createSlice({
   },
 });
 
-export const {
-  relatoriosDownloadRequest,
-  relatoriosDownloadSuccess,
-  relatoriosDownloadError,
-  relatoriosDownloadIdle,
-} = relatoriosSlice.actions;
+export const { relatoriosDownloadRequest, relatoriosDownloadSuccess, relatoriosDownloadError, relatoriosDownloadIdle } =
+  relatoriosSlice.actions;
 
 export default relatoriosSlice.reducer;

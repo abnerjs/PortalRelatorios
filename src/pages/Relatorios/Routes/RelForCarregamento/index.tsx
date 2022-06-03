@@ -10,13 +10,7 @@ import * as Yup from 'yup';
 import { format } from 'date-fns';
 import brLocale from 'date-fns/locale/pt-BR';
 import { yupResolver } from '@hookform/resolvers/yup';
-import {
-  Box,
-  Button,
-  CircularProgress,
-  TextField,
-  Typography,
-} from '@mui/material';
+import { Box, Button, CircularProgress, TextField, Typography } from '@mui/material';
 import { DateRange, DateRangePicker } from '@mui/lab';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
@@ -25,14 +19,9 @@ import Header from 'src/components/Header/Header';
 import { useAppDispatch, useAppSelector } from 'src/store';
 import { fazendasGetFilterRequest } from 'src/store/ducks/fazendas';
 import { usuariosFornecedoresGetFilterRequest } from 'src/store/ducks/usuariosFornecedores';
-import {
-  relatoriosDownloadIdle,
-  relatoriosDownloadRequest,
-} from 'src/store/ducks/relatorios';
+import { relatoriosDownloadIdle, relatoriosDownloadRequest } from 'src/store/ducks/relatorios';
 import DmCollapseHandler from 'src/components/DmCollapseHandler/DmCollapseHandler';
-import DmAutocomplete, {
-  AutocompleteOptions,
-} from 'src/components/DmAutocomplete/DmAutocomplete';
+import DmAutocomplete, { AutocompleteOptions } from 'src/components/DmAutocomplete/DmAutocomplete';
 
 interface FormProps {
   dtaInicio: Date | null;
@@ -42,18 +31,14 @@ interface FormProps {
 }
 
 const schema = Yup.object({
-  dtaInicio: Yup.date()
-    .typeError('Data inválida!')
-    .required('Campo obrigatório!'),
+  dtaInicio: Yup.date().typeError('Data inválida!').required('Campo obrigatório!'),
   dtaFim: Yup.date().typeError('Data inválida!').required('Campo obrigatório!'),
   lstCodFazendas: Yup.string()
     .nullable()
     .default(null)
     .when('lstCodFornecedores', {
       is: (value: string) => (value !== '' ? true : false),
-      then: Yup.string().required(
-        'Campo obrigatório se há fornecedor selecionado!'
-      ),
+      then: Yup.string().required('Campo obrigatório se há fornecedor selecionado!'),
     }),
   lstCodFornecedores: Yup.string().nullable().default(null).notRequired(),
 });
@@ -73,12 +58,8 @@ const RelForCarregamento = () => {
   const dispatch = useAppDispatch();
   const forn = useAppSelector((state) => state.usuariosFornecedores.filterList);
   const faz = useAppSelector((state) => state.fazendas.filterList);
-  const [fazendasOptions, setFazendasOptions] = useState<AutocompleteOptions[]>(
-    []
-  );
-  const [fornecedoresOptions, setFornecedoresOptions] = useState<
-    AutocompleteOptions[]
-  >([]);
+  const [fazendasOptions, setFazendasOptions] = useState<AutocompleteOptions[]>([]);
+  const [fornecedoresOptions, setFornecedoresOptions] = useState<AutocompleteOptions[]>([]);
 
   useEffect(() => {
     const x = forn.map((item) => {
@@ -136,7 +117,7 @@ const RelForCarregamento = () => {
 
   useEffect(() => {
     if (pdf) {
-      if (!(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent))) {
+      if (!/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
         global.window.open(pdf);
       }
     }
@@ -170,12 +151,7 @@ const RelForCarregamento = () => {
           <Header title="Carregamentos Entregues Fornecedores" />
         </div>
         <div className="row relatorios" style={{ alignContent: 'flex-start' }}>
-          <form
-            noValidate
-            autoComplete="off"
-            onSubmit={handleSubmit(onSubmit)}
-            className={`FormUser`}
-          >
+          <form noValidate autoComplete="off" onSubmit={handleSubmit(onSubmit)} className={`FormUser`}>
             <div className="formFields">
               <Typography variant="h6">Filtrar documento</Typography>
               <DmCollapseHandler
@@ -183,10 +159,7 @@ const RelForCarregamento = () => {
                 isErrorCollapseOpened={isErrorCollapseOpened}
                 setErrorCollapseOpened={setErrorCollapseOpened}
               />
-              <LocalizationProvider
-                dateAdapter={AdapterDateFns}
-                locale={brLocale}
-              >
+              <LocalizationProvider dateAdapter={AdapterDateFns} locale={brLocale}>
                 <DateRangePicker
                   mask="__/__/____"
                   value={date}
@@ -242,28 +215,20 @@ const RelForCarregamento = () => {
                 options={fornecedoresOptions}
                 value={fornecedores}
                 onChange={(_: any, data: AutocompleteOptions[]) => {
-                  setValue(
-                    'lstCodFornecedores',
-                    data.map((x) => x.value).join(',')
-                  );
+                  setValue('lstCodFornecedores', data.map((x) => x.value).join(','));
 
                   setFornecedores(data);
                 }}
                 label="Fornecedores"
                 error={!!formState.errors.lstCodFornecedores}
-                helperText={
-                  formState.errors.lstCodFornecedores?.message || 'Opcional'
-                }
+                helperText={formState.errors.lstCodFornecedores?.message || 'Opcional'}
               />
               <DmAutocomplete
                 multiple
                 options={fazendasOptions.length === 0 ? [] : fazendasOptions}
                 value={fazendas}
                 onChange={(_: any, data: AutocompleteOptions[]) => {
-                  setValue(
-                    'lstCodFazendas',
-                    data.map((x) => x.value).join(',')
-                  );
+                  setValue('lstCodFazendas', data.map((x) => x.value).join(','));
                   setFazendas(data);
                 }}
                 label="Fazendas"
@@ -278,12 +243,7 @@ const RelForCarregamento = () => {
               />
             </div>
             <div className="buttons">
-              <Button
-                variant="contained"
-                className="secondary"
-                onClick={() => history.goBack()}
-                fullWidth
-              >
+              <Button variant="contained" className="secondary" onClick={() => history.goBack()} fullWidth>
                 VOLTAR
               </Button>
               <Box sx={{ m: 0, position: 'relative' }}>
@@ -291,9 +251,7 @@ const RelForCarregamento = () => {
                   variant="contained"
                   disabled={formState.isSubmitting || isLoading}
                   type="submit"
-                  className={
-                    formState.isSubmitting || isLoading ? 'secondary' : ''
-                  }
+                  className={formState.isSubmitting || isLoading ? 'secondary' : ''}
                   fullWidth
                 >
                   GERAR

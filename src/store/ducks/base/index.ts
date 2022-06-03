@@ -26,10 +26,7 @@ class Pesquisa implements InfoPesquisa {
 
   public parametrosPersonalizados = new Map<string, string>();
 
-  public constructor(
-    values?: Partial<InfoPesquisa>,
-    params?: Array<{ key: string; value: string }>
-  ) {
+  public constructor(values?: Partial<InfoPesquisa>, params?: Array<{ key: string; value: string }>) {
     if (values) {
       Object.assign(this, values);
     }
@@ -44,21 +41,13 @@ class Pesquisa implements InfoPesquisa {
   public toString(): string {
     let stringPesquisa = '';
 
-    stringPesquisa = stringPesquisa.concat(
-      `?numPagina=${this.numPagina > 0 ? this.numPagina : ''}`
-    );
+    stringPesquisa = stringPesquisa.concat(`?numPagina=${this.numPagina > 0 ? this.numPagina : ''}`);
 
-    stringPesquisa = stringPesquisa.concat(
-      `&itensPorPagina=${this.itensPorPagina > 0 ? this.itensPorPagina : ''}`
-    );
+    stringPesquisa = stringPesquisa.concat(`&itensPorPagina=${this.itensPorPagina > 0 ? this.itensPorPagina : ''}`);
 
-    stringPesquisa = stringPesquisa.concat(
-      `&filtroPadrao=${this.filtroPadrao ?? ''}`
-    );
+    stringPesquisa = stringPesquisa.concat(`&filtroPadrao=${this.filtroPadrao ?? ''}`);
 
-    stringPesquisa = stringPesquisa.concat(
-      `&novaOrdenacao=${this.novaOrdenacao ?? ''}`
-    );
+    stringPesquisa = stringPesquisa.concat(`&novaOrdenacao=${this.novaOrdenacao ?? ''}`);
 
     for (const [key, value] of this.parametrosPersonalizados) {
       stringPesquisa = stringPesquisa.concat(`&${key}=${value ?? ''}`);

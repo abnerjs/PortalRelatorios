@@ -32,9 +32,7 @@ const searchInitValues = {
 
 const Usuarios = () => {
   const objetos = useAppSelector((state) => state.session.objetos);
-  const flgAcesso =
-    objetos.find((x) => x.nomPagina.toLowerCase() === 'usuarios')?.flgAcesso ||
-    'N';
+  const flgAcesso = objetos.find((x) => x.nomPagina.toLowerCase() === 'usuarios')?.flgAcesso || 'N';
 
   const [flgTipo, setFlgTipo] = useState('I');
   const [rowSelected, setRowSelected] = useState(-1);
@@ -55,12 +53,8 @@ const Usuarios = () => {
   const getError = useAppSelector((state) => state.usuarios.error);
   const errors = useAppSelector((state) => state.usuarios.deleteError);
   const deleteState = useAppSelector((state) => state.usuarios.deleteState);
-  const changePassword = useAppSelector(
-    (state) => state.usuarios.changePasswordState
-  );
-  const operationState = useAppSelector(
-    (state) => state.usuarios.operationState
-  );
+  const changePassword = useAppSelector((state) => state.usuarios.changePasswordState);
+  const operationState = useAppSelector((state) => state.usuarios.operationState);
 
   useEffect(() => {
     dispatch(usuariosCleanError());
@@ -71,7 +65,6 @@ const Usuarios = () => {
     if (changePassword === 'success') {
       dispatch(usuariosGetRequest(pesquisa.toString()));
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [changePassword]);
 
   const handleChangeSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -107,14 +100,9 @@ const Usuarios = () => {
       setNewUserSection(false);
       dispatch(usuariosIdleOperation());
     }
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [operationState]);
 
-  const handleChangeFlgTipo = (
-    event: React.SyntheticEvent,
-    newValue: string
-  ) => {
+  const handleChangeFlgTipo = (event: React.SyntheticEvent, newValue: string) => {
     setFlgTipo(newValue);
     handleCustomParameters({ key: 'flgTipo', value: newValue });
     if (rowSelected !== -1) {
@@ -138,9 +126,7 @@ const Usuarios = () => {
   };
 
   let arrElems = document.getElementsByClassName('textual');
-  let deleteModalElem = document
-    .getElementsByClassName('userInfo')[0]
-    ?.getElementsByTagName('p')[0];
+  let deleteModalElem = document.getElementsByClassName('userInfo')[0]?.getElementsByTagName('p')[0];
 
   useEffect(() => {
     for (let elem of arrElems) {
@@ -150,10 +136,8 @@ const Usuarios = () => {
 
   useEffect(() => {
     setTimeout(() => {
-      if (isOverflown(deleteModalElem))
-        deleteModalElem.classList.add('overflown');
+      if (isOverflown(deleteModalElem)) deleteModalElem.classList.add('overflown');
     }, 505);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   });
 
   return (
@@ -161,15 +145,11 @@ const Usuarios = () => {
       <div className="content">
         <div className="head">
           <Header title="Usuários" />
-          <Typography variant="subtitle1">
-            Todos os usuários do sistema
-          </Typography>
+          <Typography variant="subtitle1">Todos os usuários do sistema</Typography>
         </div>
         <div className="row">
           <div className={`tableContainer${isFormOpened ? '' : ' formInvi'}`}>
-            <div
-              className={`SectionizedTable${isFormOpened ? '' : ' formInvi'}`}
-            >
+            <div className={`SectionizedTable${isFormOpened ? '' : ' formInvi'}`}>
               <Tabs
                 value={flgTipo}
                 onChange={handleChangeFlgTipo}
@@ -194,11 +174,7 @@ const Usuarios = () => {
                   autoComplete="off"
                   fullWidth
                   color="primary"
-                  label={
-                    flgTipo === 'I'
-                      ? 'Nome, matrícula, CPF ou e-mail'
-                      : 'Nome, CPF/CNPJ ou e-mail'
-                  }
+                  label={flgTipo === 'I' ? 'Nome, matrícula, CPF ou e-mail' : 'Nome, CPF/CNPJ ou e-mail'}
                   margin="normal"
                   variant="filled"
                   className="iconified"
@@ -211,16 +187,8 @@ const Usuarios = () => {
                 onClick={() => handleFormOpen(true, true)}
                 disabled={flgAcesso !== 'A'}
                 variant="contained"
-                className={`tertiary${
-                  isFormOpened && isNewUserSection ? ' active' : ''
-                }`}
-                startIcon={
-                  <Icon
-                    icon="fluent:add-16-regular"
-                    width={25}
-                    className="icon"
-                  />
-                }
+                className={`tertiary${isFormOpened && isNewUserSection ? ' active' : ''}`}
+                startIcon={<Icon icon="fluent:add-16-regular" width={25} className="icon" />}
                 fullWidth
               >
                 NOVO USUÁRIO
@@ -249,11 +217,7 @@ const Usuarios = () => {
               />
             </div>
           </div>
-          <Form
-            data={usuario}
-            tipoUsuario={flgTipo}
-            isFormOpened={isFormOpened}
-          />
+          <Form data={usuario} tipoUsuario={flgTipo} isFormOpened={isFormOpened} />
         </div>
       </div>
     </div>

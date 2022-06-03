@@ -2,11 +2,7 @@ import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 
 import { Paginacao } from 'src/store/ducks/base';
 import { RespostaApi, TipoFiltro } from 'src/store/ducks/base/types';
-import {
-  ChangeUsuarioPasswordRequest,
-  Usuario,
-  UsuariosState,
-} from 'src/store/ducks/usuarios/types';
+import { ChangeUsuarioPasswordRequest, Usuario, UsuariosState } from 'src/store/ducks/usuarios/types';
 import { ErrorAPI } from '../types';
 
 const initialState: UsuariosState = {
@@ -31,10 +27,7 @@ export const usuariosSlice = createSlice({
       state.loading = true;
       state.error = undefined;
     },
-    usuariosGetSuccess: (
-      state,
-      action: PayloadAction<RespostaApi<Usuario>>
-    ) => {
+    usuariosGetSuccess: (state, action: PayloadAction<RespostaApi<Usuario>>) => {
       state.data = action.payload.dados;
       state.pagination = action.payload.paginacao;
       state.loading = false;
@@ -47,16 +40,10 @@ export const usuariosSlice = createSlice({
     usuariosCleanError: (state) => {
       state.error = undefined;
     },
-    usuariosGetFilterRequest: (
-      state,
-      action: PayloadAction<string | undefined>
-    ) => {
+    usuariosGetFilterRequest: (state, action: PayloadAction<string | undefined>) => {
       state.error = undefined;
     },
-    usuariosGetFilterSuccess: (
-      state,
-      action: PayloadAction<RespostaApi<TipoFiltro>>
-    ) => {
+    usuariosGetFilterSuccess: (state, action: PayloadAction<RespostaApi<TipoFiltro>>) => {
       state.filterList = action.payload.dados;
     },
     usuariosGetFilterError: (state, action: PayloadAction<ErrorAPI>) => {
@@ -106,10 +93,7 @@ export const usuariosSlice = createSlice({
       state.deleteError = undefined;
       state.deleteState = 'idle';
     },
-    changeUsuarioPasswordRequest: (
-      state,
-      action: PayloadAction<ChangeUsuarioPasswordRequest>
-    ) => {
+    changeUsuarioPasswordRequest: (state, action: PayloadAction<ChangeUsuarioPasswordRequest>) => {
       state.changePasswordState = 'request';
     },
     changeUsuarioPasswordSuccess: (state) => {

@@ -2,10 +2,7 @@ import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 
 import { Paginacao } from 'src/store/ducks/base';
 import { RespostaApi, TipoFiltro } from 'src/store/ducks/base/types';
-import {
-  UsuarioFornecedor,
-  UsuariosFornecedoresState,
-} from 'src/store/ducks/usuariosFornecedores/types';
+import { UsuarioFornecedor, UsuariosFornecedoresState } from 'src/store/ducks/usuariosFornecedores/types';
 import { ErrorAPI } from '../types';
 
 const initialState: UsuariosFornecedoresState = {
@@ -24,17 +21,11 @@ export const usuariosFornecedoresSlice = createSlice({
   name: 'usuariosFornecedores',
   initialState: initialState,
   reducers: {
-    usuariosFornecedoresGetRequest: (
-      state,
-      action: PayloadAction<string | undefined>
-    ) => {
+    usuariosFornecedoresGetRequest: (state, action: PayloadAction<string | undefined>) => {
       state.loading = true;
       state.error = undefined;
     },
-    usuariosFornecedoresGetSuccess: (
-      state,
-      action: PayloadAction<RespostaApi<UsuarioFornecedor>>
-    ) => {
+    usuariosFornecedoresGetSuccess: (state, action: PayloadAction<RespostaApi<UsuarioFornecedor>>) => {
       state.data = action.payload.dados;
       state.pagination = action.payload.paginacao;
       state.error = undefined;
@@ -43,49 +34,28 @@ export const usuariosFornecedoresSlice = createSlice({
     usuariosFornecedoresGetError: (state, action: PayloadAction<ErrorAPI>) => {
       state.error = action.payload;
     },
-    usuariosFornecedoresGetFilterRequest: (
-      state,
-      action: PayloadAction<string | undefined>
-    ) => {},
-    usuariosFornecedoresGetFilterSuccess: (
-      state,
-      action: PayloadAction<RespostaApi<TipoFiltro>>
-    ) => {
+    usuariosFornecedoresGetFilterRequest: (state, action: PayloadAction<string | undefined>) => {},
+    usuariosFornecedoresGetFilterSuccess: (state, action: PayloadAction<RespostaApi<TipoFiltro>>) => {
       state.filterList = action.payload.dados;
     },
-    usuariosFornecedoresPostRequest: (
-      state,
-      action: PayloadAction<UsuarioFornecedor>
-    ) => {
+    usuariosFornecedoresPostRequest: (state, action: PayloadAction<UsuarioFornecedor>) => {
       state.operationState = 'request';
     },
-    usuariosFornecedoresPutRequest: (
-      state,
-      action: PayloadAction<UsuarioFornecedor>
-    ) => {
+    usuariosFornecedoresPutRequest: (state, action: PayloadAction<UsuarioFornecedor>) => {
       state.operationState = 'request';
     },
-    usuariosFornecedoresDeleteRequest: (
-      state,
-      action: PayloadAction<UsuarioFornecedor>
-    ) => {
+    usuariosFornecedoresDeleteRequest: (state, action: PayloadAction<UsuarioFornecedor>) => {
       state.operationState = 'request';
     },
     usuariosFornecedoresOperationSuccess: (state) => {
       state.operationError = undefined;
       state.operationState = 'success';
     },
-    usuariosFornecedoresOperationError: (
-      state,
-      action: PayloadAction<ErrorAPI>
-    ) => {
+    usuariosFornecedoresOperationError: (state, action: PayloadAction<ErrorAPI>) => {
       state.operationError = action.payload;
       state.operationState = 'error';
     },
-    usuariosFornecedoresDeleteError: (
-      state,
-      action: PayloadAction<ErrorAPI>
-    ) => {
+    usuariosFornecedoresDeleteError: (state, action: PayloadAction<ErrorAPI>) => {
       state.deleteError = action.payload;
       state.deleteState = 'error';
     },

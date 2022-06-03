@@ -19,16 +19,11 @@ import {
 } from 'src/store/ducks/tipoArquivo';
 import { TipoArquivo } from 'src/store/ducks/tipoArquivo/types';
 
-export function* sendGetRequest(
-  action: ReturnType<typeof tipoArquivoGetRequest>
-) {
+export function* sendGetRequest(action: ReturnType<typeof tipoArquivoGetRequest>) {
   try {
     const query = action.payload ?? '';
 
-    const response: AxiosResponse<RespostaApi<TipoArquivo>> = yield call(
-      api.get,
-      `TiposArquivos/v1/${query}`
-    );
+    const response: AxiosResponse<RespostaApi<TipoArquivo>> = yield call(api.get, `TiposArquivos/v1/${query}`);
 
     yield put(tipoArquivoGetSuccess(response.data));
   } catch (error: any) {
@@ -36,9 +31,7 @@ export function* sendGetRequest(
   }
 }
 
-export function* sendGetFilterRequest(
-  action: ReturnType<typeof tipoArquivoGetFilterRequest>
-) {
+export function* sendGetFilterRequest(action: ReturnType<typeof tipoArquivoGetFilterRequest>) {
   try {
     const query = action.payload ?? '';
 
@@ -51,9 +44,7 @@ export function* sendGetFilterRequest(
   } catch (error: any) {}
 }
 
-export function* sendPostRequest(
-  action: ReturnType<typeof tipoArquivoPostRequest>
-) {
+export function* sendPostRequest(action: ReturnType<typeof tipoArquivoPostRequest>) {
   try {
     yield call(api.post, `TiposArquivos/v1/`, action.payload);
     yield put(tipoArquivoOperationSuccess());
@@ -62,9 +53,7 @@ export function* sendPostRequest(
   }
 }
 
-export function* sendPutRequest(
-  action: ReturnType<typeof tipoArquivoPutRequest>
-) {
+export function* sendPutRequest(action: ReturnType<typeof tipoArquivoPutRequest>) {
   try {
     yield call(api.put, `TiposArquivos/v1/`, action.payload);
     yield put(tipoArquivoOperationSuccess());
@@ -73,9 +62,7 @@ export function* sendPutRequest(
   }
 }
 
-export function* sendDeleteRequest(
-  action: ReturnType<typeof tipoArquivoDeleteRequest>
-) {
+export function* sendDeleteRequest(action: ReturnType<typeof tipoArquivoDeleteRequest>) {
   try {
     const query = `?idRelTpArquivo=${action.payload.idRelTpArquivo}`;
 

@@ -13,16 +13,10 @@ export const fazendasSlice = createSlice({
   name: 'fazendas',
   initialState: initialState,
   reducers: {
-    fazendasGetFilterRequest: (
-      state,
-      action: PayloadAction<string | undefined>
-    ) => {
+    fazendasGetFilterRequest: (state, action: PayloadAction<string | undefined>) => {
       state.error = undefined;
     },
-    fazendasGetFilterSuccess: (
-      state,
-      action: PayloadAction<RespostaApi<TipoFiltro>>
-    ) => {
+    fazendasGetFilterSuccess: (state, action: PayloadAction<RespostaApi<TipoFiltro>>) => {
       state.filterList = action.payload.dados;
       state.error = undefined;
     },
@@ -32,10 +26,6 @@ export const fazendasSlice = createSlice({
   },
 });
 
-export const {
-  fazendasGetFilterRequest,
-  fazendasGetFilterSuccess,
-  fazendasGetFilterError,
-} = fazendasSlice.actions;
+export const { fazendasGetFilterRequest, fazendasGetFilterSuccess, fazendasGetFilterError } = fazendasSlice.actions;
 
 export default fazendasSlice.reducer;

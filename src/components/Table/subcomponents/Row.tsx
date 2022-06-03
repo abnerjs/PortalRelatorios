@@ -4,10 +4,7 @@ import React, { useEffect, useState } from 'react';
 import useResponsivity from 'src/hooks/useResponsivity';
 import ModalUpload from 'src/pages/Relatorios/Components/ModalUpload';
 import { useAppDispatch, useAppSelector } from 'src/store';
-import {
-  arquivosDeleteRequest,
-  arquivosDownloadRequest,
-} from 'src/store/ducks/relatoriosUpload';
+import { arquivosDeleteRequest, arquivosDownloadRequest } from 'src/store/ducks/relatoriosUpload';
 import { ArquivoUploadReceiveFormat } from 'src/store/ducks/relatoriosUpload/types';
 import { dateFormatter } from 'src/utils/StringUtils';
 import ModalDelete from './ModalDelete';
@@ -28,12 +25,8 @@ const Row = (props: Props) => {
   const [isErrorView, showErrorView] = useState(false);
   const [isDownloading, setDownloading] = useState(false);
   const dispatch = useAppDispatch();
-  const deleteState = useAppSelector(
-    (state) => state.arquivoUpload.deleteState
-  );
-  const downloadError = useAppSelector(
-    (state) => state.arquivoUpload.downloadError
-  );
+  const deleteState = useAppSelector((state) => state.arquivoUpload.deleteState);
+  const downloadError = useAppSelector((state) => state.arquivoUpload.downloadError);
   const [open, setOpen] = useState(false);
   const [headerHeight, setHeaderHeight] = useState<number>(0);
   const isMobileView = useResponsivity();
@@ -50,39 +43,30 @@ const Row = (props: Props) => {
     if (deleteState === 's') {
       showConfirmDelete(false);
     }
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [deleteState]);
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     setHeaderHeight(
       document
         .getElementsByClassName('filesTypes')[0]
         .getElementsByClassName('Table')
-        [props.tableIndex].getElementsByClassName('header')[props.rowIndex]
-        .clientHeight
+        [props.tableIndex].getElementsByClassName('header')[props.rowIndex].clientHeight
     );
   });
 
   useEffect(() => {
     if (
       downloadError &&
-      downloadError?.find(
-        (item) =>
-          item?.table === props.tableIndex && item?.line === props.rowIndex
-      )
+      downloadError?.find((item) => item?.table === props.tableIndex && item?.line === props.rowIndex)
     ) {
       showErrorView(true);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [downloadError]);
 
   let descDateRef = '';
 
   if (props.doc.codMes && props.doc.codAno) {
-    descDateRef =
-      ('00' + props.doc.codMes.toString()).slice(-2) + '/' + props.doc.codAno;
+    descDateRef = ('00' + props.doc.codMes.toString()).slice(-2) + '/' + props.doc.codAno;
   } else if (props.doc.codAno) {
     descDateRef = props.doc.codAno.toString();
   } else if (props.doc.dtaIni && props.doc.dtaFim) {
@@ -96,9 +80,7 @@ const Row = (props: Props) => {
 
   return (
     <div
-      className={`row${props.fullView ? ' fullView' : ' collapsable'}${
-        collapsed ? ' collapsed' : ''
-      }`}
+      className={`row${props.fullView ? ' fullView' : ' collapsable'}${collapsed ? ' collapsed' : ''}`}
       style={{
         height: !collapsed ? headerHeight + 'px' : '100%',
       }}
@@ -112,11 +94,7 @@ const Row = (props: Props) => {
           <div className="regname">{props.doc.nomArquivo}</div>
           <div
             className={`refdate${
-              descDateRef === undefined ||
-              descDateRef === null ||
-              descDateRef.trim() === ''
-                ? ' semiVisible'
-                : ''
+              descDateRef === undefined || descDateRef === null || descDateRef.trim() === '' ? ' semiVisible' : ''
             }`}
             style={{
               textAlign: !props.fullView ? 'right' : 'left',
@@ -146,143 +124,117 @@ const Row = (props: Props) => {
             }}
           >
             {props.fullView
-              ? props.doc.desNomeUsuarioUpload +
-                ' - ' +
-                dateFormatter(props.doc.dtaUpload, 'pt-BR')
+              ? props.doc.desNomeUsuarioUpload + ' - ' + dateFormatter(props.doc.dtaUpload, 'pt-BR')
               : dateFormatter(props.doc.dtaUpload, 'pt-BR')}
           </div>
         </div>
         <div className="buttons">
-          {props.fullView ? (isMobileView ? (<>
-              <IconButton
-                id="basic-button"
-                aria-controls={openedMobileMenu ? 'basic-menu' : undefined}
-                aria-haspopup="true"
-                aria-expanded={openedMobileMenu ? 'true' : undefined}
-                onClick={handleClick}
-                className="iconbutton more"
-              >
-                <Icon
-                  icon="fluent:more-vertical-32-filled"
-                  width={18}
-                  className="icon edit"
-                />
-              </IconButton>
-              <Menu
-                id="basic-menu"
-                className="menuMore"
-                anchorEl={anchorEl}
-                open={openedMobileMenu}
-                onClose={handleClose}
-                MenuListProps={{
-                  'aria-labelledby': 'basic-button',
-                }}
-              >
-                <MenuItem
+          {props.fullView ? (
+            isMobileView ? (
+              <>
+                <IconButton
+                  id="basic-button"
+                  aria-controls={openedMobileMenu ? 'basic-menu' : undefined}
+                  aria-haspopup="true"
+                  aria-expanded={openedMobileMenu ? 'true' : undefined}
+                  onClick={handleClick}
+                  className="iconbutton more"
+                >
+                  <Icon icon="fluent:more-vertical-32-filled" width={18} className="icon edit" />
+                </IconButton>
+                <Menu
+                  id="basic-menu"
+                  className="menuMore"
+                  anchorEl={anchorEl}
+                  open={openedMobileMenu}
+                  onClose={handleClose}
+                  MenuListProps={{
+                    'aria-labelledby': 'basic-button',
+                  }}
+                >
+                  <MenuItem
+                    onClick={(e) => {
+                      setAnchorEl(null);
+                      dispatch(arquivosDownloadRequest([props.doc.idRelArquivo, props.tableIndex, props.rowIndex]));
+                      setDownloading(true);
+                      e.stopPropagation();
+                    }}
+                  >
+                    BAIXAR
+                  </MenuItem>
+                  <MenuItem
+                    onClick={(e) => {
+                      setAnchorEl(null);
+                      setOpen(true);
+                    }}
+                  >
+                    EDITAR
+                  </MenuItem>
+                  <MenuItem
+                    onClick={(e) => {
+                      setAnchorEl(null);
+                      showConfirmDelete(true);
+                      setCollapsed(false);
+                      e.stopPropagation();
+                    }}
+                  >
+                    DELETAR
+                  </MenuItem>
+                </Menu>
+              </>
+            ) : (
+              <>
+                <Button
+                  variant="contained"
+                  fullWidth
+                  className="reg"
                   onClick={(e) => {
-                    setAnchorEl(null);
-                    dispatch(
-                      arquivosDownloadRequest([
-                        props.doc.idRelArquivo,
-                        props.tableIndex,
-                        props.rowIndex,
-                      ])
-                    );
+                    dispatch(arquivosDownloadRequest([props.doc.idRelArquivo, props.tableIndex, props.rowIndex]));
                     setDownloading(true);
                     e.stopPropagation();
                   }}
                 >
                   BAIXAR
-                </MenuItem>
-                <MenuItem
-                  onClick={(e) => {
-                    setAnchorEl(null);
+                </Button>
+                <IconButton
+                  aria-label="edit"
+                  size="small"
+                  className="iconbutton edit"
+                  onClick={() => {
                     setOpen(true);
                   }}
                 >
-                  EDITAR
-                </MenuItem>
-                <MenuItem
+                  <Icon icon="fluent:edit-24-regular" width={18} className="icon edit" />
+                </IconButton>
+                <IconButton
+                  aria-label="delete"
+                  size="small"
+                  className="iconbutton delete"
                   onClick={(e) => {
-                    setAnchorEl(null);
                     showConfirmDelete(true);
                     setCollapsed(false);
                     e.stopPropagation();
                   }}
                 >
-                  DELETAR
-                </MenuItem>
-              </Menu>
-            </>) : (<>
-              <Button
-                variant="contained"
-                fullWidth
-                className="reg"
-                onClick={(e) => {
-                  dispatch(
-                    arquivosDownloadRequest([
-                      props.doc.idRelArquivo,
-                      props.tableIndex,
-                      props.rowIndex,
-                    ])
-                  );
-                  setDownloading(true);
-                  e.stopPropagation();
-                }}
-              >
-                BAIXAR
-              </Button>
-              <IconButton
-                aria-label="edit"
-                size="small"
-                className="iconbutton edit"
-                onClick={() => {
-                  setOpen(true);
-                }}
-              >
-                <Icon
-                  icon="fluent:edit-24-regular"
-                  width={18}
-                  className="icon edit"
-                />
-              </IconButton>
-              <IconButton
-                aria-label="delete"
-                size="small"
-                className="iconbutton delete"
-                onClick={(e) => {
-                  showConfirmDelete(true);
-                  setCollapsed(false);
-                  e.stopPropagation();
-                }}
-              >
-                <Icon
-                  icon="fluent:delete-16-regular"
-                  width={18}
-                  className="icon delete"
-                />
-              </IconButton>
-            </>)) : (<Button
+                  <Icon icon="fluent:delete-16-regular" width={18} className="icon delete" />
+                </IconButton>
+              </>
+            )
+          ) : (
+            <Button
               variant="contained"
               fullWidth
               className="reg"
               onClick={(e) => {
-                dispatch(
-                  arquivosDownloadRequest([
-                    props.doc.idRelArquivo,
-                    props.tableIndex,
-                    props.rowIndex,
-                  ])
-                );
+                dispatch(arquivosDownloadRequest([props.doc.idRelArquivo, props.tableIndex, props.rowIndex]));
                 setDownloading(true);
                 e.stopPropagation();
               }}
             >
               BAIXAR
-            </Button>)}
-          {props.fullView && (
-            <ModalUpload doc={props.doc} open={open} setOpen={setOpen} />
+            </Button>
           )}
+          {props.fullView && <ModalUpload doc={props.doc} open={open} setOpen={setOpen} />}
         </div>
       </div>
       <div
@@ -299,11 +251,7 @@ const Row = (props: Props) => {
             className="iconbutton"
             onClick={() => dispatch(arquivosDeleteRequest(props.doc))}
           >
-            <Icon
-              icon="fluent:checkmark-24-regular"
-              width={28}
-              className="icon edit"
-            />
+            <Icon icon="fluent:checkmark-24-regular" width={28} className="icon edit" />
           </IconButton>
           <IconButton
             aria-label="delete"
@@ -314,31 +262,20 @@ const Row = (props: Props) => {
               e.stopPropagation();
             }}
           >
-            <Icon
-              icon="fluent:dismiss-24-filled"
-              width={25}
-              className="icon delete"
-            />
+            <Icon icon="fluent:dismiss-24-filled" width={25} className="icon delete" />
           </IconButton>
         </div>
       </div>
-      <ModalDelete 
-        doc={props.doc}
-        open={isConfirmDeleteView && isMobileView}
-        setOpen={showConfirmDelete}
-      />
+      <ModalDelete doc={props.doc} open={isConfirmDeleteView && isMobileView} setOpen={showConfirmDelete} />
       <div
-        className={`errorPanel${
-          isErrorView && isDownloading ? ' confirm' : ''
-        }${!props.fullView && collapsed ? ' fullHeight' : ''}`}
+        className={`errorPanel${isErrorView && isDownloading ? ' confirm' : ''}${
+          !props.fullView && collapsed ? ' fullHeight' : ''
+        }`}
       >
         <div className="message">
           {
-            downloadError?.find(
-              (item) =>
-                item?.table === props.tableIndex &&
-                item?.line === props.rowIndex
-            )?.error?.mensagem
+            downloadError?.find((item) => item?.table === props.tableIndex && item?.line === props.rowIndex)?.error
+              ?.mensagem
           }
         </div>
         <div className="buttons">
@@ -352,11 +289,7 @@ const Row = (props: Props) => {
               e.stopPropagation();
             }}
           >
-            <Icon
-              icon="fluent:dismiss-24-filled"
-              width={25}
-              className="icon delete"
-            />
+            <Icon icon="fluent:dismiss-24-filled" width={25} className="icon delete" />
           </IconButton>
         </div>
       </div>

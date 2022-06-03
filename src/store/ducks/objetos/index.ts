@@ -13,16 +13,10 @@ export const objetosSlice = createSlice({
   name: 'objetos',
   initialState: initialState,
   reducers: {
-    objetosGetFilterRequest: (
-      state,
-      action: PayloadAction<string | undefined>
-    ) => {
+    objetosGetFilterRequest: (state, action: PayloadAction<string | undefined>) => {
       state.error = undefined;
     },
-    objetosGetFilterSuccess: (
-      state,
-      action: PayloadAction<RespostaApi<TipoFiltro>>
-    ) => {
+    objetosGetFilterSuccess: (state, action: PayloadAction<RespostaApi<TipoFiltro>>) => {
       state.filterList = action.payload.dados;
       state.error = undefined;
     },
@@ -32,10 +26,6 @@ export const objetosSlice = createSlice({
   },
 });
 
-export const {
-  objetosGetFilterRequest,
-  objetosGetFilterSuccess,
-  objetosGetFilterError,
-} = objetosSlice.actions;
+export const { objetosGetFilterRequest, objetosGetFilterSuccess, objetosGetFilterError } = objetosSlice.actions;
 
 export default objetosSlice.reducer;

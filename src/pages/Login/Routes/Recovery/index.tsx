@@ -6,13 +6,7 @@ import { Link } from 'react-router-dom';
 import * as Yup from 'yup';
 
 import { yupResolver } from '@hookform/resolvers/yup';
-import {
-  Box,
-  Button,
-  CircularProgress,
-  TextField,
-  Typography,
-} from '@mui/material';
+import { Box, Button, CircularProgress, TextField, Typography } from '@mui/material';
 
 import { useAppDispatch, useAppSelector } from 'src/store';
 import { recoveryRequest, reset } from 'src/store/ducks/login';
@@ -31,9 +25,7 @@ const schema = Yup.object({
 const Recovery: React.FC = () => {
   const dispatch = useAppDispatch();
   const recoveryError = useAppSelector((state) => state.session.error);
-  const operationState = useAppSelector(
-    (state) => state.session.operationState
-  );
+  const operationState = useAppSelector((state) => state.session.operationState);
   const [isAllertCollapseOpened, setAlertCollapseOpened] = useState(false);
 
   const { register, handleSubmit, formState } = useForm<FormInputs>({
@@ -54,19 +46,12 @@ const Recovery: React.FC = () => {
   }, [dispatch]);
 
   return (
-    <form
-      noValidate
-      autoComplete="off"
-      onSubmit={handleSubmit(onSubmit)}
-      className="form"
-    >
+    <form noValidate autoComplete="off" onSubmit={handleSubmit(onSubmit)} className="form">
       <Typography variant="h5" className="primary">
         Recuperação de senha
       </Typography>
       <div className="recoveryinfo">
-        <p>
-          Preencha o formulário a seguir para recuperar a sua senha de acesso
-        </p>
+        <p>Preencha o formulário a seguir para recuperar a sua senha de acesso</p>
       </div>
       <DmCollapseHandler
         error={recoveryError}
@@ -111,11 +96,7 @@ const Recovery: React.FC = () => {
           type="submit"
           variant="contained"
           disabled={formState.isSubmitting || operationState === 'request'}
-          className={
-            formState.isSubmitting || operationState === 'request'
-              ? 'secondary'
-              : ''
-          }
+          className={formState.isSubmitting || operationState === 'request' ? 'secondary' : ''}
           style={{ display: operationState !== 'success' ? 'block' : 'none' }}
           fullWidth
         >
@@ -146,8 +127,7 @@ const Recovery: React.FC = () => {
         </Button>
       </Link>
       <h4 className="hint">
-        Caso não tenha acesso a essas informações, entre em contato com um
-        administrador do sistema.
+        Caso não tenha acesso a essas informações, entre em contato com um administrador do sistema.
       </h4>
     </form>
   );

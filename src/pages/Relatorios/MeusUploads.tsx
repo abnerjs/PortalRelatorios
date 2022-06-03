@@ -1,15 +1,7 @@
 import '../Dashboard.css';
 import './Styles/index.css';
 
-import {
-  Box,
-  Typography,
-  Button,
-  CircularProgress,
-  Skeleton,
-  IconButton,
-  Badge,
-} from '@mui/material';
+import { Box, Typography, Button, CircularProgress, Skeleton, IconButton, Badge } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import Header from 'src/components/Header/Header';
 import Table from 'src/components/Table/Table';
@@ -48,28 +40,20 @@ const MeusUploads = () => {
   const arquivosState = useAppSelector((state) => state.arquivoUpload.state);
   const getError = useAppSelector((state) => state.arquivoUpload.error);
   const file = useAppSelector((state) => state.arquivoUpload.file);
-  const deleteState = useAppSelector(
-    (state) => state.arquivoUpload.deleteState
-  );
-  const uploadState = useAppSelector(
-    (state) => state.arquivoUpload.uploadState
-  );
+  const deleteState = useAppSelector((state) => state.arquivoUpload.deleteState);
+  const uploadState = useAppSelector((state) => state.arquivoUpload.uploadState);
 
   useEffect(() => {
     if (deleteState === 's') {
       dispatch(arquivosGetRequest(filtros));
       dispatch(arquivosDeleteIdle());
     }
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [deleteState]);
 
   useEffect(() => {
     if (uploadState === 's') {
       dispatch(arquivosGetRequest(filtros));
     }
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [uploadState]);
 
   const defaultValuesFiltros: FiltrosRelatorios = {
@@ -81,8 +65,7 @@ const MeusUploads = () => {
     usuarioUpload: -1,
   };
 
-  const [filtros, setFiltros] =
-    useState<FiltrosRelatorios>(defaultValuesFiltros);
+  const [filtros, setFiltros] = useState<FiltrosRelatorios>(defaultValuesFiltros);
 
   useEffect(() => {
     dispatch(arquivosGetRequest(filtros));
@@ -98,23 +81,18 @@ const MeusUploads = () => {
     dispatch(prestadoresGetFilterRequest());
   }, [dispatch]);
 
-  const lstFornecedores = useAppSelector(
-    (state) => state.fornecedores.filterList
-  );
-  const lstPrestadores = useAppSelector(
-    (state) => state.prestadores.filterList
-  );
+  const lstFornecedores = useAppSelector((state) => state.fornecedores.filterList);
+  const lstPrestadores = useAppSelector((state) => state.prestadores.filterList);
 
   useEffect(() => {
     if (file) {
-      if (!(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent))) {
+      if (!/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
         window.open(file);
       }
     }
     return () => {
       dispatch(arquivosDownloadIdle());
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [file]);
 
   return (
@@ -122,9 +100,7 @@ const MeusUploads = () => {
       <div className="content">
         <div className="head">
           <Header title="Meus uploads" />
-          <Typography variant="subtitle1">
-            Relatórios e demonstrativos disponíveis para consulta
-          </Typography>
+          <Typography variant="subtitle1">Relatórios e demonstrativos disponíveis para consulta</Typography>
         </div>
 
         <div className="row up">
@@ -141,11 +117,7 @@ const MeusUploads = () => {
               }}
             >
               <div className="uploadButtonText">UPLOAD DE RELATÓRIOS</div>
-              <Icon
-                className="uploadButtonIcon"
-                icon="fluent:arrow-upload-16-filled"
-                height={'30px'}
-              />
+              <Icon className="uploadButtonIcon" icon="fluent:arrow-upload-16-filled" height={'30px'} />
             </Button>
             {false && (
               <CircularProgress
@@ -178,21 +150,15 @@ const MeusUploads = () => {
                 mr: 2,
               }}
             />
-            <IconButton
-              className="filterButton"
-              onClick={() => setOpenFilters(true)}
-              style={{ width: 45, height: 45 }}
-            >
+            <IconButton className="filterButton" onClick={() => setOpenFilters(true)} style={{ width: 45, height: 45 }}>
               <Badge
                 color="primary"
                 variant="dot"
                 invisible={
                   JSON.stringify(filtros.fornecedores) === JSON.stringify([]) &&
                   JSON.stringify(filtros.prestadores) === JSON.stringify([]) &&
-                  JSON.stringify(filtros.periodoRef) ===
-                    JSON.stringify([null, null]) &&
-                  JSON.stringify(filtros.periodoUp) ===
-                    JSON.stringify([null, null])
+                  JSON.stringify(filtros.periodoRef) === JSON.stringify([null, null]) &&
+                  JSON.stringify(filtros.periodoUp) === JSON.stringify([null, null])
                 }
               >
                 <Icon icon="ci:filter-outline" height={'30px'} />
@@ -212,22 +178,10 @@ const MeusUploads = () => {
         <div
           className="row tables overview"
           style={{
-            gridTemplateColumns:
-              arquivosState === 's' && arquivosByTipo?.length === 0
-                ? '1fr'
-                : '1fr 1fr',
-            gap:
-              arquivosState === 's' && arquivosByTipo?.length === 0
-                ? '0'
-                : '30px',
-            width:
-              arquivosState === 's' && arquivosByTipo?.length === 0
-                ? '50%'
-                : '100%',
-            marginLeft:
-              arquivosState === 's' && arquivosByTipo?.length === 0
-                ? '25%'
-                : '0',
+            gridTemplateColumns: arquivosState === 's' && arquivosByTipo?.length === 0 ? '1fr' : '1fr 1fr',
+            gap: arquivosState === 's' && arquivosByTipo?.length === 0 ? '0' : '30px',
+            width: arquivosState === 's' && arquivosByTipo?.length === 0 ? '50%' : '100%',
+            marginLeft: arquivosState === 's' && arquivosByTipo?.length === 0 ? '25%' : '0',
             transition: 'margin-left ease 0.4s',
           }}
         >
@@ -242,9 +196,7 @@ const MeusUploads = () => {
             ) : arquivosByTipo?.length === 0 ? (
               <div className="unfound">
                 <UncontrolledLottie />
-                <Typography variant="h5">
-                  {getError ? getError : 'NÃO FORAM ENCONTRADOS REGISTROS'}
-                </Typography>
+                <Typography variant="h5">{getError ? getError : 'NÃO FORAM ENCONTRADOS REGISTROS'}</Typography>
               </div>
             ) : (
               <div className="filesTypes">{filesTypes(arquivosByTipo)}</div>

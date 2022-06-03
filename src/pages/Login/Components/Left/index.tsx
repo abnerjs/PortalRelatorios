@@ -18,7 +18,9 @@ const Left: React.FC = (props: any) => {
     <div className="left">
       <div className="iconified">
         <DatamobIcon width={49} height={52} />
-        <Typography variant="h5" className="primary">PORTAL DE RELATÓRIOS</Typography>
+        <Typography variant="h5" className="primary">
+          PORTAL DE RELATÓRIOS
+        </Typography>
       </div>
       <Carousel>
         <div className="item">
@@ -27,10 +29,7 @@ const Left: React.FC = (props: any) => {
             <img src={desktop1} alt="Dashboard limpa" />
           </div>
           <h2>Dashboard limpa e intuitiva</h2>
-          <p>
-            Com design responsivo, é possível acessar tanto no seu computador
-            quanto no seu celular!
-          </p>
+          <p>Com design responsivo, é possível acessar tanto no seu computador quanto no seu celular!</p>
         </div>
         <div className="item">
           <div className="images">
@@ -38,9 +37,7 @@ const Left: React.FC = (props: any) => {
             <img src={desktop2} alt="Acesso fácil" />
           </div>
           <h2>Acesso fácil aos arquivos</h2>
-          <p>
-            Um sistema de arrastar e soltar que vai facilitar demais a sua vida!
-          </p>
+          <p>Um sistema de arrastar e soltar que vai facilitar demais a sua vida!</p>
         </div>
         <div className="item">
           <div className="images">
@@ -48,10 +45,7 @@ const Left: React.FC = (props: any) => {
             <img src={desktop3} alt="Dashboard limpa" />
           </div>
           <h2>Fique por dentro de tudo o que aconteceu</h2>
-          <p>
-            Com os logs de acesso, é possível monitorar a atividade de todos os
-            colaboradores!
-          </p>
+          <p>Com os logs de acesso, é possível monitorar a atividade de todos os colaboradores!</p>
         </div>
       </Carousel>
     </div>

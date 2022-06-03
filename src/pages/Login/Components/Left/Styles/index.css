@@ -1,25 +1,24 @@
-
 .Canvas .left {
-    width: 50%;
-    background-color: var(--bgColor);
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+  width: 50%;
+  background-color: var(--bgColor);
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .Canvas .iconified {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .Canvas .iconified svg {
-    margin-right: 10px;
+  margin-right: 10px;
 }
 
 @media screen and (max-width: 1254px) {
-    .Canvas .left {
-        display: none;
-    }
+  .Canvas .left {
+    display: none;
+  }
 }

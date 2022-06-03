@@ -3,15 +3,9 @@ import { all, call, put, takeLatest } from 'redux-saga/effects';
 
 import api from 'src/services/api';
 import { RespostaApi, TipoFiltro } from 'src/store/ducks/base/types';
-import {
-  objetosGetFilterError,
-  objetosGetFilterRequest,
-  objetosGetFilterSuccess,
-} from 'src/store/ducks/objetos';
+import { objetosGetFilterError, objetosGetFilterRequest, objetosGetFilterSuccess } from 'src/store/ducks/objetos';
 
-export function* sendGetFilterRequest(
-  action: ReturnType<typeof objetosGetFilterRequest>
-) {
+export function* sendGetFilterRequest(action: ReturnType<typeof objetosGetFilterRequest>) {
   try {
     const query = action.payload ?? '';
 

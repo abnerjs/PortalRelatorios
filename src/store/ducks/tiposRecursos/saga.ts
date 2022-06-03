@@ -9,9 +9,7 @@ import {
   tiposRecursosGetFilterSuccess,
 } from 'src/store/ducks/tiposRecursos';
 
-export function* sendGetFilterRequest(
-  action: ReturnType<typeof tiposRecursosGetFilterRequest>
-) {
+export function* sendGetFilterRequest(action: ReturnType<typeof tiposRecursosGetFilterRequest>) {
   try {
     const query = action.payload ?? '';
 
@@ -26,6 +24,4 @@ export function* sendGetFilterRequest(
   }
 }
 
-export default all([
-  takeLatest(tiposRecursosGetFilterRequest, sendGetFilterRequest),
-]);
+export default all([takeLatest(tiposRecursosGetFilterRequest, sendGetFilterRequest)]);

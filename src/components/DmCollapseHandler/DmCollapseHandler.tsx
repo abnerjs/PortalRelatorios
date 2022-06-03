@@ -11,9 +11,7 @@ interface Props {
 }
 
 const DmCollapseHandler = (props: Props) => {
-  const [errorSeverity, setErrorSeverity] = useState<AlertColor>(
-    props.error?.tipo === 1000 ? 'error' : 'warning'
-  );
+  const [errorSeverity, setErrorSeverity] = useState<AlertColor>(props.error?.tipo === 1000 ? 'error' : 'warning');
 
   useEffect(() => {
     if (props.error) {
@@ -22,11 +20,7 @@ const DmCollapseHandler = (props: Props) => {
   }, [props.error]);
 
   return (
-    <Collapse
-      in={props.error && props.isErrorCollapseOpened}
-      sx={props.sx}
-      timeout={150}
-    >
+    <Collapse in={props.error && props.isErrorCollapseOpened} sx={props.sx} timeout={150}>
       <Alert
         severity={errorSeverity}
         action={

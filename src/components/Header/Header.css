@@ -20,7 +20,7 @@
 }
 
 .Header .right {
-    display: flex;
+  display: flex;
 }
 
 .Header .MuiTypography-root {
@@ -47,7 +47,7 @@
   .head {
     width: calc(100vw - 40px);
   }
-  
+
   .Header .acesso {
     display: none;
   }

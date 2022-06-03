@@ -103,10 +103,7 @@
     padding: 0;
   }
 
-  .SectionizedTable
-    .MuiTablePagination-root
-    .MuiTablePagination-toolbar
-    .MuiTablePagination-selectLabel {
+  .SectionizedTable .MuiTablePagination-root .MuiTablePagination-toolbar .MuiTablePagination-selectLabel {
     display: none;
   }
 

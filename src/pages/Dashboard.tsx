@@ -10,58 +10,41 @@ const Dashboard = () => {
       <div className="content">
         <div className="head">
           <Header title="Início" />
-          <Typography variant="subtitle1">
-            Últimos relatórios acessados
-          </Typography>
+          <Typography variant="subtitle1">Últimos relatórios acessados</Typography>
         </div>
         <div className="row cardsUp">
           <div className="cards">
             <Card>
               <CardContent>
-                <Icon
-                  icon="fluent:document-bullet-list-20-regular"
-                  width={30}
-                />
+                <Icon icon="fluent:document-bullet-list-20-regular" width={30} />
                 <p className="date">{new Date().toDateString()}</p>
                 <h2 className="nameReg">Nome do registro</h2>
               </CardContent>
             </Card>
             <Card>
               <CardContent>
-                <Icon
-                  icon="fluent:document-bullet-list-20-regular"
-                  width={30}
-                />
+                <Icon icon="fluent:document-bullet-list-20-regular" width={30} />
                 <p className="date">{new Date().toDateString()}</p>
                 <h2 className="nameReg">Nome do registro só que mais longo</h2>
               </CardContent>
             </Card>
             <Card>
               <CardContent>
-                <Icon
-                  icon="fluent:document-bullet-list-20-regular"
-                  width={30}
-                />
+                <Icon icon="fluent:document-bullet-list-20-regular" width={30} />
                 <p className="date">{new Date().toDateString()}</p>
                 <h2 className="nameReg">Nome do registro</h2>
               </CardContent>
             </Card>
             <Card>
               <CardContent>
-                <Icon
-                  icon="fluent:document-bullet-list-20-regular"
-                  width={30}
-                />
+                <Icon icon="fluent:document-bullet-list-20-regular" width={30} />
                 <p className="date">{new Date().toDateString()}</p>
                 <h2 className="nameReg">Nome do registro</h2>
               </CardContent>
             </Card>
             <Card>
               <CardContent>
-                <Icon
-                  icon="fluent:document-bullet-list-20-regular"
-                  width={30}
-                />
+                <Icon icon="fluent:document-bullet-list-20-regular" width={30} />
                 <p className="date">{new Date().toDateString()}</p>
                 <h2 className="nameReg">Nome do registro</h2>
               </CardContent>

@@ -14,10 +14,7 @@ import {
 } from '@mui/material';
 import CheckIcon from '@mui/icons-material/Check';
 import React, { useState } from 'react';
-import {
-  ListboxComponent,
-  StyledPopper,
-} from 'src/pages/Cadastros/VinculosUsuarios/Components/Autocomplete';
+import { ListboxComponent, StyledPopper } from 'src/pages/Cadastros/VinculosUsuarios/Components/Autocomplete';
 import { TipoFiltro } from 'src/store/ducks/base/types';
 import './ModalFiltros.css';
 import { DateRange, DateRangePicker, LocalizationProvider } from '@mui/lab';
@@ -45,14 +42,8 @@ const ModalUpload = (props: Props) => {
   const [forns, setFornecedores] = useState<TipoFiltro[]>([]);
   const [prests, setPrestadores] = useState<TipoFiltro[]>([]);
   const [isDatePickerOpened, setDatePickerOpened] = useState(false);
-  const [datePeriodoRef, setDatePeriodoRef] = useState<DateRange<Date>>([
-    null,
-    null,
-  ]);
-  const [datePeriodoUp, setDatePeriodoUp] = useState<DateRange<Date>>([
-    null,
-    null,
-  ]);
+  const [datePeriodoRef, setDatePeriodoRef] = useState<DateRange<Date>>([null, null]);
+  const [datePeriodoUp, setDatePeriodoUp] = useState<DateRange<Date>>([null, null]);
   const isMobileView = useResponsivity();
 
   return (
@@ -66,22 +57,14 @@ const ModalUpload = (props: Props) => {
         setPrestadores(props.filtros.prestadores || []);
         setDatePeriodoRef(props.filtros.periodoRef || [null, null]);
         setDatePeriodoUp(props.filtros.periodoUp || [null, null]);
-        setUsers(
-          props.lstUsuarios?.find(
-            (item) => item.codigo === `${props.filtros.usuarioUpload}`
-          ) || null
-        );
+        setUsers(props.lstUsuarios?.find((item) => item.codigo === `${props.filtros.usuarioUpload}`) || null);
       }}
       closeAfterTransition
       BackdropComponent={Backdrop}
       BackdropProps={{ timeout: 500 }}
     >
       <Fade in={props.open}>
-        <Box
-          className={`modalBox-root filter${
-            isDatePickerOpened ? ' dateOpened' : ''
-          }`}
-        >
+        <Box className={`modalBox-root filter${isDatePickerOpened ? ' dateOpened' : ''}`}>
           <div className="formFields">
             <Autocomplete
               fullWidth
@@ -137,9 +120,7 @@ const ModalUpload = (props: Props) => {
               onChange={(_, data) => {
                 setUsers(data);
               }}
-              isOptionEqualToValue={(option, value) =>
-                option.codigo === value.codigo
-              }
+              isOptionEqualToValue={(option, value) => option.codigo === value.codigo}
             />
 
             <Autocomplete
@@ -215,9 +196,7 @@ const ModalUpload = (props: Props) => {
               onChange={(_, data) => {
                 setFornecedores(data);
               }}
-              isOptionEqualToValue={(option, value) =>
-                option.codigo === value.codigo
-              }
+              isOptionEqualToValue={(option, value) => option.codigo === value.codigo}
             />
 
             <Autocomplete
@@ -291,9 +270,7 @@ const ModalUpload = (props: Props) => {
               onChange={(_, data) => {
                 setPrestadores(data);
               }}
-              isOptionEqualToValue={(option, value) =>
-                option.codigo === value.codigo
-              }
+              isOptionEqualToValue={(option, value) => option.codigo === value.codigo}
             />
 
             <div className="row">
@@ -319,7 +296,7 @@ const ModalUpload = (props: Props) => {
                       &nbsp; também serão incluídas.
                     </React.Fragment>
                   }
-                  placement={isMobileView?'top':'right'}
+                  placement={isMobileView ? 'top' : 'right'}
                   enterTouchDelay={75}
                 >
                   <IconButton>
@@ -328,10 +305,7 @@ const ModalUpload = (props: Props) => {
                 </Tooltip>
               </div>
             </div>
-            <LocalizationProvider
-              dateAdapter={AdapterDateFns}
-              locale={brLocale}
-            >
+            <LocalizationProvider dateAdapter={AdapterDateFns} locale={brLocale}>
               <DateRangePicker
                 startText="Data inicial"
                 endText="Data final"
@@ -389,10 +363,7 @@ const ModalUpload = (props: Props) => {
             <div className="row">
               <Typography variant="body1">Período do upload</Typography>
             </div>
-            <LocalizationProvider
-              dateAdapter={AdapterDateFns}
-              locale={brLocale}
-            >
+            <LocalizationProvider dateAdapter={AdapterDateFns} locale={brLocale}>
               <DateRangePicker
                 startText="Data inicial"
                 endText="Data final"
@@ -459,11 +430,7 @@ const ModalUpload = (props: Props) => {
                 setPrestadores(props.filtros.prestadores || []);
                 setDatePeriodoRef(props.filtros.periodoRef || [null, null]);
                 setDatePeriodoUp(props.filtros.periodoUp || [null, null]);
-                setUsers(
-                  props.lstUsuarios?.find(
-                    (item) => item.codigo === `${props.filtros.usuarioUpload}`
-                  ) || null
-                );
+                setUsers(props.lstUsuarios?.find((item) => item.codigo === `${props.filtros.usuarioUpload}`) || null);
               }}
             >
               CANCELAR
@@ -485,9 +452,7 @@ const ModalUpload = (props: Props) => {
                   props.setFiltros({
                     ...props.filtros,
                     descricao: props.filtros.descricao,
-                    usuarioUpload: !props.admin
-                      ? props.filtros.usuarioUpload
-                      : users?.codigo,
+                    usuarioUpload: !props.admin ? props.filtros.usuarioUpload : users?.codigo,
                     fornecedores: forns,
                     prestadores: prests,
                     periodoRef: datePeriodoRef,
@@ -528,9 +493,7 @@ const ModalUpload = (props: Props) => {
                 props.setFiltros({
                   ...props.filtros,
                   descricao: props.filtros.descricao,
-                  usuarioUpload: !props.admin
-                    ? props.filtros.usuarioUpload
-                    : undefined,
+                  usuarioUpload: !props.admin ? props.filtros.usuarioUpload : undefined,
                   fornecedores: [],
                   prestadores: [],
                   periodoRef: [null, null],

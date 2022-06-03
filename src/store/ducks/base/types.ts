@@ -1,4 +1,3 @@
-
 export type RespostaApi<T> = {
   dados: Array<T>;
   paginacao?: InfoPaginacao;

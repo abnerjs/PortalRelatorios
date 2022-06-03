@@ -25,9 +25,7 @@ const Login: React.FC = () => {
   const history = useHistory();
   const dispatch = useAppDispatch();
   const loginError = useAppSelector((state) => state.session.error);
-  const operationState = useAppSelector(
-    (state) => state.session.operationState
-  );
+  const operationState = useAppSelector((state) => state.session.operationState);
   const [isErrorCollapseOpened, setErrorCollapseOpened] = useState(false);
 
   const { register, handleSubmit, formState } = useForm<FormInputs>({
@@ -46,12 +44,7 @@ const Login: React.FC = () => {
   }, [loginError]);
 
   return (
-    <form
-      noValidate
-      autoComplete="off"
-      onSubmit={handleSubmit(onSubmit)}
-      className="Login form"
-    >
+    <form noValidate autoComplete="off" onSubmit={handleSubmit(onSubmit)} className="Login form">
       <Typography variant="h5" className="primary">
         Acessar
       </Typography>
@@ -106,11 +99,7 @@ const Login: React.FC = () => {
           variant="contained"
           disabled={formState.isSubmitting || operationState === 'request'}
           type="submit"
-          className={
-            formState.isSubmitting || operationState === 'request'
-              ? 'secondary'
-              : ''
-          }
+          className={formState.isSubmitting || operationState === 'request' ? 'secondary' : ''}
           style={{ marginTop: 8 }}
           fullWidth
         >

@@ -24,22 +24,19 @@ interface CarouselContent {
 const images: Array<CarouselContent> = [
   {
     label: 'Dashboard limpa e intuitiva',
-    message:
-      'Com design responsivo, é possível acessar tanto no seu computador quanto no seu celular!',
+    message: 'Com design responsivo, é possível acessar tanto no seu computador quanto no seu celular!',
     desktop: desktop1,
     mobile: mobile1,
   },
   {
     label: 'Acesso fácil aos arquivos',
-    message:
-      'Um sistema de arrastar e soltar que vai facilitar demais a sua vida!',
+    message: 'Um sistema de arrastar e soltar que vai facilitar demais a sua vida!',
     desktop: desktop2,
     mobile: mobile2,
   },
   {
     label: 'Fique por dentro de tudo o que aconteceu',
-    message:
-      'Com os logs de acesso, é possível monitorar a atividade de todos os colaboradores!',
+    message: 'Com os logs de acesso, é possível monitorar a atividade de todos os colaboradores!',
     desktop: desktop3,
     mobile: mobile3,
   },
@@ -78,12 +75,7 @@ const Carousel: React.FC<Props> = ({ children }: Props) => {
   return (
     <>
       <div className="Carousel">
-        <AutoPlaySwipeableViews
-          axis="x"
-          index={carouselIndex}
-          onChangeIndex={handleStepChange}
-          enableMouseEvents
-        >
+        <AutoPlaySwipeableViews axis="x" index={carouselIndex} onChangeIndex={handleStepChange} enableMouseEvents>
           {images.map((step, index) => (
             <div key={step.label}>
               {Math.abs(carouselIndex - index) <= 2 ? (

@@ -1,11 +1,11 @@
 .Main {
-    display: flex;
-    width: 100vw;
-    height: 100vh;
-    max-height: 100vh;
-    overflow: hidden;
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+  max-height: 100vh;
+  overflow: hidden;
 }
 
-.Main.mobile{
-    flex-direction: column-reverse;
+.Main.mobile {
+  flex-direction: column-reverse;
 }
