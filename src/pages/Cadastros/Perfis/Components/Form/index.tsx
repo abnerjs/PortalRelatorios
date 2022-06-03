@@ -8,7 +8,7 @@ import { SubmitHandler, Controller, useForm } from 'react-hook-form';
 import * as Yup from 'yup';
 
 import { yupResolver } from '@hookform/resolvers/yup';
-import Button from '@mui/material/Button';
+import { Box, Button, CircularProgress } from '@mui/material';
 
 import InputSwitch from 'src/pages/Cadastros/Perfis/Components/InputSwitch';
 import { useAppSelector, useAppDispatch } from 'src/store';
@@ -19,8 +19,6 @@ import {
 } from 'src/store/ducks/perfis';
 import { Perfil } from 'src/store/ducks/perfis/types';
 import { objetosGetFilterRequest } from 'src/store/ducks/objetos';
-import { CircularProgress } from '@mui/material';
-import { Box } from '@mui/system';
 import DmCollapseHandler from 'src/components/DmCollapseHandler/DmCollapseHandler';
 import DmTextField from 'src/components/DmTextField/DmTextField';
 

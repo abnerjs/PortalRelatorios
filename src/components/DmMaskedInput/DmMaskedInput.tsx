@@ -47,21 +47,19 @@ export default class DmMaskedInput extends Component<any, any> {
             disabled={false}
             onChange={this.handleChange}
           >
-            {() => (
-              <TextField
-                variant="filled"
-                label="CPF/CNPJ"
-                className='DmTextField'
-                InputProps={{
-                  disableUnderline: true,
-                  inputProps: {
-                    maxLength: 18,
-                  },
-                }}
-                fullWidth
-                type="text"
-              />
-            )}
+            <TextField
+              variant="filled"
+              label="CPF/CNPJ"
+              className='DmTextField'
+              InputProps={{
+                disableUnderline: true,
+                inputProps: {
+                  maxLength: 18,
+                },
+              }}
+              fullWidth
+              type="text"
+            />
           </InputMask>
         </div>
       </div>

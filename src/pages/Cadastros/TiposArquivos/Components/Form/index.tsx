@@ -15,8 +15,7 @@ import {
   tipoArquivoPutRequest,
 } from 'src/store/ducks/tipoArquivo';
 import { objetosGetFilterRequest } from 'src/store/ducks/objetos';
-import { CircularProgress, Button } from '@mui/material';
-import { Box } from '@mui/system';
+import { Box, CircularProgress, Button } from '@mui/material';
 import { TipoArquivo } from 'src/store/ducks/tipoArquivo/types';
 import DmCollapseHandler from 'src/components/DmCollapseHandler/DmCollapseHandler';
 import DmAutocomplete, {

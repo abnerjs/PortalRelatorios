@@ -1,5 +1,6 @@
 import { Icon } from '@iconify/react';
 import {
+  Box,
   Autocomplete,
   Backdrop,
   Button,
@@ -12,16 +13,14 @@ import {
   Typography,
 } from '@mui/material';
 import CheckIcon from '@mui/icons-material/Check';
-import { Box } from '@mui/system';
 import React, { useState } from 'react';
 import {
   ListboxComponent,
   StyledPopper,
 } from 'src/pages/Cadastros/VinculosUsuarios/Components/Autocomplete';
-import { DateRange } from '@mui/lab/DateRangePicker/RangeTypes';
 import { TipoFiltro } from 'src/store/ducks/base/types';
 import './ModalFiltros.css';
-import { DateRangePicker, LocalizationProvider } from '@mui/lab';
+import { DateRange, DateRangePicker, LocalizationProvider } from '@mui/lab';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import brLocale from 'date-fns/locale/pt-BR';
 import { FiltrosRelatorios } from '../Gerenciamento';

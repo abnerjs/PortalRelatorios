@@ -1,5 +1,4 @@
-import { Backdrop, Button, CircularProgress, Fade, Modal, Typography } from '@mui/material';
-import { Box } from '@mui/system';
+import { Box, Backdrop, Button, CircularProgress, Fade, Modal, Typography } from '@mui/material';
 import React, { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from 'src/store';
 import { arquivosDeleteRequest } from 'src/store/ducks/relatoriosUpload';

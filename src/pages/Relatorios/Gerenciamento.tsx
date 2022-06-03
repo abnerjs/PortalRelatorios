@@ -2,6 +2,7 @@ import '../Dashboard.css';
 import './Styles/index.css';
 
 import {
+  Box,
   Typography,
   Button,
   CircularProgress,
@@ -13,7 +14,6 @@ import React, { useEffect, useState } from 'react';
 import Header from 'src/components/Header/Header';
 import Table from 'src/components/Table/Table';
 import { useAppDispatch, useAppSelector } from 'src/store';
-import { Box } from '@mui/system';
 import ModalUpload from './Components/ModalUpload';
 import {
   arquivosGetRequest,
@@ -25,12 +25,12 @@ import { ArquivosByTipo } from 'src/store/ducks/relatoriosUpload/types';
 import { Icon } from '@iconify/react';
 import ModalFiltros from './Components/ModalFiltros';
 import { TipoFiltro } from 'src/store/ducks/base/types';
-import { DateRange } from '@mui/lab/DateRangePicker/RangeTypes';
 import { fornecedoresGetFilterRequest } from 'src/store/ducks/fornecedores';
 import { prestadoresGetFilterRequest } from 'src/store/ducks/prestadores';
 import { usuariosGetFilterRequest } from 'src/store/ducks/usuarios';
 import UncontrolledLottie from 'src/components/UncontrolledLottie';
 import DmTextField from 'src/components/DmTextField/DmTextField';
+import { DateRange } from '@mui/lab';
 
 export interface FiltrosRelatorios {
   descricao?: string;
