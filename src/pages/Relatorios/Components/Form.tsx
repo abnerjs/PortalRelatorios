@@ -1,9 +1,10 @@
 import './Form.css';
 
 import { Icon } from '@iconify/react';
-import { DatePicker, DateRangePicker, LocalizationProvider } from '@mui/lab';
+import { DatePicker, DateRange, DateRangePicker, LocalizationProvider } from '@mui/lab';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import {
+  Box,
   Autocomplete,
   Button,
   Card,
@@ -16,7 +17,6 @@ import {
   Tooltip,
 } from '@mui/material';
 import CheckIcon from '@mui/icons-material/Check';
-import { Box } from '@mui/system';
 import brLocale from 'date-fns/locale/pt-BR';
 import React, { useEffect, useState } from 'react';
 import { SubmitHandler, Controller, useForm } from 'react-hook-form';
@@ -43,7 +43,6 @@ import {
   arquivosUploadIdle,
   arquivosUploadRequest,
 } from 'src/store/ducks/relatoriosUpload';
-import { DateRange } from '@mui/lab/DateRangePicker/RangeTypes';
 import DmCollapseHandler from 'src/components/DmCollapseHandler/DmCollapseHandler';
 import DmTextField from 'src/components/DmTextField/DmTextField';
 import useResponsivity from 'src/hooks/useResponsivity';

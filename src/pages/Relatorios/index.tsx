@@ -2,6 +2,7 @@ import '../Dashboard.css';
 import './Styles/index.css';
 
 import {
+  Box,
   Typography,
   Button,
   CircularProgress,
@@ -13,7 +14,6 @@ import React, { useEffect, useState } from 'react';
 import Header from 'src/components/Header/Header';
 import Table, { LinkProps } from 'src/components/Table/Table';
 import { useAppDispatch, useAppSelector } from 'src/store';
-import { Box } from '@mui/system';
 import ModalUpload from './Components/ModalUpload';
 import {
   arquivosGetRequest,

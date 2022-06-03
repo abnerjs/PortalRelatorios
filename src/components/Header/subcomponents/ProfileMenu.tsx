@@ -4,6 +4,7 @@ import './ProfileMenu.css';
 import { Icon } from '@iconify/react';
 import useOutsideClick from 'src/hooks/useOutsideClick';
 import {
+  Box,
   Avatar,
   Backdrop,
   Button,
@@ -15,7 +16,6 @@ import {
 import { getInitialsFromString } from 'src/utils/StringUtils';
 import * as Yup from 'yup';
 import { useAppDispatch, useAppSelector } from 'src/store';
-import { Box } from '@mui/system';
 import { ChangeUsuarioPasswordRequest } from 'src/store/ducks/usuarios/types';
 import { yupResolver } from '@hookform/resolvers/yup';
 import {

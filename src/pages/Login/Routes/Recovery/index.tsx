@@ -7,12 +7,12 @@ import * as Yup from 'yup';
 
 import { yupResolver } from '@hookform/resolvers/yup';
 import {
+  Box,
   Button,
   CircularProgress,
   TextField,
   Typography,
 } from '@mui/material';
-import { Box } from '@mui/system';
 
 import { useAppDispatch, useAppSelector } from 'src/store';
 import { recoveryRequest, reset } from 'src/store/ducks/login';

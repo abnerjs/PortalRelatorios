@@ -1,6 +1,5 @@
 import { Icon } from '@iconify/react';
-import { Backdrop, Button, Fade, Modal, Typography } from '@mui/material';
-import { Box } from '@mui/system';
+import { Box, Backdrop, Button, Fade, Modal, Typography } from '@mui/material';
 import React, { useState } from 'react';
 import Dropzone from 'react-dropzone';
 import { ArquivoUploadReceiveFormat } from 'src/store/ducks/relatoriosUpload/types';
