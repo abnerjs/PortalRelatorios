@@ -56,9 +56,17 @@ const schema = Yup.object({
     .max(200, (params) => `Máximo de ${params.max} caracteres!`)
     .required(`Campo obrigatório!`),
   desSenha: Yup.string()
-    .max(128, (params) => `Máximo de ${params.max} caracteres!`)
-    .min(4, (params) => `Mínimo de ${params.min} caracteres!`)
-    .required(`Campo obrigatório!`),
+    .when('flgTrocaSenha', {
+      is: (value: string) => value === 'S',
+      then: Yup.string()
+        .nullable()
+        .default(null)
+        .notRequired(),
+      otherwise: Yup.string()
+        .max(32, (params) => `Máximo de ${params.max} caracteres!`)
+        .min(8, (params) => `Mínimo de ${params.min} caracteres!`)
+        .required(`Campo obrigatório!`),
+    }),
   desCpfCnpj: Yup.string()
     .nullable()
     .default(null)
@@ -95,6 +103,8 @@ const defaultValues: Usuario = {
   codColaborador: '',
   flgTipo: 'I',
   flgAtivo: 'S',
+  flgPrimeiroAcesso: 'S',
+  flgTrocaSenha: 'S',
 };
 
 const Form: React.FC<FormProps> = ({ data, tipoUsuario, isFormOpened }: FormProps) => {
@@ -192,6 +202,7 @@ const Form: React.FC<FormProps> = ({ data, tipoUsuario, isFormOpened }: FormProp
             </div>
             <div className="inputs">
               <input type="hidden" {...register('idRelUsuario')} />
+              <input type="hidden" value={data ? 'N' : 'S'} {...register('flgTrocaSenha')} />
               <Controller
                 name="desNome"
                 control={control}
@@ -353,22 +364,23 @@ const Form: React.FC<FormProps> = ({ data, tipoUsuario, isFormOpened }: FormProp
               />
             )}
           />
-          <Controller
+          {data ? <Controller
             name="desSenha"
             control={control}
             render={({ field: { ref, ...rest }, fieldState }) => (
               <DmTextField
                 label="Senha"
-                type="password"
+                type="text"
                 tabIndex={isFormOpened ? 0 : -1}
                 error={!!fieldState.error}
                 rest={rest}
                 inputProps={{
                   maxLength: 128,
+                  readOnly: true,
                 }}
               />
             )}
-          />
+          /> : ''}
         </div>
         <div className="buttons">
           <Button

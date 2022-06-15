@@ -52,6 +52,12 @@ export const sessionSlice = createSlice({
       state.message = undefined;
       state.operationState = 'error';
     },
+    changeFlgTrocaSenha: (state) =>  {
+      state.user!.flgTrocaSenha = 'N';
+    },
+    changeFlgPrimeiroAcesso: (state) =>  {
+      state.user!.flgPrimeiroAcesso = 'N';
+    },
     recoveryRequest: (state, action: PayloadAction<RecoveryRequest>) => {
       state.error = undefined;
       state.message = undefined;
@@ -88,6 +94,8 @@ export const {
   loginRequest,
   loginSuccess,
   loginError,
+  changeFlgPrimeiroAcesso,
+  changeFlgTrocaSenha,
   recoveryRequest,
   recoverySuccess,
   recoveryError,

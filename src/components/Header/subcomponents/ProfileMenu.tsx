@@ -38,7 +38,6 @@ const schema = Yup.object({
 });
 
 interface FormInputs {
-  desLogin: string;
   desSenha: string;
   desNovaSenha: string;
   desConfirmaNovaSenha: string;
@@ -68,7 +67,6 @@ const ProfileMenu = (props: ProfileMenuProps) => {
   const dispatch = useAppDispatch();
 
   const defaultValues: ChangeUsuarioPasswordRequest = {
-    desLogin: '',
     desSenha: '',
     desNovaSenha: '',
     desConfirmaNovaSenha: '',

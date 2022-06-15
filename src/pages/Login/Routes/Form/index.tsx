@@ -25,6 +25,7 @@ const Login: React.FC = () => {
   const history = useHistory();
   const dispatch = useAppDispatch();
   const loginError = useAppSelector((state) => state.session.error);
+  const user = useAppSelector((state) => state.session.user);
   const operationState = useAppSelector((state) => state.session.operationState);
   const [isErrorCollapseOpened, setErrorCollapseOpened] = useState(false);
 
@@ -42,6 +43,12 @@ const Login: React.FC = () => {
   useEffect(() => {
     if (loginError) setErrorCollapseOpened(true);
   }, [loginError]);
+
+  useEffect(() => {
+    if(user !== null && user.flgTrocaSenha === "S")
+      history.push('/first-access');
+  }, [user])
+  
 
   return (
     <form noValidate autoComplete="off" onSubmit={handleSubmit(onSubmit)} className="Login form">
