@@ -20,7 +20,7 @@ const App: React.FC = (props: any) => {
 
 const mapStateToProps = (state: AppState) => {
   return {
-    logged: state.session.authenticated,
+    logged: state.session.authenticated && state.session.user?.flgTrocaSenha === "N",
   };
 };
 

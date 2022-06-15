@@ -10,6 +10,7 @@ import NewPassword from 'src/pages/Login/Routes/NewPassword';
 import Recovery from 'src/pages/Login/Routes/Recovery';
 import DatamobIcon from 'src/assets/DatamobIcon';
 import { Typography } from '@mui/material';
+import FirstAccess from './Routes/FirstAccess';
 
 const Canvas: React.FC = () => {
   return (
@@ -31,6 +32,9 @@ const Canvas: React.FC = () => {
           </Route>
           <Route path="/change-password">
             <NewPassword />
+          </Route>
+          <Route path="/first-access">
+            <FirstAccess />
           </Route>
           <Route path="/">
             <Form />

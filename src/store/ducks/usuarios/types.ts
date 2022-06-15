@@ -26,10 +26,11 @@ export interface Usuario {
   codColaborador?: string | null;
   flgTipo: string;
   flgAtivo: string;
+  flgPrimeiroAcesso: string;
+  flgTrocaSenha: string;
 }
 
 export interface ChangeUsuarioPasswordRequest {
-  desLogin: string;
   desSenha: string;
   desNovaSenha: string;
   desConfirmaNovaSenha: string;

@@ -23,6 +23,7 @@ import {
   usuariosChangeFlagActiveRequest,
 } from 'src/store/ducks/usuarios';
 import { Usuario } from 'src/store/ducks/usuarios/types';
+import { changeFlgPrimeiroAcesso, changeFlgTrocaSenha } from '../login';
 
 export function* sendGetRequest(action: ReturnType<typeof usuariosGetRequest>) {
   try {
@@ -84,6 +85,8 @@ export function* sendChangePasswordRequest(action: ReturnType<typeof changeUsuar
   try {
     yield call(api.post, `Usuarios/v1/alterarSenha/`, action.payload);
     yield put(changeUsuarioPasswordSuccess());
+    yield put(changeFlgTrocaSenha());
+    yield put(changeFlgPrimeiroAcesso());
   } catch (error: any) {
     yield put(changeUsuarioPasswordError(error));
   }
@@ -98,6 +101,8 @@ export function* sendChangeActiveFlagRequest(action: ReturnType<typeof usuariosC
       desSenha: action.payload.desSenha,
       flgAtivo: action.payload.flgAtivo === 'S' ? 'N' : 'S',
       flgTipo: action.payload.flgTipo,
+      flgPrimeiroAcesso: action.payload.flgPrimeiroAcesso,
+      flgTrocaSenha: action.payload.flgTrocaSenha,
       idRelPerfil: action.payload.idRelPerfil,
       idRelUsuario: action.payload.idRelUsuario,
       desCpfCnpj: action.payload.desCpfCnpj,

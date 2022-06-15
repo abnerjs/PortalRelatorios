@@ -24,6 +24,8 @@ export interface UserLogin {
   nomUsuario: string;
   desLogin: string;
   flgTipo: string;
+  flgPrimeiroAcesso: string;
+  flgTrocaSenha: string;
   versaoApi: string;
   accessToken: string;
   lstSistemas: Array<Sistema>;
