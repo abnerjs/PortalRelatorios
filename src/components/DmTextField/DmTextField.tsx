@@ -20,6 +20,7 @@ interface Props {
   margin?: string;
   maxLength?: number;
   minLength?: number;
+  autoFocus?: boolean;
 }
 
 const DmTextField = (props: Props) => {
@@ -30,6 +31,7 @@ const DmTextField = (props: Props) => {
         .normalize('NFD')
         .replace(/[\u0300-\u036f]/g, '')}
       fullWidth
+      autoFocus={props.autoFocus}
       label={props.label}
       size={props.size}
       color="primary"
