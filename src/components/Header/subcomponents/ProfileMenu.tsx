@@ -29,11 +29,13 @@ const schema = Yup.object({
     .oneOf([Yup.ref('desConfirmaNovaSenha')], 'Senhas devem ser iguais!')
     .max(32, (params) => `Máximo de ${params.max} caracteres!`)
     .min(8, (params) => `Mínimo de ${params.min} caracteres!`)
+    .matches(/(?=.*[A-Za-z])(?=.*\d).{8,32}\w+/g, "A senha precisa conter ao menos uma letra e um número")
     .required(`Campo obrigatório!`),
   desConfirmaNovaSenha: Yup.string()
     .oneOf([Yup.ref('desNovaSenha')], 'Senhas devem ser iguais!')
     .max(32, (params) => `Máximo de ${params.max} caracteres!`)
     .min(8, (params) => `Mínimo de ${params.min} caracteres!`)
+    .matches(/(?=.*[A-Za-z])(?=.*\d).{8,32}\w+/g, "A senha precisa conter ao menos uma letra e um número")
     .required(`Campo obrigatório!`),
 });
 
@@ -44,7 +46,7 @@ interface FormInputs {
 }
 
 const ProfileMenu = (props: ProfileMenuProps) => {
-  const user = useAppSelector((state) => state.session.user);
+  const user = useAppSelector((state: any) => state.session.user);
 
   const [collapsed, setCollapsed] = useState(false);
   const ref = useRef(null);
@@ -185,6 +187,7 @@ const ProfileMenu = (props: ProfileMenuProps) => {
                       <DmTextField
                         label="Senha atual"
                         secondary
+                        autoFocus
                         maxLength={128}
                         error={!!fieldState.error}
                         type="password"
