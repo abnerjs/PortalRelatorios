@@ -54,9 +54,13 @@ export const sessionSlice = createSlice({
     },
     changeFlgTrocaSenha: (state) =>  {
       state.user!.flgTrocaSenha = 'N';
+      const jsonUser = JSON.stringify(state.user);
+      global.window.localStorage.setItem('dm_pr_relatorios_user', jsonUser);
     },
     changeFlgPrimeiroAcesso: (state) =>  {
       state.user!.flgPrimeiroAcesso = 'N';
+      const jsonUser = JSON.stringify(state.user);
+      global.window.localStorage.setItem('dm_pr_relatorios_user', jsonUser);
     },
     recoveryRequest: (state, action: PayloadAction<RecoveryRequest>) => {
       state.error = undefined;

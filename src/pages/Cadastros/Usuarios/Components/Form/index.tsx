@@ -4,7 +4,7 @@ import * as Yup from 'yup';
 
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Icon } from '@iconify/react';
-import { Autocomplete, Box, Button, CircularProgress, debounce, TextField } from '@mui/material';
+import { Autocomplete, Box, Button, CircularProgress, debounce, IconButton, InputAdornment, TextField } from '@mui/material';
 
 import { useAppSelector, useAppDispatch } from 'src/store';
 import { TipoFiltro } from 'src/store/ducks/base/types';
@@ -14,6 +14,7 @@ import { Usuario } from 'src/store/ducks/usuarios/types';
 import { getInitialsFromString } from 'src/utils/StringUtils';
 import DmCollapseHandler from 'src/components/DmCollapseHandler/DmCollapseHandler';
 import DmTextField from 'src/components/DmTextField/DmTextField';
+import { Visibility, VisibilityOff } from '@mui/icons-material';
 
 const maskCpfCnpj = (value: string) => {
   value = value.replace(/\D/g, '');
@@ -55,18 +56,6 @@ const schema = Yup.object({
   desLogin: Yup.string()
     .max(200, (params) => `Máximo de ${params.max} caracteres!`)
     .required(`Campo obrigatório!`),
-  desSenha: Yup.string()
-    .when('flgTrocaSenha', {
-      is: (value: string) => value === 'S',
-      then: Yup.string()
-        .nullable()
-        .default(null)
-        .notRequired(),
-      otherwise: Yup.string()
-        .max(32, (params) => `Máximo de ${params.max} caracteres!`)
-        .min(8, (params) => `Mínimo de ${params.min} caracteres!`)
-        .required(`Campo obrigatório!`),
-    }),
   desCpfCnpj: Yup.string()
     .nullable()
     .default(null)
@@ -98,20 +87,19 @@ const defaultValues: Usuario = {
   desNome: '',
   desEmail: '',
   desLogin: '',
-  desSenha: '',
   desCpfCnpj: '',
   codColaborador: '',
   flgTipo: 'I',
-  flgAtivo: 'S',
-  flgPrimeiroAcesso: 'S',
-  flgTrocaSenha: 'S',
+  flgAtivo: 'S'
 };
 
 const Form: React.FC<FormProps> = ({ data, tipoUsuario, isFormOpened }: FormProps) => {
   const [initials, setInitials] = useState('');
   const [flgTipo, setFlgTipo] = useState('I');
   const [perfil, setPerfil] = useState<TipoFiltro | null>(null);
-  const [focusPerfil, setFocusPerfil] = useState(false);
+  const [focusPerfil, setFocusPerfil] = useState(false);const [showPassword, setShowPassword] = useState(false);
+  const handleClickShowPassword = () => setShowPassword(!showPassword);
+  const handleMouseDownPassword = () => setShowPassword(!showPassword);
 
   const dispatch = useAppDispatch();
   const perfis = useAppSelector((state) => state.perfis.filterList);
@@ -202,7 +190,6 @@ const Form: React.FC<FormProps> = ({ data, tipoUsuario, isFormOpened }: FormProp
             </div>
             <div className="inputs">
               <input type="hidden" {...register('idRelUsuario')} />
-              <input type="hidden" value={data ? 'N' : 'S'} {...register('flgTrocaSenha')} />
               <Controller
                 name="desNome"
                 control={control}
@@ -364,19 +351,30 @@ const Form: React.FC<FormProps> = ({ data, tipoUsuario, isFormOpened }: FormProp
               />
             )}
           />
-          {data ? <Controller
+          {data && (data.flgTrocaSenha ===  'S' || data.flgPrimeiroAcesso ===  'S') ? <Controller
             name="desSenha"
             control={control}
             render={({ field: { ref, ...rest }, fieldState }) => (
               <DmTextField
                 label="Senha"
-                type="text"
+                type={showPassword ? "text" : "password"}
                 tabIndex={isFormOpened ? 0 : -1}
                 error={!!fieldState.error}
                 rest={rest}
                 inputProps={{
                   maxLength: 128,
                   readOnly: true,
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton
+                        aria-label="Mostrar senha"
+                        onClick={handleClickShowPassword}
+                        onMouseDown={handleMouseDownPassword}
+                      >
+                        {showPassword ? <Visibility /> : <VisibilityOff />}
+                      </IconButton>
+                    </InputAdornment>
+                  )
                 }}
               />
             )}

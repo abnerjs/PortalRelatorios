@@ -45,7 +45,7 @@ const Login: React.FC = () => {
   }, [loginError]);
 
   useEffect(() => {
-    if(user !== null && user.flgTrocaSenha === "S")
+    if(user !== null && (user.flgTrocaSenha === "S" || user.flgPrimeiroAcesso === "S"))
       history.push('/first-access');
   }, [user])
   

@@ -21,13 +21,13 @@ export interface Usuario {
   desNome: string;
   desEmail?: string | null;
   desLogin: string;
-  desSenha: string;
+  desSenha?: string;
   desCpfCnpj?: string | null;
   codColaborador?: string | null;
   flgTipo: string;
   flgAtivo: string;
-  flgPrimeiroAcesso: string;
-  flgTrocaSenha: string;
+  flgPrimeiroAcesso?: string;
+  flgTrocaSenha?: string;
 }
 
 export interface ChangeUsuarioPasswordRequest {

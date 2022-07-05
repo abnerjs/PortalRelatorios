@@ -101,8 +101,6 @@ export function* sendChangeActiveFlagRequest(action: ReturnType<typeof usuariosC
       desSenha: action.payload.desSenha,
       flgAtivo: action.payload.flgAtivo === 'S' ? 'N' : 'S',
       flgTipo: action.payload.flgTipo,
-      flgPrimeiroAcesso: action.payload.flgPrimeiroAcesso,
-      flgTrocaSenha: action.payload.flgTrocaSenha,
       idRelPerfil: action.payload.idRelPerfil,
       idRelUsuario: action.payload.idRelUsuario,
       desCpfCnpj: action.payload.desCpfCnpj,
