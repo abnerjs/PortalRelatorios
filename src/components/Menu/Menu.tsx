@@ -83,7 +83,7 @@ const Menu = () => {
           let arrSubpages: Objeto[] = [];
           item.lstObjetos.forEach((objeto) => {
             let renderFound = objetoFromTipo.lstObjetos.find(
-              (pagina) => objeto.nomPagina === pagina.nomPagina && pagina.flgAcesso === 'A'
+              (pagina) => objeto.nomPagina === pagina.nomPagina && (pagina.flgAcesso !== 'N')
             );
 
             if (renderFound) {
@@ -162,7 +162,7 @@ const Menu = () => {
             </Tooltip>
 
             {submenuRender.map((item, index) => {
-              return (
+              return item.list.length === 0 ? '' : (
                 <Submenu
                   key={index}
                   icon={item.icon}
@@ -191,7 +191,7 @@ const Menu = () => {
               onClick={() => setBottomNavigationDisplay('/')}
             />
             {submenuRender.map((item, index) => {
-              return (
+              return item.list.length === 0 ? '' : (
                 <BottomNavigationAction
                   key={index + 1}
                   icon={<Icon icon={item.icon} />}

@@ -80,7 +80,7 @@ const FirstAccess: React.FC = (props: any) => {
   return (
     <form noValidate autoComplete="off" onSubmit={handleSubmit(onSubmit)} className="form FirstAccess">
       <Typography variant="h5" className="primary">
-        Renovação de senha em primeiro acesso
+        Renovação de senha
       </Typography>
       <DmCollapseHandler
         error={changeError}
@@ -90,6 +90,7 @@ const FirstAccess: React.FC = (props: any) => {
       <TextField
         id="desSenha"
         fullWidth
+        autoFocus
         label="Senha atual"
         color="primary"
         margin="dense"
