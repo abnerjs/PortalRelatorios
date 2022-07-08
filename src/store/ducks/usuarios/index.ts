@@ -2,7 +2,7 @@ import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 
 import { Paginacao } from 'src/store/ducks/base';
 import { RespostaApi, TipoFiltro } from 'src/store/ducks/base/types';
-import { ChangeUsuarioPasswordRequest, Usuario, UsuariosState } from 'src/store/ducks/usuarios/types';
+import { ChangePasswordFromRecoveryRequest, ChangeUsuarioPasswordRequest, Usuario, UsuariosState } from 'src/store/ducks/usuarios/types';
 import { ErrorAPI } from '../types';
 
 const initialState: UsuariosState = {
@@ -17,6 +17,8 @@ const initialState: UsuariosState = {
   deleteState: 'idle',
   changePasswordError: undefined,
   changePasswordState: 'idle',
+  changePasswordFromRequestError: undefined,
+  changePasswordFromRequestState: 'idle',
 };
 
 export const usuariosSlice = createSlice({
@@ -112,6 +114,44 @@ export const usuariosSlice = createSlice({
       state.changePasswordError = undefined;
       state.changePasswordState = 'cancel';
     },
+    changePasswordFromRecoveryRequest: (state, action: PayloadAction<ChangePasswordFromRecoveryRequest>) => {
+      state.changePasswordFromRequestState = 'request';
+    },
+    changePasswordFromRecoverySuccess: (state) => {
+      state.changePasswordFromRequestError = undefined;
+      state.changePasswordFromRequestState = 'success';
+    },
+    changePasswordFromRecoveryError: (state, action: PayloadAction<ErrorAPI>) => {
+      state.changePasswordFromRequestError = action.payload;
+      state.changePasswordFromRequestState = 'error';
+    },
+    changePasswordFromRecoveryIdle: (state) => {
+      state.changePasswordFromRequestError = undefined;
+      state.changePasswordFromRequestState = 'idle';
+    },
+    changePasswordFromRecoveryCancel: (state) => {
+      state.changePasswordFromRequestError = undefined;
+      state.changePasswordFromRequestState = 'cancel';
+    },
+    changePasswordFromAdminRequest: (state, action: PayloadAction<{IdRelUsuario: number}>) => {
+      state.changePasswordFromRequestState = 'request';
+    },
+    changePasswordFromAdminSuccess: (state) => {
+      state.changePasswordFromRequestError = undefined;
+      state.changePasswordFromRequestState = 'success';
+    },
+    changePasswordFromAdminError: (state, action: PayloadAction<ErrorAPI>) => {
+      state.changePasswordFromRequestError = action.payload;
+      state.changePasswordFromRequestState = 'error';
+    },
+    changePasswordFromAdminIdle: (state) => {
+      state.changePasswordFromRequestError = undefined;
+      state.changePasswordFromRequestState = 'idle';
+    },
+    changePasswordFromAdminCancel: (state) => {
+      state.changePasswordFromRequestError = undefined;
+      state.changePasswordFromRequestState = 'cancel';
+    },
   },
 });
 
@@ -140,6 +180,16 @@ export const {
   changeUsuarioPasswordError,
   changeUsuarioPasswordIdle,
   changeUsuarioPasswordCancel,
+  changePasswordFromRecoveryRequest,
+  changePasswordFromRecoverySuccess,
+  changePasswordFromRecoveryError,
+  changePasswordFromRecoveryIdle,
+  changePasswordFromRecoveryCancel,
+  changePasswordFromAdminRequest,
+  changePasswordFromAdminSuccess,
+  changePasswordFromAdminError,
+  changePasswordFromAdminIdle,
+  changePasswordFromAdminCancel,
 } = usuariosSlice.actions;
 
 export default usuariosSlice.reducer;

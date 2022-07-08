@@ -60,7 +60,7 @@
   line-height: 12px;
 }
 
-.SectionizedTable .rows .row .buttons .MuiButton-root:first-child {
+.SectionizedTable .rows .row .buttons .MuiButton-root:not(:last-child) {
   margin-right: 10px;
 }
 
