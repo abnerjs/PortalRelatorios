@@ -6,9 +6,10 @@ import 'src/pages/ModalDelete.css';
 import { Icon } from '@iconify/react';
 import { Avatar, Button } from '@mui/material';
 
-import { useAppSelector } from 'src/store';
+import { useAppDispatch, useAppSelector } from 'src/store';
 import { getInitialsFromString } from 'src/utils/StringUtils';
 import DmIconifiedSwitch from 'src/components/DmIconifiedSwitch/DmIconifiedSwitch';
+import { changePasswordFromAdminRequest } from 'src/store/ducks/usuarios';
 
 interface RowProps<T> {
   data: T;
@@ -30,6 +31,7 @@ function getProperty<Type, Key extends keyof Type>(obj: Type, key: Key) {
 }
 
 const Row = <T extends unknown>(props: RowProps<T>) => {
+  const dispatch = useAppDispatch();
   const objetos = useAppSelector((state) => state.session.objetos);
   const loggedUser = useAppSelector((state) => state.session.user);
   const flgAcesso = objetos.find((x) => x.nomPagina.toLowerCase() === 'usuarios')?.flgAcesso || 'N';
@@ -87,6 +89,22 @@ const Row = <T extends unknown>(props: RowProps<T>) => {
         <Icon icon="fluent:chevron-right-16-filled" width={16} className="icon" />
       </div>
       <div className="buttons">
+        <Button
+          onClick={() => {
+            dispatch(changePasswordFromAdminRequest({ IdRelUsuario: getProperty(props.data, 'idRelUsuario' as any)}));
+          }}
+          style={{
+            display: props.isFormOpened ||
+              loggedUser?.desLogin === getProperty(props.data, 'desLogin' as any) ||
+              flgAcesso !== 'A'? "none" : "flex",
+          }}
+          className="btnRecovery"
+          tabIndex={props.indexSelected === props.index ? 0 : -1}
+          variant="contained"
+          fullWidth
+        >
+          RECUPERAR SENHA
+        </Button>
         <Button
           onClick={() => {
             props.handleFormOpen(true, false);

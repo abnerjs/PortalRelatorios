@@ -51,7 +51,7 @@ const Recovery: React.FC = () => {
         Recuperação de senha
       </Typography>
       <div className="recoveryinfo">
-        <p>Preencha o formulário a seguir para recuperar a sua senha de acesso</p>
+        <p>{operationState === 'success' ? 'Email enviado com sucesso' : 'Preencha o formulário a seguir para recuperar a sua senha de acesso'}</p>
       </div>
       <DmCollapseHandler
         error={recoveryError}

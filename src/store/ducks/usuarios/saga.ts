@@ -21,6 +21,12 @@ import {
   changeUsuarioPasswordError,
   usuariosGetFilterError,
   usuariosChangeFlagActiveRequest,
+  changePasswordFromRecoveryRequest,
+  changePasswordFromRecoverySuccess,
+  changePasswordFromRecoveryError,
+  changePasswordFromAdminRequest,
+  changePasswordFromAdminSuccess,
+  changePasswordFromAdminError,
 } from 'src/store/ducks/usuarios';
 import { Usuario } from 'src/store/ducks/usuarios/types';
 import { changeFlgPrimeiroAcesso, changeFlgTrocaSenha } from '../login';
@@ -89,6 +95,26 @@ export function* sendChangePasswordRequest(action: ReturnType<typeof changeUsuar
     yield put(changeFlgPrimeiroAcesso());
   } catch (error: any) {
     yield put(changeUsuarioPasswordError(error));
+  }
+}
+
+export function* sendChangePasswordFromRecoveryRequest(action: ReturnType<typeof changePasswordFromRecoveryRequest>) {
+  try {
+    yield call(api.post, `Usuarios/v1/alterarSenhaRecuperacao/`, action.payload);
+    yield put(changePasswordFromRecoverySuccess());
+    yield put(changeFlgTrocaSenha());
+    yield put(changeFlgPrimeiroAcesso());
+  } catch (error: any) {
+    yield put(changePasswordFromRecoveryError(error));
+  }
+}
+
+export function* sendRecuperacaoSenhaPorAdminRequest(action: ReturnType<typeof changePasswordFromAdminRequest>) {
+  try {
+    yield call(api.post, `Usuarios/v1/recuperarSenhaPorAdmin/`, action.payload);
+    yield put(changePasswordFromAdminSuccess());
+  } catch (error: any) {
+    yield put(changePasswordFromAdminError(error));
   }
 }
 

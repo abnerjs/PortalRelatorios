@@ -13,6 +13,8 @@ export interface UsuariosState {
   deleteState?: string;
   changePasswordError?: ErrorAPI;
   changePasswordState?: string;
+  changePasswordFromRequestError?: ErrorAPI,
+  changePasswordFromRequestState?: string,
 }
 
 export interface Usuario {
@@ -34,4 +36,10 @@ export interface ChangeUsuarioPasswordRequest {
   desSenha: string;
   desNovaSenha: string;
   desConfirmaNovaSenha: string;
+}
+
+export interface ChangePasswordFromRecoveryRequest {
+  desNovaSenha: string;
+  desConfirmaNovaSenha: string;
+  Authorization?: string;
 }
