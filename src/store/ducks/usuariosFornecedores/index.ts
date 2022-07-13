@@ -13,8 +13,6 @@ const initialState: UsuariosFornecedoresState = {
   loading: false,
   operationError: undefined,
   operationState: 'idle',
-  deleteError: undefined,
-  deleteState: 'idle',
 };
 
 export const usuariosFornecedoresSlice = createSlice({
@@ -38,13 +36,7 @@ export const usuariosFornecedoresSlice = createSlice({
     usuariosFornecedoresGetFilterSuccess: (state, action: PayloadAction<RespostaApi<TipoFiltro>>) => {
       state.filterList = action.payload.dados;
     },
-    usuariosFornecedoresPostRequest: (state, action: PayloadAction<UsuarioFornecedor>) => {
-      state.operationState = 'request';
-    },
     usuariosFornecedoresPutRequest: (state, action: PayloadAction<UsuarioFornecedor>) => {
-      state.operationState = 'request';
-    },
-    usuariosFornecedoresDeleteRequest: (state, action: PayloadAction<UsuarioFornecedor>) => {
       state.operationState = 'request';
     },
     usuariosFornecedoresOperationSuccess: (state) => {
@@ -54,14 +46,6 @@ export const usuariosFornecedoresSlice = createSlice({
     usuariosFornecedoresOperationError: (state, action: PayloadAction<ErrorAPI>) => {
       state.operationError = action.payload;
       state.operationState = 'error';
-    },
-    usuariosFornecedoresDeleteError: (state, action: PayloadAction<ErrorAPI>) => {
-      state.deleteError = action.payload;
-      state.deleteState = 'error';
-    },
-    usuariosFornecedoresDeleteSuccess: (state) => {
-      state.deleteError = undefined;
-      state.deleteState = 'success';
     },
     usuariosFornecedoresIdleOperation: (state) => {
       state.operationError = undefined;
@@ -76,13 +60,9 @@ export const {
   usuariosFornecedoresGetError,
   usuariosFornecedoresGetFilterRequest,
   usuariosFornecedoresGetFilterSuccess,
-  usuariosFornecedoresPostRequest,
   usuariosFornecedoresPutRequest,
-  usuariosFornecedoresDeleteRequest,
   usuariosFornecedoresOperationSuccess,
   usuariosFornecedoresOperationError,
-  usuariosFornecedoresDeleteError,
-  usuariosFornecedoresDeleteSuccess,
   usuariosFornecedoresIdleOperation,
 } = usuariosFornecedoresSlice.actions;
 

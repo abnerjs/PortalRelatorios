@@ -53,3 +53,20 @@
 .FormUser.flexGrow ul .MuiTypography-root {
   width: calc(100% - 10px) !important;
 }
+
+.MuiButton-root.selecionados {
+  background-color: transparent !important;
+  color: var(--primaryColor);
+  font-weight: normal !important;
+  width: 50%;
+  margin-top: 5px;
+  height: 25px;
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 10pt !important;
+}
+
+.MuiButton-root.selecionados:hover {
+  background-color: rgba(255,255,255,0.5) !important;
+}

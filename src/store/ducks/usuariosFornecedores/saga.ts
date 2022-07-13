@@ -8,14 +8,10 @@ import {
   usuariosFornecedoresGetSuccess,
   usuariosFornecedoresGetFilterRequest,
   usuariosFornecedoresGetFilterSuccess,
-  usuariosFornecedoresPostRequest,
   usuariosFornecedoresPutRequest,
-  usuariosFornecedoresDeleteRequest,
   usuariosFornecedoresGetError,
   usuariosFornecedoresOperationSuccess,
   usuariosFornecedoresOperationError,
-  usuariosFornecedoresDeleteError,
-  usuariosFornecedoresDeleteSuccess,
 } from 'src/store/ducks/usuariosFornecedores';
 import { UsuarioFornecedor } from 'src/store/ducks/usuariosFornecedores/types';
 
@@ -47,15 +43,6 @@ export function* sendGetFilterRequest(action: ReturnType<typeof usuariosForneced
   } catch (error) {}
 }
 
-export function* sendPostRequest(action: ReturnType<typeof usuariosFornecedoresPostRequest>) {
-  try {
-    yield call(api.post, `UsuariosFornecedores/v1/`, action.payload);
-    yield put(usuariosFornecedoresOperationSuccess());
-  } catch (error: any) {
-    yield put(usuariosFornecedoresOperationError(error));
-  }
-}
-
 export function* sendPutRequest(action: ReturnType<typeof usuariosFornecedoresPutRequest>) {
   try {
     yield call(api.put, `UsuariosFornecedores/v1/`, action.payload);
@@ -65,24 +52,8 @@ export function* sendPutRequest(action: ReturnType<typeof usuariosFornecedoresPu
   }
 }
 
-export function* sendDeleteRequest(action: ReturnType<typeof usuariosFornecedoresDeleteRequest>) {
-  try {
-    const { idRelUsuario, codFornecedor } = action.payload;
-
-    const query = `?idRelUsuario=${idRelUsuario}&codFornecedor=${codFornecedor}`;
-
-    yield call(api.delete, `UsuariosFornecedores/v1/${query}`);
-    yield put(usuariosFornecedoresDeleteSuccess());
-    yield put(usuariosFornecedoresOperationSuccess());
-  } catch (error: any) {
-    yield put(usuariosFornecedoresDeleteError(error));
-  }
-}
-
 export default all([
   takeLatest(usuariosFornecedoresGetRequest, sendGetRequest),
   takeLatest(usuariosFornecedoresGetFilterRequest, sendGetFilterRequest),
-  takeLatest(usuariosFornecedoresPostRequest, sendPostRequest),
   takeLatest(usuariosFornecedoresPutRequest, sendPutRequest),
-  takeLatest(usuariosFornecedoresDeleteRequest, sendDeleteRequest),
 ]);
