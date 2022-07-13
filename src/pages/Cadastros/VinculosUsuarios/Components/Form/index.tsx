@@ -317,6 +317,11 @@ const Form: React.FC<FormProps> = ({ data, isFormOpened, onCancel }: FormProps) 
                     variant="contained"
                     className="selecionados"
                     fullWidth
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      setPrestadoresSelecionados(!isPrestadoresSelecionados);
+                    }}
                   >
                     {isPrestadoresSelecionados ? 'EXIBIR TODOS' : 'EXIBIR SELECIONADOS'}
                   </Button>
