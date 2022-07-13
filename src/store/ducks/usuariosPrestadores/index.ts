@@ -13,8 +13,6 @@ const initialState: UsuariosPrestadoresState = {
   loading: false,
   operationError: undefined,
   operationState: 'idle',
-  deleteError: undefined,
-  deleteState: 'idle',
 };
 
 export const usuariosPrestadoresSlice = createSlice({
@@ -38,13 +36,7 @@ export const usuariosPrestadoresSlice = createSlice({
     usuariosPrestadoresGetFilterSuccess: (state, action: PayloadAction<RespostaApi<TipoFiltro>>) => {
       state.filterList = action.payload.dados;
     },
-    usuariosPrestadoresPostRequest: (state, action: PayloadAction<UsuarioPrestador>) => {
-      state.operationState = 'request';
-    },
     usuariosPrestadoresPutRequest: (state, action: PayloadAction<UsuarioPrestador>) => {
-      state.operationState = 'request';
-    },
-    usuariosPrestadoresDeleteRequest: (state, action: PayloadAction<UsuarioPrestador>) => {
       state.operationState = 'request';
     },
     usuariosPrestadoresOperationSuccess: (state) => {
@@ -54,14 +46,6 @@ export const usuariosPrestadoresSlice = createSlice({
     usuariosPrestadoresOperationError: (state, action: PayloadAction<ErrorAPI>) => {
       state.operationError = action.payload;
       state.operationState = 'error';
-    },
-    usuariosPrestadoresDeleteError: (state, action: PayloadAction<ErrorAPI>) => {
-      state.deleteError = action.payload;
-      state.deleteState = 'error';
-    },
-    usuariosPrestadoresDeleteSuccess: (state) => {
-      state.deleteError = undefined;
-      state.deleteState = 'success';
     },
     usuariosPrestadoresIdleOperation: (state) => {
       state.operationError = undefined;
@@ -76,13 +60,9 @@ export const {
   usuariosPrestadoresGetError,
   usuariosPrestadoresGetFilterRequest,
   usuariosPrestadoresGetFilterSuccess,
-  usuariosPrestadoresPostRequest,
   usuariosPrestadoresPutRequest,
-  usuariosPrestadoresDeleteRequest,
   usuariosPrestadoresOperationSuccess,
   usuariosPrestadoresOperationError,
-  usuariosPrestadoresDeleteError,
-  usuariosPrestadoresDeleteSuccess,
   usuariosPrestadoresIdleOperation,
 } = usuariosPrestadoresSlice.actions;
 

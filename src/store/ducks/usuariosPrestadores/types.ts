@@ -9,8 +9,6 @@ export interface UsuariosPrestadoresState {
   loading: boolean;
   operationError?: ErrorAPI;
   operationState?: string;
-  deleteError?: ErrorAPI;
-  deleteState?: string;
 }
 
 export interface UsuarioPrestador {

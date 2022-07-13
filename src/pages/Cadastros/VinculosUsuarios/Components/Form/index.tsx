@@ -19,18 +19,15 @@ import { prestadoresGetFilterRequest } from 'src/store/ducks/prestadores';
 import { Usuario } from 'src/store/ducks/usuarios/types';
 
 import {
-  usuariosFornecedoresGetRequest,
-  usuariosFornecedoresPostRequest,
-  usuariosFornecedoresDeleteRequest,
+  usuariosFornecedoresGetRequest, usuariosFornecedoresPutRequest,
 } from 'src/store/ducks/usuariosFornecedores';
 import {
-  usuariosPrestadoresGetRequest,
-  usuariosPrestadoresPostRequest,
-  usuariosPrestadoresDeleteRequest,
+  usuariosPrestadoresGetRequest, usuariosPrestadoresPutRequest,
 } from 'src/store/ducks/usuariosPrestadores';
 import { UsuarioFornecedor } from 'src/store/ducks/usuariosFornecedores/types';
 import { UsuarioPrestador } from 'src/store/ducks/usuariosPrestadores/types';
 import '../vinculosForm.css';
+import { usuariosPutRequest } from 'src/store/ducks/usuarios';
 
 interface FormProps {
   data: Usuario | null;
@@ -42,6 +39,8 @@ const Form: React.FC<FormProps> = ({ data, isFormOpened, onCancel }: FormProps) 
   const [tabsForm, setTabsForm] = useState('forn');
   const [fornecedores, setFornecedores] = useState<TipoFiltro[]>([]);
   const [prestadores, setPrestadores] = useState<TipoFiltro[]>([]);
+  const [isFornecedoresSelecionados, setFornecedoresSelecionados] = useState(false);
+  const [isPrestadoresSelecionados, setPrestadoresSelecionados] = useState(false);
 
   const [fornecedoresAntigos, setFornecedoresAntigos] = useState<TipoFiltro[]>([]);
   const [prestadoresAntigos, setPrestadoresAntigos] = useState<TipoFiltro[]>([]);
@@ -56,6 +55,8 @@ const Form: React.FC<FormProps> = ({ data, isFormOpened, onCancel }: FormProps) 
 
   const handleChangeTabs = (event: React.SyntheticEvent, newValue: string) => {
     setTabsForm(newValue);
+    setFornecedoresSelecionados(false);
+    setPrestadoresSelecionados(false);
   };
 
   function handleSubmit(e: any) {
@@ -72,9 +73,10 @@ const Form: React.FC<FormProps> = ({ data, isFormOpened, onCancel }: FormProps) 
         const usuForn: UsuarioFornecedor = {
           idRelUsuario: data.idRelUsuario,
           codFornecedor: parseInt(item.codigo),
+          flgAtivo: 'N',
         };
 
-        dispatch(usuariosFornecedoresDeleteRequest(usuForn));
+        dispatch(usuariosFornecedoresPutRequest(usuForn));
       });
 
       createForn.forEach((item) => {
@@ -84,16 +86,17 @@ const Form: React.FC<FormProps> = ({ data, isFormOpened, onCancel }: FormProps) 
           flgAtivo: 'S',
         };
 
-        dispatch(usuariosFornecedoresPostRequest(usuForn));
+        dispatch(usuariosFornecedoresPutRequest(usuForn));
       });
 
       deletePrest.forEach((item) => {
         const usuPrest: UsuarioPrestador = {
           idRelUsuario: data.idRelUsuario,
           codPrestador: parseInt(item.codigo),
+          flgAtivo: 'N',
         };
 
-        dispatch(usuariosPrestadoresDeleteRequest(usuPrest));
+        dispatch(usuariosPrestadoresPutRequest(usuPrest));
       });
 
       createPrest.forEach((item) => {
@@ -103,7 +106,7 @@ const Form: React.FC<FormProps> = ({ data, isFormOpened, onCancel }: FormProps) 
           flgAtivo: 'S',
         };
 
-        dispatch(usuariosPrestadoresPostRequest(usuPrest));
+        dispatch(usuariosPrestadoresPutRequest(usuPrest));
       });
 
       if (deleteForn.length + createForn.length + deletePrest.length + createPrest.length === 0) {
@@ -187,12 +190,16 @@ const Form: React.FC<FormProps> = ({ data, isFormOpened, onCancel }: FormProps) 
               disableListWrap={true}
               disablePortal
               fullWidth
+              renderTags={() => {
+                return undefined;
+              }}
+              disableClearable
               selectOnFocus
               handleHomeEndKeys
               disableCloseOnSelect
               PopperComponent={StyledPopper}
               ListboxComponent={ListboxComponent}
-              options={lstFornecedores}
+              options={isFornecedoresSelecionados ? fornecedores : lstFornecedores}
               getOptionLabel={(option) => option.descricao}
               limitTags={1}
               ChipProps={{ size: 'small' }}
@@ -217,17 +224,32 @@ const Form: React.FC<FormProps> = ({ data, isFormOpened, onCancel }: FormProps) 
                 ];
               }}
               renderInput={(params: any) => (
-                <TextField
-                  {...params}
-                  label="Fornecedores"
-                  className="DmTextField"
-                  variant="filled"
-                  InputProps={{
-                    ...params.InputProps,
-                    disableUnderline: true,
-                  }}
-                  InputLabelProps={{ shrink: undefined }}
-                />
+                <>
+                  <TextField
+                    {...params}
+                    label="Fornecedores"
+                    className="DmTextField"
+                    variant="filled"
+                    InputProps={{
+                      ...params.InputProps,
+                      disableUnderline: true,
+                    }}
+                    InputLabelProps={{ shrink: undefined }}
+                  />
+                  <Button
+                    tabIndex={isFormOpened ? 0 : -1}
+                    variant="contained"
+                    className="selecionados"
+                    fullWidth
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      setFornecedoresSelecionados(!isFornecedoresSelecionados);
+                    }}
+                  >
+                    {isFornecedoresSelecionados ? 'EXIBIR TODOS' : 'EXIBIR SELECIONADOS'}
+                  </Button>
+                </>
               )}
               value={fornecedores}
               onChange={(_, data) => setFornecedores(data)}
@@ -248,15 +270,18 @@ const Form: React.FC<FormProps> = ({ data, isFormOpened, onCancel }: FormProps) 
               disablePortal
               fullWidth
               clearOnBlur
+              renderTags={() => {
+                return undefined;
+              }}
+              disableClearable
               selectOnFocus
               handleHomeEndKeys
               disableCloseOnSelect
               PopperComponent={StyledPopper}
               ListboxComponent={ListboxComponent}
-              options={lstPrestadores}
+              options={isPrestadoresSelecionados ? prestadores : lstPrestadores}
               getOptionLabel={(option) => option.descricao}
               limitTags={1}
-              ChipProps={{ size: 'small' }}
               className={tabsForm === 'prest' ? '' : 'displayNone'}
               // renderTags={() => undefined}
               renderOption={(props, option, state) => {
@@ -278,14 +303,24 @@ const Form: React.FC<FormProps> = ({ data, isFormOpened, onCancel }: FormProps) 
                 ];
               }}
               renderInput={(params: any) => (
-                <TextField
-                  {...params}
-                  label="Prestadores"
-                  className="DmTextField"
-                  variant="filled"
-                  InputProps={{ ...params.InputProps, disableUnderline: true }}
-                  InputLabelProps={{ shrink: undefined }}
-                />
+                <>
+                  <TextField
+                    {...params}
+                    label="Prestadores"
+                    className="DmTextField"
+                    variant="filled"
+                    InputProps={{ ...params.InputProps, disableUnderline: true }}
+                    InputLabelProps={{ shrink: undefined }}
+                  />
+                  <Button
+                    tabIndex={isFormOpened ? 0 : -1}
+                    variant="contained"
+                    className="selecionados"
+                    fullWidth
+                  >
+                    {isPrestadoresSelecionados ? 'EXIBIR TODOS' : 'EXIBIR SELECIONADOS'}
+                  </Button>
+                </>
               )}
               value={prestadores}
               onChange={(_, data) => setPrestadores(data)}
