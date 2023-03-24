@@ -2,7 +2,7 @@
   "name": "portal-relatorios-datamob",
   "version": "01.00.00.0002",
   "private": true,
-  "homepage": ".",
+  "homepage": "https://gitname.github.io/",
   "dependencies": {
     "@emotion/react": "11.7.1",
     "@emotion/styled": "11.6.0",
@@ -55,11 +55,14 @@
     "@types/react-transition-group": "^4.4.4",
     "@types/react-window": "^1.8.5",
     "@types/yup": "^0.29.14",
+    "gh-pages": "^5.0.0",
     "prettier": "^2.6.2",
     "react-swipeable-views": "^0.14.0",
     "typescript": "4.4.4"
   },
   "scripts": {
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "build-qa": "react-scripts build && mv build qa",
